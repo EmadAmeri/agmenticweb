@@ -1,0 +1,558 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agmentic Chat</title>
+    <meta
+      name="description"
+      content="Agmentic Chat demo page - decision intelligence assistant designed in the Agmentic visual system."
+    />
+    <link rel="stylesheet" href="./styles.css" />
+    <style>
+      body.chat-page {
+        background:
+          radial-gradient(circle at top right, rgba(12, 99, 212, 0.14), transparent 24%),
+          radial-gradient(circle at left top, rgba(3, 19, 47, 0.08), transparent 22%),
+          linear-gradient(180deg, #fbfdff 0%, #eef4fc 100%);
+        color: #071731;
+      }
+
+      body.chat-page::before {
+        background-image:
+          linear-gradient(rgba(48, 88, 154, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(48, 88, 154, 0.08) 1px, transparent 1px);
+      }
+
+      .chat-shell {
+        width: min(calc(100% - 32px), 1280px);
+        margin: 0 auto;
+        padding: 24px 0 32px;
+      }
+
+      .chat-header {
+        position: sticky;
+        top: 16px;
+        z-index: 20;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 16px;
+        padding: 16px 18px;
+        margin-bottom: 22px;
+        background: rgba(255, 255, 255, 0.78);
+        border: 1px solid rgba(255, 255, 255, 0.8);
+        box-shadow: 0 20px 60px rgba(11, 31, 67, 0.12);
+        border-radius: 999px;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .chat-layout {
+        display: grid;
+        grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+        gap: 18px;
+        min-height: calc(100vh - 150px);
+      }
+
+      .chat-sidebar,
+      .chat-main {
+        background: rgba(255, 255, 255, 0.74);
+        border: 1px solid rgba(255, 255, 255, 0.84);
+        box-shadow: 0 24px 70px rgba(11, 31, 67, 0.12);
+        border-radius: 30px;
+        backdrop-filter: blur(18px);
+        -webkit-backdrop-filter: blur(18px);
+      }
+
+      .chat-sidebar {
+        padding: 22px 18px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+
+      .chat-main {
+        padding: 18px;
+        display: grid;
+        grid-template-rows: auto 1fr auto auto;
+        gap: 16px;
+        min-width: 0;
+      }
+
+      .chat-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 6px 12px;
+        border-radius: 999px;
+        background: rgba(47, 123, 227, 0.12);
+        color: #90bcff;
+        font-size: 0.82rem;
+      }
+
+      .chat-title {
+        margin: 0;
+        font-size: clamp(1.9rem, 3vw, 3rem);
+        letter-spacing: -0.05em;
+        line-height: 0.95;
+      }
+
+      .chat-subtitle,
+      .chat-side-copy,
+      .chat-footer-note {
+        color: #5b6d8c;
+        line-height: 1.75;
+      }
+
+      .chat-subtitle {
+        margin: 0;
+        font-size: 0.98rem;
+      }
+
+      .chat-panel {
+        padding: 16px;
+        border-radius: 22px;
+        background: rgba(245, 249, 255, 0.9);
+        border: 1px solid rgba(97, 126, 178, 0.12);
+      }
+
+      .chat-panel h3 {
+        margin: 0 0 10px;
+        font-size: 0.95rem;
+        color: #071731;
+      }
+
+      .chat-panel ul {
+        margin: 0;
+        padding-left: 18px;
+        color: #5b6d8c;
+        line-height: 1.8;
+      }
+
+      .chat-topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        padding: 12px 14px 16px;
+        border-bottom: 1px solid rgba(95, 126, 178, 0.1);
+      }
+
+      .assistant-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+      }
+
+      .assistant-icon,
+      .bubble-icon {
+        width: 42px;
+        height: 42px;
+        border-radius: 14px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(47, 123, 227, 0.2);
+        background: rgba(47, 123, 227, 0.1);
+        color: #77b0ff;
+        flex-shrink: 0;
+      }
+
+      .assistant-name {
+        margin: 0;
+        font-size: 1.05rem;
+      }
+
+      .assistant-role {
+        margin: 2px 0 0;
+        color: #5b6d8c;
+      }
+
+      .chat-tag {
+        color: #0c63d4;
+        font-size: 0.9rem;
+      }
+
+      .chat-thread {
+        padding: 10px 6px 4px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        min-width: 0;
+      }
+
+      .message-row {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+      }
+
+      .message-row.user {
+        justify-content: flex-end;
+      }
+
+      .message-row.assistant {
+        justify-content: flex-start;
+      }
+
+      .message-row.user .bubble-icon {
+        order: 2;
+        background: rgba(255, 255, 255, 0.62);
+        border-color: rgba(96, 126, 178, 0.12);
+        color: #5b6d8c;
+      }
+
+      .message-bubble {
+        max-width: min(78%, 760px);
+        padding: 16px 18px;
+        border-radius: 24px;
+        line-height: 1.7;
+        font-size: 0.98rem;
+      }
+
+      .message-row.user .message-bubble {
+        background: linear-gradient(135deg, #1863c8, #2f7be3);
+        color: #f6faff;
+        border-bottom-right-radius: 10px;
+      }
+
+      .message-row.assistant .message-bubble {
+        background: rgba(245, 249, 255, 0.9);
+        color: #071731;
+        border: 1px solid rgba(98, 127, 179, 0.12);
+        border-bottom-left-radius: 10px;
+      }
+
+      .suggestion-wrap {
+        padding: 6px 8px 0;
+      }
+
+      .suggestion-label {
+        display: block;
+        margin-bottom: 12px;
+        color: #5b6d8c;
+      }
+
+      .suggestions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .suggestions button {
+        min-height: 40px;
+        padding: 0 14px;
+        border-radius: 999px;
+        border: 1px solid rgba(47, 123, 227, 0.24);
+        background: rgba(255, 255, 255, 0.82);
+        color: #071731;
+        font: inherit;
+      }
+
+      .chat-input-row {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: 12px;
+        padding: 8px;
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(97, 126, 178, 0.12);
+      }
+
+      .chat-input {
+        width: 100%;
+        min-height: 60px;
+        padding: 0 16px;
+        border: 0;
+        outline: 0;
+        border-radius: 16px;
+        background: transparent;
+        color: #071731;
+        font: inherit;
+      }
+
+      .chat-input::placeholder {
+        color: #7f90ab;
+      }
+
+      .send-button {
+        width: 60px;
+        min-height: 60px;
+        border-radius: 18px;
+        border: 0;
+        background: linear-gradient(135deg, #11366e, #1e5fbe);
+        color: #f9fbff;
+        font-size: 1.2rem;
+      }
+
+      .chat-footer-note {
+        text-align: center;
+        font-size: 0.88rem;
+      }
+
+      @media (max-width: 1080px) {
+        .chat-layout {
+          grid-template-columns: 1fr;
+        }
+
+        .chat-sidebar {
+          order: 2;
+        }
+
+        .chat-main {
+          order: 1;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .chat-shell {
+          width: min(calc(100% - 18px), 1280px);
+          padding: 14px 0 24px;
+        }
+
+        .chat-header {
+          position: static;
+          justify-content: center;
+          border-radius: 24px;
+          padding: 14px;
+          margin-bottom: 14px;
+        }
+
+        .chat-sidebar,
+        .chat-main {
+          border-radius: 24px;
+        }
+
+        .chat-sidebar {
+          padding: 16px;
+        }
+
+        .chat-main {
+          padding: 12px;
+          gap: 12px;
+        }
+
+        .chat-topbar {
+          flex-direction: column;
+          align-items: flex-start;
+        }
+
+        .message-bubble {
+          max-width: 100%;
+          font-size: 0.92rem;
+          padding: 14px;
+        }
+
+        .message-row {
+          gap: 8px;
+        }
+
+        .assistant-icon,
+        .bubble-icon {
+          width: 36px;
+          height: 36px;
+          border-radius: 12px;
+        }
+
+        .suggestions {
+          gap: 8px;
+        }
+
+        .suggestions button {
+          width: 100%;
+          justify-content: flex-start;
+          text-align: left;
+        }
+
+        .chat-input-row {
+          grid-template-columns: 1fr;
+        }
+
+        .send-button {
+          width: 100%;
+          min-height: 48px;
+        }
+      }
+    </style>
+  </head>
+  <body class="chat-page">
+    <div class="chat-shell">
+      <header class="chat-header">
+        <a class="brand" href="/" aria-label="Agmentic home">
+          <span class="brand-mark" aria-hidden="true">
+            <svg viewBox="0 0 160 160" role="img" aria-hidden="true">
+              <defs>
+                <linearGradient id="chatBrandGradient" x1="0%" x2="100%" y1="0%" y2="100%">
+                  <stop offset="0%" stop-color="#7caeff" />
+                  <stop offset="100%" stop-color="#2f7be3" />
+                </linearGradient>
+              </defs>
+              <circle cx="36" cy="104" r="10" fill="url(#chatBrandGradient)" />
+              <circle cx="64" cy="72" r="14" fill="url(#chatBrandGradient)" />
+              <path
+                d="M69 24 L122 123"
+                fill="none"
+                stroke="url(#chatBrandGradient)"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="24"
+              />
+              <path
+                d="M56 126 L101 94"
+                fill="none"
+                stroke="url(#chatBrandGradient)"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="20"
+              />
+            </svg>
+          </span>
+          <span class="brand-text">Agmentic</span>
+        </a>
+      </header>
+
+      <div class="chat-layout">
+        <aside class="chat-sidebar">
+          <span class="chat-badge">AI-Powered</span>
+          <h1 class="chat-title">Agmentic Chat</h1>
+          <p class="chat-subtitle">
+            A decision intelligence assistant designed to turn product signals, company
+            data, and strategic questions into clearer next moves.
+          </p>
+
+          <div class="chat-panel">
+            <h3>What it can do</h3>
+            <ul>
+              <li>Analyze product performance patterns</li>
+              <li>Summarize company intelligence fast</li>
+              <li>Suggest higher-confidence decisions</li>
+            </ul>
+          </div>
+
+          <div class="chat-panel">
+            <h3>How it feels</h3>
+            <p class="chat-side-copy">
+              Calm, focused, and useful. Built to match the Agmentic visual system while
+              staying practical for demos, prototypes, and product conversations.
+            </p>
+          </div>
+        </aside>
+
+        <section class="chat-main" aria-label="Agmentic chatbot demo">
+          <div class="chat-topbar">
+            <div class="assistant-meta">
+              <span class="assistant-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 3L14.5 7.5L19 10L14.5 12.5L12 17L9.5 12.5L5 10L9.5 7.5L12 3Z"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linejoin="round"
+                  />
+                </svg>
+              </span>
+              <div>
+                <h2 class="assistant-name">Agmentic</h2>
+                <p class="assistant-role">Decision Intelligence Assistant</p>
+              </div>
+            </div>
+            <span class="chat-tag">Live Demo</span>
+          </div>
+
+          <div class="chat-thread">
+            <div class="message-row user">
+              <div class="message-bubble">Hi Agmentic, what can you help me with?</div>
+              <span class="bubble-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  />
+                  <path
+                    d="M4 21C4.8 17.8 7.6 16 12 16C16.4 16 19.2 17.8 20 21"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </span>
+            </div>
+
+            <div class="message-row assistant">
+              <span class="bubble-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="5" y="7" width="14" height="10" rx="3" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M9 4V7M15 4V7M9 12H15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+              </span>
+              <div class="message-bubble">
+                I help teams turn complex data into clear strategic direction. I can analyze
+                product signals, summarize company intelligence, and support smarter decision
+                making.
+              </div>
+            </div>
+
+            <div class="message-row user">
+              <div class="message-bubble">Can you give an example?</div>
+              <span class="bubble-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path
+                    d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                  />
+                  <path
+                    d="M4 21C4.8 17.8 7.6 16 12 16C16.4 16 19.2 17.8 20 21"
+                    stroke="currentColor"
+                    stroke-width="1.6"
+                    stroke-linecap="round"
+                  />
+                </svg>
+              </span>
+            </div>
+
+            <div class="message-row assistant">
+              <span class="bubble-icon">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <rect x="5" y="7" width="14" height="10" rx="3" stroke="currentColor" stroke-width="1.6" />
+                  <path d="M9 4V7M15 4V7M9 12H15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
+                </svg>
+              </span>
+              <div class="message-bubble">
+                For example, I can review usage signals, identify which features improve
+                retention, highlight growth opportunities, and suggest what your team should
+                focus on next.
+              </div>
+            </div>
+          </div>
+
+          <div class="suggestion-wrap">
+            <span class="suggestion-label">Try asking:</span>
+            <div class="suggestions">
+              <button type="button">Which companies matter most?</button>
+              <button type="button">What topics should I focus on?</button>
+              <button type="button">Show me a product insight example</button>
+              <button type="button">Tell me about the company Hyper Media</button>
+            </div>
+          </div>
+
+          <div class="chat-input-row">
+            <input class="chat-input" type="text" placeholder="Ask Agmentic anything..." />
+            <button class="send-button" type="button" aria-label="Send">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path
+                  d="M4 12L20 4L14 20L11 13L4 12Z"
+                  fill="currentColor"
+                />
+              </svg>
+            </button>
+          </div>
+
+          <p class="chat-footer-note">Agmentic Demo — all responses are for demonstration purposes</p>
+        </section>
+      </div>
+    </div>
+  </body>
+</html>
