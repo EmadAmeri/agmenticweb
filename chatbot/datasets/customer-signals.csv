@@ -1,0 +1,7 @@
+customer_id,plan,weekly_active_users,retention_30d,churn_risk,top_feature
+C-001,Pro,42,0.91,Low,Automations
+C-002,Starter,9,0.52,High,Chat Search
+C-003,Growth,27,0.78,Medium,Analytics
+C-004,Enterprise,63,0.95,Low,Agent Workflows
+C-005,Starter,7,0.48,High,Reports
+C-006,Pro,33,0.86,Low,Decision Assistant
