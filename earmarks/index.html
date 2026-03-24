@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Earmarks - Podcast Highlights, Instantly</title>
+  <meta name="description" content="Earmarks finds the strongest moments in your podcast and returns shareable audio highlights in minutes." />
+  <meta name="theme-color" content="#5b0916" />
+  <link rel="icon" href="./static/icons/icon-192.png" type="image/png" />
+  <link rel="shortcut icon" href="./static/icons/icon-192.png" type="image/png" />
+  <link rel="apple-touch-icon" href="./static/icons/icon-192.png" />
+  <style>
+    :root {
+      --bg-1: #14030b;
+      --bg-2: #4d0715;
+      --bg-3: #d6252e;
+      --panel: rgba(255, 255, 255, 0.08);
+      --panel-strong: rgba(0, 0, 0, 0.22);
+      --line: rgba(255, 255, 255, 0.16);
+      --text: #fff7f2;
+      --muted: rgba(255, 247, 242, 0.72);
+      --hot-1: #ff5a36;
+      --hot-2: #dc1237;
+      --shadow: 0 28px 70px rgba(12, 3, 6, 0.36);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 32%),
+        radial-gradient(circle at 20% 70%, rgba(255, 90, 54, 0.16), transparent 40%),
+        linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+    }
+
+    body {
+      min-height: 100vh;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .shell {
+      width: min(1100px, 100%);
+      margin: 0 auto;
+      padding: 32px 18px 56px;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 6px 2px 30px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .brand-mark {
+      width: 96px;
+      height: 52px;
+      border-radius: 0;
+      display: grid;
+      place-items: center;
+      background: transparent;
+      box-shadow: none;
+      overflow: hidden;
+    }
+
+    .brand-mark img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      display: block;
+    }
+
+    .brand-copy {
+      display: grid;
+      gap: 2px;
+    }
+
+    .brand-copy strong {
+      font-size: 20px;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-copy span {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .cta-btn {
+      border: 0;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font: inherit;
+      font-weight: 800;
+      background: linear-gradient(90deg, var(--hot-1) 0%, var(--hot-2) 100%);
+      color: white;
+      box-shadow: 0 18px 30px rgba(91, 9, 22, 0.3);
+      cursor: pointer;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 28px;
+      align-items: center;
+    }
+
+    .hero h1 {
+      margin: 0 0 18px;
+      font-size: clamp(44px, 7vw, 72px);
+      line-height: 0.95;
+      letter-spacing: -0.05em;
+      font-weight: 900;
+    }
+
+    .hero p {
+      margin: 0 0 22px;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.6;
+      max-width: 520px;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .ghost {
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.08);
+      color: var(--text);
+      border-radius: 999px;
+      padding: 12px 18px;
+      font-weight: 700;
+    }
+
+    .hero-card {
+      background: var(--panel-strong);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 22px;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(18px);
+      display: grid;
+      gap: 16px;
+    }
+
+    .hero-card .chip {
+      align-self: start;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .hero-mock {
+      background: linear-gradient(150deg, rgba(255,255,255,0.08), transparent 50%),
+        linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 24px;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .hero-mock .row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .pill {
+      height: 10px;
+      width: 62%;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.2);
+    }
+
+    .pill.small {
+      width: 32%;
+    }
+
+    .progress {
+      height: 8px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--hot-1) 0%, var(--hot-2) 100%);
+      width: 58%;
+      box-shadow: 0 0 20px rgba(255, 90, 54, 0.4);
+    }
+
+    .section {
+      margin-top: 64px;
+      display: grid;
+      gap: 18px;
+    }
+
+    .section h2 {
+      margin: 0;
+      font-size: clamp(28px, 4vw, 40px);
+      letter-spacing: -0.03em;
+      font-weight: 900;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      padding: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .card h3 {
+      margin: 0 0 10px;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+    }
+
+    .card p {
+      margin: 0;
+      color: var(--muted);
+      line-height: 1.5;
+      font-size: 14px;
+    }
+
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 16px;
+    }
+
+    .step {
+      border-radius: 20px;
+      padding: 18px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.14);
+    }
+
+    .step span {
+      font-weight: 900;
+      font-size: 14px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+
+    .step h4 {
+      margin: 10px 0 6px;
+      font-size: 18px;
+    }
+
+    .step p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .cta {
+      margin-top: 64px;
+      border-radius: 28px;
+      padding: 24px;
+      background: linear-gradient(120deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
+      border: 1px solid rgba(255,255,255,0.2);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 16px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .cta p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .footer {
+      margin-top: 48px;
+      color: rgba(255,255,255,0.5);
+      font-size: 12px;
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    @media (max-width: 980px) {
+      .hero {
+        grid-template-columns: 1fr;
+      }
+
+      .grid,
+      .steps {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 700px) {
+      .topbar {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+      }
+
+      .hero-actions {
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .cta-btn,
+      .ghost {
+        width: 100%;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .shell {
+        padding: 20px 14px 36px;
+      }
+
+      .brand-mark {
+        width: 76px;
+        height: 40px;
+        border-radius: 0;
+      }
+
+      .brand-copy strong {
+        font-size: 18px;
+      }
+
+      .hero h1 {
+        font-size: clamp(34px, 10vw, 48px);
+      }
+
+      .hero p {
+        font-size: 16px;
+      }
+
+      .hero-card,
+      .card,
+      .step {
+        border-radius: 18px;
+      }
+
+      .hero-card {
+        padding: 18px;
+      }
+
+      .hero-mock {
+        padding: 14px;
+        border-radius: 18px;
+      }
+
+      .section h2 {
+        font-size: 24px;
+      }
+
+      .cta {
+        border-radius: 20px;
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 420px) {
+      .shell {
+        padding: 18px 12px 32px;
+      }
+
+      .hero h1 {
+        font-size: clamp(30px, 11vw, 42px);
+      }
+
+      .hero p {
+        font-size: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <div class="brand-mark">
+          <img src="./static/logos/earmarks-landing-logo.png" alt="Earmarks logo" />
+        </div>
+        <div class="brand-copy">
+          <strong>Earmarks</strong>
+          <span>Podcast highlight engine</span>
+        </div>
+      </div>
+      <a class="cta-btn" href="https://earmarks.agmentic.com">Try the app</a>
+    </header>
+
+    <section class="hero">
+      <div>
+        <h1>Find the strongest moments in your podcast</h1>
+        <p>Earmarks skips to the good parts for you. Drop in an episode, tell us what you're after, and we'll pull out the moments actually worth your time.</p>
+        <div class="hero-actions">
+          <a class="cta-btn" href="https://earmarks.agmentic.com">Get my highlights</a>
+          <a class="ghost" href="#how">How does this work?</a>
+        </div>
+      </div>
+      <div class="hero-card">
+        <span class="chip">Highlight engine</span>
+        <div class="hero-mock">
+          <div class="row">
+            <strong>Episode scan</strong>
+            <span class="pill small"></span>
+          </div>
+          <div class="pill"></div>
+          <div class="pill"></div>
+          <div class="row">
+            <strong>Top moments</strong>
+            <span class="pill small"></span>
+          </div>
+          <div class="progress"></div>
+          <div class="row">
+            <span class="pill small"></span>
+            <span class="pill small"></span>
+          </div>
+        </div>
+        <p style="margin:0;color:var(--muted);font-size:14px;line-height:1.5;">Both topic highlights and top moments - ready to play in a few minutes.</p>
+      </div>
+    </section>
+
+    <section class="section" id="how">
+      <h2>Three steps</h2>
+      <div class="steps">
+        <div class="step">
+          <span>Step 1</span>
+          <h4>Throw in an episode</h4>
+          <p>Any audio file. We take it from there.</p>
+        </div>
+        <div class="step">
+          <span>Step 2</span>
+          <h4>Tell us what you're looking for (or don't)</h4>
+          <p>Got a specific topic in mind? Great. No idea? Also fine - we'll find the best bits either way.</p>
+        </div>
+        <div class="step">
+          <span>Step 3</span>
+          <h4>Listen to what actually matters</h4>
+          <p>A short list of clips, ranked by how good they are. No padding, no filler, no sitting through the intro music again.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="cta">
+      <div>
+        <h2 style="margin:0 0 6px; font-size:26px;">Ready to hear the best moments?</h2>
+        <p>Your first highlight reel takes about two minutes. Give it a shot.</p>
+      </div>
+      <a class="cta-btn" href="https://earmarks.agmentic.com">Try Earmarks</a>
+    </section>
+
+    <footer class="footer">
+      <span>Earmarks - Podcast Highlight Engine</span>
+      <span>Private beta</span>
+    </footer>
+  </div>
+</body>
+</html>
