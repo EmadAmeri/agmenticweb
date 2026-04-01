@@ -1,0 +1,193 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#2F7A5A" />
+    <title>Sentra | Decisions backed by your data</title>
+    <meta
+      name="description"
+      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+    />
+    <meta name="author" content="Agmentic" />
+
+    <meta property="og:title" content="Sentra | Decisions backed by your data" />
+    <meta
+      property="og:description"
+      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./agmentic-mark-v2.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@agmentic" />
+    <meta
+      name="twitter:description"
+      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+    />
+    <meta name="twitter:image" content="./agmentic-mark-v2.png" />
+    <link rel="icon" type="image/png" href="./agmentic-mark-v2.png" />
+    <link rel="apple-touch-icon" href="./agmentic-mark-v2.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="./agmentic-service.assets.css?v=20260402v2" />
+    <script>
+      document.documentElement.classList.add("dark");
+      try {
+        localStorage.setItem("theme", "dark");
+      } catch (e) {}
+    </script>
+    <style>
+      :root,
+      .dark,
+      html.dark {
+        --background: 154 16% 8%;
+        --foreground: 220 25% 96%;
+        --card: 154 14% 16%;
+        --card-foreground: 220 25% 96%;
+        --popover: 154 14% 16%;
+        --popover-foreground: 220 25% 96%;
+        --primary: 154 44% 33%;
+        --primary-foreground: 220 25% 98%;
+        --secondary: 154 12% 20%;
+        --secondary-foreground: 220 18% 88%;
+        --muted: 150 8% 69%;
+        --muted-foreground: 150 8% 69%;
+        --accent: 154 12% 20%;
+        --accent-foreground: 220 25% 96%;
+        --border: 0 0% 100% / 0.18;
+        --input: 0 0% 100% / 0.18;
+        --ring: 154 44% 33%;
+        --surface: 154 14% 16%;
+        --glow: 154 44% 33%;
+        --glow-secondary: 154 43% 43%;
+        --cyan: 154 43% 43%;
+      }
+
+      html,
+      body {
+        background:
+          radial-gradient(circle at 50% 0%, rgba(63, 154, 114, 0.08), transparent 22%),
+          linear-gradient(180deg, #101713 0%, #101713 100%);
+        color: #eef4ff;
+      }
+
+      body::selection {
+        background: rgba(63, 154, 114, 0.22);
+      }
+
+      nav {
+        background: #101713 !important;
+        background-image: none !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        border-bottom: 1px solid rgba(255,255,255,0.10) !important;
+      }
+
+      img[alt="Agmentic"] {
+        position: relative;
+        z-index: 2;
+        filter: brightness(1.15) contrast(1.1) saturate(1.05);
+      }
+
+      a.flex.items-center:has(img[alt="Agmentic"])::before,
+      a.flex.items-center.mb-4:has(img[alt="Sentra"])::before {
+        display: none !important;
+        content: none !important;
+      }
+
+      a.flex.items-center:has(img[alt="Agmentic"]),
+      a.flex.items-center.mb-4:has(img[alt="Sentra"]),
+      a.flex.items-center:has(img[alt="Agmentic"]) span,
+      a.flex.items-center.mb-4:has(img[alt="Sentra"]) span,
+      a.flex.items-center:has(img[alt="Agmentic"]) p,
+      a.flex.items-center.mb-4:has(img[alt="Sentra"]) p,
+      a.flex.items-center:has(img[alt="Agmentic"]) div,
+      a.flex.items-center.mb-4:has(img[alt="Sentra"]) div {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: none !important;
+        background-image: none !important;
+      }
+
+      img[alt="Sentra"] {
+        position: relative;
+        z-index: 2;
+        filter: brightness(1.15) contrast(1.1) saturate(1.05);
+      }
+
+      .grid-pattern {
+        opacity: 0.08 !important;
+        background-image:
+          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) !important;
+      }
+
+      .gradient-mesh-strong {
+        background: radial-gradient(circle at 50% 0%, rgba(63, 154, 114, 0.06), transparent 20%) !important;
+      }
+
+      .glass-card-strong {
+        background: rgba(24, 35, 31, 0.72) !important;
+        border: 1px solid rgba(255, 255, 255, 0.16) !important;
+        box-shadow: none !important;
+      }
+
+      .glow-sm {
+        box-shadow: none !important;
+      }
+
+      .glow-md {
+        box-shadow: none !important;
+      }
+
+      .bg-card {
+        background-color: hsl(var(--card)) !important;
+      }
+
+      .bg-background {
+        background-color: hsl(var(--background)) !important;
+      }
+
+      .text-muted-foreground {
+        color: hsl(var(--muted-foreground)) !important;
+      }
+
+      .border-border {
+        border-color: hsl(var(--border)) !important;
+      }
+    
+      nav a.flex.items-center > div,
+      a.flex.items-center.mb-4 > div {
+        background: transparent !important;
+        background-image: none !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+
+      nav a.flex.items-center > div span,
+      a.flex.items-center.mb-4 > div span {
+        color: #ffffff !important;
+        -webkit-text-fill-color: #ffffff !important;
+        background: none !important;
+        background-image: none !important;
+        -webkit-background-clip: border-box !important;
+        text-shadow: none !important;
+        font-size: 34px !important;
+        letter-spacing: -0.035em !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script defer src="./agmentic-service.assets.js?v=20260402v2"></script>
+  </body>
+</html>
