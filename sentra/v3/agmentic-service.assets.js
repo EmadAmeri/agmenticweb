@@ -17883,7 +17883,7 @@ ${p}`;
 	                initial: { opacity: 0, x: -40 },
 	                animate: { opacity: 1, x: 0 },
 	                transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-	                className: "flex flex-col items-start rounded-[12px] bg-[#221C2A]/70 border border-white/15 px-10 py-10 md:px-12 md:py-12",
+	                className: "flex flex-col items-start rounded-[12px] bg-[#21181A]/70 border border-white/15 px-10 py-10 md:px-12 md:py-12",
 	                children: [
 	                  x.jsxs("h1", {
 	                    className: "text-3xl md:text-5xl lg:text-[3.55rem] font-sans font-semibold leading-[1.02] mb-5 tracking-[-0.045em] text-left text-foreground",
@@ -17896,7 +17896,7 @@ ${p}`;
 	                    children: "Sentra gives your leadership team one clear picture of what's happening across the business — so decisions are backed by evidence, not gut feel."
 	                  }),
 	                  x.jsx("p", {
-	                    className: "text-sm md:text-[0.98rem] text-[#B4ACBC] leading-[1.7] text-left font-sans font-medium mt-4",
+	                    className: "text-sm md:text-[0.98rem] text-[#B8ABAB] leading-[1.7] text-left font-sans font-medium mt-4",
 	                    style: { maxWidth: "100%" },
 	                    children: "Your company already has the answers. Sentra finds them before the meeting where everyone's guessing."
 	                  })
@@ -17917,7 +17917,7 @@ ${p}`;
 	                }),
 	                x.jsxs("button", {
 	                  onClick: e6,
-	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#8B5E3C] text-white font-medium text-sm rounded-lg hover:bg-[#A9784F] transition-all",
+	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#8C4B43] text-white font-medium text-sm rounded-lg hover:bg-[#A95E55] transition-all",
                   children: ["See what Sentra does for your org.", x.jsx(qs, { className: "w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" })]
 	                })
 	              ]
@@ -17927,7 +17927,7 @@ ${p}`;
       ]
     });
   };
-  var Lr = [{ label: "Sales", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#A9784F", glowColor: "rgba(43,127,212,0.18)", size: 28 }, { label: "Finance", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#8B5E3C", glowColor: "rgba(184,146,42,0.16)", size: 26 }, { label: "Ops", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#B4ACBC", glowColor: "rgba(155,168,188,0.14)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#A9784F", glowColor: "rgba(29,158,117,0.16)", size: 27 }, { label: "Strategy", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#A9784F", glowColor: "rgba(43,127,212,0.16)", size: 25 }];
+  var Lr = [{ label: "Sales", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#A95E55", glowColor: "rgba(43,127,212,0.18)", size: 28 }, { label: "Finance", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#8C4B43", glowColor: "rgba(184,146,42,0.16)", size: 26 }, { label: "Ops", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#B8ABAB", glowColor: "rgba(155,168,188,0.14)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#A95E55", glowColor: "rgba(29,158,117,0.16)", size: 27 }, { label: "Strategy", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#A95E55", glowColor: "rgba(43,127,212,0.16)", size: 25 }];
   var cF = () => {
     const e6 = b.useRef(null), t = b.useRef(0), n = b.useRef([]), r = b.useRef([]), i = b.useRef(Lr.map((u) => u.angle * Math.PI / 180)), s = b.useRef(0), o = b.useRef(0), a = b.useCallback((u) => {
       n.current = Array.from({ length: u }, () => ({ x: Math.random(), y: Math.random(), size: Math.random() * 1.5 + 0.3, opacity: Math.random() * 0.6 + 0.1, twinkleSpeed: Math.random() * 2 + 1, twinkleOffset: Math.random() * Math.PI * 2 }));
@@ -18006,7 +18006,7 @@ var dF = () => {
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          background: "linear-gradient(180deg, #16131B 0%, #16131B 48%, #16131B 100%)"
+          background: "linear-gradient(180deg, #171112 0%, #171112 48%, #171112 100%)"
         }
       }),
       x.jsxs("div", {
@@ -18039,7 +18039,7 @@ var dF = () => {
             children: [
               x.jsx("p", { className: "text-xs uppercase tracking-[0.25em] text-primary font-medium mb-4", children: "The problem" }),
               x.jsx("h2", { className: "text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-5 max-w-xl text-white", children: "You have more data than ever. And fewer clear answers." }),
-              x.jsx("p", { className: "text-[#B4ACBC] text-sm md:text-base leading-relaxed max-w-lg font-medium", children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })
+              x.jsx("p", { className: "text-[#B8ABAB] text-sm md:text-base leading-relaxed max-w-lg font-medium", children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })
             ]
           }),
           x.jsx("div", {
@@ -18050,11 +18050,11 @@ var dF = () => {
               whileInView: { opacity: 1, y: 0 },
               viewport: { once: true, margin: "-60px" },
               transition: { delay: n * 0.08, duration: 0.55 },
-              className: n === 0 ? "relative w-full border border-white/15 bg-[#2E2638] p-8 md:p-10 text-white overflow-hidden" : "relative w-full border border-white/15 bg-[#16131B] p-8 md:p-10 text-white overflow-hidden",
+              className: n === 0 ? "relative w-full border border-white/15 bg-[#312426] p-8 md:p-10 text-white overflow-hidden" : "relative w-full border border-white/15 bg-[#171112] p-8 md:p-10 text-white overflow-hidden",
               style: n === 0 ? { borderRadius: "3rem" } : n === 2 ? { borderRadius: "3rem", gridColumn: "1 / -1" } : { borderRadius: "3rem" },
               children: [
                 x.jsx("h3", { className: "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 text-white whitespace-nowrap", children: t.title }),
-                x.jsx("p", { className: n === 0 ? "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-white/88 font-medium" : "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-[#B4ACBC] font-medium", style: { maxWidth: "28rem" }, children: t.description })
+                x.jsx("p", { className: n === 0 ? "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-white/88 font-medium" : "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-[#B8ABAB] font-medium", style: { maxWidth: "28rem" }, children: t.description })
               ]
             }, t.title))
           })
@@ -18072,7 +18072,7 @@ var MF2 = () => {
   ], t = typeof window < "u" ? window.innerWidth >= 1180 : true;
   return x.jsxs("section", {
     className: "relative overflow-hidden",
-    style: { padding: t ? "96px 0 108px" : "64px 0 72px", background: "#221C2A" },
+    style: { padding: t ? "96px 0 108px" : "64px 0 72px", background: "#21181A" },
     children: [
       x.jsx("div", {
         className: "absolute inset-0",
@@ -18103,15 +18103,15 @@ var MF2 = () => {
                 style: { paddingTop: t ? "6px" : "0", paddingLeft: t ? "0" : "0" },
                 children: [
                   x.jsx("p", {
-                    style: { margin: "0 0 16px", color: "#B4ACBC", fontSize: "13px", lineHeight: 1, letterSpacing: "0.24em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 },
+                    style: { margin: "0 0 16px", color: "#B8ABAB", fontSize: "13px", lineHeight: 1, letterSpacing: "0.24em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 },
                     children: "How it works"
                   }),
                   x.jsxs("h2", {
-                    style: { margin: 0, color: "#F5F2F7", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 700, fontSize: t ? "64px" : "52px", lineHeight: 0.92, letterSpacing: "-0.07em", maxWidth: t ? "430px" : "320px" },
+                    style: { margin: 0, color: "#F6F1F1", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 700, fontSize: t ? "64px" : "52px", lineHeight: 0.92, letterSpacing: "-0.07em", maxWidth: t ? "430px" : "320px" },
                     children: ["From scattered data to a decision", x.jsx("br", {}), "you can defend. Four steps."]
                   }),
                   x.jsx("p", {
-                    style: { margin: t ? "32px 0 0" : "24px 0 0", maxWidth: t ? "392px" : "620px", color: "#B4ACBC", fontSize: t ? "16px" : "18px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 400 },
+                    style: { margin: t ? "32px 0 0" : "24px 0 0", maxWidth: t ? "392px" : "620px", color: "#B8ABAB", fontSize: t ? "16px" : "18px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 400 },
                     children: "From scattered data to a decision you can defend. Four steps."
                   })
                 ]
@@ -18138,13 +18138,13 @@ var MF2 = () => {
                     children: [
                       x.jsx("div", { style: { display: "none" } }),
                       x.jsxs("div", {
-                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: r === 0 ? "#2E2638" : "#16131B", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: "none", maxWidth: "100%", color: "#ffffff", overflow: "hidden" },
+                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: r === 0 ? "#312426" : "#171112", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: "none", maxWidth: "100%", color: "#ffffff", overflow: "hidden" },
                         children: [
                           x.jsxs("div", { style: { marginBottom: "28px" }, children: [
-                            x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.72)" : "#B4ACBC", fontSize: t ? "15px" : "15px", lineHeight: 1, letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 }, children: n.step.replace("STEP ", "") })
+                            x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.72)" : "#B8ABAB", fontSize: t ? "15px" : "15px", lineHeight: 1, letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 }, children: n.step.replace("STEP ", "") })
                           ] }),
                           x.jsx("h3", { style: { margin: "0 0 16px", color: "#ffffff", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600, fontSize: t ? "30px" : "28px", lineHeight: 1.08, letterSpacing: "-0.03em" }, children: n.title }),
-                          x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.88)" : "#B4ACBC", fontSize: t ? "16px" : "16px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 500, maxWidth: "36rem" }, children: n.description })
+                          x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.88)" : "#B8ABAB", fontSize: t ? "16px" : "16px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 500, maxWidth: "36rem" }, children: n.description })
                         ]
                       })
                     ]
@@ -18165,15 +18165,15 @@ var MF2 = () => {
       { title: "The question you didn't know to ask.", description: "Sentra doesn't just answer what you bring to it. It brings up the things you should've been looking at." },
       { title: "One source of truth. Every team.", description: "When everyone works from the same picture, \"whose numbers are these?\" stops being a meeting." }
     ];
-    return x.jsx("section", { className: "section-padding relative overflow-hidden", children: x.jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-6", children: [x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, className: "max-w-5xl mb-12", children: [x.jsx("p", { className: "text-xs uppercase tracking-[0.24em] text-primary font-medium mb-4", children: "What you get" }), x.jsx("h2", { className: "text-4xl md:text-5xl lg:text-[4.25rem] font-bold mb-5 leading-[0.98] lg:whitespace-nowrap text-white", children: "What changes when decisions stop being hard." })] }), x.jsx("div", { className: "grid md:grid-cols-2 gap-6", children: e6.map((t, n) => x.jsxs(we.div, { initial: { opacity: 0, y: 26 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-80px" }, transition: { delay: n * 0.08, duration: 0.55 }, className: "relative p-8 md:p-10 overflow-hidden", style: n === 0 ? { borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: "#2E2638", boxShadow: "none", color: "#ffffff" } : { borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: "#16131B", boxShadow: "none", color: "#ffffff" }, children: [x.jsx("h3", { className: "relative z-10 mb-5", style: { fontSize: "clamp(1.95rem, 2.8vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.08, color: "#ffffff", whiteSpace: "nowrap" }, children: t.title }), x.jsx("p", { className: "relative z-10", style: n === 0 ? { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "rgba(255,255,255,0.88)" } : { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#B4ACBC" }, children: t.description })] }, t.title)) })] }) });
+    return x.jsx("section", { className: "section-padding relative overflow-hidden", children: x.jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-6", children: [x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, className: "max-w-5xl mb-12", children: [x.jsx("p", { className: "text-xs uppercase tracking-[0.24em] text-primary font-medium mb-4", children: "What you get" }), x.jsx("h2", { className: "text-4xl md:text-5xl lg:text-[4.25rem] font-bold mb-5 leading-[0.98] lg:whitespace-nowrap text-white", children: "What changes when decisions stop being hard." })] }), x.jsx("div", { className: "grid md:grid-cols-2 gap-6", children: e6.map((t, n) => x.jsxs(we.div, { initial: { opacity: 0, y: 26 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-80px" }, transition: { delay: n * 0.08, duration: 0.55 }, className: "relative p-8 md:p-10 overflow-hidden", style: n === 0 ? { borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: "#312426", boxShadow: "none", color: "#ffffff" } : { borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: "#171112", boxShadow: "none", color: "#ffffff" }, children: [x.jsx("h3", { className: "relative z-10 mb-5", style: { fontSize: "clamp(1.95rem, 2.8vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.08, color: "#ffffff", whiteSpace: "nowrap" }, children: t.title }), x.jsx("p", { className: "relative z-10", style: n === 0 ? { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "rgba(255,255,255,0.88)" } : { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#B8ABAB" }, children: t.description })] }, t.title)) })] }) });
   };
   var P_ = () => {
     const { openDemoGate: e6 } = Co();
-    return x.jsxs("section", { className: "section-padding relative overflow-hidden", children: [x.jsx("div", { className: "absolute inset-0 gradient-mesh-strong" }), x.jsx("div", { className: "absolute inset-0 grid-pattern opacity-10" }), x.jsx("div", { className: "relative z-10 max-w-4xl mx-auto text-center", children: x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, children: [x.jsx("h2", { className: "text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight", children: "See what Sentra does for your org." }), x.jsx("p", { className: "text-muted-foreground text-base md:text-lg mb-12 max-w-2xl mx-auto", children: "One short session. No sales pitch. Just a look at what your data is already trying to tell you." }), x.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-center", children: [x.jsxs("button", { onClick: () => e6(), className: "group inline-flex items-center gap-2 px-8 py-4 bg-[#8B5E3C] text-white font-medium rounded-lg hover:bg-[#A9784F] transition-opacity text-sm", children: ["See what Sentra does for your org.", x.jsx(qs, { className: "w-4 h-4 group-hover:translate-x-0.5 transition-transform" })] }), x.jsxs(er, { to: "/contact", className: "group inline-flex items-center gap-2 px-8 py-4 bg-transparent border border-[rgba(255,255,255,0.18)] text-white font-medium rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-opacity text-sm", children: [x.jsx(YA, { className: "w-4 h-4" }), "Talk to us. No demo, no deck — just a conversation."] })] })] }) })] });
+    return x.jsxs("section", { className: "section-padding relative overflow-hidden", children: [x.jsx("div", { className: "absolute inset-0 gradient-mesh-strong" }), x.jsx("div", { className: "absolute inset-0 grid-pattern opacity-10" }), x.jsx("div", { className: "relative z-10 max-w-4xl mx-auto text-center", children: x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, children: [x.jsx("h2", { className: "text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight", children: "See what Sentra does for your org." }), x.jsx("p", { className: "text-muted-foreground text-base md:text-lg mb-12 max-w-2xl mx-auto", children: "One short session. No sales pitch. Just a look at what your data is already trying to tell you." }), x.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-center", children: [x.jsxs("button", { onClick: () => e6(), className: "group inline-flex items-center gap-2 px-8 py-4 bg-[#8C4B43] text-white font-medium rounded-lg hover:bg-[#A95E55] transition-opacity text-sm", children: ["See what Sentra does for your org.", x.jsx(qs, { className: "w-4 h-4 group-hover:translate-x-0.5 transition-transform" })] }), x.jsxs(er, { to: "/contact", className: "group inline-flex items-center gap-2 px-8 py-4 bg-transparent border border-[rgba(255,255,255,0.18)] text-white font-medium rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-opacity text-sm", children: [x.jsx(YA, { className: "w-4 h-4" }), "Talk to us. No demo, no deck — just a conversation."] })] })] }) })] });
   };
   var rd = () => {
     return x.jsx("footer", {
-      className: "border-t border-white/10 bg-[#16131B]",
+      className: "border-t border-white/10 bg-[#171112]",
       children: x.jsxs("div", {
         className: "max-w-7xl mx-auto px-6 py-16",
         children: [
