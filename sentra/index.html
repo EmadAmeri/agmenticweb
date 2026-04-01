@@ -27,6 +27,15 @@
       content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
     />
     <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <link
+      rel="icon"
+      type="image/svg+xml"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="%23070b14"/><circle cx="14" cy="39" r="3.6" fill="%232f8cff"/><circle cx="14" cy="25" r="3.6" fill="%23196bff"/><path d="M22 12L43 52" stroke="%232f8cff" stroke-width="7" stroke-linecap="round"/><path d="M19 49L35 33" stroke="%2399d5ff" stroke-width="6" stroke-linecap="round"/></svg>'
+    />
+    <link
+      rel="apple-touch-icon"
+      href='data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="16" fill="%23070b14"/><circle cx="14" cy="39" r="3.6" fill="%232f8cff"/><circle cx="14" cy="25" r="3.6" fill="%23196bff"/><path d="M22 12L43 52" stroke="%232f8cff" stroke-width="7" stroke-linecap="round"/><path d="M19 49L35 33" stroke="%2399d5ff" stroke-width="6" stroke-linecap="round"/></svg>'
+    />
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -35,6 +44,103 @@
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     />
     <link rel="stylesheet" href="./agmentic-service.assets.css" />
+    <script>
+      document.documentElement.classList.add("dark");
+      try {
+        localStorage.setItem("theme", "dark");
+      } catch (e) {}
+    </script>
+    <style>
+      :root,
+      .dark,
+      html.dark {
+        --background: 222 52% 4%;
+        --foreground: 220 25% 96%;
+        --card: 222 40% 7%;
+        --card-foreground: 220 25% 96%;
+        --popover: 222 40% 7%;
+        --popover-foreground: 220 25% 96%;
+        --primary: 214 100% 58%;
+        --primary-foreground: 220 25% 98%;
+        --secondary: 223 28% 12%;
+        --secondary-foreground: 220 18% 88%;
+        --muted: 223 22% 10%;
+        --muted-foreground: 220 12% 68%;
+        --accent: 221 48% 16%;
+        --accent-foreground: 220 25% 96%;
+        --border: 219 34% 18%;
+        --input: 219 34% 18%;
+        --ring: 214 100% 58%;
+        --surface: 223 30% 8%;
+        --glow: 214 100% 58%;
+        --glow-secondary: 201 100% 72%;
+        --cyan: 198 100% 68%;
+      }
+
+      html,
+      body {
+        background:
+          radial-gradient(circle at 20% 0%, rgba(31, 83, 184, 0.16), transparent 34%),
+          radial-gradient(circle at 80% 0%, rgba(32, 110, 255, 0.14), transparent 28%),
+          linear-gradient(180deg, #06080f 0%, #070b14 100%);
+        color: #eef4ff;
+      }
+
+      body::selection {
+        background: rgba(47, 140, 255, 0.28);
+      }
+
+      img[alt="Agmentic"] {
+        filter: brightness(1.5) contrast(1.18) saturate(1.15) drop-shadow(0 0 18px rgba(47, 140, 255, 0.22));
+      }
+
+      .grid-pattern {
+        opacity: 0.08 !important;
+        background-image:
+          linear-gradient(rgba(95, 140, 255, 0.08) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(95, 140, 255, 0.08) 1px, transparent 1px) !important;
+      }
+
+      .gradient-mesh-strong {
+        background:
+          radial-gradient(circle at 18% 20%, rgba(34, 102, 255, 0.14), transparent 26%),
+          radial-gradient(circle at 78% 18%, rgba(82, 151, 255, 0.12), transparent 24%),
+          radial-gradient(circle at 50% 100%, rgba(12, 47, 125, 0.18), transparent 40%) !important;
+      }
+
+      .glass-card-strong {
+        background: linear-gradient(180deg, rgba(10, 15, 27, 0.92), rgba(9, 13, 23, 0.88)) !important;
+        border: 1px solid rgba(92, 125, 205, 0.24) !important;
+        box-shadow:
+          0 12px 40px rgba(2, 6, 16, 0.56),
+          inset 0 1px 0 rgba(255, 255, 255, 0.04),
+          0 0 0 1px rgba(32, 103, 255, 0.06) !important;
+      }
+
+      .glow-sm {
+        box-shadow: 0 0 0 1px rgba(69, 136, 255, 0.18), 0 0 26px rgba(34, 108, 255, 0.16) !important;
+      }
+
+      .glow-md {
+        box-shadow: 0 0 0 1px rgba(69, 136, 255, 0.16), 0 18px 60px rgba(13, 40, 98, 0.4) !important;
+      }
+
+      .bg-card {
+        background-color: hsl(var(--card)) !important;
+      }
+
+      .bg-background {
+        background-color: hsl(var(--background)) !important;
+      }
+
+      .text-muted-foreground {
+        color: hsl(var(--muted-foreground)) !important;
+      }
+
+      .border-border {
+        border-color: hsl(var(--border)) !important;
+      }
+    </style>
   </head>
 
   <body>

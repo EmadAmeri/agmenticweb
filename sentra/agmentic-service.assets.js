@@ -17659,19 +17659,19 @@ ${p}`;
           body, button, input, textarea, select, a, p, span, div, h1, h2, h3, h4, h5, h6 {
             font-family: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif !important;
           }
-        ` }), x.jsxs(we.nav, { initial: { y: -20, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.5 }, className: "fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/30", children: [x.jsxs("div", { className: "max-w-7xl mx-auto flex items-center justify-between px-6 py-4", children: [x.jsx(er, { to: "/", className: "flex items-center", children: x.jsx("img", { src: T_, alt: "Agmentic", className: "h-[34px]" }) }), x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("button", { onClick: () => r(), className: "hidden md:inline-flex items-center px-5 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity glow-sm", children: "Request Demo" }), x.jsx("button", { className: "md:hidden p-2", onClick: () => n(!t), children: t ? x.jsx(Rm, { className: "w-5 h-5" }) : x.jsx(KA, { className: "w-5 h-5" }) })] })] }), t && x.jsxs(we.div, { initial: { opacity: 0, height: 0 }, animate: { opacity: 1, height: "auto" }, className: "md:hidden border-t border-border/30 bg-background/95 backdrop-blur-2xl px-6 py-4 space-y-3", children: [_w.map((s) => x.jsx(er, { to: s.to, onClick: (o) => {
+        ` }), x.jsxs(we.nav, { initial: { y: -20, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.5 }, className: "fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/30", children: [x.jsxs("div", { className: "max-w-7xl mx-auto flex items-center justify-between px-6 py-4", children: [x.jsx(er, { to: "/", className: "flex items-center", children: x.jsx("img", { src: T_, alt: "Agmentic", className: "h-[34px] md:h-[38px] w-auto opacity-100" }) }), x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("button", { onClick: () => r(), className: "hidden md:inline-flex items-center px-5 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity glow-sm", children: "Request Demo" }), x.jsx("button", { className: "md:hidden p-2", onClick: () => n(!t), children: t ? x.jsx(Rm, { className: "w-5 h-5" }) : x.jsx(KA, { className: "w-5 h-5" }) })] })] }), t && x.jsxs(we.div, { initial: { opacity: 0, height: 0 }, animate: { opacity: 1, height: "auto" }, className: "md:hidden border-t border-border/30 bg-background/95 backdrop-blur-2xl px-6 py-4 space-y-3", children: [_w.map((s) => x.jsx(er, { to: s.to, onClick: (o) => {
       i(s, o), n(false);
     }, className: "block text-sm text-muted-foreground hover:text-foreground py-2", children: s.label }, s.to)), x.jsx("button", { onClick: () => {
       r(), n(false);
     }, className: "block text-sm font-medium text-primary py-2", children: "Request Demo" })] })] })] });
   };
   var mh = ["Sales", "Marketing", "Product", "Finance", "Strategy"];
-  var gh = ["80, 180, 255", "255, 140, 80", "100, 220, 180", "255, 200, 80", "180, 140, 255"];
-  var yh = ["40, 120, 220", "220, 100, 40", "30, 160, 120", "200, 150, 30", "130, 80, 220"];
-  var rF = "140, 180, 255";
-  var iF = "60, 100, 220";
-  var sF = "200, 160, 255";
-  var oF = "120, 80, 200";
+  var gh = ["96, 170, 255", "61, 128, 255", "117, 214, 255", "35, 96, 214", "154, 208, 255"];
+  var yh = ["46, 112, 255", "27, 84, 214", "89, 184, 255", "21, 62, 168", "112, 154, 255"];
+  var rF = "126, 188, 255";
+  var iF = "39, 104, 255";
+  var sF = "104, 201, 255";
+  var oF = "49, 86, 214";
   var Ti = 40;
   var vh = [Math.PI * 0.01, 0, 0, 0, 0];
   function Cw() {
@@ -21833,7 +21833,11 @@ var MF2 = () => {
   var gV = new _2();
   var yV = typeof window < "u" && window.location.protocol === "file:" ? SN : bN;
   var vV = () => (b.useEffect(() => {
-    localStorage.getItem("theme") === "light" ? document.documentElement.classList.remove("dark") : document.documentElement.classList.add("dark");
+    document.documentElement.classList.add("dark");
+    try {
+      localStorage.setItem("theme", "dark");
+    } catch {
+    }
   }, []), null);
   var wV = () => x.jsx(T2, { client: gV, children: x.jsxs(t2, { children: [x.jsx(vV, {}), x.jsx($R, {}), x.jsx(gO, {}), x.jsx(yV, { basename: "/sentra", children: x.jsxs(CN, { children: [x.jsx(tF, {}), x.jsxs(pN, { children: [x.jsx(Ri, { path: "/", element: x.jsx(gF, {}) }), x.jsx(Ri, { path: "/product", element: x.jsx(vF, {}) }), x.jsx(Ri, { path: "/demo", element: x.jsx(dV, {}) }), x.jsx(Ri, { path: "/about", element: x.jsx(hV, {}) }), x.jsx(Ri, { path: "/contact", element: x.jsx(pV, {}) }), x.jsx(Ri, { path: "*", element: x.jsx(mV, {}) })] })] }) })] }) });
   B1(document.getElementById("root")).render(x.jsx(wV, {}));
