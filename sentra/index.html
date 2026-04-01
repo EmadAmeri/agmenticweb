@@ -36,7 +36,7 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
     />
-    <link rel="stylesheet" href="./agmentic-service.assets.css?v=20260401e" />
+    <link rel="stylesheet" href="./agmentic-service.assets.css?v=20260401f" />
     <script>
       document.documentElement.classList.add("dark");
       try {
@@ -47,35 +47,34 @@
       :root,
       .dark,
       html.dark {
-        --background: 220 30% 3%;
+        --background: 210 59% 10%;
         --foreground: 220 25% 96%;
-        --card: 222 40% 7%;
+        --card: 214 71% 12%;
         --card-foreground: 220 25% 96%;
-        --popover: 222 40% 7%;
+        --popover: 214 71% 12%;
         --popover-foreground: 220 25% 96%;
-        --primary: 214 100% 58%;
+        --primary: 208 73% 38%;
         --primary-foreground: 220 25% 98%;
-        --secondary: 223 28% 12%;
+        --secondary: 214 53% 25%;
         --secondary-foreground: 220 18% 88%;
-        --muted: 223 22% 10%;
-        --muted-foreground: 220 12% 68%;
-        --accent: 221 48% 16%;
+        --muted: 211 19% 67%;
+        --muted-foreground: 211 19% 67%;
+        --accent: 214 53% 25%;
         --accent-foreground: 220 25% 96%;
-        --border: 219 34% 18%;
-        --input: 219 34% 18%;
-        --ring: 214 100% 58%;
-        --surface: 223 30% 8%;
-        --glow: 214 100% 58%;
-        --glow-secondary: 201 100% 72%;
-        --cyan: 198 100% 68%;
+        --border: 0 0% 100% / 0.18;
+        --input: 0 0% 100% / 0.18;
+        --ring: 208 73% 38%;
+        --surface: 214 71% 12%;
+        --glow: 208 73% 38%;
+        --glow-secondary: 208 73% 52%;
+        --cyan: 208 73% 52%;
       }
 
       html,
       body {
         background:
-          radial-gradient(circle at 20% 0%, rgba(31, 83, 184, 0.16), transparent 34%),
-          radial-gradient(circle at 80% 0%, rgba(32, 110, 255, 0.14), transparent 28%),
-          linear-gradient(180deg, #06080f 0%, #070b14 100%);
+          radial-gradient(circle at 50% 0%, rgba(43, 127, 212, 0.10), transparent 26%),
+          linear-gradient(180deg, #0A1929 0%, #0A1929 100%);
         color: #eef4ff;
       }
 
@@ -84,7 +83,7 @@
       }
 
       nav {
-        background: #02040a !important;
+        background: #0A1929 !important;
         background-image: none !important;
         -webkit-backdrop-filter: none !important;
         backdrop-filter: none !important;
@@ -94,12 +93,7 @@
       img[alt="Agmentic"] {
         position: relative;
         z-index: 2;
-        filter:
-          brightness(2.15)
-          contrast(1.55)
-          saturate(1.4)
-          drop-shadow(0 0 24px rgba(47, 140, 255, 0.34))
-          drop-shadow(0 0 8px rgba(255, 255, 255, 0.08));
+        filter: brightness(1.15) contrast(1.1) saturate(1.05);
       }
 
       a.flex.items-center:has(img[alt="Agmentic"])::before,
@@ -125,12 +119,7 @@
       img[alt="Sentra"] {
         position: relative;
         z-index: 2;
-        filter:
-          brightness(2.25)
-          contrast(1.65)
-          saturate(1.45)
-          drop-shadow(0 0 24px rgba(47, 140, 255, 0.36))
-          drop-shadow(0 0 8px rgba(255, 255, 255, 0.08));
+        filter: brightness(1.15) contrast(1.1) saturate(1.05);
       }
 
       .grid-pattern {
@@ -141,27 +130,21 @@
       }
 
       .gradient-mesh-strong {
-        background:
-          radial-gradient(circle at 18% 20%, rgba(34, 102, 255, 0.14), transparent 26%),
-          radial-gradient(circle at 78% 18%, rgba(82, 151, 255, 0.12), transparent 24%),
-          radial-gradient(circle at 50% 100%, rgba(12, 47, 125, 0.18), transparent 40%) !important;
+        background: radial-gradient(circle at 50% 0%, rgba(43, 127, 212, 0.08), transparent 24%) !important;
       }
 
       .glass-card-strong {
-        background: linear-gradient(180deg, rgba(10, 15, 27, 0.92), rgba(9, 13, 23, 0.88)) !important;
-        border: 1px solid rgba(92, 125, 205, 0.24) !important;
-        box-shadow:
-          0 12px 40px rgba(2, 6, 16, 0.56),
-          inset 0 1px 0 rgba(255, 255, 255, 0.04),
-          0 0 0 1px rgba(32, 103, 255, 0.06) !important;
+        background: rgba(15, 45, 92, 0.72) !important;
+        border: 1px solid rgba(255, 255, 255, 0.16) !important;
+        box-shadow: none !important;
       }
 
       .glow-sm {
-        box-shadow: 0 0 0 1px rgba(69, 136, 255, 0.18), 0 0 26px rgba(34, 108, 255, 0.16) !important;
+        box-shadow: none !important;
       }
 
       .glow-md {
-        box-shadow: 0 0 0 1px rgba(69, 136, 255, 0.16), 0 18px 60px rgba(13, 40, 98, 0.4) !important;
+        box-shadow: none !important;
       }
 
       .bg-card {
@@ -197,7 +180,7 @@
         background-image: none !important;
         -webkit-background-clip: border-box !important;
         text-shadow: none !important;
-        font-size: 36px !important;
+        font-size: 34px !important;
         letter-spacing: -0.035em !important;
       }
     </style>
@@ -205,6 +188,6 @@
 
   <body>
     <div id="root"></div>
-    <script defer src="./agmentic-service.assets.js?v=20260401e"></script>
+    <script defer src="./agmentic-service.assets.js?v=20260401f"></script>
   </body>
 </html>

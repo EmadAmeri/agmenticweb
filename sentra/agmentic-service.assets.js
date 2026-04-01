@@ -17639,9 +17639,9 @@ ${p}`;
     }, d = (C) => {
       C.key === "Enter" && !o && n === "email" && f();
     }, g = () => l ? x.jsxs(we.p, { initial: { opacity: 0, y: -4 }, animate: { opacity: 1, y: 0 }, className: "flex items-center gap-1.5 text-xs text-destructive mt-2", children: [x.jsx(gS, { className: "w-3.5 h-3.5" }), l] }) : null;
-    return x.jsx(Ka, { children: e6 && x.jsxs(we.div, { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, className: "fixed inset-0 z-[100] flex items-center justify-center p-4", onClick: t, children: [x.jsx("div", { className: "absolute inset-0 bg-background/80 backdrop-blur-xl" }), x.jsxs(we.div, { initial: { opacity: 0, scale: 0.92, y: 20 }, animate: { opacity: 1, scale: 1, y: 0 }, exit: { opacity: 0, scale: 0.92, y: 20 }, transition: { type: "spring", damping: 25, stiffness: 300 }, onClick: (C) => C.stopPropagation(), className: "relative w-full max-w-md glass-card-strong p-8 glow-md", children: [x.jsx("button", { onClick: t, className: "absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors", children: x.jsx(Rm, { className: "w-5 h-5" }) }), x.jsx("div", { className: "absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 rounded-full bg-primary/20 blur-3xl pointer-events-none" }), x.jsxs(Ka, { mode: "wait", children: [n === "email" && x.jsxs(we.div, { initial: { opacity: 0, x: -20 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: 20 }, className: "relative", children: [x.jsx("div", { className: "w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 glow-sm", children: x.jsx("div", { className: "w-3 h-3 rounded-full bg-primary animate-pulse" }) }), x.jsx("h3", { className: "text-xl font-display font-bold mb-2", children: "Request Demo Access" }), x.jsx("p", { className: "text-sm text-muted-foreground mb-6", children: "Enter your work email and we'll send Sentra demo access details to your inbox." }), x.jsx("input", { ref: c, type: "email", value: i, onChange: (C) => {
+    return x.jsx(Ka, { children: e6 && x.jsxs(we.div, { initial: { opacity: 0 }, animate: { opacity: 1 }, exit: { opacity: 0 }, className: "fixed inset-0 z-[100] flex items-center justify-center p-4", onClick: t, children: [x.jsx("div", { className: "absolute inset-0 bg-background/80 backdrop-blur-xl" }), x.jsxs(we.div, { initial: { opacity: 0, scale: 0.92, y: 20 }, animate: { opacity: 1, scale: 1, y: 0 }, exit: { opacity: 0, scale: 0.92, y: 20 }, transition: { type: "spring", damping: 25, stiffness: 300 }, onClick: (C) => C.stopPropagation(), className: "relative w-full max-w-md glass-card-strong p-8 ", children: [x.jsx("button", { onClick: t, className: "absolute top-4 right-4 text-muted-foreground hover:text-foreground transition-colors", children: x.jsx(Rm, { className: "w-5 h-5" }) }), x.jsx("div", { className: "absolute -top-20 left-1/2 -translate-x-1/2 w-40 h-40 rounded-full bg-primary/20 blur-3xl pointer-events-none" }), x.jsxs(Ka, { mode: "wait", children: [n === "email" && x.jsxs(we.div, { initial: { opacity: 0, x: -20 }, animate: { opacity: 1, x: 0 }, exit: { opacity: 0, x: 20 }, className: "relative", children: [x.jsx("div", { className: "w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-5 ", children: x.jsx("div", { className: "w-3 h-3 rounded-full bg-primary animate-pulse" }) }), x.jsx("h3", { className: "text-xl font-display font-bold mb-2", children: "Request Demo Access" }), x.jsx("p", { className: "text-sm text-muted-foreground mb-6", children: "Enter your work email and we'll send Sentra demo access details to your inbox." }), x.jsx("input", { ref: c, type: "email", value: i, onChange: (C) => {
       s(C.target.value), u("");
-    }, onKeyDown: d, placeholder: "you@company.com", className: "w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all" }), g(), x.jsx("button", { onClick: f, disabled: o || !i, className: "w-full mt-4 flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-medium text-sm rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed glow-sm", children: o ? x.jsx(vu, { className: "w-4 h-4 animate-spin" }) : x.jsxs(x.Fragment, { children: ["Email me demo access ", x.jsx(qs, { className: "w-4 h-4" })] }) })] }, "email"), n === "success" && x.jsxs(we.div, { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, className: "relative flex flex-col items-center text-center py-4", children: [x.jsx("div", { className: "w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 glow-md", children: x.jsx(yS, { className: "w-8 h-8 text-primary" }) }), x.jsx("h3", { className: "text-xl font-display font-bold mb-2", children: "Thank you" }), x.jsxs("p", { className: "text-sm text-muted-foreground", children: ["Demo access details will be sent to ", x.jsx("span", { className: "text-foreground font-medium", children: i }), "."] }), x.jsx("button", { onClick: t, className: "mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-medium text-sm rounded-xl hover:opacity-90 transition-all glow-sm", children: "Close" })] }, "success")] })] })] }) });
+    }, onKeyDown: d, placeholder: "you@company.com", className: "w-full px-4 py-3 rounded-xl bg-surface border border-border text-foreground text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50 focus:border-primary/50 transition-all" }), g(), x.jsx("button", { onClick: f, disabled: o || !i, className: "w-full mt-4 flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-medium text-sm rounded-xl hover:opacity-90 transition-all disabled:opacity-50 disabled:cursor-not-allowed ", children: o ? x.jsx(vu, { className: "w-4 h-4 animate-spin" }) : x.jsxs(x.Fragment, { children: ["Email me demo access ", x.jsx(qs, { className: "w-4 h-4" })] }) })] }, "email"), n === "success" && x.jsxs(we.div, { initial: { opacity: 0, scale: 0.9 }, animate: { opacity: 1, scale: 1 }, className: "relative flex flex-col items-center text-center py-4", children: [x.jsx("div", { className: "w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4 ", children: x.jsx(yS, { className: "w-8 h-8 text-primary" }) }), x.jsx("h3", { className: "text-xl font-display font-bold mb-2", children: "Thank you" }), x.jsxs("p", { className: "text-sm text-muted-foreground", children: ["Demo access details will be sent to ", x.jsx("span", { className: "text-foreground font-medium", children: i }), "."] }), x.jsx("button", { onClick: t, className: "mt-6 inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-medium text-sm rounded-xl hover:opacity-90 transition-all ", children: "Close" })] }, "success")] })] })] }) });
   };
   var nF = () => {
     const [e6, t] = b.useState(() => typeof window < "u" ? document.documentElement.classList.contains("dark") || !localStorage.getItem("theme") && window.matchMedia("(prefers-color-scheme: dark)").matches : true);
@@ -17660,7 +17660,7 @@ ${p}`;
           body, button, input, textarea, select, a, p, span, div, h1, h2, h3, h4, h5, h6 {
             font-family: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif !important;
           }
-        ` }), x.jsxs(we.nav, { initial: { y: -20, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.5 }, className: "fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/30", children: [x.jsxs("div", { className: "max-w-7xl mx-auto flex items-center justify-between px-6 py-4", children: [x.jsx(er, { to: "/", className: "flex items-center", children: x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("img", { src: kf, alt: "Agmentic", className: "h-11 w-11 object-contain opacity-100" }), x.jsx("span", { className: "font-medium leading-none", style: { color: "#ffffff", fontSize: "36px", letterSpacing: "-0.035em" }, children: "Agmentic" })] }) }), x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("button", { onClick: () => r(), className: "hidden md:inline-flex items-center px-5 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity glow-sm", children: "Request Demo" }), x.jsx("button", { className: "md:hidden p-2", onClick: () => n(!t), children: t ? x.jsx(Rm, { className: "w-5 h-5" }) : x.jsx(KA, { className: "w-5 h-5" }) })] })] }), t && x.jsxs(we.div, { initial: { opacity: 0, height: 0 }, animate: { opacity: 1, height: "auto" }, className: "md:hidden border-t border-border/30 bg-background/95 backdrop-blur-2xl px-6 py-4 space-y-3", children: [_w.map((s) => x.jsx(er, { to: s.to, onClick: (o) => {
+        ` }), x.jsxs(we.nav, { initial: { y: -20, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.5 }, className: "fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/30", children: [x.jsxs("div", { className: "max-w-7xl mx-auto flex items-center justify-between px-6 py-4", children: [x.jsx(er, { to: "/", className: "flex items-center", children: x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("img", { src: kf, alt: "Agmentic", className: "h-11 w-11 object-contain opacity-100" }), x.jsx("span", { className: "font-medium leading-none", style: { color: "#ffffff", fontSize: "34px", letterSpacing: "-0.035em" }, children: "Agmentic" })] }) }), x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("button", { onClick: () => r(), className: "hidden md:inline-flex items-center px-5 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity ", children: "Request Demo" }), x.jsx("button", { className: "md:hidden p-2", onClick: () => n(!t), children: t ? x.jsx(Rm, { className: "w-5 h-5" }) : x.jsx(KA, { className: "w-5 h-5" }) })] })] }), t && x.jsxs(we.div, { initial: { opacity: 0, height: 0 }, animate: { opacity: 1, height: "auto" }, className: "md:hidden border-t border-border/30 bg-background/95 backdrop-blur-2xl px-6 py-4 space-y-3", children: [_w.map((s) => x.jsx(er, { to: s.to, onClick: (o) => {
       i(s, o), n(false);
     }, className: "block text-sm text-muted-foreground hover:text-foreground py-2", children: s.label }, s.to)), x.jsx("button", { onClick: () => {
       r(), n(false);
@@ -17883,17 +17883,22 @@ ${p}`;
 	                initial: { opacity: 0, x: -40 },
 	                animate: { opacity: 1, x: 0 },
 	                transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-	                className: "flex flex-col items-start rounded-[36px] bg-[rgba(244,248,255,0.22)] backdrop-blur-[42px] supports-[backdrop-filter]:bg-[rgba(244,248,255,0.22)] px-10 py-10 md:px-12 md:py-12 shadow-[0_18px_48px_rgba(40,70,130,0.08)]",
+	                className: "flex flex-col items-start rounded-[12px] bg-[#0F2D5C]/70 border border-white/15 px-10 py-10 md:px-12 md:py-12",
 	                children: [
 	                  x.jsxs("h1", {
 	                    className: "text-3xl md:text-5xl lg:text-[3.55rem] font-sans font-semibold leading-[1.02] mb-5 tracking-[-0.045em] text-left text-foreground",
 	                    style: { maxWidth: "100%" },
-	                    children: ["Your company knows more than it's telling you."]
+	                    children: ["The right call. Before it costs you."]
 	                  }),
 	                  x.jsx("p", {
 	                    className: "text-base md:text-[1.08rem] text-muted-foreground leading-[1.7] text-left font-sans font-medium",
 	                    style: { maxWidth: "100%" },
-	                    children: "Sentra pulls everything together — your data, your systems, your history — and tells you what to do next. Not what happened. What to do."
+	                    children: "Sentra gives your leadership team one clear picture of what's happening across the business — so decisions are backed by evidence, not gut feel."
+	                  }),
+	                  x.jsx("p", {
+	                    className: "text-sm md:text-[0.98rem] text-[#9BA8BC] leading-[1.7] text-left font-sans font-medium mt-4",
+	                    style: { maxWidth: "100%" },
+	                    children: "Your company already has the answers. Sentra finds them before the meeting where everyone's guessing."
 	                  })
 	                ]
 	              })
@@ -17907,13 +17912,13 @@ ${p}`;
 	              children: [
 	                x.jsxs(er, {
 	                  to: "/product",
-	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#0b1220]/88 border border-[#1d3768] text-white font-medium text-sm rounded-xl hover:bg-[#0f1830] transition-all backdrop-blur-md",
-	                  children: [x.jsx(YA, { className: "w-3.5 h-3.5" }), "Show me how it works"]
+	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent border border-[rgba(255,255,255,0.18)] text-white font-medium text-sm rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-all",
+                  children: [x.jsx(YA, { className: "w-3.5 h-3.5" }), "Talk to us. No demo, no deck — just a conversation."]
 	                }),
 	                x.jsxs("button", {
 	                  onClick: e6,
-	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-primary text-primary-foreground font-medium text-sm rounded-xl hover:opacity-90 transition-all glow-md",
-	                  children: ["See it in action", x.jsx(qs, { className: "w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" })]
+	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#1A5FA8] text-white font-medium text-sm rounded-lg hover:bg-[#2B7FD4] transition-all",
+                  children: ["See what Sentra does for your org.", x.jsx(qs, { className: "w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" })]
 	                })
 	              ]
 	            })
@@ -17922,7 +17927,7 @@ ${p}`;
       ]
     });
   };
-  var Lr = [{ label: "Strategy", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#60a5fa", glowColor: "rgba(96,165,250,0.5)", size: 28 }, { label: "Sales", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#818cf8", glowColor: "rgba(129,140,248,0.5)", size: 26 }, { label: "Marketing", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#22d3ee", glowColor: "rgba(34,211,238,0.5)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#a78bfa", glowColor: "rgba(167,139,250,0.5)", size: 27 }, { label: "Finance", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#67e8f9", glowColor: "rgba(103,232,249,0.5)", size: 25 }];
+  var Lr = [{ label: "Sales", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#2B7FD4", glowColor: "rgba(43,127,212,0.18)", size: 28 }, { label: "Finance", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#B8922A", glowColor: "rgba(184,146,42,0.16)", size: 26 }, { label: "Ops", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#9BA8BC", glowColor: "rgba(155,168,188,0.14)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#1D9E75", glowColor: "rgba(29,158,117,0.16)", size: 27 }, { label: "Strategy", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#2B7FD4", glowColor: "rgba(43,127,212,0.16)", size: 25 }];
   var cF = () => {
     const e6 = b.useRef(null), t = b.useRef(0), n = b.useRef([]), r = b.useRef([]), i = b.useRef(Lr.map((u) => u.angle * Math.PI / 180)), s = b.useRef(0), o = b.useRef(0), a = b.useCallback((u) => {
       n.current = Array.from({ length: u }, () => ({ x: Math.random(), y: Math.random(), size: Math.random() * 1.5 + 0.3, opacity: Math.random() * 0.6 + 0.1, twinkleSpeed: Math.random() * 2 + 1, twinkleOffset: Math.random() * Math.PI * 2 }));
@@ -17991,9 +17996,9 @@ ${p}`;
   };
 var dF = () => {
   const e6 = [
-    { title: "Data is everywhere and nowhere", description: "CRMs, spreadsheets, Slack threads, internal tools. Everyone's collecting. Nobody's reading from the same page." },
-    { title: "Reports that stop short", description: "You get a dashboard. It shows what happened. Then it stops. What to do next is still entirely on you." },
-    { title: "Tools that need too much trust", description: "You've tried things. The outputs looked sharp — until they weren't. And nobody could explain why. So you went back to your gut." }
+    { title: "Every team has data. No one has the truth.", description: "When each department runs on its own numbers, strategy meetings turn into arguments. You spend the hour reconciling spreadsheets instead of making calls." },
+    { title: "You don't need another report. You need to know what to do.", description: "Dashboards tell you what happened last quarter. Sentra tells you what needs your attention this week — and why it matters." },
+    { title: "You've tried tools that looked smart but felt like a black box.", description: "Every output comes with a clear reason behind it. When someone pushes back in the boardroom, you have an answer — not a shrug." }
   ];
   return x.jsxs("section", {
     className: "relative overflow-hidden pt-24 md:pt-32 pb-12 md:pb-16",
@@ -18045,7 +18050,7 @@ var dF = () => {
               whileInView: { opacity: 1, y: 0 },
               viewport: { once: true, margin: "-60px" },
               transition: { delay: n * 0.08, duration: 0.55 },
-              className: n === 0 ? "relative w-full border border-[#215fca] bg-gradient-to-br from-[#0e367f] via-[#174eaf] to-[#1f61d6] p-8 md:p-10 shadow-[0_24px_60px_rgba(25,78,175,0.24)] text-white overflow-hidden" : "relative w-full border border-[#1b3159] bg-[#09111d] p-8 md:p-10 shadow-[0_18px_48px_rgba(5,12,25,0.35)] text-white overflow-hidden",
+              className: n === 0 ? "relative w-full border border-white/15 bg-[#153F7A] p-8 md:p-10 text-white overflow-hidden" : "relative w-full border border-white/15 bg-[#0A1929] p-8 md:p-10 text-white overflow-hidden",
               style: n === 0 ? { borderRadius: "3rem" } : n === 2 ? { borderRadius: "3rem", gridColumn: "1 / -1" } : { borderRadius: "3rem" },
               children: [
                 x.jsx("h3", { className: "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 text-white whitespace-nowrap", children: t.title }),
@@ -18061,18 +18066,18 @@ var dF = () => {
 var MF2 = () => {
   const e6 = [
     { step: "STEP 01", title: "Connect your sources", description: "Your CRM, your files, your ops tools. If your business runs on it, Sentra reads it." },
-    { step: "STEP 02", title: "Structure what matters", description: "We build a clean picture of your customers, products, and deals. One version. Everyone's version." },
-    { step: "STEP 03", title: "Surface what's worth acting on", description: "Sentra connects the dots across everything you have and brings the ones that matter to the top." },
-    { step: "STEP 04", title: "Know why, not just what", description: "Every recommendation comes with a clear reason behind it. When someone asks why — you'll have a real answer." }
+    { step: "STEP 02", title: "One version. Everyone's version.", description: "We build a clean, structured picture of your customers, products, and deals. No more \"which sheet is the right one.\"" },
+    { step: "STEP 03", title: "What needs attention rises to the top.", description: "Sentra connects the dots across everything you have and surfaces the things that actually matter — not everything, just the right things." },
+    { step: "STEP 04", title: "Know why, not just what", description: "Every recommendation comes with a clear reason. When someone asks why in the next meeting, you'll have a real answer." }
   ], t = typeof window < "u" ? window.innerWidth >= 1180 : true;
   return x.jsxs("section", {
     className: "relative overflow-hidden",
-    style: { padding: t ? "96px 0 108px" : "64px 0 72px", background: "linear-gradient(180deg, #070b14 0%, #09111d 100%)" },
+    style: { padding: t ? "96px 0 108px" : "64px 0 72px", background: "#0F2D5C" },
     children: [
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          backgroundImage: "linear-gradient(rgba(72, 122, 255, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(72, 122, 255, 0.07) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)",
           backgroundSize: t ? "80px 80px" : "42px 42px",
           opacity: 0.68
         }
@@ -18080,7 +18085,7 @@ var MF2 = () => {
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          background: t ? "radial-gradient(circle at 31% 46%, rgba(54, 110, 255, 0.16), transparent 17%), radial-gradient(circle at 36% 55%, rgba(95, 164, 255, 0.10), transparent 13%), radial-gradient(circle at 42% 60%, rgba(54, 110, 255, 0.06), transparent 22%)" : "radial-gradient(circle at 50% 18%, rgba(54, 110, 255, 0.14), transparent 20%)"
+          background: t ? "radial-gradient(circle at 50% 0%, rgba(43, 127, 212, 0.10), transparent 24%)" : "radial-gradient(circle at 50% 0%, rgba(43, 127, 212, 0.08), transparent 20%)"
         }
       }),
       x.jsxs("div", {
@@ -18103,11 +18108,11 @@ var MF2 = () => {
                   }),
                   x.jsxs("h2", {
                     style: { margin: 0, color: "#eef4ff", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 700, fontSize: t ? "64px" : "52px", lineHeight: 0.92, letterSpacing: "-0.07em", maxWidth: t ? "430px" : "320px" },
-                    children: ["Four steps.", x.jsx("br", {}), "That's genuinely it."]
+                    children: ["From scattered data to a decision", x.jsx("br", {}), "you can defend. Four steps."]
                   }),
                   x.jsx("p", {
                     style: { margin: t ? "32px 0 0" : "24px 0 0", maxWidth: t ? "392px" : "620px", color: "#8f9db8", fontSize: t ? "16px" : "18px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 400 },
-                    children: "Sentra doesn't replace your judgment. It just means your judgment lands on something solid."
+                    children: "From scattered data to a decision you can defend. Four steps."
                   })
                 ]
               }),
@@ -18133,7 +18138,7 @@ var MF2 = () => {
                     children: [
                       x.jsx("div", { style: { display: "none" } }),
                       x.jsxs("div", {
-                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "36px", border: r === 0 ? "1px solid #215fca" : "1px solid #1b3159", background: r === 0 ? "linear-gradient(135deg, #0e367f 0%, #174eaf 56%, #1f61d6 100%)" : "#09111d", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: r === 0 ? "0 24px 60px rgba(25,78,175,0.24)" : "0 18px 48px rgba(5,12,25,0.35)", backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)", maxWidth: "100%", color: "#ffffff", overflow: "hidden" },
+                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: r === 0 ? "#153F7A" : "#0A1929", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: "none", maxWidth: "100%", color: "#ffffff", overflow: "hidden" },
                         children: [
                           x.jsxs("div", { style: { marginBottom: "28px" }, children: [
                             x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.72)" : "#8eb0f8", fontSize: t ? "15px" : "15px", lineHeight: 1, letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 }, children: n.step.replace("STEP ", "") })
@@ -18156,20 +18161,19 @@ var MF2 = () => {
 };
   var LF2 = () => {
     const e6 = [
-      { title: "Decisions that arrive ready", description: "Instead of waiting on a report, you get a clear next step with the context behind it. Already done." },
-      { title: "The thing you didn't know to ask", description: "Sentra doesn't just answer your questions. It brings up the ones you should've been asking." },
-      { title: "One truth. Every team.", description: "When everyone works from the same picture, \"whose numbers are these?\" stops being a meeting." },
-      { title: "A reason for every call", description: "Nothing is a black box. Every output is traceable. When someone pushes back — you're ready." }
+      { title: "Decisions that arrive ready.", description: "Instead of waiting on an analyst, you get a clear next step with the context already behind it." },
+      { title: "The question you didn't know to ask.", description: "Sentra doesn't just answer what you bring to it. It brings up the things you should've been looking at." },
+      { title: "One source of truth. Every team.", description: "When everyone works from the same picture, \"whose numbers are these?\" stops being a meeting." }
     ];
-    return x.jsx("section", { className: "section-padding relative overflow-hidden", children: x.jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-6", children: [x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, className: "max-w-5xl mb-12", children: [x.jsx("p", { className: "text-xs uppercase tracking-[0.24em] text-primary font-medium mb-4", children: "What you get" }), x.jsx("h2", { className: "text-4xl md:text-5xl lg:text-[4.25rem] font-bold mb-5 leading-[0.98] lg:whitespace-nowrap text-white", children: "What changes when decisions stop being hard." })] }), x.jsx("div", { className: "grid md:grid-cols-2 gap-6", children: e6.map((t, n) => x.jsxs(we.div, { initial: { opacity: 0, y: 26 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-80px" }, transition: { delay: n * 0.08, duration: 0.55 }, className: "relative p-8 md:p-10 overflow-hidden", style: n === 0 ? { borderRadius: "42px", border: "1px solid #215fca", background: "linear-gradient(135deg, #0e367f 0%, #174eaf 52%, #1f61d6 100%)", boxShadow: "0 24px 60px rgba(25,78,175,0.24)", color: "#ffffff" } : { borderRadius: "42px", border: "1px solid #1b3159", background: "#09111d", boxShadow: "0 18px 48px rgba(5,12,25,0.35)", color: "#ffffff" }, children: [x.jsx("h3", { className: "relative z-10 mb-5", style: { fontSize: "clamp(1.95rem, 2.8vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.08, color: "#ffffff", whiteSpace: "nowrap" }, children: t.title }), x.jsx("p", { className: "relative z-10", style: n === 0 ? { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "rgba(255,255,255,0.88)" } : { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#8f9db8" }, children: t.description })] }, t.title)) })] }) });
+    return x.jsx("section", { className: "section-padding relative overflow-hidden", children: x.jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-6", children: [x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, className: "max-w-5xl mb-12", children: [x.jsx("p", { className: "text-xs uppercase tracking-[0.24em] text-primary font-medium mb-4", children: "What you get" }), x.jsx("h2", { className: "text-4xl md:text-5xl lg:text-[4.25rem] font-bold mb-5 leading-[0.98] lg:whitespace-nowrap text-white", children: "What changes when decisions stop being hard." })] }), x.jsx("div", { className: "grid md:grid-cols-2 gap-6", children: e6.map((t, n) => x.jsxs(we.div, { initial: { opacity: 0, y: 26 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-80px" }, transition: { delay: n * 0.08, duration: 0.55 }, className: "relative p-8 md:p-10 overflow-hidden", style: n === 0 ? { borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: "#153F7A", boxShadow: "none", color: "#ffffff" } : { borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: "#0A1929", boxShadow: "none", color: "#ffffff" }, children: [x.jsx("h3", { className: "relative z-10 mb-5", style: { fontSize: "clamp(1.95rem, 2.8vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.08, color: "#ffffff", whiteSpace: "nowrap" }, children: t.title }), x.jsx("p", { className: "relative z-10", style: n === 0 ? { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "rgba(255,255,255,0.88)" } : { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#8f9db8" }, children: t.description })] }, t.title)) })] }) });
   };
   var P_ = () => {
     const { openDemoGate: e6 } = Co();
-    return x.jsxs("section", { className: "section-padding relative overflow-hidden", children: [x.jsx("div", { className: "absolute inset-0 gradient-mesh-strong" }), x.jsx("div", { className: "absolute inset-0 grid-pattern opacity-10" }), x.jsx("div", { className: "relative z-10 max-w-4xl mx-auto text-center", children: x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, children: [x.jsx("h2", { className: "text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight", children: "Your next big call is already somewhere in your data." }), x.jsx("p", { className: "text-muted-foreground text-base md:text-lg mb-12 max-w-2xl mx-auto", children: "Sentra just finds it before it costs you. Takes about 20 minutes to see it live." }), x.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-center", children: [x.jsxs("button", { onClick: () => e6(), className: "group inline-flex items-center gap-2 px-8 py-4 bg-primary text-primary-foreground font-medium rounded-xl hover:opacity-90 transition-opacity text-sm glow-md", children: ["Request a demo", x.jsx(qs, { className: "w-4 h-4 group-hover:translate-x-0.5 transition-transform" })] })] })] }) })] });
+    return x.jsxs("section", { className: "section-padding relative overflow-hidden", children: [x.jsx("div", { className: "absolute inset-0 gradient-mesh-strong" }), x.jsx("div", { className: "absolute inset-0 grid-pattern opacity-10" }), x.jsx("div", { className: "relative z-10 max-w-4xl mx-auto text-center", children: x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, children: [x.jsx("h2", { className: "text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight", children: "See what Sentra does for your org." }), x.jsx("p", { className: "text-muted-foreground text-base md:text-lg mb-12 max-w-2xl mx-auto", children: "One short session. No sales pitch. Just a look at what your data is already trying to tell you." }), x.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-center", children: [x.jsxs("button", { onClick: () => e6(), className: "group inline-flex items-center gap-2 px-8 py-4 bg-[#1A5FA8] text-white font-medium rounded-lg hover:bg-[#2B7FD4] transition-opacity text-sm", children: ["See what Sentra does for your org.", x.jsx(qs, { className: "w-4 h-4 group-hover:translate-x-0.5 transition-transform" })] }), x.jsxs(er, { to: "/contact", className: "group inline-flex items-center gap-2 px-8 py-4 bg-transparent border border-[rgba(255,255,255,0.18)] text-white font-medium rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-opacity text-sm", children: [x.jsx(YA, { className: "w-4 h-4" }), "Talk to us. No demo, no deck — just a conversation."] })] })] }) })] });
   };
   var rd = () => {
     return x.jsx("footer", {
-      className: "border-t border-border/30 bg-card/30 backdrop-blur-sm",
+      className: "border-t border-white/10 bg-[#0A1929]",
       children: x.jsxs("div", {
         className: "max-w-7xl mx-auto px-6 py-16",
         children: [
@@ -18190,11 +18194,11 @@ var MF2 = () => {
                           style: { width: "44px" },
                           children: x.jsx("img", { src: kf, alt: "Sentra", className: "h-12 w-12 object-contain", style: { width: "48px" } })
                         }),
-                        x.jsx("span", { className: "font-medium leading-none", style: { color: "#ffffff", fontSize: "36px", letterSpacing: "-0.035em" }, children: "Sentra" })
+                        x.jsx("span", { className: "font-medium leading-none", style: { color: "#ffffff", fontSize: "34px", letterSpacing: "-0.035em" }, children: "Sentra" })
                       ]
                     })
                   }),
-                  x.jsx("p", { className: "text-sm text-muted-foreground leading-relaxed", children: "Your data already knows the answer. We help you ask it right." })
+                  x.jsx("p", { className: "text-sm text-muted-foreground leading-relaxed", children: "Your company already has the answers. Sentra finds them before the meeting where everyone's guessing." })
                 ]
               }),
               x.jsxs("div", {
