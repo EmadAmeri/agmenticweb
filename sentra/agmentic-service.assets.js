@@ -21828,14 +21828,14 @@ var MF2 = () => {
   };
   var mV = () => {
     const e6 = _o();
-    return x.jsx("div", { className: "flex min-h-screen items-center justify-center bg-muted", children: x.jsxs("div", { className: "text-center", children: [x.jsx("h1", { className: "mb-4 text-4xl font-bold", children: "404" }), x.jsx("p", { className: "mb-4 text-xl text-muted-foreground", children: "Oops! Page not found" }), x.jsx("a", { href: "/", className: "text-primary underline hover:text-primary/90", children: "Return to Home" })] }) });
+    return x.jsx("div", { className: "flex min-h-screen items-center justify-center bg-muted", children: x.jsxs("div", { className: "text-center", children: [x.jsx("h1", { className: "mb-4 text-4xl font-bold", children: "404" }), x.jsx("p", { className: "mb-4 text-xl text-muted-foreground", children: "Oops! Page not found" }), x.jsx("a", { href: "/sentra/", className: "text-primary underline hover:text-primary/90", children: "Return to Home" })] }) });
   };
   var gV = new _2();
   var yV = typeof window < "u" && window.location.protocol === "file:" ? SN : bN;
   var vV = () => (b.useEffect(() => {
     localStorage.getItem("theme") === "light" ? document.documentElement.classList.remove("dark") : document.documentElement.classList.add("dark");
   }, []), null);
-  var wV = () => x.jsx(T2, { client: gV, children: x.jsxs(t2, { children: [x.jsx(vV, {}), x.jsx($R, {}), x.jsx(gO, {}), x.jsx(yV, { children: x.jsxs(CN, { children: [x.jsx(tF, {}), x.jsxs(pN, { children: [x.jsx(Ri, { path: "/", element: x.jsx(gF, {}) }), x.jsx(Ri, { path: "/product", element: x.jsx(vF, {}) }), x.jsx(Ri, { path: "/demo", element: x.jsx(dV, {}) }), x.jsx(Ri, { path: "/about", element: x.jsx(hV, {}) }), x.jsx(Ri, { path: "/contact", element: x.jsx(pV, {}) }), x.jsx(Ri, { path: "*", element: x.jsx(mV, {}) })] })] }) })] }) });
+  var wV = () => x.jsx(T2, { client: gV, children: x.jsxs(t2, { children: [x.jsx(vV, {}), x.jsx($R, {}), x.jsx(gO, {}), x.jsx(yV, { basename: "/sentra", children: x.jsxs(CN, { children: [x.jsx(tF, {}), x.jsxs(pN, { children: [x.jsx(Ri, { path: "/", element: x.jsx(gF, {}) }), x.jsx(Ri, { path: "/product", element: x.jsx(vF, {}) }), x.jsx(Ri, { path: "/demo", element: x.jsx(dV, {}) }), x.jsx(Ri, { path: "/about", element: x.jsx(hV, {}) }), x.jsx(Ri, { path: "/contact", element: x.jsx(pV, {}) }), x.jsx(Ri, { path: "*", element: x.jsx(mV, {}) })] })] }) })] }) });
   B1(document.getElementById("root")).render(x.jsx(wV, {}));
 })();
 /**
