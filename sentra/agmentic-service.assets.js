@@ -17906,7 +17906,7 @@ ${p}`;
 	              children: [
 	                x.jsxs(er, {
 	                  to: "/product",
-	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-white/80 border border-white/60 text-foreground font-medium text-sm rounded-xl hover:bg-white transition-all backdrop-blur-md",
+	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#0b1220]/88 border border-[#1d3768] text-white font-medium text-sm rounded-xl hover:bg-[#0f1830] transition-all backdrop-blur-md",
 	                  children: [x.jsx(YA, { className: "w-3.5 h-3.5" }), "Show me how it works"]
 	                }),
 	                x.jsxs("button", {
@@ -18000,7 +18000,7 @@ var dF = () => {
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          background: "linear-gradient(180deg, #fbfdff 0%, #f4f7ff 54%, #f9fbff 100%)"
+          background: "linear-gradient(180deg, #070b14 0%, #08101b 48%, #070b14 100%)"
         }
       }),
       x.jsxs("div", {
@@ -18008,15 +18008,15 @@ var dF = () => {
         children: [
           x.jsx("div", {
             className: "absolute rounded-full",
-            style: { left: "18%", top: "24%", width: "5rem", height: "5rem", filter: "blur(26px)", background: "radial-gradient(circle, rgba(142, 92, 255, 0.32) 0%, rgba(142, 92, 255, 0.08) 38%, rgba(142, 92, 255, 0) 72%)" }
+            style: { left: "18%", top: "24%", width: "5rem", height: "5rem", filter: "blur(26px)", background: "radial-gradient(circle, rgba(44, 116, 255, 0.28) 0%, rgba(44, 116, 255, 0.08) 38%, rgba(44, 116, 255, 0) 72%)" }
           }),
           x.jsx("div", {
             className: "absolute rounded-full",
-            style: { left: "41%", top: "37%", width: "4rem", height: "4rem", filter: "blur(24px)", background: "radial-gradient(circle, rgba(122, 87, 255, 0.26) 0%, rgba(122, 87, 255, 0.08) 34%, rgba(122, 87, 255, 0) 70%)" }
+            style: { left: "41%", top: "37%", width: "4rem", height: "4rem", filter: "blur(24px)", background: "radial-gradient(circle, rgba(88, 173, 255, 0.22) 0%, rgba(88, 173, 255, 0.08) 34%, rgba(88, 173, 255, 0) 70%)" }
           }),
           x.jsx("div", {
             className: "absolute rounded-full",
-            style: { right: "9%", top: "40%", width: "3.5rem", height: "3.5rem", filter: "blur(22px)", background: "radial-gradient(circle, rgba(124, 100, 255, 0.24) 0%, rgba(124, 100, 255, 0.07) 36%, rgba(124, 100, 255, 0) 72%)" }
+            style: { right: "9%", top: "40%", width: "3.5rem", height: "3.5rem", filter: "blur(22px)", background: "radial-gradient(circle, rgba(26, 88, 255, 0.22) 0%, rgba(26, 88, 255, 0.07) 36%, rgba(26, 88, 255, 0) 72%)" }
           })
         ]
       }),
@@ -18032,8 +18032,8 @@ var dF = () => {
             className: "flex flex-col justify-center pt-4",
             children: [
               x.jsx("p", { className: "text-xs uppercase tracking-[0.25em] text-primary font-medium mb-4", children: "The problem" }),
-              x.jsx("h2", { className: "text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-5 max-w-xl", children: "You have more data than ever. And fewer clear answers." }),
-              x.jsx("p", { className: "text-muted-foreground text-sm md:text-base leading-relaxed max-w-lg font-medium", children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })
+              x.jsx("h2", { className: "text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-5 max-w-xl text-white", children: "You have more data than ever. And fewer clear answers." }),
+              x.jsx("p", { className: "text-[#8f9db8] text-sm md:text-base leading-relaxed max-w-lg font-medium", children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })
             ]
           }),
           x.jsx("div", {
@@ -18044,11 +18044,11 @@ var dF = () => {
               whileInView: { opacity: 1, y: 0 },
               viewport: { once: true, margin: "-60px" },
               transition: { delay: n * 0.08, duration: 0.55 },
-              className: n === 0 ? "relative w-full border border-[#215fca] bg-gradient-to-br from-[#0e367f] via-[#174eaf] to-[#1f61d6] p-8 md:p-10 shadow-[0_24px_60px_rgba(25,78,175,0.24)] text-white overflow-hidden" : "relative w-full border border-[#dbe7fb] bg-white p-8 md:p-10 shadow-[0_18px_48px_rgba(73,108,170,0.10)] text-[#12204a] overflow-hidden",
+              className: n === 0 ? "relative w-full border border-[#215fca] bg-gradient-to-br from-[#0e367f] via-[#174eaf] to-[#1f61d6] p-8 md:p-10 shadow-[0_24px_60px_rgba(25,78,175,0.24)] text-white overflow-hidden" : "relative w-full border border-[#1b3159] bg-[#09111d] p-8 md:p-10 shadow-[0_18px_48px_rgba(5,12,25,0.35)] text-white overflow-hidden",
               style: n === 0 ? { borderRadius: "3rem" } : n === 2 ? { borderRadius: "3rem", gridColumn: "1 / -1" } : { borderRadius: "3rem" },
               children: [
-                x.jsx("h3", { className: n === 0 ? "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 text-white whitespace-nowrap" : "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 text-foreground whitespace-nowrap", children: t.title }),
-                x.jsx("p", { className: n === 0 ? "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-white/88 font-medium" : "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-[#657797] font-medium", style: { maxWidth: "28rem" }, children: t.description })
+                x.jsx("h3", { className: "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 text-white whitespace-nowrap", children: t.title }),
+                x.jsx("p", { className: n === 0 ? "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-white/88 font-medium" : "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-[#8f9db8] font-medium", style: { maxWidth: "28rem" }, children: t.description })
               ]
             }, t.title))
           })
@@ -18066,12 +18066,12 @@ var MF2 = () => {
   ], t = typeof window < "u" ? window.innerWidth >= 1180 : true;
   return x.jsxs("section", {
     className: "relative overflow-hidden",
-    style: { padding: t ? "96px 0 108px" : "64px 0 72px", background: "linear-gradient(180deg, #fbfdff 0%, #f6f9ff 100%)" },
+    style: { padding: t ? "96px 0 108px" : "64px 0 72px", background: "linear-gradient(180deg, #070b14 0%, #09111d 100%)" },
     children: [
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          backgroundImage: "linear-gradient(rgba(48, 88, 154, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(48, 88, 154, 0.05) 1px, transparent 1px)",
+          backgroundImage: "linear-gradient(rgba(72, 122, 255, 0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(72, 122, 255, 0.07) 1px, transparent 1px)",
           backgroundSize: t ? "80px 80px" : "42px 42px",
           opacity: 0.68
         }
@@ -18079,7 +18079,7 @@ var MF2 = () => {
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          background: t ? "radial-gradient(circle at 31% 46%, rgba(110, 149, 221, 0.18), transparent 17%), radial-gradient(circle at 36% 55%, rgba(110, 149, 221, 0.10), transparent 13%), radial-gradient(circle at 42% 60%, rgba(110, 149, 221, 0.06), transparent 22%)" : "radial-gradient(circle at 50% 18%, rgba(110, 149, 221, 0.14), transparent 20%)"
+          background: t ? "radial-gradient(circle at 31% 46%, rgba(54, 110, 255, 0.16), transparent 17%), radial-gradient(circle at 36% 55%, rgba(95, 164, 255, 0.10), transparent 13%), radial-gradient(circle at 42% 60%, rgba(54, 110, 255, 0.06), transparent 22%)" : "radial-gradient(circle at 50% 18%, rgba(54, 110, 255, 0.14), transparent 20%)"
         }
       }),
       x.jsxs("div", {
@@ -18101,11 +18101,11 @@ var MF2 = () => {
                     children: "How it works"
                   }),
                   x.jsxs("h2", {
-                    style: { margin: 0, color: "#0b1742", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 700, fontSize: t ? "64px" : "52px", lineHeight: 0.92, letterSpacing: "-0.07em", maxWidth: t ? "430px" : "320px" },
+                    style: { margin: 0, color: "#eef4ff", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 700, fontSize: t ? "64px" : "52px", lineHeight: 0.92, letterSpacing: "-0.07em", maxWidth: t ? "430px" : "320px" },
                     children: ["Four steps.", x.jsx("br", {}), "That's genuinely it."]
                   }),
                   x.jsx("p", {
-                    style: { margin: t ? "32px 0 0" : "24px 0 0", maxWidth: t ? "392px" : "620px", color: "#55637f", fontSize: t ? "16px" : "18px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 400 },
+                    style: { margin: t ? "32px 0 0" : "24px 0 0", maxWidth: t ? "392px" : "620px", color: "#8f9db8", fontSize: t ? "16px" : "18px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 400 },
                     children: "Sentra doesn't replace your judgment. It just means your judgment lands on something solid."
                   })
                 ]
@@ -18132,13 +18132,13 @@ var MF2 = () => {
                     children: [
                       x.jsx("div", { style: { display: "none" } }),
                       x.jsxs("div", {
-                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "36px", border: r === 0 ? "1px solid #215fca" : "1px solid #d7e4fb", background: r === 0 ? "linear-gradient(135deg, #0e367f 0%, #174eaf 56%, #1f61d6 100%)" : "#ffffff", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: r === 0 ? "0 24px 60px rgba(25,78,175,0.24)" : "0 18px 48px rgba(73,108,170,0.10)", backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)", maxWidth: "100%", color: r === 0 ? "#ffffff" : "#12204a", overflow: "hidden" },
+                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "36px", border: r === 0 ? "1px solid #215fca" : "1px solid #1b3159", background: r === 0 ? "linear-gradient(135deg, #0e367f 0%, #174eaf 56%, #1f61d6 100%)" : "#09111d", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: r === 0 ? "0 24px 60px rgba(25,78,175,0.24)" : "0 18px 48px rgba(5,12,25,0.35)", backdropFilter: "blur(10px)", WebkitBackdropFilter: "blur(10px)", maxWidth: "100%", color: "#ffffff", overflow: "hidden" },
                         children: [
                           x.jsxs("div", { style: { marginBottom: "28px" }, children: [
                             x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.72)" : "#8eb0f8", fontSize: t ? "15px" : "15px", lineHeight: 1, letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 }, children: n.step.replace("STEP ", "") })
                           ] }),
-                          x.jsx("h3", { style: { margin: "0 0 16px", color: r === 0 ? "#ffffff" : "#12204a", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600, fontSize: t ? "30px" : "28px", lineHeight: 1.08, letterSpacing: "-0.03em" }, children: n.title }),
-                          x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.88)" : "#657797", fontSize: t ? "16px" : "16px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 500, maxWidth: "36rem" }, children: n.description })
+                          x.jsx("h3", { style: { margin: "0 0 16px", color: "#ffffff", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600, fontSize: t ? "30px" : "28px", lineHeight: 1.08, letterSpacing: "-0.03em" }, children: n.title }),
+                          x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.88)" : "#8f9db8", fontSize: t ? "16px" : "16px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 500, maxWidth: "36rem" }, children: n.description })
                         ]
                       })
                     ]
@@ -18160,7 +18160,7 @@ var MF2 = () => {
       { title: "One truth. Every team.", description: "When everyone works from the same picture, \"whose numbers are these?\" stops being a meeting." },
       { title: "A reason for every call", description: "Nothing is a black box. Every output is traceable. When someone pushes back — you're ready." }
     ];
-    return x.jsx("section", { className: "section-padding relative overflow-hidden", children: x.jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-6", children: [x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, className: "max-w-5xl mb-12", children: [x.jsx("p", { className: "text-xs uppercase tracking-[0.24em] text-primary font-medium mb-4", children: "What you get" }), x.jsx("h2", { className: "text-4xl md:text-5xl lg:text-[4.25rem] font-bold mb-5 leading-[0.98] lg:whitespace-nowrap", children: "What changes when decisions stop being hard." })] }), x.jsx("div", { className: "grid md:grid-cols-2 gap-6", children: e6.map((t, n) => x.jsxs(we.div, { initial: { opacity: 0, y: 26 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-80px" }, transition: { delay: n * 0.08, duration: 0.55 }, className: "relative p-8 md:p-10 overflow-hidden", style: n === 0 ? { borderRadius: "42px", border: "1px solid #215fca", background: "linear-gradient(135deg, #0e367f 0%, #174eaf 52%, #1f61d6 100%)", boxShadow: "0 24px 60px rgba(25,78,175,0.24)", color: "#ffffff" } : { borderRadius: "42px", border: "1px solid #dbe7fb", background: "rgba(255,255,255,0.98)", boxShadow: "0 18px 48px rgba(73,108,170,0.10)", color: "#12204a" }, children: [x.jsx("h3", { className: "relative z-10 mb-5", style: n === 0 ? { fontSize: "clamp(1.95rem, 2.8vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.08, color: "#ffffff", whiteSpace: "nowrap" } : { fontSize: "clamp(1.95rem, 2.8vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.08, color: "#12204a", whiteSpace: "nowrap" }, children: t.title }), x.jsx("p", { className: "relative z-10", style: n === 0 ? { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "rgba(255,255,255,0.88)" } : { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#657797" }, children: t.description })] }, t.title)) })] }) });
+    return x.jsx("section", { className: "section-padding relative overflow-hidden", children: x.jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-6", children: [x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, className: "max-w-5xl mb-12", children: [x.jsx("p", { className: "text-xs uppercase tracking-[0.24em] text-primary font-medium mb-4", children: "What you get" }), x.jsx("h2", { className: "text-4xl md:text-5xl lg:text-[4.25rem] font-bold mb-5 leading-[0.98] lg:whitespace-nowrap text-white", children: "What changes when decisions stop being hard." })] }), x.jsx("div", { className: "grid md:grid-cols-2 gap-6", children: e6.map((t, n) => x.jsxs(we.div, { initial: { opacity: 0, y: 26 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-80px" }, transition: { delay: n * 0.08, duration: 0.55 }, className: "relative p-8 md:p-10 overflow-hidden", style: n === 0 ? { borderRadius: "42px", border: "1px solid #215fca", background: "linear-gradient(135deg, #0e367f 0%, #174eaf 52%, #1f61d6 100%)", boxShadow: "0 24px 60px rgba(25,78,175,0.24)", color: "#ffffff" } : { borderRadius: "42px", border: "1px solid #1b3159", background: "#09111d", boxShadow: "0 18px 48px rgba(5,12,25,0.35)", color: "#ffffff" }, children: [x.jsx("h3", { className: "relative z-10 mb-5", style: { fontSize: "clamp(1.95rem, 2.8vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.08, color: "#ffffff", whiteSpace: "nowrap" }, children: t.title }), x.jsx("p", { className: "relative z-10", style: n === 0 ? { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "rgba(255,255,255,0.88)" } : { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#8f9db8" }, children: t.description })] }, t.title)) })] }) });
   };
   var P_ = () => {
     const { openDemoGate: e6 } = Co();
