@@ -3,191 +3,119 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#8C4B43" />
-    <title>Sentra | Decisions backed by your data</title>
+    <meta name="theme-color" content="#080808" />
+    <title>Sentra V3 | Black + Ice + Lipstick</title>
     <meta
       name="description"
-      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+      content="Sentra landing concept v3 using a black, ice, and lipstick palette for a sharper, higher-contrast premium feel."
     />
-    <meta name="author" content="Agmentic" />
-
-    <meta property="og:title" content="Sentra | Decisions backed by your data" />
-    <meta
-      property="og:description"
-      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="./agmentic-mark-v2.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@agmentic" />
-    <meta
-      name="twitter:description"
-      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
-    />
-    <meta name="twitter:image" content="./agmentic-mark-v2.png" />
-    <link rel="icon" type="image/png" href="./agmentic-mark-v2.png" />
-    <link rel="apple-touch-icon" href="./agmentic-mark-v2.png" />
-
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
     />
-    <link rel="stylesheet" href="./agmentic-service.assets.css?v=20260402v3" />
-    <script>
-      document.documentElement.classList.add("dark");
-      try {
-        localStorage.setItem("theme", "dark");
-      } catch (e) {}
-    </script>
     <style>
-      :root,
-      .dark,
-      html.dark {
-        --background: 352 18% 8%;
-        --foreground: 220 25% 96%;
-        --card: 356 15% 16%;
-        --card-foreground: 220 25% 96%;
-        --popover: 356 15% 16%;
-        --popover-foreground: 220 25% 96%;
-        --primary: 7 35% 40%;
-        --primary-foreground: 220 25% 98%;
-        --secondary: 356 14% 20%;
-        --secondary-foreground: 220 18% 88%;
-        --muted: 8 10% 70%;
-        --muted-foreground: 8 10% 70%;
-        --accent: 356 14% 20%;
-        --accent-foreground: 220 25% 96%;
-        --border: 0 0% 100% / 0.18;
-        --input: 0 0% 100% / 0.18;
-        --ring: 7 35% 40%;
-        --surface: 356 15% 16%;
-        --glow: 7 35% 40%;
-        --glow-secondary: 8 34% 50%;
-        --cyan: 8 34% 50%;
+      :root {
+        --bg: #080808;
+        --surface: #111111;
+        --surface-soft: #161616;
+        --primary: #f0f0f0;
+        --accent: #e8194a;
+        --accent-soft: rgba(232,25,74,.14);
+        --muted: #a6a6a6;
+        --border: #1c1c1c;
       }
-
-      html,
+      * { box-sizing: border-box; }
       body {
-        background:
-          radial-gradient(circle at 50% 0%, rgba(169, 94, 85, 0.07), transparent 22%),
-          linear-gradient(180deg, #171112 0%, #171112 100%);
-        color: #eef4ff;
+        margin: 0;
+        font-family: "Manrope", sans-serif;
+        background: linear-gradient(180deg, #0b0b0b 0%, var(--bg) 100%);
+        color: var(--primary);
       }
-
-      body::selection {
-        background: rgba(169, 94, 85, 0.18);
-      }
-
-      nav {
-        background: #171112 !important;
-        background-image: none !important;
-        -webkit-backdrop-filter: none !important;
-        backdrop-filter: none !important;
-        border-bottom: 1px solid rgba(255,255,255,0.10) !important;
-      }
-
-      img[alt="Agmentic"] {
-        position: relative;
-        z-index: 2;
-        filter: brightness(1.15) contrast(1.1) saturate(1.05);
-      }
-
-      a.flex.items-center:has(img[alt="Agmentic"])::before,
-      a.flex.items-center.mb-4:has(img[alt="Sentra"])::before {
-        display: none !important;
-        content: none !important;
-      }
-
-      a.flex.items-center:has(img[alt="Agmentic"]),
-      a.flex.items-center.mb-4:has(img[alt="Sentra"]),
-      a.flex.items-center:has(img[alt="Agmentic"]) span,
-      a.flex.items-center.mb-4:has(img[alt="Sentra"]) span,
-      a.flex.items-center:has(img[alt="Agmentic"]) p,
-      a.flex.items-center.mb-4:has(img[alt="Sentra"]) p,
-      a.flex.items-center:has(img[alt="Agmentic"]) div,
-      a.flex.items-center.mb-4:has(img[alt="Sentra"]) div {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-        background: none !important;
-        background-image: none !important;
-      }
-
-      img[alt="Sentra"] {
-        position: relative;
-        z-index: 2;
-        filter: brightness(1.15) contrast(1.1) saturate(1.05);
-      }
-
-      .grid-pattern {
-        opacity: 0.08 !important;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) !important;
-      }
-
-      .gradient-mesh-strong {
-        background: radial-gradient(circle at 50% 0%, rgba(169, 94, 85, 0.05), transparent 20%) !important;
-      }
-
-      .glass-card-strong {
-        background: rgba(34, 28, 42, 0.72) !important;
-        border: 1px solid rgba(255, 255, 255, 0.16) !important;
-        box-shadow: none !important;
-      }
-
-      .glow-sm {
-        box-shadow: none !important;
-      }
-
-      .glow-md {
-        box-shadow: none !important;
-      }
-
-      .bg-card {
-        background-color: hsl(var(--card)) !important;
-      }
-
-      .bg-background {
-        background-color: hsl(var(--background)) !important;
-      }
-
-      .text-muted-foreground {
-        color: hsl(var(--muted-foreground)) !important;
-      }
-
-      .border-border {
-        border-color: hsl(var(--border)) !important;
-      }
-    
-      nav a.flex.items-center > div,
-      a.flex.items-center.mb-4 > div {
-        background: transparent !important;
-        background-image: none !important;
-        border: 0 !important;
-        box-shadow: none !important;
-        outline: none !important;
-      }
-
-      nav a.flex.items-center > div span,
-      a.flex.items-center.mb-4 > div span {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
-        background: none !important;
-        background-image: none !important;
-        -webkit-background-clip: border-box !important;
-        text-shadow: none !important;
-        font-size: 34px !important;
-        letter-spacing: -0.035em !important;
+      a { color: inherit; text-decoration: none; }
+      .page { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 52px; }
+      .versions { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px; font-size:.82rem; }
+      .versions a { padding:10px 14px; border:1px solid #2a2a2a; border-radius:999px; color:#b4b4b4; background:rgba(255,255,255,.02); }
+      .versions a.is-active { background:#f0f0f0; color:#080808; border-color:#f0f0f0; }
+      .palette-label { margin:0 0 10px; font-size:.68rem; letter-spacing:.28em; text-transform:uppercase; color:#7a7a7a; }
+      h1 { margin:0; font-size:clamp(2.2rem,5vw,4.2rem); line-height:.94; letter-spacing:-.06em; }
+      .intro { max-width:720px; margin:10px 0 24px; color:#8b8b8b; line-height:1.7; font-size:.95rem; }
+      .swatches { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; margin-bottom:22px; }
+      .chip { min-height:92px; padding:14px; border-radius:14px; border:1px solid #232323; background:#0e0e0e; display:flex; flex-direction:column; justify-content:flex-end; gap:4px; font-size:.72rem; color:#f0f0f0; }
+      .chip span { color:#8e8e8e; }
+      .chip.light { color:#111; border-color:#d8d8d8; }
+      .chip.accent { background:var(--accent); border-color:#e8194a; }
+      .card { background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:22px 22px 18px; box-shadow:none; }
+      .topbar,.hero,.stats { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:16px; }
+      .brand { grid-column:span 3; font-weight:800; letter-spacing:-.05em; }
+      .nav { grid-column:6 / span 4; display:flex; justify-content:center; gap:28px; font-size:.84rem; color:#7e7e7e; }
+      .cta { grid-column:11 / span 2; justify-self:end; padding:11px 16px; border-radius:9px; border:1px solid #4b4b4b; background:transparent; color:#f0f0f0; font-size:.82rem; font-weight:700; }
+      .hero { margin-top:54px; }
+      .hero-copy { grid-column:span 8; }
+      .eyebrow { margin:0 0 16px; font-size:.66rem; letter-spacing:.35em; text-transform:uppercase; color:#646464; }
+      .accent-word { color: var(--accent); }
+      .hero p { max-width:520px; margin:18px 0 0; line-height:1.75; color:#8d8d8d; font-size:.95rem; }
+      .actions { display:flex; gap:16px; align-items:center; margin-top:28px; }
+      .button-primary { padding:14px 20px; border-radius:8px; background:#f0f0f0; color:#111; font-weight:800; font-size:.88rem; }
+      .button-secondary { color:#676767; font-size:.88rem; }
+      .hero-aside { grid-column:span 4; align-self:end; }
+      .hero-panel { min-height:240px; border-radius:18px; border:1px dashed #2a2a2a; background:linear-gradient(180deg, rgba(232,25,74,.11), transparent 48%), var(--surface-soft); }
+      .divider { height:1px; background:#232323; margin:42px 0 18px; }
+      .stat { grid-column:span 4; }
+      .stat strong { display:block; font-size:clamp(1.8rem,4vw,2.2rem); letter-spacing:-.08em; }
+      .stat:first-child strong { color: var(--accent); }
+      .stat span { font-size:.78rem; color:#686868; }
+      @media (max-width:860px) {
+        .swatches { grid-template-columns:repeat(2,minmax(0,1fr)); }
+        .brand,.nav,.cta,.hero-copy,.hero-aside,.stat { grid-column:1 / -1; }
+        .nav { justify-content:flex-start; flex-wrap:wrap; gap:16px; }
+        .cta { justify-self:start; }
+        .hero { margin-top:34px; }
       }
     </style>
   </head>
-
   <body>
-    <div id="root"></div>
-    <script defer src="./agmentic-service.assets.js?v=20260402v3"></script>
+    <main class="page">
+      <nav class="versions">
+        <a href="/sentra/v1/">V1</a>
+        <a href="/sentra/v2/">V2</a>
+        <a class="is-active" href="/sentra/v3/">V3</a>
+        <a href="/sentra/v4/">V4</a>
+      </nav>
+      <p class="palette-label">03 — Mark</p>
+      <h1>Black + Ice + Lipstick</h1>
+      <p class="intro">A darker, sharper expression designed to feel premium and unmistakable. Best when the brand needs more contrast and more edge.</p>
+      <section class="swatches">
+        <div class="chip" style="background:#080808"><strong>#080808</strong><span>Background</span></div>
+        <div class="chip" style="background:#111111"><strong>#111111</strong><span>Surface</span></div>
+        <div class="chip light" style="background:#f0f0f0"><strong>#F0F0F0</strong><span>Primary text</span></div>
+        <div class="chip accent"><strong>#E8194A</strong><span>Lipstick</span></div>
+        <div class="chip light" style="background:#d8d8d8"><strong>#D8D8D8</strong><span>Ice secondary</span></div>
+        <div class="chip" style="background:#1c1c1c"><strong>#1C1C1C</strong><span>Border</span></div>
+      </section>
+      <section class="card">
+        <div class="topbar">
+          <div class="brand">sentra</div>
+          <div class="nav"><a href="#">Product</a><a href="#">Pricing</a><a href="#">About</a></div>
+          <a class="cta" href="#">Get access</a>
+        </div>
+        <div class="hero">
+          <div class="hero-copy">
+            <p class="eyebrow">Decision Intelligence</p>
+            <h1>The right call.<br />Before it <span class="accent-word">costs</span> you.</h1>
+            <p>One source of truth for every decision your leadership team makes. No guesswork. No conflicting spreadsheets.</p>
+            <div class="actions"><a class="button-primary" href="#">See Sentra</a><a class="button-secondary" href="#">Watch a 2-min demo</a></div>
+          </div>
+          <aside class="hero-aside"><div class="hero-panel"></div></aside>
+        </div>
+        <div class="divider"></div>
+        <div class="stats">
+          <div class="stat"><strong>3.4x</strong><span>faster decisions</span></div>
+          <div class="stat"><strong>140+</strong><span>mid-market teams</span></div>
+          <div class="stat"><strong>$0</strong><span>to get started</span></div>
+        </div>
+      </section>
+    </main>
   </body>
 </html>
