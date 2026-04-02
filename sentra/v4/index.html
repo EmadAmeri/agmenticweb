@@ -3,120 +3,234 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#b8121b" />
-    <title>Sentra V4 | Warm White + Deep Red</title>
+    <meta name="theme-color" content="#B8121B" />
+    <title>Sentra | Executive Signal</title>
     <meta
       name="description"
-      content="Sentra landing concept v4 using a warm white and deep red palette for a decisive, high-trust executive product surface."
+      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
     />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
-    />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" />
+    <link rel="stylesheet" href="../palette-landing.css?v=20260402b" />
     <style>
       :root {
         --bg: #f7f2ec;
-        --surface: #fffcfa;
-        --surface-soft: #fbf1f0;
-        --primary: #111111;
-        --accent: #b8121b;
-        --accent-soft: rgba(184,18,27,.12);
-        --muted: #999999;
-        --border: #e4ddd6;
+        --surface: rgba(255, 252, 250, 0.9);
+        --surface-strong: rgba(255, 252, 250, 0.97);
+        --text: #1f1718;
+        --muted: #7c6f71;
+        --line: rgba(184, 18, 27, 0.12);
+        --line-strong: rgba(184, 18, 27, 0.24);
+        --primary: #b8121b;
+        --primary-soft: rgba(184, 18, 27, 0.12);
+        --primary-deep: #241516;
+        --shadow: 0 28px 90px rgba(63, 21, 23, 0.12);
+        --chip-1: #fffdfa;
+        --chip-2: #b8121b;
+        --chip-3: #241516;
+        --chip-4: #f0d9dc;
+        --chip-5: #8e3a40;
+        --chip-6: #e4ddd6;
       }
-      * { box-sizing: border-box; }
       body {
-        margin: 0;
-        font-family: "Manrope", sans-serif;
-        background: linear-gradient(180deg, #fbf7f3 0%, var(--bg) 100%);
-        color: var(--primary);
-      }
-      a { color: inherit; text-decoration: none; }
-      .page { width: min(1120px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 52px; }
-      .versions { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:22px; font-size:.82rem; }
-      .versions a { padding:10px 14px; border:1px solid var(--border); border-radius:999px; color:#645b58; background:rgba(255,255,255,.55); }
-      .versions a.is-active { background:var(--primary); color:#fff; border-color:var(--primary); }
-      .palette-label { margin:0 0 10px; font-size:.68rem; letter-spacing:.28em; text-transform:uppercase; color:#b49496; }
-      h1 { margin:0; font-size:clamp(2.2rem,5vw,4.2rem); line-height:.94; letter-spacing:-.06em; }
-      .intro { max-width:720px; margin:10px 0 24px; color:#786d6d; line-height:1.7; font-size:.95rem; }
-      .swatches { display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:12px; margin-bottom:22px; }
-      .chip { min-height:92px; padding:14px; border-radius:14px; border:1px solid var(--border); background:var(--surface); display:flex; flex-direction:column; justify-content:flex-end; gap:4px; font-size:.72rem; }
-      .chip strong { font-size:.76rem; }
-      .chip span { color:#797979; }
-      .chip.dark { color:#fff; }
-      .chip.accent { background:var(--accent); color:#fff; border-color:#a10b13; }
-      .card { background:var(--surface); border:1px solid var(--border); border-radius:22px; padding:22px 22px 18px; box-shadow:0 20px 60px rgba(108, 53, 49, .06); }
-      .topbar,.hero,.stats { display:grid; grid-template-columns:repeat(12,minmax(0,1fr)); gap:16px; }
-      .brand { grid-column:span 3; font-weight:800; letter-spacing:-.05em; }
-      .nav { grid-column:6 / span 4; display:flex; justify-content:center; gap:28px; font-size:.84rem; color:#7c7272; }
-      .cta { grid-column:11 / span 2; justify-self:end; padding:11px 16px; border-radius:9px; background:var(--accent); color:#fff; font-size:.82rem; font-weight:700; }
-      .hero { margin-top:54px; }
-      .hero-copy { grid-column:span 8; }
-      .eyebrow { margin:0 0 16px; font-size:.66rem; letter-spacing:.35em; text-transform:uppercase; color:#b2a6a4; }
-      .accent-word { color: var(--accent); }
-      .hero p { max-width:520px; margin:18px 0 0; line-height:1.75; color:#786d6d; font-size:.95rem; }
-      .actions { display:flex; gap:16px; align-items:center; margin-top:28px; }
-      .button-primary { padding:14px 20px; border-radius:8px; background:var(--accent); color:#fff; font-weight:800; font-size:.88rem; }
-      .button-secondary { color:#9a8f8b; font-size:.88rem; }
-      .hero-aside { grid-column:span 4; align-self:end; }
-      .hero-panel { min-height:240px; border-radius:18px; border:1px dashed var(--border); background:linear-gradient(180deg, rgba(184,18,27,.1), transparent 48%), var(--surface-soft); }
-      .divider { height:1px; background:var(--border); margin:42px 0 18px; }
-      .stat { grid-column:span 4; }
-      .stat strong { display:block; font-size:clamp(1.8rem,4vw,2.2rem); letter-spacing:-.08em; }
-      .stat:first-child strong { color: var(--accent); }
-      .stat span { font-size:.78rem; color:#aaa095; }
-      @media (max-width:860px) {
-        .swatches { grid-template-columns:repeat(2,minmax(0,1fr)); }
-        .brand,.nav,.cta,.hero-copy,.hero-aside,.stat { grid-column:1 / -1; }
-        .nav { justify-content:flex-start; flex-wrap:wrap; gap:16px; }
-        .cta { justify-self:start; }
-        .hero { margin-top:34px; }
+        background:
+          radial-gradient(circle at top right, rgba(184, 18, 27, 0.12), transparent 22%),
+          radial-gradient(circle at left center, rgba(142, 58, 64, 0.08), transparent 24%),
+          linear-gradient(180deg, #fffdfa 0%, #f7f2ec 100%);
       }
     </style>
   </head>
   <body>
-    <main class="page">
-      <nav class="versions">
-        <a href="/sentra/v1/">V1</a>
-        <a href="/sentra/v2/">V2</a>
-        <a href="/sentra/v3/">V3</a>
+    <main class="page-shell">
+      <nav class="version-switch">
+        <a  href="/sentra/v1/">V1</a>
+        <a  href="/sentra/v2/">V2</a>
+        <a  href="/sentra/v3/">V3</a>
         <a class="is-active" href="/sentra/v4/">V4</a>
       </nav>
-      <p class="palette-label">04 — Decisive</p>
-      <h1>Warm White + Deep Red</h1>
-      <p class="intro">A warmer executive look that adds seriousness without going cold. The deeper red makes urgency feel intentional instead of aggressive.</p>
-      <section class="swatches">
-        <div class="chip" style="background:#f7f2ec"><strong>#F7F2EC</strong><span>Background</span></div>
-        <div class="chip" style="background:#fffcfa"><strong>#FFFCFA</strong><span>Surface</span></div>
-        <div class="chip dark" style="background:#111111"><strong>#111111</strong><span>Primary text</span></div>
-        <div class="chip accent"><strong>#B8121B</strong><span>Accent</span></div>
-        <div class="chip" style="background:#f8e3e8"><strong>#F8E3E8</strong><span>Tint</span></div>
-        <div class="chip" style="background:#e4ddd6"><strong>#E4DDD6</strong><span>Border</span></div>
-      </section>
-      <section class="card">
-        <div class="topbar">
-          <div class="brand">sentra</div>
-          <div class="nav"><a href="#">Product</a><a href="#">Pricing</a><a href="#">About</a></div>
-          <a class="cta" href="#">Get access</a>
-        </div>
-        <div class="hero">
-          <div class="hero-copy">
-            <p class="eyebrow">Decision Intelligence</p>
-            <h1>The right call.<br /><span class="accent-word">Before it costs</span><br />you.</h1>
-            <p>One source of truth for every decision your leadership team makes. No guesswork. No conflicting spreadsheets.</p>
-            <div class="actions"><a class="button-primary" href="#">See Sentra</a><a class="button-secondary" href="#">Watch a 2-min demo</a></div>
+
+      <section class="palette-ribbon" data-reveal>
+        <div class="palette-ribbon-top">
+          <div>
+            <p class="palette-kicker">04 — Decisive</p>
+            <h2 class="palette-title">Executive Signal</h2>
           </div>
-          <aside class="hero-aside"><div class="hero-panel"></div></aside>
+          <p class="palette-copy">Warm white, deep red, carbon ink, and blush tints for a sharper boardroom-ready narrative.</p>
         </div>
-        <div class="divider"></div>
-        <div class="stats">
-          <div class="stat"><strong>3.4x</strong><span>faster decisions</span></div>
-          <div class="stat"><strong>140+</strong><span>mid-market teams</span></div>
-          <div class="stat"><strong>$0</strong><span>to get started</span></div>
+        <div class="palette-swatches">
+          <div class="palette-swatch" style="--chip-bg: #FFFDFA; --chip-fg: #101c2c"><strong>#FFFDFA</strong><span>Warm White</span></div>
+          <div class="palette-swatch" style="--chip-bg: #B8121B; --chip-fg: #fff"><strong>#B8121B</strong><span>Deep Red</span></div>
+          <div class="palette-swatch" style="--chip-bg: #241516; --chip-fg: #fff"><strong>#241516</strong><span>Carbon Ink</span></div>
+          <div class="palette-swatch" style="--chip-bg: #F0D9DC; --chip-fg: #101c2c"><strong>#F0D9DC</strong><span>Warm Tint</span></div>
+          <div class="palette-swatch" style="--chip-bg: #8E3A40; --chip-fg: #fff"><strong>#8E3A40</strong><span>Support</span></div>
+          <div class="palette-swatch" style="--chip-bg: #E4DDD6; --chip-fg: #101c2c"><strong>#E4DDD6</strong><span>Border</span></div>
         </div>
       </section>
+
+      <header class="site-header" data-reveal>
+        <a class="brand" href="#top">
+          <span class="brand-mark">S</span>
+          <span>Sentra</span>
+        </a>
+        <nav class="main-nav">
+          <a href="#manifesto">Why it wins</a>
+          <a href="#system">How it works</a>
+          <a href="#footer">Get access</a>
+        </nav>
+      </header>
+
+      <section class="hero" id="top">
+        <div class="hero-copy" data-reveal>
+          <p class="eyebrow">Decision intelligence for operators</p>
+          <h1>The right call, <span class="hero-emphasis">before it costs</span> you.</h1>
+          <p class="hero-text">
+            Sentra pulls together your metrics, systems, notes, and team history so the next move is obvious before it becomes expensive.
+          </p>
+          <div class="hero-actions">
+            <a class="button button-primary" href="#footer">Request access</a>
+            <a class="button button-secondary" href="#system">See the system</a>
+          </div>
+        </div>
+
+        <div class="hero-panel" data-reveal>
+          <div class="panel-grid"></div>
+          <div class="signal-card">
+            <span class="signal-label">Live brief</span>
+            <strong>Revenue is holding, but margin risk is building in customer support and CAC.</strong>
+            <p>Sentra merges operating data with past decisions so leadership sees what changed, why it changed, and what to do next.</p>
+          </div>
+          <div class="trajectory">
+            <div class="trajectory-node">
+              <span>Signal</span>
+              <strong>Pipeline conversion slowed 11% in enterprise this month.</strong>
+            </div>
+            <div class="trajectory-node">
+              <span>Context</span>
+              <strong>Hiring freeze and longer approvals mirror Q2 patterns from last year.</strong>
+            </div>
+            <div class="trajectory-node">
+              <span>Action</span>
+              <strong>Reallocate spend to expansion and protect margin before forecast slips.</strong>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="logo-band" data-reveal>
+        <p>Built for leadership teams who need one coherent decision surface across finance, operations, commercial, and support.</p>
+      </section>
+
+      <section class="manifesto" id="manifesto">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">Why teams switch</p>
+          <h2>Clarity that compounds across the business.</h2>
+        </div>
+
+        <div class="manifesto-grid">
+          <article class="manifesto-card manifesto-dark" data-reveal>
+            <span class="card-index">01</span>
+            <h3>One source of operational truth</h3>
+            <p>Pull product, finance, CRM, and team inputs into a single leadership-grade view.</p>
+          </article>
+          <article class="manifesto-card manifesto-line" data-reveal>
+            <span class="card-index">02</span>
+            <h3>Context, not just dashboards</h3>
+            <p>Sentra layers history, decisions, and business nuance on top of raw reporting.</p>
+          </article>
+          <article class="manifesto-card" data-reveal>
+            <span class="card-index">03</span>
+            <h3>Faster alignment in the room</h3>
+            <p>Replace conflicting spreadsheets and fragmented opinions with a single shared brief.</p>
+          </article>
+          <article class="manifesto-card" data-reveal>
+            <span class="card-index">04</span>
+            <h3>Explainable recommendations</h3>
+            <p>Every suggested move traces back to the data, the trend, and the underlying business logic.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="system" id="system">
+        <div class="section-heading" data-reveal>
+          <p class="eyebrow">System flow</p>
+          <h2>How Sentra turns scattered data into decisive action.</h2>
+        </div>
+
+        <div class="system-flow">
+          <article class="flow-card" data-reveal>
+            <div class="flow-top">
+              <span class="flow-step">Step 01</span>
+              <h3>Ingest the operating picture</h3>
+            </div>
+            <p class="flow-lead">Bring in CRM, support, finance, and internal notes.</p>
+            <p>Sentra continuously assembles the business context leaders usually have to rebuild by hand.</p>
+          </article>
+
+          <article class="flow-card featured-flow" data-reveal>
+            <div class="flow-top">
+              <span class="flow-step">Step 02</span>
+              <h3>Interpret what matters</h3>
+            </div>
+            <p class="flow-lead">AI agents surface the deltas, dependencies, and likely causes.</p>
+            <ul class="flow-list">
+              <li>Detects unusual movement</li>
+              <li>Connects teams and timelines</li>
+              <li>Frames tradeoffs clearly</li>
+            </ul>
+          </article>
+
+          <article class="flow-card" data-reveal>
+            <div class="flow-top">
+              <span class="flow-step">Step 03</span>
+              <h3>Recommend the next move</h3>
+            </div>
+            <p class="flow-lead">Leadership gets one concise brief instead of ten disconnected updates.</p>
+            <p>That means faster calls, fewer surprises, and better use of executive time.</p>
+          </article>
+        </div>
+      </section>
+
+      <footer class="site-footer" id="footer" data-reveal>
+        <div class="footer-brand-block">
+          <div class="footer-brand">Sentra makes your next leadership decision easier to defend.</div>
+          <p>Decision intelligence for companies that have too much data to guess and too much at stake to wait.</p>
+        </div>
+
+        <div class="footer-links">
+          <div>
+            <span class="footer-label">Product</span>
+            <a href="#top">Overview</a>
+            <a href="#manifesto">Why Sentra</a>
+            <a href="#system">System</a>
+          </div>
+          <div>
+            <span class="footer-label">Company</span>
+            <a href="https://agmentic.com/">Agmentic</a>
+            <a href="mailto:hello@agmentic.com">hello@agmentic.com</a>
+            <a href="https://agmentic.com/sentra/">Main landing</a>
+          </div>
+          <div>
+            <span class="footer-label">Access</span>
+            <a href="mailto:hello@agmentic.com?subject=Sentra%20Access">Request invite</a>
+            <a href="mailto:hello@agmentic.com?subject=Sentra%20Demo">Book demo</a>
+            <a href="/sentra/">Live site</a>
+          </div>
+        </div>
+
+        <div class="footer-meta">
+          <span>Sentra by Agmentic</span>
+          <span>Leadership operating system for decision intelligence</span>
+        </div>
+      </footer>
     </main>
+    <script>
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) entry.target.classList.add('is-visible');
+        });
+      }, { threshold: 0.12 });
+      document.querySelectorAll('[data-reveal]').forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>
