@@ -12,23 +12,81 @@
     <link rel="stylesheet" href="../palette-landing.css?v=20260402-iran" />
     <style>
       :root {
-        --bg: #f4f0e8;
-        --surface: rgba(253, 252, 248, 0.88);
-        --surface-strong: rgba(253, 252, 248, 0.96);
+        --bg: #ffffff;
+        --surface: rgba(255, 255, 255, 0.94);
+        --surface-strong: rgba(255, 255, 255, 0.98);
         --text: #111111;
-        --muted: #8f8f8f;
-        --line: rgba(224, 219, 208, 0.92);
-        --line-strong: rgba(237, 210, 8, 0.24);
-        --primary: #edd208;
-        --primary-soft: rgba(237, 210, 8, 0.14);
+        --muted: #6f6f6f;
+        --line: rgba(230, 230, 230, 0.98);
+        --line-strong: rgba(237, 210, 8, 0.32);
+        --primary: #efd208;
+        --primary-soft: rgba(239, 210, 8, 0.16);
         --primary-deep: #111111;
-        --shadow: 0 24px 70px rgba(42, 34, 16, 0.08);
+        --shadow: 0 18px 48px rgba(17, 17, 17, 0.06);
         --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cg fill='none' stroke='%23111111' stroke-opacity='0.08' stroke-width='1.08'%3E%3Cpath d='M88 194c8-36 36-55 36-91 0-25-18-41-39-41-28 0-45 20-45 47 0 18 7 34 21 46 11 9 20 20 27 39z'/%3E%3Cpath d='M192 212c7-27 28-41 28-68 0-19-14-31-30-31-20 0-33 15-33 35 0 14 5 25 16 34 8 7 14 15 19 30z'/%3E%3Cpath d='M94 92c12 8 20 20 23 34'/%3E%3Cpath d='M188 135c10 7 16 16 19 28'/%3E%3C/g%3E%3C/svg%3E");
       }
       body {
         background:
-          radial-gradient(circle at top right, rgba(237, 210, 8, 0.16), transparent 24%),
-          linear-gradient(180deg, #fffdf9 0%, #f4f0e8 100%);
+          radial-gradient(circle at top right, rgba(239, 210, 8, 0.12), transparent 24%),
+          linear-gradient(180deg, #ffffff 0%, #fffdf8 100%);
+      }
+      .version-switch a,
+      .site-header,
+      .palette-ribbon,
+      .logo-band,
+      .manifesto-card,
+      .flow-card,
+      .hero-panel,
+      .trajectory-node {
+        background: rgba(255, 255, 255, 0.96);
+        border-color: rgba(230, 230, 230, 0.98);
+      }
+      .version-switch a.is-active {
+        background: #efd208;
+        color: #111111;
+      }
+      .brand-mark {
+        background: #efd208;
+        color: #111111;
+      }
+      .button-primary {
+        background: #efd208;
+        color: #111111;
+        box-shadow: 0 18px 32px rgba(239, 210, 8, 0.24);
+      }
+      .button-secondary {
+        background: #ffffff;
+        color: #111111;
+      }
+      .hero-emphasis,
+      .eyebrow,
+      .palette-kicker,
+      .trajectory-node::before {
+        color: #d8ba17;
+      }
+      .hero-panel {
+        background: linear-gradient(180deg, #ffffff 0%, #fffdf8 100%);
+      }
+      .signal-card {
+        background: #ffffff;
+        color: #111111;
+        border: 1px solid rgba(230, 230, 230, 0.98);
+        box-shadow: 0 16px 34px rgba(17, 17, 17, 0.05);
+      }
+      .signal-card p,
+      .signal-label,
+      .manifesto-dark p,
+      .manifesto-dark .card-index {
+        color: #5f5f5f;
+      }
+      .signal-label,
+      .card-index,
+      .flow-step {
+        color: #d8ba17;
+      }
+      .manifesto-dark {
+        background: #fff8cf;
+        color: #111111;
       }
     </style>
   </head>
