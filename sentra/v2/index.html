@@ -13,12 +13,12 @@
     <style>
       :root {
         --bg: #111111;
-        --surface: rgba(17, 17, 17, 0.94);
-        --surface-strong: rgba(17, 17, 17, 0.98);
+        --surface: #111111;
+        --surface-strong: #111111;
         --text: #ffffff;
-        --muted: rgba(255, 255, 255, 0.72);
-        --line: rgba(255, 255, 255, 0.12);
-        --line-strong: rgba(237, 210, 8, 0.34);
+        --muted: #ffffff;
+        --line: rgba(255, 255, 255, 0.14);
+        --line-strong: rgba(237, 210, 8, 0.40);
         --primary: #edd208;
         --primary-soft: rgba(237, 210, 8, 0.16);
         --primary-deep: #111111;
@@ -38,31 +38,33 @@
       .flow-card,
       .hero-panel,
       .trajectory-node {
-        background: rgba(17, 17, 17, 0.96);
+        background: #111111;
         border-color: rgba(255, 255, 255, 0.12);
         color: #ffffff;
       }
       .button-primary {
-        background: #edd208;
-        color: #111111;
-        box-shadow: 0 18px 32px rgba(237, 210, 8, 0.28);
+        background: #111111;
+        color: #ffffff;
+        border: 1px solid #edd208;
+        box-shadow: 0 18px 32px rgba(237, 210, 8, 0.18);
       }
       .button-secondary {
         background: #111111;
         color: #ffffff;
-        border-color: rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.18);
       }
       .hero-panel {
-        background: linear-gradient(180deg, #151515 0%, #111111 100%);
+        background: #111111;
       }
       .signal-card {
-        background: #edd208;
-        color: #111111;
-        box-shadow: 0 20px 40px rgba(237, 210, 8, 0.18);
+        background: #111111;
+        color: #ffffff;
+        border: 1px solid #edd208;
+        box-shadow: 0 20px 40px rgba(237, 210, 8, 0.12);
       }
       .signal-card p,
       .signal-label {
-        color: rgba(17, 17, 17, 0.72);
+        color: #ffffff;
       }
       .signal-label,
       .card-index,
@@ -75,8 +77,9 @@
       }
       .brand-mark,
       .version-switch a.is-active {
-        background: #edd208;
-        color: #111111;
+        background: #111111;
+        color: #ffffff;
+        border: 1px solid #edd208;
       }
       .main-nav,
       .palette-copy,
@@ -86,15 +89,26 @@
       .flow-card p,
       .footer-brand-block p,
       .trajectory-node span {
-        color: rgba(255, 255, 255, 0.72);
+        color: #ffffff;
       }
       .manifesto-dark {
-        background: #edd208;
-        color: #111111;
+        background: #111111;
+        color: #ffffff;
+        border: 1px solid #edd208;
       }
       .manifesto-dark p,
       .manifesto-dark .card-index {
-        color: rgba(17, 17, 17, 0.72);
+        color: #ffffff;
+      }
+      .palette-ribbon,
+      .site-header,
+      .logo-band,
+      .manifesto-card,
+      .flow-card,
+      .hero-panel,
+      .trajectory-node,
+      .version-switch a {
+        box-shadow: none;
       }
     </style>
   </head>
