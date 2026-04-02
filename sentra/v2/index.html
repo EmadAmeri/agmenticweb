@@ -3,8 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#E3C64B" />
-    <title>Sentra | Deep Indigo & Teal Authority</title>
+    <meta name="theme-color" content="#111111" />
+    <title>Sentra | Black &amp; Yellow Authority</title>
     <meta name="description" content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive." />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,24 +12,89 @@
     <link rel="stylesheet" href="../palette-landing.css?v=20260402-iran" />
     <style>
       :root {
-        --bg: #0a0f1c;
-        --surface: rgba(26, 35, 56, 0.9);
-        --surface-strong: rgba(26, 35, 56, 0.96);
-        --text: #f5f7fa;
-        --muted: #a3b8d1;
-        --line: rgba(163, 184, 209, 0.14);
-        --line-strong: rgba(227, 198, 75, 0.30);
-        --primary: #e3c64b;
-        --primary-soft: rgba(227, 198, 75, 0.16);
-        --primary-deep: #1c2b5f;
-        --shadow: 0 28px 90px rgba(6, 16, 36, 0.36);
+        --bg: #111111;
+        --surface: rgba(17, 17, 17, 0.94);
+        --surface-strong: rgba(17, 17, 17, 0.98);
+        --text: #ffffff;
+        --muted: rgba(255, 255, 255, 0.72);
+        --line: rgba(255, 255, 255, 0.12);
+        --line-strong: rgba(237, 210, 8, 0.34);
+        --primary: #edd208;
+        --primary-soft: rgba(237, 210, 8, 0.16);
+        --primary-deep: #111111;
+        --shadow: 0 28px 90px rgba(0, 0, 0, 0.42);
         --pattern: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='280' height='280' viewBox='0 0 280 280'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.34' stroke-width='1.05'%3E%3Ccircle cx='140' cy='140' r='34'/%3E%3Cpath d='M140 54l12 34 34 12-34 12-12 34-12-34-34-12 34-12z'/%3E%3Cpath d='M140 134l46-46M140 134l-46-46M140 146l46 46M140 146l-46 46'/%3E%3Ccircle cx='140' cy='140' r='88'/%3E%3C/g%3E%3C/svg%3E");
       }
       body {
         background:
-          radial-gradient(circle at top right, rgba(227, 198, 75, 0.16), transparent 24%),
-          radial-gradient(circle at left center, rgba(10, 124, 126, 0.12), transparent 22%),
-          linear-gradient(180deg, #10172b 0%, #0a0f1c 100%);
+          radial-gradient(circle at top right, rgba(237, 210, 8, 0.14), transparent 24%),
+          linear-gradient(180deg, #1a1a1a 0%, #111111 100%);
+      }
+      .version-switch a,
+      .site-header,
+      .palette-ribbon,
+      .logo-band,
+      .manifesto-card,
+      .flow-card,
+      .hero-panel,
+      .trajectory-node {
+        background: rgba(17, 17, 17, 0.96);
+        border-color: rgba(255, 255, 255, 0.12);
+        color: #ffffff;
+      }
+      .button-primary {
+        background: #edd208;
+        color: #111111;
+        box-shadow: 0 18px 32px rgba(237, 210, 8, 0.28);
+      }
+      .button-secondary {
+        background: #111111;
+        color: #ffffff;
+        border-color: rgba(255, 255, 255, 0.18);
+      }
+      .hero-panel {
+        background: linear-gradient(180deg, #151515 0%, #111111 100%);
+      }
+      .signal-card {
+        background: #edd208;
+        color: #111111;
+        box-shadow: 0 20px 40px rgba(237, 210, 8, 0.18);
+      }
+      .signal-card p,
+      .signal-label {
+        color: rgba(17, 17, 17, 0.72);
+      }
+      .signal-label,
+      .card-index,
+      .flow-step,
+      .eyebrow,
+      .palette-kicker,
+      .hero-emphasis,
+      .trajectory-node::before {
+        color: #edd208;
+      }
+      .brand-mark,
+      .version-switch a.is-active {
+        background: #edd208;
+        color: #111111;
+      }
+      .main-nav,
+      .palette-copy,
+      .hero-text,
+      .logo-band p,
+      .manifesto-card p,
+      .flow-card p,
+      .footer-brand-block p,
+      .trajectory-node span {
+        color: rgba(255, 255, 255, 0.72);
+      }
+      .manifesto-dark {
+        background: #edd208;
+        color: #111111;
+      }
+      .manifesto-dark p,
+      .manifesto-dark .card-index {
+        color: rgba(17, 17, 17, 0.72);
       }
     </style>
   </head>
@@ -48,17 +113,17 @@
         <div class="palette-ribbon-top">
           <div>
             <p class="palette-kicker">02 — Authority</p>
-            <h2 class="palette-title">Deep Indigo &amp; Yellow Authority</h2>
+            <h2 class="palette-title">Black &amp; Yellow Authority</h2>
           </div>
-          <p class="palette-copy">Deep indigo structure with yellow used as the key signal for actions and emphasis, keeping the interface authoritative while making important decisions pop faster.</p>
+          <p class="palette-copy">A stripped-back enterprise palette using only black, yellow, and white text so every action and signal reads with maximum contrast.</p>
         </div>
         <div class="palette-swatches">
-          <div class="palette-swatch" style="--chip-bg: #0A0F1C; --chip-fg: #fff"><strong>#0A0F1C</strong><span>Background</span></div>
-          <div class="palette-swatch" style="--chip-bg: #1A2338; --chip-fg: #fff"><strong>#1A2338</strong><span>Surface / Card</span></div>
-          <div class="palette-swatch" style="--chip-bg: #1C2B5F; --chip-fg: #fff"><strong>#1C2B5F</strong><span>Deep Indigo</span></div>
-          <div class="palette-swatch" style="--chip-bg: #006D77; --chip-fg: #fff"><strong>#006D77</strong><span>Support Teal</span></div>
-          <div class="palette-swatch" style="--chip-bg: #E3C64B; --chip-fg: #0A0F1C"><strong>#E3C64B</strong><span>Primary Highlight</span></div>
-          <div class="palette-swatch" style="--chip-bg: #A3B8D1; --chip-fg: #0A0F1C"><strong>#A3B8D1</strong><span>Secondary Text</span></div>
+          <div class="palette-swatch" style="--chip-bg: #111111; --chip-fg: #fff"><strong>#111111</strong><span>Background</span></div>
+          <div class="palette-swatch" style="--chip-bg: #1A1A1A; --chip-fg: #fff"><strong>#1A1A1A</strong><span>Surface</span></div>
+          <div class="palette-swatch" style="--chip-bg: #EDD208; --chip-fg: #111111"><strong>#EDD208</strong><span>Primary Accent</span></div>
+          <div class="palette-swatch" style="--chip-bg: #FFFFFF; --chip-fg: #111111"><strong>#FFFFFF</strong><span>Text</span></div>
+          <div class="palette-swatch" style="--chip-bg: #111111; --chip-fg: #fff"><strong>#111111</strong><span>Hero Base</span></div>
+          <div class="palette-swatch" style="--chip-bg: #EDD208; --chip-fg: #111111"><strong>#EDD208</strong><span>CTA / Highlight</span></div>
         </div>
       </section>
 
