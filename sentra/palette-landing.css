@@ -304,13 +304,25 @@ img, svg { display: block; }
   overflow: hidden;
   padding: 24px;
   background:
-    radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 22%, transparent), transparent 26%),
     linear-gradient(160deg, rgba(255, 255, 255, 0.96), color-mix(in srgb, var(--primary) 8%, white));
   border: 1px solid rgba(255, 255, 255, 0.82);
   box-shadow: var(--shadow);
   min-height: 520px;
   display: flex;
   flex-direction: column;
+}
+
+.hero-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at top right, color-mix(in srgb, var(--primary) 18%, transparent), transparent 28%),
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='320' height='320' viewBox='0 0 320 320'%3E%3Cg fill='none' stroke='%23ffffff' stroke-opacity='0.42' stroke-width='1.1'%3E%3Cpath d='M160 52c18 0 34 16 34 34s-16 34-34 34-34-16-34-34 16-34 34-34z'/%3E%3Cpath d='M160 24l18 28 34 8-24 26 4 36-32-14-32 14 4-36-24-26 34-8z'/%3E%3Cpath d='M160 198c18 0 34 16 34 34s-16 34-34 34-34-16-34-34 16-34 34-34z'/%3E%3Cpath d='M160 170l18 28 34 8-24 26 4 36-32-14-32 14 4-36-24-26 34-8z'/%3E%3Cpath d='M62 111l18 28 34 8-24 26 4 36-32-14-32 14 4-36-24-26 34-8z'/%3E%3Cpath d='M258 111l18 28 34 8-24 26 4 36-32-14-32 14 4-36-24-26 34-8z'/%3E%3C/g%3E%3C/svg%3E");
+  background-size: auto, 260px 260px;
+  background-position: top right, center;
+  opacity: 0.18;
+  pointer-events: none;
 }
 
 .panel-grid {
