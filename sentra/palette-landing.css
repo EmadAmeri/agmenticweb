@@ -91,7 +91,7 @@ svg {
   padding: 10px 14px;
   border-radius: 999px;
   border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.58);
+  background: rgba(255, 255, 255, 0.72);
   color: var(--muted);
   font-size: 0.85rem;
 }
@@ -342,7 +342,7 @@ svg {
 }
 
 .button-secondary {
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.68);
   border: 1px solid var(--line);
 }
 
@@ -424,7 +424,7 @@ svg {
   align-items: center;
   padding: 14px 16px;
   border-radius: var(--radius-md);
-  background: rgba(255, 255, 255, 0.76);
+  background: rgba(255, 255, 255, 0.92);
   border: 1px solid rgba(255, 255, 255, 0.92);
 }
 
