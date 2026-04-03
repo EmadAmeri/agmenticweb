@@ -18043,18 +18043,18 @@ var dF = () => {
             ]
           }),
           x.jsx("div", {
-            className: "grid w-full grid-cols-1 gap-6 justify-items-stretch",
-            style: { maxWidth: "860px", marginTop: "24px", paddingTop: "24px", paddingBottom: "24px" },
+            className: "grid w-full grid-cols-1 md:grid-cols-2 gap-6 items-stretch",
+            style: { maxWidth: "860px", marginTop: "12px", paddingTop: "12px", paddingBottom: "12px" },
             children: e6.map((t, n) => x.jsxs(we.div, {
               initial: { opacity: 0, y: 24 },
               whileInView: { opacity: 1, y: 0 },
               viewport: { once: true, margin: "-60px" },
               transition: { delay: n * 0.08, duration: 0.55 },
-              className: n === 0 ? "relative w-full border border-white/15 bg-[#13203A] p-8 md:p-10 text-[#F5F1E8] overflow-hidden" : "relative w-full border border-white/15 bg-[#842029] p-8 md:p-10 text-[#F5F1E8] overflow-hidden",
-              style: n === 0 ? { borderRadius: "3rem" } : n === 2 ? { borderRadius: "3rem", gridColumn: "1 / -1" } : { borderRadius: "3rem" },
+              className: n === 0 ? "relative w-full border border-white/15 bg-[#13203A] p-8 md:p-10 text-[#F5F1E8] overflow-hidden md:col-span-2" : "relative w-full border border-white/15 bg-[#842029] p-8 md:p-9 text-[#F5F1E8] overflow-hidden",
+              style: { borderRadius: "2rem", minHeight: n === 0 ? "0" : "260px" },
               children: [
-                x.jsx("h3", { className: "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 whitespace-nowrap", style: { color: "#F5F1E8" }, children: t.title }),
-                x.jsx("p", { className: "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] font-medium", style: { maxWidth: "28rem", color: "#F5F1E8" }, children: t.description })
+                x.jsx("h3", { className: "relative z-10 text-[1.7rem] md:text-[1.85rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5", style: { color: "#F5F1E8", maxWidth: n === 0 ? "34rem" : "24rem" }, children: t.title }),
+                x.jsx("p", { className: "relative z-10 text-[1rem] md:text-[1.04rem] leading-[1.8] font-medium", style: { maxWidth: n === 0 ? "40rem" : "24rem", color: "#F5F1E8" }, children: t.description })
               ]
             }, t.title))
           })
