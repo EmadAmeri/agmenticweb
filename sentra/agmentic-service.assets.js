@@ -17667,12 +17667,12 @@ ${p}`;
     }, className: "block text-sm font-medium text-primary py-2", children: "Request Demo" })] })] })] });
   };
   var mh = ["Sales", "Marketing", "Product", "Finance", "Strategy"];
-  var gh = ["19, 32, 58", "19, 32, 58", "19, 32, 58", "19, 32, 58", "19, 32, 58"];
-  var yh = ["19, 32, 58", "19, 32, 58", "19, 32, 58", "19, 32, 58", "19, 32, 58"];
+  var gh = ["132, 32, 41", "19, 32, 58", "23, 70, 50", "19, 32, 58", "132, 32, 41"];
+  var yh = ["132, 32, 41", "19, 32, 58", "23, 70, 50", "19, 32, 58", "23, 70, 50"];
   var rF = "19, 32, 58";
   var iF = "19, 32, 58";
-  var sF = "19, 32, 58";
-  var oF = "19, 32, 58";
+  var sF = "132, 32, 41";
+  var oF = "23, 70, 50";
   var Ti = 40;
   var vh = [Math.PI * 0.01, 0, 0, 0, 0];
   function Cw() {
@@ -17883,7 +17883,7 @@ ${p}`;
 	                initial: { opacity: 0, x: -40 },
 	                animate: { opacity: 1, x: 0 },
 	                transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-	                className: "flex flex-col items-start rounded-[12px] bg-[#F5F1E8]/95 border border-[rgba(107,111,118,0.28)] px-10 py-10 md:px-12 md:py-12",
+	                className: "flex flex-col items-start rounded-[12px] bg-[#F5F1E8]/95 px-10 py-10 md:px-12 md:py-12",
 	                children: [
 	                  x.jsxs("h1", {
 	                    className: "text-3xl md:text-5xl lg:text-[3.55rem] font-sans font-semibold leading-[1.02] mb-5 tracking-[-0.045em] text-left",
@@ -17927,7 +17927,7 @@ ${p}`;
       ]
     });
   };
-  var Lr = [{ label: "Sales", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.18)", size: 28 }, { label: "Finance", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 26 }, { label: "Ops", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.14)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 27 }, { label: "Strategy", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 25 }];
+  var Lr = [{ label: "Sales", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#842029", glowColor: "rgba(132,32,41,0.18)", size: 28 }, { label: "Finance", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 26 }, { label: "Ops", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#174632", glowColor: "rgba(23,70,50,0.16)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 27 }, { label: "Strategy", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#842029", glowColor: "rgba(132,32,41,0.16)", size: 25 }];
   var cF = () => {
     const e6 = b.useRef(null), t = b.useRef(0), n = b.useRef([]), r = b.useRef([]), i = b.useRef(Lr.map((u) => u.angle * Math.PI / 180)), s = b.useRef(0), o = b.useRef(0), a = b.useCallback((u) => {
       n.current = Array.from({ length: u }, () => ({ x: Math.random(), y: Math.random(), size: Math.random() * 1.5 + 0.3, opacity: Math.random() * 0.6 + 0.1, twinkleSpeed: Math.random() * 2 + 1, twinkleOffset: Math.random() * Math.PI * 2 }));
