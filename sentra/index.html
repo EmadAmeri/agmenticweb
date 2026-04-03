@@ -554,6 +554,20 @@
         border-color: #842029 !important;
       }
 
+      @media (min-width: 1180px) {
+        section.relative.overflow-hidden:not([class*="pt-24"]):not([class*="section-padding"]) > div.relative.z-10.max-w-7xl.mx-auto > div:first-child {
+          grid-template-columns: minmax(0, 1fr) 340px !important;
+        }
+
+        section.relative.overflow-hidden:not([class*="pt-24"]):not([class*="section-padding"]) > div.relative.z-10.max-w-7xl.mx-auto > div:first-child > :first-child {
+          order: 2 !important;
+        }
+
+        section.relative.overflow-hidden:not([class*="pt-24"]):not([class*="section-padding"]) > div.relative.z-10.max-w-7xl.mx-auto > div:first-child > :last-child {
+          order: 1 !important;
+        }
+      }
+
       footer,
       footer.bg-\[\#0F1417\] {
         background: #13203A !important;
@@ -583,6 +597,6 @@
 
   <body>
     <div id="root"></div>
-    <script defer src="./agmentic-service.assets.js?v=20260403-g7u"></script>
+    <script defer src="./agmentic-service.assets.js?v=20260403-g7v"></script>
   </body>
 </html>
