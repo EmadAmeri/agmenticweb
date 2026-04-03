@@ -17606,14 +17606,11 @@ ${p}`;
     return n ? parseInt(n[1], 10) <= 18 : false;
   }
   Y5();
-  var Q5 = "https://rdhtsmvocrrcfhurweby.supabase.co";
-  var J5 = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJkaHRzbXZvY3JyY2ZodXJ3ZWJ5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzI4MTAyOTgsImV4cCI6MjA4ODM4NjI5OH0.L9_blRMQscCnWNFG9Bzs4oGnNDMhVthpoEVCZ0tYHx8";
-  var vl = G5(Q5, J5, { auth: { storage: localStorage, persistSession: true, autoRefreshToken: true } });
+  var Q5 = "/api/sentra-demo-access";
   async function Ew(e6) {
     try {
-      const { data: t, error: n } = await vl.functions.invoke("send-demo-access", { body: { email: e6 } });
-      if (n) throw n;
-      return t != null && t.error ? { success: false, error: t.error } : { success: true };
+      const t = await fetch(Q5, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ email: e6, source: "sentra-demo-modal" }) }), n = await t.json().catch(() => null);
+      return t.ok ? n != null && n.error ? { success: false, error: n.error } : { success: true } : { success: false, error: (n == null ? void 0 : n.error) || "We couldn't send the access email right now. Please try again." };
     } catch {
       return { success: false, error: "We couldn't send the access email right now. Please try again." };
     }
@@ -18175,7 +18172,7 @@ var MF2 = () => {
     return x.jsx("footer", {
       className: "border-t border-[#13203A]/12 bg-[#D8C6A8]",
       children: x.jsxs("div", {
-        className: "max-w-7xl mx-auto px-6 py-10",
+        className: "max-w-7xl mx-auto px-6 py-16",
         children: [
           x.jsxs("div", {
             className: "grid md:grid-cols-[minmax(0,1fr)_220px] gap-10 mb-8 items-start",
