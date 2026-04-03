@@ -18175,10 +18175,10 @@ var MF2 = () => {
     return x.jsx("footer", {
       className: "border-t border-[#13203A]/12 bg-[#D8C6A8]",
       children: x.jsxs("div", {
-        className: "max-w-7xl mx-auto px-6 py-16",
+        className: "max-w-7xl mx-auto px-6 py-10",
         children: [
           x.jsxs("div", {
-            className: "grid md:grid-cols-[minmax(0,1fr)_220px] gap-10 mb-12 items-start",
+            className: "grid md:grid-cols-[minmax(0,1fr)_220px] gap-10 mb-8 items-start",
             children: [
               x.jsxs("div", {
                 className: "max-w-md",
@@ -18215,7 +18215,7 @@ var MF2 = () => {
             ]
           }),
           x.jsx("div", {
-            className: "pt-8 flex items-center justify-start",
+            className: "pt-6 flex items-center justify-start",
             style: { borderTop: "1px solid rgba(19, 32, 58, 0.14)" },
             children: x.jsxs("p", {
               className: "text-xs",
