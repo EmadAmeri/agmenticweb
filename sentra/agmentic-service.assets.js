@@ -17667,12 +17667,12 @@ ${p}`;
     }, className: "block text-sm font-medium text-primary py-2", children: "Request Demo" })] })] })] });
   };
   var mh = ["Sales", "Marketing", "Product", "Finance", "Strategy"];
-  var gh = ["96, 170, 255", "61, 128, 255", "117, 214, 255", "35, 96, 214", "154, 208, 255"];
-  var yh = ["46, 112, 255", "27, 84, 214", "89, 184, 255", "21, 62, 168", "112, 154, 255"];
-  var rF = "126, 188, 255";
-  var iF = "39, 104, 255";
-  var sF = "104, 201, 255";
-  var oF = "49, 86, 214";
+  var gh = ["19, 32, 58", "19, 32, 58", "19, 32, 58", "19, 32, 58", "19, 32, 58"];
+  var yh = ["19, 32, 58", "19, 32, 58", "19, 32, 58", "19, 32, 58", "19, 32, 58"];
+  var rF = "19, 32, 58";
+  var iF = "19, 32, 58";
+  var sF = "19, 32, 58";
+  var oF = "19, 32, 58";
   var Ti = 40;
   var vh = [Math.PI * 0.01, 0, 0, 0, 0];
   function Cw() {
@@ -17883,21 +17883,21 @@ ${p}`;
 	                initial: { opacity: 0, x: -40 },
 	                animate: { opacity: 1, x: 0 },
 	                transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-	                className: "flex flex-col items-start rounded-[12px] bg-[#171D22]/70 border border-white/15 px-10 py-10 md:px-12 md:py-12",
+	                className: "flex flex-col items-start rounded-[12px] bg-[#F5F1E8]/95 border border-[rgba(107,111,118,0.28)] px-10 py-10 md:px-12 md:py-12",
 	                children: [
 	                  x.jsxs("h1", {
-	                    className: "text-3xl md:text-5xl lg:text-[3.55rem] font-sans font-semibold leading-[1.02] mb-5 tracking-[-0.045em] text-left text-foreground",
-	                    style: { maxWidth: "100%" },
+	                    className: "text-3xl md:text-5xl lg:text-[3.55rem] font-sans font-semibold leading-[1.02] mb-5 tracking-[-0.045em] text-left",
+	                    style: { maxWidth: "100%", color: "#13203A" },
 	                    children: ["The right call. Before it costs you."]
 	                  }),
 	                  x.jsx("p", {
-	                    className: "text-base md:text-[1.08rem] text-muted-foreground leading-[1.7] text-left font-sans font-medium",
-	                    style: { maxWidth: "100%" },
+	                    className: "text-base md:text-[1.08rem] leading-[1.7] text-left font-sans font-medium",
+	                    style: { maxWidth: "100%", color: "#6B6F76" },
 	                    children: "Sentra gives your leadership team one clear picture of what's happening across the business — so decisions are backed by evidence, not gut feel."
 	                  }),
 	                  x.jsx("p", {
-	                    className: "text-sm md:text-[0.98rem] text-[#A6AFB8] leading-[1.7] text-left font-sans font-medium mt-4",
-	                    style: { maxWidth: "100%" },
+	                    className: "text-sm md:text-[0.98rem] leading-[1.7] text-left font-sans font-medium mt-4",
+	                    style: { maxWidth: "100%", color: "#6B6F76" },
 	                    children: "Your company already has the answers. Sentra finds them before the meeting where everyone's guessing."
 	                  })
 	                ]
@@ -17912,12 +17912,12 @@ ${p}`;
 	              children: [
 	                x.jsxs(er, {
 	                  to: "/product",
-	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-transparent border border-[rgba(255,255,255,0.18)] text-white font-medium text-sm rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-all",
+	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#13203A] border border-[#13203A] text-[#F5F1E8] font-medium text-sm rounded-lg hover:bg-[#842029] transition-all",
                   children: [x.jsx(YA, { className: "w-3.5 h-3.5" }), "Talk to us. No demo, no deck — just a conversation."]
 	                }),
 	                x.jsxs("button", {
 	                  onClick: e6,
-	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#8F6B2E] text-white font-medium text-sm rounded-lg hover:bg-[#B3873A] transition-all",
+	                  className: "group inline-flex items-center justify-center gap-2 px-6 py-3 bg-[#842029] text-[#F5F1E8] font-medium text-sm rounded-lg hover:bg-[#13203A] transition-all",
                   children: ["See what Sentra does for your org.", x.jsx(qs, { className: "w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" })]
 	                })
 	              ]
@@ -17927,7 +17927,7 @@ ${p}`;
       ]
     });
   };
-  var Lr = [{ label: "Sales", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#B3873A", glowColor: "rgba(43,127,212,0.18)", size: 28 }, { label: "Finance", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#8F6B2E", glowColor: "rgba(184,146,42,0.16)", size: 26 }, { label: "Ops", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#A6AFB8", glowColor: "rgba(155,168,188,0.14)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#B3873A", glowColor: "rgba(29,158,117,0.16)", size: 27 }, { label: "Strategy", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#B3873A", glowColor: "rgba(43,127,212,0.16)", size: 25 }];
+  var Lr = [{ label: "Sales", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.18)", size: 28 }, { label: "Finance", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 26 }, { label: "Ops", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.14)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 27 }, { label: "Strategy", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 25 }];
   var cF = () => {
     const e6 = b.useRef(null), t = b.useRef(0), n = b.useRef([]), r = b.useRef([]), i = b.useRef(Lr.map((u) => u.angle * Math.PI / 180)), s = b.useRef(0), o = b.useRef(0), a = b.useCallback((u) => {
       n.current = Array.from({ length: u }, () => ({ x: Math.random(), y: Math.random(), size: Math.random() * 1.5 + 0.3, opacity: Math.random() * 0.6 + 0.1, twinkleSpeed: Math.random() * 2 + 1, twinkleOffset: Math.random() * Math.PI * 2 }));
@@ -17978,11 +17978,11 @@ ${p}`;
           c.beginPath(), c.arc(y, S, D, 0, Math.PI * 2), c.strokeStyle = `rgba(96,165,250,${0.06 - P * 0.015})`, c.lineWidth = 0.8, c.stroke();
         }
         const A = c.createRadialGradient(y, S, 0, y, S, C * 2.5);
-        A.addColorStop(0, "rgba(99,102,241,0.12)"), A.addColorStop(1, "rgba(99,102,241,0)"), c.beginPath(), c.arc(y, S, C * 2.5, 0, Math.PI * 2), c.fillStyle = A, c.fill();
+        A.addColorStop(0, "rgba(19,32,58,0.12)"), A.addColorStop(1, "rgba(19,32,58,0)"), c.beginPath(), c.arc(y, S, C * 2.5, 0, Math.PI * 2), c.fillStyle = A, c.fill();
         const N = c.createRadialGradient(y, S, 0, y, S, C * 1.6);
-        N.addColorStop(0, "rgba(96,165,250,0.2)"), N.addColorStop(1, "rgba(96,165,250,0)"), c.beginPath(), c.arc(y, S, C * 1.6, 0, Math.PI * 2), c.fillStyle = N, c.fill();
+        N.addColorStop(0, "rgba(19,32,58,0.18)"), N.addColorStop(1, "rgba(19,32,58,0)"), c.beginPath(), c.arc(y, S, C * 1.6, 0, Math.PI * 2), c.fillStyle = N, c.fill();
         const R = c.createRadialGradient(y - C * 0.2, S - C * 0.2, 0, y, S, C);
-        R.addColorStop(0, "rgba(180,210,255,0.95)"), R.addColorStop(0.4, "rgba(96,165,250,0.8)"), R.addColorStop(0.8, "rgba(79,70,229,0.6)"), R.addColorStop(1, "rgba(55,48,163,0.3)"), c.beginPath(), c.arc(y, S, C, 0, Math.PI * 2), c.fillStyle = R, c.fill(), c.fillStyle = "rgba(255,255,255,0.95)", c.font = `600 ${Math.max(9, _ * 0.022)}px "Space Grotesk", sans-serif`, c.textAlign = "center", c.textBaseline = "middle", c.fillText("AI Core", y, S), k.forEach((P, O) => {
+        R.addColorStop(0, "rgba(245,241,232,0.95)"), R.addColorStop(0.4, "rgba(201,183,156,0.86)"), R.addColorStop(0.8, "rgba(19,32,58,0.68)"), R.addColorStop(1, "rgba(19,32,58,0.32)"), c.beginPath(), c.arc(y, S, C, 0, Math.PI * 2), c.fillStyle = R, c.fill(), c.fillStyle = "rgba(19,32,58,0.95)", c.font = `600 ${Math.max(9, _ * 0.022)}px "Space Grotesk", sans-serif`, c.textAlign = "center", c.textBaseline = "middle", c.fillText("AI Core", y, S), k.forEach((P, O) => {
           const D = Lr[O], j = D.size * (_ / 500), z = Math.sin(m * 1.5 + O) * 0.08 + 1, F = j * z, H = c.createRadialGradient(P.x, P.y, 0, P.x, P.y, F * 2.5);
           H.addColorStop(0, D.glowColor.replace("0.5", "0.15")), H.addColorStop(1, D.glowColor.replace("0.5", "0")), c.beginPath(), c.arc(P.x, P.y, F * 2.5, 0, Math.PI * 2), c.fillStyle = H, c.fill();
           const I = c.createRadialGradient(P.x - F * 0.2, P.y - F * 0.2, 0, P.x, P.y, F);
@@ -18006,7 +18006,7 @@ var dF = () => {
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          background: "linear-gradient(180deg, #0F1417 0%, #0F1417 48%, #0F1417 100%)"
+          background: "linear-gradient(180deg, #13203A 0%, #13203A 48%, #13203A 100%)"
         }
       }),
       x.jsxs("div", {
@@ -18050,7 +18050,7 @@ var dF = () => {
               whileInView: { opacity: 1, y: 0 },
               viewport: { once: true, margin: "-60px" },
               transition: { delay: n * 0.08, duration: 0.55 },
-              className: n === 0 ? "relative w-full border border-white/15 bg-[#243038] p-8 md:p-10 text-white overflow-hidden" : "relative w-full border border-white/15 bg-[#0F1417] p-8 md:p-10 text-white overflow-hidden",
+              className: n === 0 ? "relative w-full border border-white/15 bg-[#C9B79C] p-8 md:p-10 text-[#13203A] overflow-hidden" : "relative w-full border border-white/15 bg-[#842029] p-8 md:p-10 text-[#F5F1E8] overflow-hidden",
               style: n === 0 ? { borderRadius: "3rem" } : n === 2 ? { borderRadius: "3rem", gridColumn: "1 / -1" } : { borderRadius: "3rem" },
               children: [
                 x.jsx("h3", { className: "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 text-white whitespace-nowrap", children: t.title }),
@@ -18138,7 +18138,7 @@ var MF2 = () => {
                     children: [
                       x.jsx("div", { style: { display: "none" } }),
                       x.jsxs("div", {
-                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: r === 0 ? "#243038" : "#0F1417", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: "none", maxWidth: "100%", color: "#ffffff", overflow: "hidden" },
+                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "12px", border: "1px solid rgba(107,111,118,0.26)", background: r === 0 ? "#C9B79C" : "#13203A", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: "none", maxWidth: "100%", color: r === 0 ? "#13203A" : "#F5F1E8", overflow: "hidden" },
                         children: [
                           x.jsxs("div", { style: { marginBottom: "28px" }, children: [
                             x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.72)" : "#A6AFB8", fontSize: t ? "15px" : "15px", lineHeight: 1, letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 }, children: n.step.replace("STEP ", "") })
@@ -18161,19 +18161,19 @@ var MF2 = () => {
 };
   var LF2 = () => {
     const e6 = [
-      { title: "Decisions that arrive ready.", description: "Instead of waiting on an analyst, you get a clear next step with the context already behind it." },
+    { title: "Decisions that arrive ready.", description: "Instead of waiting on an analyst, you get a clear next step with the context already behind it." },
       { title: "The question you didn't know to ask.", description: "Sentra doesn't just answer what you bring to it. It brings up the things you should've been looking at." },
       { title: "One source of truth. Every team.", description: "When everyone works from the same picture, \"whose numbers are these?\" stops being a meeting." }
     ];
-    return x.jsx("section", { className: "section-padding relative overflow-hidden", children: x.jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-6", children: [x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, className: "max-w-5xl mb-12", children: [x.jsx("p", { className: "text-xs uppercase tracking-[0.24em] text-primary font-medium mb-4", children: "What you get" }), x.jsx("h2", { className: "text-4xl md:text-5xl lg:text-[4.25rem] font-bold mb-5 leading-[0.98] lg:whitespace-nowrap text-white", children: "What changes when decisions stop being hard." })] }), x.jsx("div", { className: "grid md:grid-cols-2 gap-6", children: e6.map((t, n) => x.jsxs(we.div, { initial: { opacity: 0, y: 26 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-80px" }, transition: { delay: n * 0.08, duration: 0.55 }, className: "relative p-8 md:p-10 overflow-hidden", style: n === 0 ? { borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: "#243038", boxShadow: "none", color: "#ffffff" } : { borderRadius: "12px", border: "1px solid rgba(255,255,255,0.16)", background: "#0F1417", boxShadow: "none", color: "#ffffff" }, children: [x.jsx("h3", { className: "relative z-10 mb-5", style: { fontSize: "clamp(1.95rem, 2.8vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.08, color: "#ffffff", whiteSpace: "nowrap" }, children: t.title }), x.jsx("p", { className: "relative z-10", style: n === 0 ? { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "rgba(255,255,255,0.88)" } : { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#A6AFB8" }, children: t.description })] }, t.title)) })] }) });
+    return x.jsx("section", { className: "section-padding relative overflow-hidden", children: x.jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-6", children: [x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, className: "max-w-5xl mb-12", children: [x.jsx("p", { className: "text-xs uppercase tracking-[0.24em] text-primary font-medium mb-4", children: "What you get" }), x.jsx("h2", { className: "text-4xl md:text-5xl lg:text-[4.25rem] font-bold mb-5 leading-[0.98] lg:whitespace-nowrap", style: { color: "#13203A" }, children: "What changes when decisions stop being hard." })] }), x.jsx("div", { className: "grid md:grid-cols-2 gap-6", children: e6.map((t, n) => x.jsxs(we.div, { initial: { opacity: 0, y: 26 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-80px" }, transition: { delay: n * 0.08, duration: 0.55 }, className: "relative p-8 md:p-10 overflow-hidden", style: n === 0 ? { borderRadius: "12px", border: "1px solid rgba(107,111,118,0.26)", background: "#13203A", boxShadow: "none", color: "#F5F1E8" } : n === 1 ? { borderRadius: "12px", border: "1px solid rgba(107,111,118,0.26)", background: "#C9B79C", boxShadow: "none", color: "#13203A" } : { borderRadius: "12px", border: "1px solid rgba(107,111,118,0.26)", background: "#842029", boxShadow: "none", color: "#F5F1E8" }, children: [x.jsx("h3", { className: "relative z-10 mb-5", style: { fontSize: "clamp(1.95rem, 2.8vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.08, color: n === 1 ? "#13203A" : "#F5F1E8", whiteSpace: "nowrap" }, children: t.title }), x.jsx("p", { className: "relative z-10", style: n === 1 ? { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#13203A" } : { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#F5F1E8" }, children: t.description })] }, t.title)) })] }) });
   };
   var P_ = () => {
     const { openDemoGate: e6 } = Co();
-    return x.jsxs("section", { className: "section-padding relative overflow-hidden", children: [x.jsx("div", { className: "absolute inset-0 gradient-mesh-strong" }), x.jsx("div", { className: "absolute inset-0 grid-pattern opacity-10" }), x.jsx("div", { className: "relative z-10 max-w-4xl mx-auto text-center", children: x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, children: [x.jsx("h2", { className: "text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight", children: "See what Sentra does for your org." }), x.jsx("p", { className: "text-muted-foreground text-base md:text-lg mb-12 max-w-2xl mx-auto", children: "One short session. No sales pitch. Just a look at what your data is already trying to tell you." }), x.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-center", children: [x.jsxs("button", { onClick: () => e6(), className: "group inline-flex items-center gap-2 px-8 py-4 bg-[#8F6B2E] text-white font-medium rounded-lg hover:bg-[#B3873A] transition-opacity text-sm", children: ["See what Sentra does for your org.", x.jsx(qs, { className: "w-4 h-4 group-hover:translate-x-0.5 transition-transform" })] }), x.jsxs(er, { to: "/contact", className: "group inline-flex items-center gap-2 px-8 py-4 bg-transparent border border-[rgba(255,255,255,0.18)] text-white font-medium rounded-lg hover:bg-[rgba(255,255,255,0.04)] transition-opacity text-sm", children: [x.jsx(YA, { className: "w-4 h-4" }), "Talk to us. No demo, no deck — just a conversation."] })] })] }) })] });
+    return x.jsxs("section", { className: "section-padding relative overflow-hidden", children: [x.jsx("div", { className: "absolute inset-0 gradient-mesh-strong" }), x.jsx("div", { className: "absolute inset-0 grid-pattern opacity-10" }), x.jsx("div", { className: "relative z-10 max-w-4xl mx-auto text-center", children: x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, children: [x.jsx("h2", { className: "text-4xl md:text-6xl lg:text-7xl font-display font-bold mb-6 leading-tight", style: { color: "#13203A" }, children: "See what Sentra does for your org." }), x.jsx("p", { className: "text-base md:text-lg mb-12 max-w-2xl mx-auto", style: { color: "#6B6F76" }, children: "One short session. No sales pitch. Just a look at what your data is already trying to tell you." }), x.jsxs("div", { className: "flex flex-col sm:flex-row gap-4 justify-center", children: [x.jsxs("button", { onClick: () => e6(), className: "group inline-flex items-center gap-2 px-8 py-4 bg-[#842029] text-[#F5F1E8] font-medium rounded-lg hover:bg-[#13203A] transition-opacity text-sm", children: ["See what Sentra does for your org.", x.jsx(qs, { className: "w-4 h-4 group-hover:translate-x-0.5 transition-transform" })] }), x.jsxs(er, { to: "/contact", className: "group inline-flex items-center gap-2 px-8 py-4 bg-[#13203A] border border-[#13203A] text-[#F5F1E8] font-medium rounded-lg hover:bg-[#842029] transition-opacity text-sm", children: [x.jsx(YA, { className: "w-4 h-4" }), "Talk to us. No demo, no deck — just a conversation."] })] })] }) })] });
   };
   var rd = () => {
     return x.jsx("footer", {
-      className: "border-t border-white/10 bg-[#0F1417]",
+      className: "border-t border-white/10 bg-[#13203A]",
       children: x.jsxs("div", {
         className: "max-w-7xl mx-auto px-6 py-16",
         children: [
@@ -18194,7 +18194,7 @@ var MF2 = () => {
                           style: { width: "44px" },
                           children: x.jsx("img", { src: kf, alt: "Sentra", className: "h-12 w-12 object-contain", style: { width: "48px" } })
                         }),
-                        x.jsx("span", { className: "font-medium leading-none", style: { color: "#ffffff", fontSize: "34px", letterSpacing: "-0.035em" }, children: "Sentra" })
+                        x.jsx("span", { className: "font-medium leading-none", style: { color: "#F5F1E8", fontSize: "34px", letterSpacing: "-0.035em" }, children: "Sentra" })
                       ]
                     })
                   }),
