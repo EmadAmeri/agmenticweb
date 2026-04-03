@@ -18072,20 +18072,20 @@ var MF2 = () => {
   ], t = typeof window < "u" ? window.innerWidth >= 1180 : true;
   return x.jsxs("section", {
     className: "relative overflow-hidden",
-    style: { padding: t ? "96px 0 108px" : "64px 0 72px", background: "#171D22" },
+    style: { padding: t ? "96px 0 108px" : "64px 0 72px", background: "#F5F1E8" },
     children: [
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px)",
+          backgroundImage: "none",
           backgroundSize: t ? "80px 80px" : "42px 42px",
-          opacity: 0.68
+          opacity: 0
         }
       }),
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          background: t ? "radial-gradient(circle at 50% 0%, rgba(43, 127, 212, 0.10), transparent 24%)" : "radial-gradient(circle at 50% 0%, rgba(43, 127, 212, 0.08), transparent 20%)"
+          background: "transparent"
         }
       }),
       x.jsxs("div", {
@@ -18103,15 +18103,15 @@ var MF2 = () => {
                 style: { paddingTop: t ? "6px" : "0", paddingLeft: t ? "0" : "0" },
                 children: [
                   x.jsx("p", {
-                    style: { margin: "0 0 16px", color: "#A6AFB8", fontSize: "13px", lineHeight: 1, letterSpacing: "0.24em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 },
+                    style: { margin: "0 0 16px", color: "#842029", fontSize: "13px", lineHeight: 1, letterSpacing: "0.24em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 },
                     children: "How it works"
                   }),
                   x.jsxs("h2", {
-                    style: { margin: 0, color: "#F3F5F7", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 700, fontSize: t ? "64px" : "52px", lineHeight: 0.92, letterSpacing: "-0.07em", maxWidth: t ? "430px" : "320px" },
+                    style: { margin: 0, color: "#13203A", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 700, fontSize: t ? "64px" : "52px", lineHeight: 0.92, letterSpacing: "-0.07em", maxWidth: t ? "430px" : "320px" },
                     children: ["From scattered data to a decision", x.jsx("br", {}), "you can defend. Four steps."]
                   }),
                   x.jsx("p", {
-                    style: { margin: t ? "32px 0 0" : "24px 0 0", maxWidth: t ? "392px" : "620px", color: "#A6AFB8", fontSize: t ? "16px" : "18px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 400 },
+                    style: { margin: t ? "32px 0 0" : "24px 0 0", maxWidth: t ? "392px" : "620px", color: "#6B6F76", fontSize: t ? "16px" : "18px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 400 },
                     children: "From scattered data to a decision you can defend. Four steps."
                   })
                 ]
