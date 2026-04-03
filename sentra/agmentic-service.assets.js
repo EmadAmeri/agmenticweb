@@ -18093,13 +18093,34 @@ var MF2 = () => {
         style: { padding: t ? "0 84px" : "0 24px", marginBottom: "0" },
         children: [
           x.jsxs("div", {
-            style: { display: "grid", gridTemplateColumns: t ? "minmax(0, 1fr) 340px" : "1fr", columnGap: t ? "132px" : "36px", alignItems: "start" },
+            style: { display: "grid", gridTemplateColumns: t ? "340px minmax(0, 1fr)" : "1fr", columnGap: t ? "132px" : "36px", alignItems: "start" },
             children: [
               x.jsxs(we.div, {
                 initial: { opacity: 0, x: -24 },
                 whileInView: { opacity: 1, x: 0 },
                 viewport: { once: true, margin: "-120px" },
                 transition: { duration: 0.7 },
+                style: { paddingTop: t ? "6px" : "0", paddingLeft: t ? "0" : "0" },
+                children: [
+                  x.jsx("p", {
+                    style: { margin: "0 0 16px", color: "#842029", fontSize: "13px", lineHeight: 1, letterSpacing: "0.24em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 },
+                    children: "How it works"
+                  }),
+                  x.jsxs("h2", {
+                    style: { margin: 0, color: "#13203A", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 700, fontSize: t ? "64px" : "52px", lineHeight: 0.92, letterSpacing: "-0.07em", maxWidth: t ? "430px" : "320px" },
+                    children: ["From scattered data to a decision", x.jsx("br", {}), "you can defend. Four steps."]
+                  }),
+                  x.jsx("p", {
+                    style: { margin: t ? "32px 0 0" : "24px 0 0", maxWidth: t ? "392px" : "620px", color: "#6B6F76", fontSize: t ? "16px" : "18px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 400 },
+                    children: "From scattered data to a decision you can defend. Four steps."
+                  })
+                ]
+              }),
+              x.jsxs(we.div, {
+                initial: { opacity: 0, y: 24 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, margin: "-120px" },
+                transition: { delay: 0.1, duration: 0.7 },
                 style: { position: "relative", paddingLeft: t ? "0" : "0", paddingTop: t ? "0" : "0" },
                 children: [
                   x.jsx("div", {
@@ -18128,27 +18149,6 @@ var MF2 = () => {
                       })
                     ]
                   }, n.step))
-                  })
-                ]
-              }),
-              x.jsxs(we.div, {
-                initial: { opacity: 0, x: 24 },
-                whileInView: { opacity: 1, x: 0 },
-                viewport: { once: true, margin: "-120px" },
-                transition: { duration: 0.7 },
-                style: { paddingTop: t ? "6px" : "0", paddingLeft: t ? "0" : "0" },
-                children: [
-                  x.jsx("p", {
-                    style: { margin: "0 0 16px", color: "#842029", fontSize: "13px", lineHeight: 1, letterSpacing: "0.24em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 },
-                    children: "How it works"
-                  }),
-                  x.jsxs("h2", {
-                    style: { margin: 0, color: "#13203A", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 700, fontSize: t ? "64px" : "52px", lineHeight: 0.92, letterSpacing: "-0.07em", maxWidth: t ? "430px" : "320px" },
-                    children: ["From scattered data to a decision", x.jsx("br", {}), "you can defend. Four steps."]
-                  }),
-                  x.jsx("p", {
-                    style: { margin: t ? "32px 0 0" : "24px 0 0", maxWidth: t ? "392px" : "620px", color: "#6B6F76", fontSize: t ? "16px" : "18px", lineHeight: 1.8, fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 400 },
-                    children: "From scattered data to a decision you can defend. Four steps."
                   })
                 ]
               })
