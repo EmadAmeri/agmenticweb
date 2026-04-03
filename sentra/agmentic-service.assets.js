@@ -17660,7 +17660,7 @@ ${p}`;
           body, button, input, textarea, select, a, p, span, div, h1, h2, h3, h4, h5, h6 {
             font-family: "Plus Jakarta Sans", Inter, ui-sans-serif, system-ui, sans-serif !important;
           }
-        ` }), x.jsxs(we.nav, { initial: { y: -20, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.5 }, className: "fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/30", children: [x.jsxs("div", { className: "max-w-7xl mx-auto flex items-center justify-between px-6 py-4", children: [x.jsx(er, { to: "/", className: "flex items-center", children: x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("img", { src: kf, alt: "Agmentic", className: "h-11 w-11 object-contain opacity-100" }), x.jsx("span", { className: "font-medium leading-none", style: { color: "#ffffff", fontSize: "34px", letterSpacing: "-0.035em" }, children: "Agmentic" })] }) }), x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("button", { onClick: () => r(), className: "hidden md:inline-flex items-center px-5 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity ", children: "Request Demo" }), x.jsx("button", { className: "md:hidden p-2", onClick: () => n(!t), children: t ? x.jsx(Rm, { className: "w-5 h-5" }) : x.jsx(KA, { className: "w-5 h-5" }) })] })] }), t && x.jsxs(we.div, { initial: { opacity: 0, height: 0 }, animate: { opacity: 1, height: "auto" }, className: "md:hidden border-t border-border/30 bg-background/95 backdrop-blur-2xl px-6 py-4 space-y-3", children: [_w.map((s) => x.jsx(er, { to: s.to, onClick: (o) => {
+        ` }), x.jsxs(we.nav, { initial: { y: -20, opacity: 0 }, animate: { y: 0, opacity: 1 }, transition: { duration: 0.5 }, className: "fixed top-0 left-0 right-0 z-50 bg-background/60 backdrop-blur-2xl border-b border-border/30", children: [x.jsxs("div", { className: "max-w-7xl mx-auto flex items-center justify-between px-6 py-4", children: [x.jsx(er, { to: "/", className: "flex items-center", children: x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("img", { src: kf, alt: "Agmentic", className: "h-11 w-11 object-contain opacity-100" }), x.jsx("span", { className: "font-medium leading-none", style: { color: "#13203A", fontSize: "34px", letterSpacing: "-0.035em" }, children: "Agmentic" })] }) }), x.jsxs("div", { className: "flex items-center gap-3", children: [x.jsx("button", { onClick: () => r(), className: "hidden md:inline-flex items-center px-5 py-2 text-sm font-medium rounded-lg bg-primary text-primary-foreground hover:opacity-90 transition-opacity ", children: "Request Demo" }), x.jsx("button", { className: "md:hidden p-2", onClick: () => n(!t), children: t ? x.jsx(Rm, { className: "w-5 h-5" }) : x.jsx(KA, { className: "w-5 h-5" }) })] })] }), t && x.jsxs(we.div, { initial: { opacity: 0, height: 0 }, animate: { opacity: 1, height: "auto" }, className: "md:hidden border-t border-border/30 bg-background/95 backdrop-blur-2xl px-6 py-4 space-y-3", children: [_w.map((s) => x.jsx(er, { to: s.to, onClick: (o) => {
       i(s, o), n(false);
     }, className: "block text-sm text-muted-foreground hover:text-foreground py-2", children: s.label }, s.to)), x.jsx("button", { onClick: () => {
       r(), n(false);
@@ -18038,8 +18038,8 @@ var dF = () => {
             className: "flex flex-col justify-center pt-4",
             children: [
               x.jsx("p", { className: "text-xs uppercase tracking-[0.25em] text-primary font-medium mb-4", children: "The problem" }),
-              x.jsx("h2", { className: "text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-5 max-w-xl text-white", children: "You have more data than ever. And fewer clear answers." }),
-              x.jsx("p", { className: "text-[#A6AFB8] text-sm md:text-base leading-relaxed max-w-lg font-medium", children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })
+              x.jsx("h2", { className: "text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-5 max-w-xl text-[#F5F1E8]", children: "You have more data than ever. And fewer clear answers." }),
+              x.jsx("p", { className: "text-[#C9B79C] text-sm md:text-base leading-relaxed max-w-lg font-medium", children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })
             ]
           }),
           x.jsx("div", {
@@ -18053,8 +18053,8 @@ var dF = () => {
               className: n === 0 ? "relative w-full border border-white/15 bg-[#C9B79C] p-8 md:p-10 text-[#13203A] overflow-hidden" : "relative w-full border border-white/15 bg-[#842029] p-8 md:p-10 text-[#F5F1E8] overflow-hidden",
               style: n === 0 ? { borderRadius: "3rem" } : n === 2 ? { borderRadius: "3rem", gridColumn: "1 / -1" } : { borderRadius: "3rem" },
               children: [
-                x.jsx("h3", { className: "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 text-white whitespace-nowrap", children: t.title }),
-                x.jsx("p", { className: n === 0 ? "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-white/88 font-medium" : "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] text-[#A6AFB8] font-medium", style: { maxWidth: "28rem" }, children: t.description })
+                x.jsx("h3", { className: "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 whitespace-nowrap", style: { color: n === 0 ? "#13203A" : "#F5F1E8" }, children: t.title }),
+                x.jsx("p", { className: "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] font-medium", style: { maxWidth: "28rem", color: n === 0 ? "#13203A" : "#F5F1E8" }, children: t.description })
               ]
             }, t.title))
           })
