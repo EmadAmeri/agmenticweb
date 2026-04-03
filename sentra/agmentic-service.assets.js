@@ -18006,7 +18006,7 @@ var dF = () => {
       x.jsx("div", {
         className: "absolute inset-0",
         style: {
-          background: "linear-gradient(180deg, #13203A 0%, #13203A 48%, #13203A 100%)"
+          background: "#F5F1E8"
         }
       }),
       x.jsxs("div", {
@@ -18014,15 +18014,15 @@ var dF = () => {
         children: [
           x.jsx("div", {
             className: "absolute rounded-full",
-            style: { left: "18%", top: "24%", width: "5rem", height: "5rem", filter: "blur(26px)", background: "radial-gradient(circle, rgba(44, 116, 255, 0.28) 0%, rgba(44, 116, 255, 0.08) 38%, rgba(44, 116, 255, 0) 72%)" }
+            style: { left: "18%", top: "24%", width: "5rem", height: "5rem", filter: "blur(26px)", background: "transparent" }
           }),
           x.jsx("div", {
             className: "absolute rounded-full",
-            style: { left: "41%", top: "37%", width: "4rem", height: "4rem", filter: "blur(24px)", background: "radial-gradient(circle, rgba(88, 173, 255, 0.22) 0%, rgba(88, 173, 255, 0.08) 34%, rgba(88, 173, 255, 0) 70%)" }
+            style: { left: "41%", top: "37%", width: "4rem", height: "4rem", filter: "blur(24px)", background: "transparent" }
           }),
           x.jsx("div", {
             className: "absolute rounded-full",
-            style: { right: "9%", top: "40%", width: "3.5rem", height: "3.5rem", filter: "blur(22px)", background: "radial-gradient(circle, rgba(26, 88, 255, 0.22) 0%, rgba(26, 88, 255, 0.07) 36%, rgba(26, 88, 255, 0) 72%)" }
+            style: { right: "9%", top: "40%", width: "3.5rem", height: "3.5rem", filter: "blur(22px)", background: "transparent" }
           })
         ]
       }),
@@ -18038,8 +18038,8 @@ var dF = () => {
             className: "flex flex-col justify-center pt-4",
             children: [
               x.jsx("p", { className: "text-xs uppercase tracking-[0.25em] text-primary font-medium mb-4", children: "The problem" }),
-              x.jsx("h2", { className: "text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-5 max-w-xl text-[#F5F1E8]", children: "You have more data than ever. And fewer clear answers." }),
-              x.jsx("p", { className: "text-[#C9B79C] text-sm md:text-base leading-relaxed max-w-lg font-medium", children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })
+              x.jsx("h2", { className: "text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-5 max-w-xl text-[#13203A]", children: "You have more data than ever. And fewer clear answers." }),
+              x.jsx("p", { className: "text-[#6B6F76] text-sm md:text-base leading-relaxed max-w-lg font-medium", children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })
             ]
           }),
           x.jsx("div", {
