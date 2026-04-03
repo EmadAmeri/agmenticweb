@@ -17997,68 +17997,7 @@ var dF = () => {
     { title: "You don't need another report. You need to know what to do.", description: "Dashboards tell you what happened last quarter. Sentra tells you what needs your attention this week — and why it matters." },
     { title: "You've tried tools that looked smart but felt like a black box.", description: "Every output comes with a clear reason behind it. When someone pushes back in the boardroom, you have an answer — not a shrug." }
   ];
-  return x.jsxs("section", {
-    className: "relative overflow-hidden pt-24 md:pt-32 pb-12 md:pb-16",
-    children: [
-      x.jsx("div", {
-        className: "absolute inset-0",
-        style: {
-          background: "#F5F1E8"
-        }
-      }),
-      x.jsxs("div", {
-        className: "absolute inset-0 pointer-events-none",
-        children: [
-          x.jsx("div", {
-            className: "absolute rounded-full",
-            style: { left: "18%", top: "24%", width: "5rem", height: "5rem", filter: "blur(26px)", background: "transparent" }
-          }),
-          x.jsx("div", {
-            className: "absolute rounded-full",
-            style: { left: "41%", top: "37%", width: "4rem", height: "4rem", filter: "blur(24px)", background: "transparent" }
-          }),
-          x.jsx("div", {
-            className: "absolute rounded-full",
-            style: { right: "9%", top: "40%", width: "3.5rem", height: "3.5rem", filter: "blur(22px)", background: "transparent" }
-          })
-        ]
-      }),
-      x.jsxs("div", {
-        className: "relative z-10 w-full max-w-7xl mx-auto px-6 lg:px-12 grid grid-cols-1 lg:grid-cols-[0.88fr_1.12fr] gap-10 lg:gap-16 items-start",
-        style: { marginTop: "56px", marginBottom: "56px" },
-        children: [
-          x.jsxs(we.div, {
-            initial: { opacity: 0, x: -30 },
-            whileInView: { opacity: 1, x: 0 },
-            viewport: { once: true, margin: "-100px" },
-            transition: { duration: 0.7 },
-            className: "flex flex-col justify-center pt-4",
-            children: [
-              x.jsx("p", { className: "text-xs uppercase tracking-[0.25em] text-primary font-medium mb-4", children: "The problem" }),
-              x.jsx("h2", { className: "text-3xl md:text-4xl lg:text-5xl font-bold leading-tight mb-5 max-w-xl text-[#13203A]", children: "You have more data than ever. And fewer clear answers." }),
-              x.jsx("p", { className: "text-[#6B6F76] text-sm md:text-base leading-relaxed max-w-lg font-medium", children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })
-            ]
-          }),
-          x.jsx("div", {
-            className: "grid w-full grid-cols-1 md:grid-cols-2 gap-6 items-stretch",
-            style: { maxWidth: "860px", marginTop: "12px", paddingTop: "12px", paddingBottom: "12px" },
-            children: e6.map((t, n) => x.jsxs(we.div, {
-              initial: { opacity: 0, y: 24 },
-              whileInView: { opacity: 1, y: 0 },
-              viewport: { once: true, margin: "-60px" },
-              transition: { delay: n * 0.08, duration: 0.55 },
-              className: n === 0 ? "relative w-full border border-white/15 bg-[#13203A] p-8 md:p-10 text-[#F5F1E8] overflow-hidden md:col-span-2" : n === 1 ? "relative w-full border border-[#13203A]/12 bg-[#C9B79C] p-8 md:p-9 overflow-hidden" : "relative w-full border border-white/15 bg-[#842029] p-8 md:p-9 text-[#F5F1E8] overflow-hidden",
-              style: { borderRadius: "2rem", minHeight: n === 0 ? "0" : "260px", color: n === 1 ? "#13203A" : "#F5F1E8" },
-              children: [
-                x.jsx("h3", { className: "relative z-10 text-[1.7rem] md:text-[1.85rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5", style: { color: n === 1 ? "#13203A" : "#F5F1E8", maxWidth: n === 0 ? "34rem" : "24rem" }, children: t.title }),
-                x.jsx("p", { className: "relative z-10 text-[1rem] md:text-[1.04rem] leading-[1.8] font-medium", style: { maxWidth: n === 0 ? "40rem" : "24rem", color: n === 1 ? "rgba(19, 32, 58, 0.82)" : "#F5F1E8" }, children: t.description })
-              ]
-            }, t.title))
-          })
-        ]
-      })
-    ]
-  });
+  return x.jsx("section", { className: "section-padding relative overflow-hidden", children: x.jsxs("div", { className: "relative z-10 max-w-7xl mx-auto px-6", style: { paddingTop: "96px" }, children: [x.jsxs(we.div, { initial: { opacity: 0, y: 30 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-100px" }, transition: { duration: 0.7 }, className: "max-w-5xl mb-16", children: [x.jsx("p", { className: "text-xs uppercase tracking-[0.24em] text-primary font-medium mb-4", children: "The problem" }), x.jsx("h2", { className: "text-4xl md:text-5xl lg:text-[4.25rem] font-bold mb-5 leading-[0.98] max-w-5xl", style: { color: "#13203A" }, children: "You have more data than ever. And fewer clear answers." }), x.jsx("p", { className: "text-base md:text-lg max-w-3xl", style: { color: "#6B6F76", lineHeight: 1.8 }, children: "The reports are there. The numbers are there. But when a real decision lands on your desk, you're still going with your gut — because nothing's connecting the dots for you." })] }), x.jsx("div", { className: "grid md:grid-cols-3 gap-6", children: e6.map((t, n) => x.jsxs(we.div, { initial: { opacity: 0, y: 26 }, whileInView: { opacity: 1, y: 0 }, viewport: { once: true, margin: "-80px" }, transition: { delay: n * 0.08, duration: 0.55 }, className: "relative p-8 md:p-10 overflow-hidden h-full", style: n === 0 ? { borderRadius: "12px", border: "1px solid rgba(107,111,118,0.26)", background: "#13203A", boxShadow: "none", color: "#F5F1E8" } : n === 1 ? { borderRadius: "12px", border: "1px solid rgba(107,111,118,0.26)", background: "#C9B79C", boxShadow: "none", color: "#13203A" } : { borderRadius: "12px", border: "1px solid rgba(107,111,118,0.26)", background: "#842029", boxShadow: "none", color: "#F5F1E8" }, children: [x.jsx("h3", { className: "relative z-10 mb-5", style: { fontSize: "clamp(1.55rem, 2.2vw, 2.05rem)", fontWeight: 600, letterSpacing: "-0.03em", lineHeight: 1.12, color: n === 1 ? "#13203A" : "#F5F1E8", whiteSpace: "normal", textWrap: "balance" }, children: t.title }), x.jsx("p", { className: "relative z-10", style: n === 1 ? { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#13203A" } : { maxWidth: "36rem", fontSize: "1.05rem", lineHeight: 1.85, fontWeight: 500, color: "#F5F1E8" }, children: t.description })] }, t.title)) })] }) });
 };
 var MF2 = () => {
   const e6 = [
