@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#132C46" />
+    <meta name="theme-color" content="#13203A" />
     <title>Sentra | Decisions backed by your data</title>
     <meta
       name="description"
@@ -49,23 +49,23 @@
       html.dark {
         --background: 38 30% 94%;
         --foreground: 218 22% 18%;
-        --card: 0 0% 100%;
+        --card: 39 34% 70%;
         --card-foreground: 218 22% 18%;
-        --popover: 0 0% 100%;
+        --popover: 39 34% 70%;
         --popover-foreground: 218 22% 18%;
         --primary: 211 55% 18%;
         --primary-foreground: 0 0% 100%;
-        --secondary: 36 22% 88%;
+        --secondary: 39 34% 70%;
         --secondary-foreground: 218 22% 18%;
-        --muted: 36 18% 91%;
-        --muted-foreground: 220 8% 42%;
+        --muted: 220 5% 48%;
+        --muted-foreground: 220 5% 48%;
         --accent: 354 59% 33%;
         --accent-foreground: 0 0% 100%;
-        --border: 36 18% 80%;
-        --input: 36 18% 80%;
+        --border: 220 5% 48%;
+        --input: 220 5% 48%;
         --ring: 211 55% 18%;
-        --surface: 0 0% 100%;
-        --glow: 211 55% 18%;
+        --surface: 39 34% 70%;
+        --glow: 23 60% 21%;
         --glow-secondary: 354 59% 33%;
         --cyan: 146 46% 21%;
       }
@@ -73,7 +73,7 @@
       html,
       body {
         background: #F5F1E8;
-        color: #1F2630;
+        color: #13203A;
       }
 
       body::selection {
@@ -108,8 +108,8 @@
       a.flex.items-center.mb-4:has(img[alt="Sentra"]) p,
       a.flex.items-center:has(img[alt="Agmentic"]) div,
       a.flex.items-center.mb-4:has(img[alt="Sentra"]) div {
-        color: #132C46 !important;
-        -webkit-text-fill-color: #132C46 !important;
+        color: #13203A !important;
+        -webkit-text-fill-color: #13203A !important;
         background: none !important;
         background-image: none !important;
       }
@@ -130,8 +130,8 @@
       }
 
       .glass-card-strong {
-        background: #FFFFFF !important;
-        border: 1px solid rgba(31, 38, 48, 0.12) !important;
+        background: #C9B79C !important;
+        border: 1px solid rgba(107, 111, 118, 0.28) !important;
         box-shadow: none !important;
       }
 
@@ -154,11 +154,11 @@
       }
 
       .text-muted-foreground {
-        color: hsl(var(--muted-foreground)) !important;
+        color: #6B6F76 !important;
       }
 
       .border-border {
-        border-color: hsl(var(--border)) !important;
+        border-color: rgba(107, 111, 118, 0.28) !important;
       }
 
       [class*="bg-gradient-to-"],
@@ -174,27 +174,27 @@
       }
 
       .bg-primary {
-        background-color: hsl(var(--primary)) !important;
+        background-color: #13203A !important;
       }
 
       .bg-secondary,
       .bg-accent {
-        background-color: hsl(var(--secondary)) !important;
+        background-color: #C9B79C !important;
       }
 
       .text-primary {
-        color: hsl(var(--primary)) !important;
+        color: #13203A !important;
       }
 
       .text-accent-foreground,
       .text-primary-foreground {
-        color: hsl(var(--primary-foreground)) !important;
+        color: #F5F1E8 !important;
       }
 
       .text-foreground,
       .text-card-foreground,
       .text-popover-foreground {
-        color: hsl(var(--foreground)) !important;
+        color: #13203A !important;
       }
 
       .shadow-\[0_0_50px_hsl\(var\(--glow\)\/0\.1\)\],
@@ -213,14 +213,90 @@
 
       nav a.flex.items-center > div span,
       a.flex.items-center.mb-4 > div span {
-        color: #132C46 !important;
-        -webkit-text-fill-color: #132C46 !important;
+        color: #13203A !important;
+        -webkit-text-fill-color: #13203A !important;
         background: none !important;
         background-image: none !important;
         -webkit-background-clip: border-box !important;
         text-shadow: none !important;
         font-size: 34px !important;
         letter-spacing: -0.035em !important;
+      }
+
+      .bg-card,
+      [class*="bg-card/"],
+      [class*="bg-secondary/"] {
+        background-color: #C9B79C !important;
+      }
+
+      .bg-background {
+        background-color: #F5F1E8 !important;
+      }
+
+      .text-white,
+      .text-foreground.text-white,
+      .dark .text-white {
+        color: #F5F1E8 !important;
+      }
+
+      .text-black,
+      .dark .text-black {
+        color: #13203A !important;
+      }
+
+      .text-\[\#00B4D8\],
+      .text-cyan,
+      .text-cyan-400,
+      .text-cyan-300,
+      .text-cyan-200 {
+        color: #174632 !important;
+      }
+
+      .text-\[\#8F6B2E\],
+      .text-yellow-400,
+      .text-yellow-300,
+      .text-amber-400,
+      .text-amber-300 {
+        color: #842029 !important;
+      }
+
+      .bg-\[\#0F1417\],
+      .bg-\[\#111111\],
+      .bg-\[\#13203A\],
+      .bg-slate-950,
+      .bg-zinc-950,
+      .bg-black {
+        background-color: #13203A !important;
+      }
+
+      .bg-\[\#842029\],
+      .bg-red-900,
+      .bg-rose-900,
+      .bg-burgundy {
+        background-color: #842029 !important;
+      }
+
+      .border-white\/10,
+      .border-white\/15,
+      .border-white\/20,
+      .border-black\/10,
+      .border-black\/15 {
+        border-color: rgba(107, 111, 118, 0.28) !important;
+      }
+
+      .text-muted,
+      .text-slate-400,
+      .text-slate-500,
+      .text-zinc-400,
+      .text-zinc-500,
+      .text-gray-500,
+      .text-gray-400 {
+        color: #6B6F76 !important;
+      }
+
+      .bg-white,
+      .dark .bg-white {
+        background-color: #F5F1E8 !important;
       }
     </style>
   </head>
