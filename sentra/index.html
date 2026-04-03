@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#8F6B2E" />
+    <meta name="theme-color" content="#132C46" />
     <title>Sentra | Decisions backed by your data</title>
     <meta
       name="description"
@@ -47,47 +47,45 @@
       :root,
       .dark,
       html.dark {
-        --background: 210 18% 8%;
-        --foreground: 220 25% 96%;
-        --card: 210 15% 16%;
-        --card-foreground: 220 25% 96%;
-        --popover: 210 15% 16%;
-        --popover-foreground: 220 25% 96%;
-        --primary: 38 52% 37%;
-        --primary-foreground: 220 25% 98%;
-        --secondary: 210 14% 20%;
-        --secondary-foreground: 220 18% 88%;
-        --muted: 212 11% 69%;
-        --muted-foreground: 212 11% 69%;
-        --accent: 210 14% 20%;
-        --accent-foreground: 220 25% 96%;
-        --border: 0 0% 100% / 0.18;
-        --input: 0 0% 100% / 0.18;
-        --ring: 38 52% 37%;
-        --surface: 210 15% 16%;
-        --glow: 38 52% 37%;
-        --glow-secondary: 40 54% 47%;
-        --cyan: 40 54% 47%;
+        --background: 38 30% 94%;
+        --foreground: 218 22% 18%;
+        --card: 0 0% 100%;
+        --card-foreground: 218 22% 18%;
+        --popover: 0 0% 100%;
+        --popover-foreground: 218 22% 18%;
+        --primary: 211 55% 18%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 36 22% 88%;
+        --secondary-foreground: 218 22% 18%;
+        --muted: 36 18% 91%;
+        --muted-foreground: 220 8% 42%;
+        --accent: 354 59% 33%;
+        --accent-foreground: 0 0% 100%;
+        --border: 36 18% 80%;
+        --input: 36 18% 80%;
+        --ring: 211 55% 18%;
+        --surface: 0 0% 100%;
+        --glow: 211 55% 18%;
+        --glow-secondary: 354 59% 33%;
+        --cyan: 146 46% 21%;
       }
 
       html,
       body {
-        background:
-          radial-gradient(circle at 50% 0%, rgba(179, 135, 58, 0.08), transparent 22%),
-          linear-gradient(180deg, #0F1417 0%, #0F1417 100%);
-        color: #eef4ff;
+        background: #F5F1E8;
+        color: #1F2630;
       }
 
       body::selection {
-        background: rgba(179, 135, 58, 0.22);
+        background: rgba(132, 32, 41, 0.18);
       }
 
       nav {
-        background: #0F1417 !important;
+        background: #F5F1E8 !important;
         background-image: none !important;
         -webkit-backdrop-filter: none !important;
         backdrop-filter: none !important;
-        border-bottom: 1px solid rgba(255,255,255,0.10) !important;
+        border-bottom: 1px solid rgba(31, 38, 48, 0.12) !important;
       }
 
       img[alt="Agmentic"] {
@@ -110,8 +108,8 @@
       a.flex.items-center.mb-4:has(img[alt="Sentra"]) p,
       a.flex.items-center:has(img[alt="Agmentic"]) div,
       a.flex.items-center.mb-4:has(img[alt="Sentra"]) div {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
+        color: #132C46 !important;
+        -webkit-text-fill-color: #132C46 !important;
         background: none !important;
         background-image: none !important;
       }
@@ -123,19 +121,17 @@
       }
 
       .grid-pattern {
-        opacity: 0.08 !important;
-        background-image:
-          linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) !important;
+        opacity: 0 !important;
+        background-image: none !important;
       }
 
       .gradient-mesh-strong {
-        background: radial-gradient(circle at 50% 0%, rgba(179, 135, 58, 0.06), transparent 20%) !important;
+        background: transparent !important;
       }
 
       .glass-card-strong {
-        background: rgba(23, 29, 34, 0.72) !important;
-        border: 1px solid rgba(255, 255, 255, 0.16) !important;
+        background: #FFFFFF !important;
+        border: 1px solid rgba(31, 38, 48, 0.12) !important;
         box-shadow: none !important;
       }
 
@@ -149,10 +145,12 @@
 
       .bg-card {
         background-color: hsl(var(--card)) !important;
+        background-image: none !important;
       }
 
       .bg-background {
         background-color: hsl(var(--background)) !important;
+        background-image: none !important;
       }
 
       .text-muted-foreground {
@@ -161,6 +159,47 @@
 
       .border-border {
         border-color: hsl(var(--border)) !important;
+      }
+
+      [class*="bg-gradient-to-"],
+      [class*="from-"],
+      [class*="to-"],
+      [class*="via-"] {
+        background-image: none !important;
+      }
+
+      [class*="glow"] {
+        box-shadow: none !important;
+        filter: none !important;
+      }
+
+      .bg-primary {
+        background-color: hsl(var(--primary)) !important;
+      }
+
+      .bg-secondary,
+      .bg-accent {
+        background-color: hsl(var(--secondary)) !important;
+      }
+
+      .text-primary {
+        color: hsl(var(--primary)) !important;
+      }
+
+      .text-accent-foreground,
+      .text-primary-foreground {
+        color: hsl(var(--primary-foreground)) !important;
+      }
+
+      .text-foreground,
+      .text-card-foreground,
+      .text-popover-foreground {
+        color: hsl(var(--foreground)) !important;
+      }
+
+      .shadow-\[0_0_50px_hsl\(var\(--glow\)\/0\.1\)\],
+      .shadow-\[0_0_80px_hsl\(var\(--glow-secondary\)\/0\.08\)\] {
+        box-shadow: none !important;
       }
     
       nav a.flex.items-center > div,
@@ -174,8 +213,8 @@
 
       nav a.flex.items-center > div span,
       a.flex.items-center.mb-4 > div span {
-        color: #ffffff !important;
-        -webkit-text-fill-color: #ffffff !important;
+        color: #132C46 !important;
+        -webkit-text-fill-color: #132C46 !important;
         background: none !important;
         background-image: none !important;
         -webkit-background-clip: border-box !important;
