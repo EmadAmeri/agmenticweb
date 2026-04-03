@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Agmentic</title>
+    <meta
+      name="description"
+      content="Agmentic is a mindshift from now to the agmentic word."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;family=Outfit:wght@600;700;800;900&amp;display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --ivory: #f5f1e8;
+        --green: #174632;
+        --green-dark: #123627;
+        --navy: #13203a;
+        --burgundy: #842029;
+        --gold: #c9b79c;
+        --gold-soft: rgba(201, 183, 156, 0.22);
+        --green-soft: rgba(23, 70, 50, 0.08);
+        --line: rgba(23, 70, 50, 0.14);
+        --muted: rgba(23, 70, 50, 0.72);
+        --panel: rgba(255, 255, 255, 0.58);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        min-height: 100%;
+      }
+
+      body {
+        margin: 0;
+        font-family: "Inter", sans-serif;
+        color: var(--green);
+        background:
+          radial-gradient(circle at 18% 12%, rgba(201, 183, 156, 0.2), transparent 18%),
+          radial-gradient(circle at top right, rgba(23, 70, 50, 0.12), transparent 22%),
+          radial-gradient(circle at bottom left, rgba(23, 70, 50, 0.06), transparent 24%),
+          linear-gradient(180deg, #f8f5ef 0%, #f5f1e8 100%);
+      }
+
+      .page-wrap {
+        width: 100%;
+      }
+
+      .shell {
+        width: min(1280px, calc(100vw - 40px));
+        min-height: min(820px, calc(100vh - 40px));
+        margin: 20px auto;
+        padding: 24px;
+        border: 1px solid var(--line);
+        border-radius: 32px;
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.74), rgba(255, 255, 255, 0.5)),
+          var(--ivory);
+        box-shadow: 0 24px 70px rgba(23, 70, 50, 0.08);
+        display: grid;
+        gap: 18px;
+      }
+
+      .topbar,
+      .contacts {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 14px;
+        flex-wrap: wrap;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 12px;
+        font-family: "Inter", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+      }
+
+      .brand-logo {
+        width: 28px;
+        height: 28px;
+        object-fit: contain;
+        display: block;
+      }
+
+      .main {
+        display: grid;
+        grid-template-columns: minmax(0, 1.15fr) minmax(320px, 0.85fr);
+        gap: 18px;
+        align-items: stretch;
+      }
+
+      .hero,
+      .side {
+        border-radius: 28px;
+      }
+
+      .hero {
+        border: 1px solid var(--line);
+        background:
+          radial-gradient(circle at 22% 78%, rgba(201, 183, 156, 0.12), transparent 22%),
+          radial-gradient(circle at 82% 16%, rgba(23, 70, 50, 0.08), transparent 20%),
+          linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.46));
+        padding: 28px;
+        display: grid;
+        gap: 20px;
+        align-content: start;
+      }
+
+      .eyebrow {
+        width: fit-content;
+        padding: 8px 12px;
+        border-radius: 999px;
+        background: linear-gradient(180deg, rgba(201, 183, 156, 0.18), rgba(23, 70, 50, 0.05));
+        color: var(--muted);
+        font-size: 0.84rem;
+      }
+
+      h1,
+      h2,
+      p {
+        margin: 0;
+      }
+
+      h1 {
+        font-family: "Outfit", "Inter", sans-serif;
+        max-width: 9ch;
+        font-size: clamp(2.8rem, 4.6vw, 4.6rem);
+        line-height: 0.96;
+        letter-spacing: -0.06em;
+        color: var(--green-dark);
+        text-wrap: balance;
+        font-weight: 900;
+      }
+
+      .headline-accent {
+        color: var(--burgundy);
+      }
+
+      .lead {
+        max-width: 42rem;
+        color: var(--muted);
+        font-size: 1rem;
+        line-height: 1.65;
+        font-weight: 500;
+      }
+
+      .flow {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+      }
+
+      .flow-card {
+        padding: 16px;
+        border-radius: 18px;
+        border: 1px solid var(--line);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.56), rgba(255, 255, 255, 0.48)),
+          var(--gold-soft);
+      }
+
+      .flow-card strong {
+        display: block;
+        margin-bottom: 8px;
+        font-size: 0.95rem;
+      }
+
+      .flow-card span {
+        color: var(--muted);
+        font-size: 0.9rem;
+        line-height: 1.5;
+      }
+
+      .side {
+        display: grid;
+        gap: 16px;
+      }
+
+      .statement,
+      .shift {
+        border-radius: 28px;
+      }
+
+      .statement {
+        padding: 28px;
+        background:
+          radial-gradient(circle at top right, rgba(201, 183, 156, 0.16), transparent 24%),
+          linear-gradient(160deg, rgba(23, 70, 50, 0.96), rgba(37, 96, 68, 0.92));
+        color: var(--ivory);
+        display: grid;
+        gap: 14px;
+        align-content: center;
+      }
+
+      .statement h2 {
+        font-family: "Outfit", "Inter", sans-serif;
+        max-width: 11ch;
+        font-size: clamp(2rem, 3vw, 3.2rem);
+        line-height: 0.98;
+        letter-spacing: -0.05em;
+        text-wrap: balance;
+        font-weight: 800;
+      }
+
+      .statement p {
+        max-width: 24rem;
+        color: rgba(245, 241, 232, 0.82);
+        font-size: 1rem;
+        line-height: 1.65;
+      }
+
+      .shift {
+        border: 1px solid var(--line);
+        background: rgba(255, 255, 255, 0.48);
+        padding: 16px;
+        display: grid;
+        gap: 12px;
+      }
+
+      .shift-line {
+        padding: 15px 16px;
+        border-radius: 18px;
+        background:
+          linear-gradient(180deg, rgba(201, 183, 156, 0.18), rgba(23, 70, 50, 0.05));
+        font-weight: 600;
+      }
+
+      .contacts {
+        padding-top: 18px;
+        justify-content: flex-start;
+        gap: 16px;
+      }
+
+      .contact-copy {
+        color: var(--navy);
+        font-size: 0.92rem;
+      }
+
+      .contact-links {
+        display: flex;
+        align-items: center;
+        gap: 18px;
+        flex-wrap: wrap;
+      }
+
+      .contact-link {
+        display: inline-flex;
+        align-items: center;
+        padding: 0;
+        border: 0;
+        background: transparent;
+        color: var(--navy);
+        text-decoration: none;
+        font-weight: 500;
+      }
+
+      .contact-link:hover {
+        color: #1d3158;
+      }
+
+      .contact-icon {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(19, 32, 58, 0.22);
+        background:
+          linear-gradient(180deg, rgba(255, 255, 255, 0.72), rgba(255, 255, 255, 0.56)),
+          var(--gold-soft);
+        color: var(--navy);
+        flex: 0 0 auto;
+      }
+
+      .page-footer {
+        width: min(1280px, calc(100vw - 40px));
+        margin: -2px auto 18px;
+        padding: 0 8px;
+        color: rgba(23, 70, 50, 0.56);
+        font-size: 0.76rem;
+        text-align: center;
+      }
+
+      @media (max-width: 1080px) {
+        .main,
+        .flow {
+          grid-template-columns: 1fr;
+        }
+
+        .shell {
+          min-height: auto;
+        }
+
+        .contacts {
+          align-items: flex-start;
+        }
+      }
+
+      @media (max-width: 720px) {
+        .shell {
+          width: min(100vw - 16px, 1280px);
+          margin: 8px auto;
+          padding: 16px;
+          border-radius: 22px;
+        }
+
+        .hero,
+        .statement,
+        .shift {
+          border-radius: 22px;
+          padding: 20px;
+        }
+
+        h1 {
+          font-size: clamp(2.2rem, 12vw, 3.5rem);
+        }
+
+        .lead {
+          max-width: 100%;
+        }
+
+        .contact-links {
+          gap: 14px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+      <div class="page-wrap">
+      <div class="shell">
+        <header class="topbar">
+          <div class="brand">
+            <img class="brand-logo" src="./assets/agmentic-logo.png" alt="Agmentic logo" />
+            <span>Agmentic</span>
+          </div>
+        </header>
+
+        <main class="main">
+          <section class="hero">
+            <div class="eyebrow">The story of Agmentic</div>
+            <h1>A mindshift from now to <span class="headline-accent">the agmentic word</span></h1>
+            <p class="lead">
+              We imagine the future of AI, exchange ideas, turn them into prototypes in our lab,<br />
+              and release the ones the industry is ready for.
+            </p>
+
+            <div class="flow">
+              <div class="flow-card">
+                <strong>Imagine</strong>
+                <span>Think beyond the current moment.</span>
+              </div>
+              <div class="flow-card">
+                <strong>Prototype</strong>
+                <span>Turn ideas into early experiments.</span>
+              </div>
+              <div class="flow-card">
+                <strong>Release</strong>
+                <span>Ship what is timely and needed.</span>
+              </div>
+            </div>
+          </section>
+
+          <aside class="side">
+            <article class="statement">
+              <h2>Inside the lab</h2>
+              <p>
+                Agmentic is where conversations become experiments, and experiments become outcomes
+                the market can actually use.
+              </p>
+            </article>
+
+            <article class="shift">
+              <div class="shift-line">Interface to Browsers</div>
+              <div class="shift-line">Data to Brain</div>
+              <div class="shift-line">Apps to Agents</div>
+            </article>
+          </aside>
+        </main>
+
+        <footer class="contacts">
+          <div class="contact-links">
+            <a class="contact-link" href="https://www.linkedin.com/" target="_blank" rel="noreferrer">
+              <span class="contact-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" role="img" aria-hidden="true">
+                  <path d="M6.94 8.5H3.56V20h3.38V8.5Zm.22-3.56A1.96 1.96 0 0 0 5.2 3a1.96 1.96 0 0 0-1.97 1.94c0 1.06.88 1.94 1.94 1.94h.03A1.95 1.95 0 0 0 7.16 4.94ZM20 13.04c0-3.41-1.82-5-4.25-5-1.96 0-2.83 1.08-3.32 1.84V8.5H9.05c.05.91 0 11.5 0 11.5h3.38v-6.42c0-.34.02-.68.13-.92.27-.68.9-1.38 1.95-1.38 1.38 0 1.94 1.04 1.94 2.58V20H20v-6.96Z"/>
+                </svg>
+              </span>
+            </a>
+            <a class="contact-link" href="mailto:hello@agmentic.com">
+              <span class="contact-icon" aria-hidden="true">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" role="img" aria-hidden="true">
+                  <path d="M4 6h16v12H4z"/>
+                  <path d="m4 8 8 6 8-6"/>
+                </svg>
+              </span>
+            </a>
+          </div>
+        </footer>
+      </div>
+
+      <div class="page-footer">© 2026 Agmentic All rights reserved.</div>
+    </div>
+  </body>
+</html>

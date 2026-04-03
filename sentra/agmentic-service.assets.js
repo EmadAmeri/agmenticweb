@@ -18173,7 +18173,7 @@ var MF2 = () => {
   };
   var rd = () => {
     return x.jsx("footer", {
-      className: "border-t border-white/10 bg-[#13203A]",
+      className: "border-t border-[#13203A]/12 bg-[#D8C6A8]",
       children: x.jsxs("div", {
         className: "max-w-7xl mx-auto px-6 py-16",
         children: [
@@ -18194,30 +18194,32 @@ var MF2 = () => {
                           style: { width: "44px" },
                           children: x.jsx("img", { src: kf, alt: "Sentra", className: "h-12 w-12 object-contain", style: { width: "48px" } })
                         }),
-                        x.jsx("span", { className: "font-medium leading-none", style: { color: "#F5F1E8", fontSize: "34px", letterSpacing: "-0.035em" }, children: "Sentra" })
+                        x.jsx("span", { className: "font-medium leading-none", style: { color: "#13203A", fontSize: "34px", letterSpacing: "-0.035em" }, children: "Sentra" })
                       ]
                     })
                   }),
-                  x.jsx("p", { className: "text-sm text-muted-foreground leading-relaxed", children: "Your company already has the answers. Sentra finds them before the meeting where everyone's guessing." })
+                  x.jsx("p", { className: "text-sm leading-relaxed", style: { color: "rgba(19, 32, 58, 0.76)" }, children: "Your company already has the answers. Sentra finds them before the meeting where everyone's guessing." })
                 ]
               }),
               x.jsxs("div", {
                 className: "md:justify-self-end self-start text-right",
                 style: { marginTop: "-96px" },
                 children: [
-                  x.jsx("h4", { className: "text-sm font-semibold mb-4", children: "Connect" }),
+                  x.jsx("h4", { className: "text-sm font-semibold mb-4", style: { color: "#13203A" }, children: "Connect" }),
                   x.jsx("div", {
                     className: "space-y-2.5",
-                    children: x.jsx("a", { href: "#", className: "block text-sm text-muted-foreground hover:text-foreground transition-colors", children: "LinkedIn" })
+                    children: x.jsx("a", { href: "#", className: "block text-sm transition-colors", style: { color: "rgba(19, 32, 58, 0.76)" }, children: "LinkedIn" })
                   })
                 ]
               })
             ]
           }),
           x.jsx("div", {
-            className: "border-t border-border/30 pt-8 flex items-center justify-start",
+            className: "pt-8 flex items-center justify-start",
+            style: { borderTop: "1px solid rgba(19, 32, 58, 0.14)" },
             children: x.jsxs("p", {
-              className: "text-xs text-muted-foreground",
+              className: "text-xs",
+              style: { color: "rgba(19, 32, 58, 0.7)" },
               children: ["\xA9 ", (/* @__PURE__ */ new Date()).getFullYear(), " Agmentic All rights reserved."]
             })
           })
