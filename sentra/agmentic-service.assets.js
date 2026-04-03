@@ -17951,10 +17951,10 @@ ${p}`;
         const m = s.current, w = u.getBoundingClientRect(), p = w.width, v = w.height, y = p / 2, S = v / 2, _ = Math.min(p, v);
         c.clearRect(0, 0, p, v), n.current.forEach((P) => {
           const O = Math.sin(m * P.twinkleSpeed + P.twinkleOffset) * 0.3 + 0.7;
-          c.beginPath(), c.arc(P.x * p, P.y * v, P.size, 0, Math.PI * 2), c.fillStyle = `rgba(180,200,255,${P.opacity * O})`, c.fill();
+          c.beginPath(), c.arc(P.x * p, P.y * v, P.size, 0, Math.PI * 2), c.fillStyle = `rgba(19,32,58,${Math.max(0.18, P.opacity * O)})`, c.fill();
         }), Lr.forEach((P) => {
           const O = P.orbitRadius * _;
-          c.beginPath(), c.arc(y, S, O, 0, Math.PI * 2), c.strokeStyle = "rgba(100,140,255,0.06)", c.lineWidth = 0.5, c.stroke();
+          c.beginPath(), c.arc(y, S, O, 0, Math.PI * 2), c.strokeStyle = "rgba(19,32,58,0.12)", c.lineWidth = 0.5, c.stroke();
         }), i.current = i.current.map((P, O) => P + Lr[O].orbitSpeed * g);
         const k = Lr.map((P, O) => {
           const D = i.current[O], j = P.orbitRadius * _;
@@ -17962,7 +17962,7 @@ ${p}`;
         });
         k.forEach((P, O) => {
           const D = Lr[O], j = c.createLinearGradient(y, S, P.x, P.y);
-          j.addColorStop(0, "rgba(96,165,250,0.3)"), j.addColorStop(0.5, D.glowColor.replace("0.5", "0.15")), j.addColorStop(1, D.glowColor.replace("0.5", "0.05"));
+          j.addColorStop(0, "rgba(19,32,58,0.28)"), j.addColorStop(0.5, "rgba(19,32,58,0.18)"), j.addColorStop(1, "rgba(19,32,58,0.08)");
           const z = (y + P.x) / 2 + Math.sin(i.current[O] * 2) * 15, F = (S + P.y) / 2 + Math.cos(i.current[O] * 2) * 15;
           c.beginPath(), c.moveTo(y, S), c.quadraticCurveTo(z, F, P.x, P.y), c.strokeStyle = j, c.lineWidth = 1.2, c.stroke();
         }), r.current.forEach((P) => {
@@ -17970,7 +17970,7 @@ ${p}`;
           const O = k[P.nodeIndex], D = P.returning ? 1 - P.progress : P.progress, j = D * D * (3 - 2 * D), z = (y + O.x) / 2 + Math.sin(i.current[P.nodeIndex] * 2) * 15, F = (S + O.y) / 2 + Math.cos(i.current[P.nodeIndex] * 2) * 15, H = 1 - j, I = H * H * y + 2 * H * j * z + j * j * O.x, M = H * H * S + 2 * H * j * F + j * j * O.y;
           P.opacity = Math.sin(P.progress * Math.PI) * 0.9;
           const E = c.createRadialGradient(I, M, 0, I, M, 4);
-          E.addColorStop(0, `rgba(150,200,255,${P.opacity})`), E.addColorStop(1, "rgba(150,200,255,0)"), c.beginPath(), c.arc(I, M, 4, 0, Math.PI * 2), c.fillStyle = E, c.fill();
+          E.addColorStop(0, `rgba(19,32,58,${P.opacity})`), E.addColorStop(1, "rgba(19,32,58,0)"), c.beginPath(), c.arc(I, M, 4, 0, Math.PI * 2), c.fillStyle = E, c.fill();
         });
         const C = _ * 0.055;
         for (let P = 0; P < 3; P++) {
@@ -17982,7 +17982,7 @@ ${p}`;
         const N = c.createRadialGradient(y, S, 0, y, S, C * 1.6);
         N.addColorStop(0, "rgba(19,32,58,0.18)"), N.addColorStop(1, "rgba(19,32,58,0)"), c.beginPath(), c.arc(y, S, C * 1.6, 0, Math.PI * 2), c.fillStyle = N, c.fill();
         const R = c.createRadialGradient(y - C * 0.2, S - C * 0.2, 0, y, S, C);
-        R.addColorStop(0, "rgba(245,241,232,0.95)"), R.addColorStop(0.4, "rgba(201,183,156,0.86)"), R.addColorStop(0.8, "rgba(19,32,58,0.68)"), R.addColorStop(1, "rgba(19,32,58,0.32)"), c.beginPath(), c.arc(y, S, C, 0, Math.PI * 2), c.fillStyle = R, c.fill(), c.fillStyle = "rgba(19,32,58,0.95)", c.font = `600 ${Math.max(9, _ * 0.022)}px "Space Grotesk", sans-serif`, c.textAlign = "center", c.textBaseline = "middle", c.fillText("AI Core", y, S), k.forEach((P, O) => {
+        R.addColorStop(0, "rgba(19,32,58,0.95)"), R.addColorStop(0.45, "rgba(19,32,58,0.84)"), R.addColorStop(0.85, "rgba(19,32,58,0.62)"), R.addColorStop(1, "rgba(19,32,58,0.28)"), c.beginPath(), c.arc(y, S, C, 0, Math.PI * 2), c.fillStyle = R, c.fill(), c.fillStyle = "rgba(245,241,232,0.98)", c.font = `600 ${Math.max(9, _ * 0.022)}px "Space Grotesk", sans-serif`, c.textAlign = "center", c.textBaseline = "middle", c.fillText("AI Core", y, S), k.forEach((P, O) => {
           const D = Lr[O], j = D.size * (_ / 500), z = Math.sin(m * 1.5 + O) * 0.08 + 1, F = j * z, H = c.createRadialGradient(P.x, P.y, 0, P.x, P.y, F * 2.5);
           H.addColorStop(0, D.glowColor.replace("0.5", "0.15")), H.addColorStop(1, D.glowColor.replace("0.5", "0")), c.beginPath(), c.arc(P.x, P.y, F * 2.5, 0, Math.PI * 2), c.fillStyle = H, c.fill();
           const I = c.createRadialGradient(P.x - F * 0.2, P.y - F * 0.2, 0, P.x, P.y, F);
