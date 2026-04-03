@@ -18050,11 +18050,11 @@ var dF = () => {
               whileInView: { opacity: 1, y: 0 },
               viewport: { once: true, margin: "-60px" },
               transition: { delay: n * 0.08, duration: 0.55 },
-              className: n === 0 ? "relative w-full border border-white/15 bg-[#C9B79C] p-8 md:p-10 text-[#13203A] overflow-hidden" : "relative w-full border border-white/15 bg-[#842029] p-8 md:p-10 text-[#F5F1E8] overflow-hidden",
+              className: n === 0 ? "relative w-full border border-white/15 bg-[#13203A] p-8 md:p-10 text-[#F5F1E8] overflow-hidden" : "relative w-full border border-white/15 bg-[#842029] p-8 md:p-10 text-[#F5F1E8] overflow-hidden",
               style: n === 0 ? { borderRadius: "3rem" } : n === 2 ? { borderRadius: "3rem", gridColumn: "1 / -1" } : { borderRadius: "3rem" },
               children: [
-                x.jsx("h3", { className: "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 whitespace-nowrap", style: { color: n === 0 ? "#13203A" : "#F5F1E8" }, children: t.title }),
-                x.jsx("p", { className: "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] font-medium", style: { maxWidth: "28rem", color: n === 0 ? "#13203A" : "#F5F1E8" }, children: t.description })
+                x.jsx("h3", { className: "relative z-10 text-[1.9rem] md:text-[2rem] font-bold tracking-[-0.03em] leading-[1.08] mb-5 whitespace-nowrap", style: { color: "#F5F1E8" }, children: t.title }),
+                x.jsx("p", { className: "relative z-10 text-[1.06rem] md:text-[1.08rem] leading-[1.9] font-medium", style: { maxWidth: "28rem", color: "#F5F1E8" }, children: t.description })
               ]
             }, t.title))
           })
