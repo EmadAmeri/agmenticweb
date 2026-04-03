@@ -390,6 +390,14 @@
           linear-gradient(90deg, rgba(201, 183, 156, 0.06) 1px, transparent 1px) !important;
       }
 
+      section[class*="pt-24"][class*="pb-12"] h2 {
+        color: #F5F1E8 !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] > div > div:first-child > p:last-child {
+        color: #C9B79C !important;
+      }
+
       section[class*="pt-24"][class*="pb-12"] h2,
       section[class*="pt-24"][class*="pb-12"] h3,
       section[class*="pt-24"][class*="pb-12"] p,
@@ -442,6 +450,18 @@
       section[class*="pt-24"][class*="pb-12"] .bg-\[\#0F1417\] {
         background: #842029 !important;
         border-color: rgba(201, 183, 156, 0.38) !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#842029\],
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#13203A\] {
+        color: #F5F1E8 !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#842029\] h3,
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#842029\] p,
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#13203A\] h3,
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#13203A\] p {
+        color: #F5F1E8 !important;
       }
 
       section[class*="section-padding"] .grid > .relative.p-8,
@@ -523,11 +543,23 @@
       footer span {
         color: #F5F1E8 !important;
       }
+
+      footer .text-muted-foreground,
+      footer p.text-muted-foreground,
+      footer a.text-muted-foreground,
+      footer .border-border\/30 {
+        color: rgba(245, 241, 232, 0.82) !important;
+        border-color: rgba(245, 241, 232, 0.18) !important;
+      }
+
+      footer a:hover {
+        color: #FFFFFF !important;
+      }
     </style>
   </head>
 
   <body>
     <div id="root"></div>
-    <script defer src="./agmentic-service.assets.js?v=20260403-g7e"></script>
+    <script defer src="./agmentic-service.assets.js?v=20260403-g7i"></script>
   </body>
 </html>

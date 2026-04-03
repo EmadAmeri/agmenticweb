@@ -17883,7 +17883,7 @@ ${p}`;
 	                initial: { opacity: 0, x: -40 },
 	                animate: { opacity: 1, x: 0 },
 	                transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
-	                className: "flex flex-col items-start rounded-[12px] bg-[#F5F1E8]/95 px-10 py-10 md:px-12 md:py-12",
+	                className: "flex flex-col items-start px-10 py-10 md:px-12 md:py-12",
 	                children: [
 	                  x.jsxs("h1", {
 	                    className: "text-3xl md:text-5xl lg:text-[3.55rem] font-sans font-semibold leading-[1.02] mb-5 tracking-[-0.045em] text-left",
@@ -17927,7 +17927,7 @@ ${p}`;
       ]
     });
   };
-  var Lr = [{ label: "Sales", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#842029", glowColor: "rgba(132,32,41,0.18)", size: 28 }, { label: "Finance", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 26 }, { label: "Ops", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#174632", glowColor: "rgba(23,70,50,0.16)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#13203A", glowColor: "rgba(19,32,58,0.16)", size: 27 }, { label: "Strategy", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#842029", glowColor: "rgba(132,32,41,0.16)", size: 25 }];
+  var Lr = [{ label: "Sales", angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: "#8F2530", glowColor: "rgba(143,37,48,0.22)", size: 28 }, { label: "Finance", angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: "#1B2A4A", glowColor: "rgba(27,42,74,0.2)", size: 26 }, { label: "Ops", angle: 144, orbitSpeed: 0.055, orbitRadius: 0.26, color: "#1E5840", glowColor: "rgba(30,88,64,0.2)", size: 26 }, { label: "Product", angle: 216, orbitSpeed: 0.07, orbitRadius: 0.26, color: "#1B2A4A", glowColor: "rgba(27,42,74,0.2)", size: 27 }, { label: "Strategy", angle: 288, orbitSpeed: 0.06, orbitRadius: 0.26, color: "#8F2530", glowColor: "rgba(143,37,48,0.2)", size: 25 }];
   var cF = () => {
     const e6 = b.useRef(null), t = b.useRef(0), n = b.useRef([]), r = b.useRef([]), i = b.useRef(Lr.map((u) => u.angle * Math.PI / 180)), s = b.useRef(0), o = b.useRef(0), a = b.useCallback((u) => {
       n.current = Array.from({ length: u }, () => ({ x: Math.random(), y: Math.random(), size: Math.random() * 1.5 + 0.3, opacity: Math.random() * 0.6 + 0.1, twinkleSpeed: Math.random() * 2 + 1, twinkleOffset: Math.random() * Math.PI * 2 }));
@@ -18138,7 +18138,7 @@ var MF2 = () => {
                     children: [
                       x.jsx("div", { style: { display: "none" } }),
                       x.jsxs("div", {
-                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "12px", border: "1px solid rgba(107,111,118,0.26)", background: r === 0 ? "#C9B79C" : "#13203A", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: "none", maxWidth: "100%", color: r === 0 ? "#13203A" : "#F5F1E8", overflow: "hidden" },
+                        style: { position: "relative", zIndex: 1, minHeight: t ? "216px" : "auto", borderRadius: "12px", border: "1px solid rgba(107,111,118,0.26)", background: r === 0 ? "#842029" : "#13203A", padding: t ? "32px 30px 32px 30px" : "24px 22px 24px 22px", boxShadow: "none", maxWidth: "100%", color: "#F5F1E8", overflow: "hidden" },
                         children: [
                           x.jsxs("div", { style: { marginBottom: "28px" }, children: [
                             x.jsx("p", { style: { margin: 0, color: r === 0 ? "rgba(255,255,255,0.72)" : "#A6AFB8", fontSize: t ? "15px" : "15px", lineHeight: 1, letterSpacing: "0.18em", textTransform: "uppercase", fontFamily: '"Plus Jakarta Sans", Inter, sans-serif', fontWeight: 600 }, children: n.step.replace("STEP ", "") })
