@@ -18252,7 +18252,7 @@ var MF2 = () => {
               }),
               x.jsxs("div", {
                 className: "md:justify-self-end self-start text-right",
-                style: { marginTop: "-24px" },
+                style: { marginTop: "12px" },
                 children: [
                   x.jsx("h4", { className: "text-sm font-semibold mb-4", style: { color: "#13203A" }, children: "Connect" }),
                   x.jsx("div", {
