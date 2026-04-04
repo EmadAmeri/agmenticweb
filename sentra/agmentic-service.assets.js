@@ -18192,13 +18192,13 @@ var MF2 = () => {
     const { openDemoGate: e6 } = Co();
     return x.jsxs("section", {
       className: "section-padding relative overflow-hidden",
-      style: { paddingTop: "72px", paddingBottom: "24px" },
+      style: { paddingTop: "72px", paddingBottom: "56px" },
       children: [
         x.jsx("div", { className: "absolute inset-0 gradient-mesh-strong" }),
         x.jsx("div", { className: "absolute inset-0 grid-pattern opacity-10" }),
         x.jsx("div", {
           className: "relative z-10 max-w-4xl mx-auto text-center",
-          style: { paddingBottom: "0px", marginBottom: "-28px" },
+          style: { paddingBottom: "0px", marginBottom: "0px" },
           children: x.jsxs(we.div, {
             initial: { opacity: 0, y: 30 },
             whileInView: { opacity: 1, y: 0 },
@@ -18224,7 +18224,7 @@ var MF2 = () => {
     return x.jsx("footer", {
       className: "border-t border-[#13203A]/12 bg-[#D8C6A8]",
       children: x.jsxs("div", {
-        className: "max-w-7xl mx-auto px-6 py-16",
+        className: "max-w-7xl mx-auto px-6 pt-14 pb-8",
         children: [
           x.jsxs("div", {
             className: "grid md:grid-cols-[minmax(0,1fr)_220px] gap-10 mb-8 items-start",
@@ -18264,7 +18264,7 @@ var MF2 = () => {
             ]
           }),
           x.jsx("div", {
-            className: "pt-6 flex items-center justify-start",
+            className: "pt-5 flex items-center justify-start",
             style: { borderTop: "1px solid rgba(19, 32, 58, 0.14)" },
             children: x.jsxs("p", {
               className: "text-xs",
