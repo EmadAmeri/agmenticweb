@@ -18224,7 +18224,7 @@ var MF2 = () => {
     return x.jsx("footer", {
       className: "border-t border-[#13203A]/12 bg-[#D8C6A8]",
       children: x.jsxs("div", {
-        className: "max-w-7xl mx-auto px-6 pt-20 pb-6",
+        className: "max-w-7xl mx-auto px-6 pt-20 pb-10",
         children: [
           x.jsxs("div", {
             className: "grid md:grid-cols-[minmax(0,1fr)_220px] gap-10 mb-8 items-start",
@@ -18252,7 +18252,7 @@ var MF2 = () => {
               }),
               x.jsxs("div", {
                 className: "md:justify-self-end self-start text-right",
-                style: { marginTop: "0px" },
+                style: { marginTop: "-24px" },
                 children: [
                   x.jsx("h4", { className: "text-sm font-semibold mb-4", style: { color: "#13203A" }, children: "Connect" }),
                   x.jsx("div", {
@@ -18264,7 +18264,7 @@ var MF2 = () => {
             ]
           }),
           x.jsx("div", {
-            className: "pt-4 flex items-center justify-start",
+            className: "pt-6 flex items-center justify-start",
             style: { borderTop: "1px solid rgba(19, 32, 58, 0.14)" },
             children: x.jsxs("p", {
               className: "text-xs",
