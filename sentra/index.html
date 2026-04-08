@@ -5,17 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
     <meta name="theme-color" content="#13203A" />
-    <title>Sentra | Decisions backed by your data</title>
+    <title>Sentra — Your data, finally useful</title>
     <meta
       name="description"
-      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+      content="Sentra turns scattered business data into decisions. No analyst. No waiting."
     />
     <meta name="author" content="Agmentic" />
 
-    <meta property="og:title" content="Sentra | Decisions backed by your data" />
+    <meta property="og:title" content="Sentra — Your data, finally useful" />
     <meta
       property="og:description"
-      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+      content="Sentra turns scattered business data into decisions. No analyst. No waiting."
     />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="./new without background.png" />
@@ -24,7 +24,7 @@
     <meta name="twitter:site" content="@agmentic" />
     <meta
       name="twitter:description"
-      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+      content="Sentra turns scattered business data into decisions. No analyst. No waiting."
     />
     <meta name="twitter:image" content="./new without background.png" />
     <link rel="icon" type="image/png" href="./new without background.png" />
@@ -34,7 +34,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
       rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
     />
     <link rel="stylesheet" href="./agmentic-service.assets.css?v=20260403-g7e" />
     <script>
@@ -578,11 +578,166 @@
       footer a:hover {
         color: #842029 !important;
       }
+
+      :root {
+        --navy: #0C1220;
+        --navy-2: #111A2E;
+        --navy-3: #182038;
+        --amber: #C98A3C;
+        --amber-2: #DFA048;
+        --cream: #EDE8DF;
+        --muted: rgba(237, 232, 223, 0.5);
+        --muted-2: rgba(237, 232, 223, 0.28);
+        --line: rgba(237, 232, 223, 0.08);
+        --line-2: rgba(237, 232, 223, 0.14);
+        --radius: 14px;
+      }
+
+      html,
+      body {
+        background: var(--navy) !important;
+        color: var(--cream) !important;
+        font-family: "DM Sans", sans-serif !important;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        z-index: 9999;
+        pointer-events: none;
+        opacity: 0.025;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+      }
+
+      body,
+      button,
+      input,
+      textarea,
+      select,
+      a,
+      p,
+      span,
+      div,
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        font-family: "DM Sans", sans-serif !important;
+      }
+
+      .sentra-display {
+        font-family: "Fraunces", serif !important;
+      }
+
+      .sentra-nav {
+        background: rgba(12, 18, 32, 0.85) !important;
+        backdrop-filter: blur(20px) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        border-bottom: 1px solid var(--line) !important;
+      }
+
+      .sentra-nav-shell {
+        height: 64px;
+        max-width: none !important;
+        padding: 0 48px !important;
+      }
+
+      .sentra-logo {
+        font-family: "Fraunces", serif !important;
+        font-size: 21px !important;
+        font-weight: 700 !important;
+        letter-spacing: -0.02em !important;
+        color: var(--cream) !important;
+      }
+
+      .sentra-logo-dot {
+        width: 7px;
+        height: 7px;
+        border-radius: 999px;
+        background: var(--amber);
+        box-shadow: 0 0 10px var(--amber);
+      }
+
+      .sentra-demo-btn {
+        border: 0 !important;
+        border-radius: 8px !important;
+        padding: 9px 22px !important;
+        background: var(--amber) !important;
+        color: var(--navy) !important;
+        font-size: 13px !important;
+        font-weight: 600 !important;
+        transition: background .15s ease, transform .12s ease !important;
+      }
+
+      .sentra-demo-btn:hover {
+        background: var(--amber-2) !important;
+        transform: translateY(-1px);
+      }
+
+      .sentra-ghost-btn {
+        border: 1px solid var(--line-2) !important;
+        border-radius: 9px !important;
+        background: transparent !important;
+        color: var(--muted) !important;
+        transition: color .15s ease, border-color .15s ease !important;
+      }
+
+      .sentra-ghost-btn:hover {
+        color: var(--cream) !important;
+        border-color: rgba(237, 232, 223, 0.24) !important;
+      }
+
+      .sentra-section-tag {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+        color: var(--amber);
+      }
+
+      .sentra-section-tag::before {
+        content: "";
+        width: 16px;
+        height: 1px;
+        background: var(--amber);
+        opacity: 0.7;
+      }
+
+      .sentra-footer {
+        border-top: 1px solid var(--line) !important;
+        background: transparent !important;
+      }
+
+      .sentra-footer a {
+        color: var(--muted-2) !important;
+      }
+
+      .sentra-footer a:hover {
+        color: var(--amber) !important;
+      }
+
+      @media (max-width: 860px) {
+        .sentra-nav-shell {
+          padding: 0 24px !important;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .sentra-nav-shell {
+          padding: 0 20px !important;
+        }
+      }
     </style>
   </head>
 
   <body>
     <div id="root"></div>
-    <script defer src="./agmentic-service.assets.js?v=20260404-g8n"></script>
+    <script defer src="./agmentic-service.assets.js?v=20260408-g9a"></script>
   </body>
 </html>
