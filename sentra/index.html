@@ -1,746 +1,842 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#0C1220" />
-    <title>Sentra — Your data, finally useful</title>
-    <meta
-      name="description"
-      content="Sentra turns scattered business data into decisions. No analyst. No waiting."
-    />
-    <meta name="author" content="Agmentic" />
-
-    <meta property="og:title" content="Sentra — Your data, finally useful" />
-    <meta
-      property="og:description"
-      content="Sentra turns scattered business data into decisions. No analyst. No waiting."
-    />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="./new without background.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@agmentic" />
-    <meta
-      name="twitter:description"
-      content="Sentra turns scattered business data into decisions. No analyst. No waiting."
-    />
-    <meta name="twitter:image" content="./new without background.png" />
-    <link rel="icon" type="image/png" href="./new without background.png" />
-    <link rel="apple-touch-icon" href="./new without background.png" />
-
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap"
-    />
-    <link rel="stylesheet" href="./agmentic-service.assets.css?v=20260403-g7e" />
-    <script>
-      document.documentElement.classList.add("dark");
-      try {
-        localStorage.setItem("theme", "dark");
-      } catch (e) {}
-    </script>
-    <style>
-      :root,
-      .dark,
-      html.dark {
-        --background: 38 30% 94%;
-        --foreground: 218 22% 18%;
-        --card: 39 34% 70%;
-        --card-foreground: 218 22% 18%;
-        --popover: 39 34% 70%;
-        --popover-foreground: 218 22% 18%;
-        --primary: 211 55% 18%;
-        --primary-foreground: 0 0% 100%;
-        --secondary: 39 34% 70%;
-        --secondary-foreground: 218 22% 18%;
-        --muted: 220 5% 48%;
-        --muted-foreground: 220 5% 48%;
-        --accent: 354 59% 33%;
-        --accent-foreground: 0 0% 100%;
-        --border: 220 5% 48%;
-        --input: 220 5% 48%;
-        --ring: 211 55% 18%;
-        --surface: 39 34% 70%;
-        --glow: 23 60% 21%;
-        --glow-secondary: 354 59% 33%;
-        --cyan: 211 55% 18%;
-      }
-
-      html,
-      body {
-        background: #0C1220;
-        color: #EDE8DF;
-      }
-
-      body::selection {
-        background: rgba(201, 138, 60, 0.22);
-      }
-
-      nav {
-        background: rgba(12, 18, 32, 0.85) !important;
-        -webkit-backdrop-filter: blur(20px) !important;
-        backdrop-filter: blur(20px) !important;
-        border-bottom: 1px solid rgba(237, 232, 223, 0.08) !important;
-      }
-
-      img[alt="Agmentic"] {
-        position: relative;
-        z-index: 2;
-        filter: brightness(1.15) contrast(1.1) saturate(1.05);
-      }
-
-      a.flex.items-center:has(img[alt="Agmentic"])::before,
-      a.flex.items-center.mb-4:has(img[alt="Sentra"])::before {
-        display: none !important;
-        content: none !important;
-      }
-
-      a.flex.items-center:has(img[alt="Agmentic"]),
-      a.flex.items-center.mb-4:has(img[alt="Sentra"]),
-      a.flex.items-center:has(img[alt="Agmentic"]) span,
-      a.flex.items-center.mb-4:has(img[alt="Sentra"]) span,
-      a.flex.items-center:has(img[alt="Agmentic"]) p,
-      a.flex.items-center.mb-4:has(img[alt="Sentra"]) p,
-      a.flex.items-center:has(img[alt="Agmentic"]) div,
-      a.flex.items-center.mb-4:has(img[alt="Sentra"]) div {
-        color: #13203A !important;
-        -webkit-text-fill-color: #13203A !important;
-        background: none !important;
-        background-image: none !important;
-      }
-
-      img[alt="Sentra"] {
-        position: relative;
-        z-index: 2;
-        filter: brightness(1.15) contrast(1.1) saturate(1.05);
-      }
-
-      .grid-pattern {
-        opacity: 0 !important;
-        background-image: none !important;
-      }
-
-      .gradient-mesh-strong {
-        background: transparent !important;
-      }
-
-      .glass-card-strong {
-        background: #C9B79C !important;
-        border: none !important;
-        box-shadow: none !important;
-      }
-
-      .glow-sm {
-        box-shadow: none !important;
-      }
-
-      .glow-md {
-        box-shadow: none !important;
-      }
-
-      .bg-card {
-        background-color: hsl(var(--card)) !important;
-        background-image: none !important;
-      }
-
-      .bg-background {
-        background-color: hsl(var(--background)) !important;
-        background-image: none !important;
-      }
-
-      .text-muted-foreground {
-        color: #6B6F76 !important;
-      }
-
-      .border-border {
-        border-color: rgba(107, 111, 118, 0.28) !important;
-      }
-
-      [class*="bg-gradient-to-"],
-      [class*="from-"],
-      [class*="to-"],
-      [class*="via-"] {
-        background-image: none !important;
-      }
-
-      [class*="glow"] {
-        box-shadow: none !important;
-        filter: none !important;
-      }
-
-      .bg-primary {
-        background-color: #13203A !important;
-      }
-
-      .bg-secondary,
-      .bg-accent {
-        background-color: #C9B79C !important;
-      }
-
-      .text-primary {
-        color: #13203A !important;
-      }
-
-      .text-accent-foreground,
-      .text-primary-foreground {
-        color: #F5F1E8 !important;
-      }
-
-      .text-foreground,
-      .text-card-foreground,
-      .text-popover-foreground {
-        color: #13203A !important;
-      }
-
-      .shadow-\[0_0_50px_hsl\(var\(--glow\)\/0\.1\)\],
-      .shadow-\[0_0_80px_hsl\(var\(--glow-secondary\)\/0\.08\)\] {
-        box-shadow: none !important;
-      }
-    
-      nav a.flex.items-center > div,
-      a.flex.items-center.mb-4 > div {
-        background: transparent !important;
-        background-image: none !important;
-        border: 0 !important;
-        box-shadow: none !important;
-        outline: none !important;
-      }
-
-      nav a.flex.items-center > div span,
-      a.flex.items-center.mb-4 > div span {
-        color: #13203A !important;
-        -webkit-text-fill-color: #13203A !important;
-        background: none !important;
-        background-image: none !important;
-        -webkit-background-clip: border-box !important;
-        text-shadow: none !important;
-        font-size: 34px !important;
-        letter-spacing: -0.035em !important;
-      }
-
-      .bg-card,
-      [class*="bg-card/"],
-      [class*="bg-secondary/"] {
-        background-color: #C9B79C !important;
-      }
-
-      .bg-background {
-        background-color: #F5F1E8 !important;
-      }
-
-      .text-white,
-      .text-foreground.text-white,
-      .dark .text-white {
-        color: #F5F1E8 !important;
-      }
-
-      .text-black,
-      .dark .text-black {
-        color: #13203A !important;
-      }
-
-      .text-\[\#00B4D8\],
-      .text-cyan,
-      .text-cyan-400,
-      .text-cyan-300,
-      .text-cyan-200 {
-        color: #13203A !important;
-      }
-
-      .text-\[\#8F6B2E\],
-      .text-yellow-400,
-      .text-yellow-300,
-      .text-amber-400,
-      .text-amber-300 {
-        color: #842029 !important;
-      }
-
-      .bg-\[\#0F1417\],
-      .bg-\[\#111111\],
-      .bg-\[\#13203A\],
-      .bg-slate-950,
-      .bg-zinc-950,
-      .bg-black {
-        background-color: #13203A !important;
-      }
-
-      .bg-\[\#842029\],
-      .bg-red-900,
-      .bg-rose-900,
-      .bg-burgundy {
-        background-color: #842029 !important;
-      }
-
-      .border-white\/10,
-      .border-white\/15,
-      .border-white\/20,
-      .border-black\/10,
-      .border-black\/15 {
-        border-color: rgba(107, 111, 118, 0.28) !important;
-      }
-
-      .text-muted,
-      .text-slate-400,
-      .text-slate-500,
-      .text-zinc-400,
-      .text-zinc-500,
-      .text-gray-500,
-      .text-gray-400 {
-        color: #6B6F76 !important;
-      }
-
-      .bg-white,
-      .dark .bg-white {
-        background-color: #F5F1E8 !important;
-      }
-
-      nav button,
-      nav .bg-primary,
-      nav [class*="bg-primary"] {
-        background: #842029 !important;
-        color: #F5F1E8 !important;
-        border: 1px solid #842029 !important;
-      }
-
-      nav button:hover,
-      nav .bg-primary:hover,
-      nav [class*="bg-primary"]:hover {
-        background: #13203A !important;
-        border-color: #13203A !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden {
-        background: #F5F1E8 !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden canvas {
-        opacity: 0.55 !important;
-        filter: none !important;
-        mix-blend-mode: normal;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden .gradient-mesh-strong {
-        background: transparent !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden h1 {
-        color: #13203A !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden p {
-        color: #6B6F76 !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden p.text-\[\#A6AFB8\] {
-        color: #6B6F76 !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden .rounded-\[12px\] {
-        background: rgba(245, 241, 232, 0.94) !important;
-        border: none !important;
-        box-shadow: none !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden a.group,
-      section.relative.min-h-screen.flex.items-center.overflow-hidden button.group {
-        min-height: 48px !important;
-        box-shadow: none !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden a.group {
-        background: #13203A !important;
-        color: #F5F1E8 !important;
-        border: 1px solid #13203A !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden button.group {
-        background: #842029 !important;
-        color: #F5F1E8 !important;
-        border: 1px solid #842029 !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden a.group:hover {
-        background: #842029 !important;
-        border-color: #842029 !important;
-      }
-
-      section.relative.min-h-screen.flex.items-center.overflow-hidden button.group:hover {
-        background: #13203A !important;
-        color: #F5F1E8 !important;
-        border-color: #13203A !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] > div.absolute.inset-0[style*="#0F1417"] {
-        background: #F5F1E8 !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] {
-        background: #F5F1E8 !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] .grid-pattern {
-        opacity: 0 !important;
-        background-image: none !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] h2 {
-        color: #13203A !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] > div > div:first-child > p:last-child {
-        color: #6B6F76 !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] h2,
-      section[class*="pt-24"][class*="pb-12"] h3,
-      section[class*="pt-24"][class*="pb-12"] p,
-      section[class*="pt-24"][class*="pb-12"] span {
-        text-shadow: none !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] h2.text-white,
-      section[class*="section-padding"] h2.text-white {
-        color: #F5F1E8 !important;
-      }
-
-      section[class*="section-padding"] .max-w-5xl.mb-12 h2,
-      section[class*="section-padding"] h2.lg\:whitespace-nowrap {
-        color: #13203A !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] p.text-\[\#A6AFB8\],
-      section[class*="section-padding"] p.text-\[\#A6AFB8\] {
-        color: #6B6F76 !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#243038\] {
-        background: #C9B79C !important;
-        color: #13203A !important;
-        border-color: rgba(201, 183, 156, 0.38) !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#243038\] h3,
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#243038\] p,
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#243038\] span {
-        color: #13203A !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] [style*="background: #C9B79C"] h3,
-      section[class*="pt-24"][class*="pb-12"] [style*="background: #C9B79C"] p,
-      section[class*="pt-24"][class*="pb-12"] [style*="background: #C9B79C"] span {
-        color: #13203A !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] [style*="background: #13203A"] h3,
-      section[class*="pt-24"][class*="pb-12"] [style*="background: #13203A"] p,
-      section[class*="pt-24"][class*="pb-12"] [style*="background: #13203A"] span,
-      section[class*="pt-24"][class*="pb-12"] [style*="background:#13203A"] h3,
-      section[class*="pt-24"][class*="pb-12"] [style*="background:#13203A"] p,
-      section[class*="pt-24"][class*="pb-12"] [style*="background:#13203A"] span {
-        color: #F5F1E8 !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#0F1417\] {
-        background: #842029 !important;
-        border-color: rgba(201, 183, 156, 0.38) !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#842029\],
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#13203A\] {
-        color: #F5F1E8 !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#842029\] h3,
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#842029\] p,
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#13203A\] h3,
-      section[class*="pt-24"][class*="pb-12"] .bg-\[\#13203A\] p {
-        color: #F5F1E8 !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] > div.relative.z-10.w-full.max-w-7xl > div:first-child h2 {
-        color: #13203A !important;
-        background: none !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] > div.relative.z-10.w-full.max-w-7xl > div:first-child > p:first-child {
-        color: #842029 !important;
-        background: none !important;
-      }
-
-      section[class*="pt-24"][class*="pb-12"] > div.relative.z-10.w-full.max-w-7xl > div:first-child > p:last-child {
-        color: #6B6F76 !important;
-        background: none !important;
-      }
-
-      section[class*="section-padding"] .grid > .relative.p-8,
-      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10 {
-        border-color: rgba(107, 111, 118, 0.26) !important;
-        box-shadow: none !important;
-      }
-
-      section[class*="section-padding"] .grid > .relative.p-8:nth-child(1),
-      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(1) {
-        background: #13203A !important;
-        color: #F5F1E8 !important;
-      }
-
-      section[class*="section-padding"] .grid > .relative.p-8:nth-child(2),
-      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(2) {
-        background: #C9B79C !important;
-        color: #13203A !important;
-      }
-
-      section[class*="section-padding"] .grid > .relative.p-8:nth-child(3),
-      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(3) {
-        background: #842029 !important;
-        color: #F5F1E8 !important;
-      }
-
-      section[class*="section-padding"] .grid > .relative.p-8 h3,
-      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10 h3,
-      section[class*="section-padding"] .grid > .relative.p-8 p,
-      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10 p {
-        color: #F5F1E8 !important;
-      }
-
-      section[class*="section-padding"] .grid > .relative.p-8:nth-child(2) h3,
-      section[class*="section-padding"] .grid > .relative.p-8:nth-child(2) p,
-      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(2) h3,
-      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(2) p {
-        color: #13203A !important;
-      }
-
-      section[class*="section-padding"] .grid.md\:grid-cols-3 > .relative.p-8 h3,
-      section[class*="section-padding"] .grid.md\:grid-cols-3 > .relative.p-8.md\:p-10 h3 {
-        white-space: normal !important;
-        overflow-wrap: anywhere !important;
-        word-break: normal !important;
-        max-width: 100% !important;
-        font-size: clamp(1.45rem, 1.75vw, 1.9rem) !important;
-        line-height: 1.12 !important;
-      }
-
-      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > button,
-      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > a {
-        min-height: 52px !important;
-        background-image: none !important;
-        box-shadow: none !important;
-      }
-
-      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > button {
-        background: #842029 !important;
-        color: #F5F1E8 !important;
-        border: 1px solid #842029 !important;
-      }
-
-      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > a {
-        background: #13203A !important;
-        color: #F5F1E8 !important;
-        border: 1px solid #13203A !important;
-      }
-
-      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > button:hover {
-        background: #13203A !important;
-        border-color: #13203A !important;
-      }
-
-      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > a:hover {
-        background: #842029 !important;
-        border-color: #842029 !important;
-      }
-
-      footer,
-      footer.bg-\[\#0F1417\] {
-        background: #0C1220 !important;
-        border-top-color: rgba(237, 232, 223, 0.08) !important;
-      }
-
-      footer h4,
-      footer p,
-      footer a,
-      footer span {
-        color: rgba(237, 232, 223, 0.28) !important;
-      }
-
-      footer strong {
-        color: #EDE8DF !important;
-      }
-
-      footer .text-muted-foreground,
-      footer p.text-muted-foreground,
-      footer a.text-muted-foreground,
-      footer .border-border\/30 {
-        color: rgba(237, 232, 223, 0.28) !important;
-        border-color: rgba(237, 232, 223, 0.08) !important;
-      }
-
-      footer a:hover {
-        color: #C98A3C !important;
-      }
-
-      :root {
-        --navy: #0C1220;
-        --navy-2: #111A2E;
-        --navy-3: #182038;
-        --amber: #C98A3C;
-        --amber-2: #DFA048;
-        --cream: #EDE8DF;
-        --muted: rgba(237, 232, 223, 0.5);
-        --muted-2: rgba(237, 232, 223, 0.28);
-        --line: rgba(237, 232, 223, 0.08);
-        --line-2: rgba(237, 232, 223, 0.14);
-        --radius: 14px;
-      }
-
-      html,
-      body {
-        background: var(--navy) !important;
-        color: var(--cream) !important;
-        font-family: "DM Sans", sans-serif !important;
-      }
-
-      body::after {
-        content: "";
-        position: fixed;
-        inset: 0;
-        z-index: 9999;
-        pointer-events: none;
-        opacity: 0.025;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
-      }
-
-      body,
-      button,
-      input,
-      textarea,
-      select,
-      a,
-      p,
-      span,
-      div,
-      h1,
-      h2,
-      h3,
-      h4,
-      h5,
-      h6 {
-        font-family: "DM Sans", sans-serif !important;
-      }
-
-      .sentra-display {
-        font-family: "Fraunces", serif !important;
-      }
-
-      .sentra-nav {
-        background: rgba(12, 18, 32, 0.85) !important;
-        backdrop-filter: blur(20px) !important;
-        -webkit-backdrop-filter: blur(20px) !important;
-        border-bottom: 1px solid var(--line) !important;
-      }
-
-      .sentra-nav-shell {
-        height: 64px;
-        max-width: none !important;
-        padding: 0 48px !important;
-      }
-
-      .sentra-logo {
-        font-family: "Fraunces", serif !important;
-        font-size: 21px !important;
-        font-weight: 700 !important;
-        letter-spacing: -0.02em !important;
-        color: var(--cream) !important;
-      }
-
-      .sentra-logo-dot {
-        width: 7px;
-        height: 7px;
-        border-radius: 999px;
-        background: var(--amber);
-        box-shadow: 0 0 10px var(--amber);
-      }
-
-      .sentra-demo-btn {
-        border: 0 !important;
-        border-radius: 8px !important;
-        padding: 9px 22px !important;
-        background: var(--amber) !important;
-        color: var(--navy) !important;
-        font-size: 13px !important;
-        font-weight: 600 !important;
-        transition: background .15s ease, transform .12s ease !important;
-      }
-
-      .sentra-demo-btn:hover {
-        background: var(--amber-2) !important;
-        transform: translateY(-1px);
-      }
-
-      .sentra-ghost-btn {
-        border: 1px solid var(--line-2) !important;
-        border-radius: 9px !important;
-        background: transparent !important;
-        color: var(--muted) !important;
-        transition: color .15s ease, border-color .15s ease !important;
-      }
-
-      .sentra-ghost-btn:hover {
-        color: var(--cream) !important;
-        border-color: rgba(237, 232, 223, 0.24) !important;
-      }
-
-      .sentra-section-tag {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        font-size: 11px;
-        font-weight: 600;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: var(--amber);
-      }
-
-      .sentra-section-tag::before {
-        content: "";
-        width: 16px;
-        height: 1px;
-        background: var(--amber);
-        opacity: 0.7;
-      }
-
-      .sentra-footer {
-        border-top: 1px solid var(--line) !important;
-        background: var(--navy) !important;
-      }
-
-      .sentra-footer a {
-        color: var(--muted-2) !important;
-      }
-
-      .sentra-footer a:hover {
-        color: var(--amber) !important;
-      }
-
-      @media (max-width: 860px) {
-        .sentra-nav-shell {
-          padding: 0 24px !important;
-        }
-      }
-
-      @media (max-width: 560px) {
-        .sentra-nav-shell {
-          padding: 0 20px !important;
-        }
-      }
-    </style>
-  </head>
-
-  <body>
-    <div id="root"></div>
-    <script defer src="./agmentic-service.assets.js?v=20260408-g9b"></script>
-  </body>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0C1220">
+<title>Sentra — Your data, finally useful</title>
+<meta name="description" content="Sentra turns scattered business data into decisions. No analyst. No waiting.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0C1220;
+  --navy-2: #111A2E;
+  --navy-3: #182038;
+  --amber: #C98A3C;
+  --amber-2: #DFA048;
+  --cream: #EDE8DF;
+  --muted: rgba(237,232,223,0.50);
+  --muted-2: rgba(237,232,223,0.28);
+  --line: rgba(237,232,223,0.08);
+  --line-2: rgba(237,232,223,0.14);
+  --r: 14px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--navy);
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 48px;
+  background: rgba(12,18,32,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+.logo {
+  font-family: "Fraunces", serif;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.logo-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--amber);
+  box-shadow: 0 0 10px var(--amber);
+}
+.nav-cta {
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--amber);
+  color: var(--navy);
+  cursor: pointer;
+  transition: background .15s;
+}
+.nav-cta:hover { background: var(--amber-2); }
+
+.hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 55%, rgba(201,138,60,0.11) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 85% 15%, rgba(168,32,48,0.07) 0%, transparent 60%);
+}
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(237,232,223,0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 60% 80% at 10% 50%, black 0%, transparent 70%);
+}
+.hero-inner { position: relative; z-index: 1; max-width: 680px; }
+.hero-tag,
+.section-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-tag { margin-bottom: 28px; opacity: 0; animation: fadeUp .6s .1s forwards; }
+.section-tag { margin-bottom: 20px; }
+.hero-tag::before,
+.section-tag::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--amber);
+}
+.section-tag::before { width: 16px; opacity: .7; }
+.hero h1 {
+  font-family: "Fraunces", serif;
+  font-size: clamp(50px, 7vw, 84px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp .8s .2s forwards;
+}
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--amber-2); }
+.hero-sub {
+  font-size: 18px;
+  line-height: 1.68;
+  color: var(--muted);
+  max-width: 42ch;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp .75s .35s forwards;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp .7s .48s forwards;
+}
+.btn-main,
+.btn-main-lg {
+  border: 0;
+  border-radius: 9px;
+  font-weight: 600;
+  background: var(--amber);
+  color: var(--navy);
+  cursor: pointer;
+  transition: background .15s, transform .12s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-main {
+  padding: 14px 28px;
+  font-size: 15px;
+}
+.btn-main-lg {
+  padding: 15px 36px;
+  font-size: 16px;
+  gap: 9px;
+}
+.btn-main:hover,
+.btn-main-lg:hover {
+  background: var(--amber-2);
+  transform: translateY(-1px);
+}
+.btn-soft,
+.btn-talk {
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.btn-soft {
+  padding: 14px 22px;
+  font-size: 14px;
+}
+.btn-talk {
+  padding: 12px 26px;
+  font-size: 14px;
+}
+.btn-soft:hover,
+.btn-talk:hover {
+  color: var(--cream);
+  border-color: rgba(237,232,223,0.24);
+}
+
+.pain,
+.outcomes {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--navy-2);
+  padding: 72px 48px;
+}
+.pain h2,
+.how h2,
+.outcomes h2,
+.cta-box h2 {
+  font-family: "Fraunces", serif;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+.pain h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.02;
+  margin-bottom: 12px;
+}
+.pain h2 em,
+.how h2 em,
+.outcomes h2 em { font-style: italic; font-weight: 400; color: var(--muted); }
+.pain-lead,
+.how-lead {
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--muted);
+  max-width: 52ch;
+}
+.pain-lead { margin-bottom: 48px; }
+.how-lead { font-size: 15px; margin-bottom: 52px; }
+.pain-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.pc {
+  border-radius: var(--r);
+  padding: 28px 24px;
+  border: 1px solid var(--line);
+  transition: border-color .2s, transform .18s;
+}
+.pc:hover { border-color: var(--line-2); transform: translateY(-2px); }
+.pc-1, .pc-3 { background: var(--navy-3); }
+.pc-2 { background: var(--amber); color: var(--navy); }
+.pc h3 {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+}
+.pc p {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.pc-2 p { color: rgba(12,18,32,0.6); }
+
+.how {
+  padding: 80px 48px;
+  position: relative;
+}
+.how h2,
+.outcomes h2 {
+  font-size: clamp(30px, 3.5vw, 44px);
+  line-height: 1.04;
+}
+.how h2 { margin-bottom: 10px; }
+.outcomes h2 { margin-bottom: 40px; }
+
+.cycle {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--navy-2);
+  position: relative;
+}
+.cycle::before {
+  content: "";
+  position: absolute;
+  top: 48px;
+  left: calc(25% / 2);
+  right: calc(25% / 2);
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--amber) 12%, var(--amber) 88%, transparent 100%);
+  opacity: 0.25;
+  z-index: 0;
+  pointer-events: none;
+}
+.cycle-step {
+  padding: 28px 22px 26px;
+  border-right: 1px solid var(--line);
+  position: relative;
+  z-index: 1;
+  transition: background .18s;
+}
+.cycle-step:last-child { border-right: 0; }
+.cycle-step:hover { background: var(--navy-3); }
+.cycle-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(201,138,60,0.12);
+  border: 1px solid rgba(201,138,60,0.28);
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  color: var(--amber);
+}
+.cycle-step h3 {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin-bottom: 7px;
+}
+.cycle-step p {
+  font-size: 12px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+.cycle-badge {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.oc-list { display: grid; gap: 12px; }
+.oc {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 20px 22px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--navy-3);
+  transition: border-color .18s;
+}
+.oc:hover { border-color: var(--line-2); }
+.oc-arrow { color: var(--amber); margin-top: 2px; }
+.oc h3 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 4px;
+}
+.oc p {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.cta-section { padding: 0 48px 80px; }
+.cta-box {
+  border-radius: 18px;
+  padding: 64px 56px;
+  background: var(--navy-2);
+  border: 1px solid var(--line-2);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+}
+.cta-box::after {
+  content: "";
+  position: absolute;
+  top: -15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(201,138,60,0.11) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-box h2 {
+  font-size: clamp(30px, 4vw, 50px);
+  line-height: 1.05;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+.cta-box h2 em { font-style: italic; font-weight: 400; color: var(--amber-2); }
+.cta-box p {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+.cta-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  position: relative;
+  z-index: 1;
+}
+.cta-note { font-size: 12px; color: var(--muted-2); }
+.cta-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted-2);
+  width: 200px;
+}
+.cta-or::before,
+.cta-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 24px 48px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted-2);
+}
+footer strong { color: var(--cream); }
+footer a:hover { color: var(--amber); }
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(8,12,20,0.75);
+  backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--navy-2);
+  border: 1px solid var(--line-2);
+  border-radius: 18px;
+  padding: 44px 40px;
+  width: min(460px, calc(100vw - 40px));
+  position: relative;
+  transform: translateY(16px);
+  transition: transform .25s;
+}
+.modal-overlay.open .modal { transform: none; }
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .15s;
+}
+.modal-close:hover { background: rgba(237,232,223,0.07); }
+.modal-top { margin-bottom: 6px; }
+.modal-top::before {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--amber);
+  margin-bottom: 18px;
+}
+.modal h3 {
+  font-family: "Fraunces", serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 8px;
+}
+.modal-sub {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+.modal-input-row {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  overflow: hidden;
+  background: rgba(237,232,223,0.04);
+  transition: border-color .2s;
+  margin-bottom: 10px;
+}
+.modal-input-row:focus-within {
+  border-color: rgba(201,138,60,0.45);
+  box-shadow: 0 0 0 3px rgba(201,138,60,0.07);
+}
+.modal-input {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  padding: 13px 16px;
+  font-size: 15px;
+  color: var(--cream);
+  outline: none;
+}
+.modal-input::placeholder { color: var(--muted-2); }
+.modal-btn {
+  border: 0;
+  padding: 13px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--amber);
+  color: var(--navy);
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.modal-btn:hover { background: var(--amber-2); }
+.modal-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+.modal-note { font-size: 11px; color: var(--muted-2); }
+.modal-error { display: none; margin-top: 10px; font-size: 12px; color: #ff8f82; }
+.modal-success { display: none; text-align: center; padding: 16px 0; }
+.modal-success-mark {
+  color: var(--amber);
+  margin: 0 auto 14px;
+  display: block;
+  width: 36px;
+  height: 36px;
+}
+.modal-success h4 {
+  font-family: "Fraunces", serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.modal-success p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+@media (max-width: 860px) {
+  nav, .hero, .pain, .how, .outcomes, .cta-section, footer { padding-left: 24px; padding-right: 24px; }
+  .pain-cards { grid-template-columns: 1fr; }
+  .cycle { grid-template-columns: repeat(2, 1fr); }
+  .cycle-step:nth-child(2) { border-right: 0; }
+  .cycle-step:nth-child(3),
+  .cycle-step:nth-child(4) { border-top: 1px solid var(--line); }
+  .cycle::before { display: none; }
+  .cta-box { padding: 44px 28px; }
+}
+
+@media (max-width: 560px) {
+  .hero { padding: 108px 20px 60px; }
+  .pain, .how, .outcomes { padding: 56px 20px; }
+  .cta-section { padding: 0 20px 60px; }
+  footer { padding: 22px 20px; flex-direction: column; align-items: flex-start; }
+  nav { padding: 0 20px; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .btn-main, .btn-soft { justify-content: center; }
+  .cycle { grid-template-columns: 1fr; }
+  .cycle-step {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    border-top: 0 !important;
+  }
+  .cycle-step:last-child { border-bottom: 0; }
+  .modal { padding: 32px 24px; }
+  .modal-input-row { flex-direction: column; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo"><div class="logo-dot"></div>Sentra</div>
+  <button class="nav-cta" onclick="openModal()">Try the demo</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-inner">
+    <p class="hero-tag">By Agmentic</p>
+    <h1>Your data has<br>the answer.<br><em>Go find it.</em></h1>
+    <p class="hero-sub">
+      Most businesses are sitting on decisions they haven't made yet — because the data that backs them is scattered, stale, or stuck with one person. Sentra fixes that.
+    </p>
+    <div class="hero-actions">
+      <button class="btn-main" onclick="openModal()">
+        Try the demo
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+      <button class="btn-soft" onclick="openModal()">Talk to us — no deck, no pitch</button>
+    </div>
+  </div>
+</section>
+
+<section class="pain">
+  <p class="section-tag">Sound familiar?</p>
+  <h2>The data's there.<br><em>The answer isn't.</em></h2>
+  <p class="pain-lead">One company had 40,000 contacts across 12 spreadsheets. Nobody could answer "who should we invite to dinner?" Same story, different business, every time.</p>
+  <div class="pain-cards">
+    <div class="pc pc-1">
+      <h3>Every team has their own version of the numbers.</h3>
+      <p>Meetings turn into arguments about whose spreadsheet is right. Nothing gets decided.</p>
+    </div>
+    <div class="pc pc-2">
+      <h3>You need to know what to do — not what happened last quarter.</h3>
+      <p>Dashboards are fine. But they don't tell you what needs your attention this week.</p>
+    </div>
+    <div class="pc pc-3">
+      <h3>You've tried tools that sounded smart and stayed quiet.</h3>
+      <p>Sentra tells you the reason behind every answer. When someone asks why, you'll have a real one.</p>
+    </div>
+  </div>
+</section>
+
+<section class="how">
+  <p class="section-tag">How it works</p>
+  <h2>Raw data in.<br><em>Decisions out.</em></h2>
+  <p class="how-lead">Sentra doesn't just store your data — it reads it, builds profiles from it, and keeps getting smarter as more comes in.</p>
+  <div class="cycle">
+    <div class="cycle-step">
+      <span class="cycle-badge">Step 1</span>
+      <div class="cycle-icon">1</div>
+      <h3>Connect your data</h3>
+      <p>CRM, files, spreadsheets, ops tools. Whatever you have, wherever it lives.</p>
+    </div>
+    <div class="cycle-step">
+      <span class="cycle-badge">Step 2</span>
+      <div class="cycle-icon">2</div>
+      <h3>AI builds smart profiles</h3>
+      <p>Every customer, contact, or product gets a living profile — built from raw data, kept up to date automatically.</p>
+    </div>
+    <div class="cycle-step">
+      <span class="cycle-badge">Step 3</span>
+      <div class="cycle-icon">3</div>
+      <h3>Insights surface automatically</h3>
+      <p>Sentra reads your data continuously and turns patterns into decision reports — no one has to ask for them.</p>
+    </div>
+    <div class="cycle-step">
+      <span class="cycle-badge">Step 4</span>
+      <div class="cycle-icon">4</div>
+      <h3>Ask anything, get a real answer</h3>
+      <p>The profiles and insights become a knowledge base. Ask the chatbot a question — it answers from your actual data, not thin air.</p>
+    </div>
+  </div>
+</section>
+
+<section class="outcomes">
+  <p class="section-tag">What changes</p>
+  <h2>After Sentra,<br><em>decisions aren't hard anymore.</em></h2>
+  <div class="oc-list">
+    <div class="oc">
+      <div class="oc-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+      <div>
+        <h3>You stop waiting on someone to pull the numbers.</h3>
+        <p>The context is already there. You just act on it.</p>
+      </div>
+    </div>
+    <div class="oc">
+      <div class="oc-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+      <div>
+        <h3>Every team is working from the same picture.</h3>
+        <p>"Whose numbers are these?" stops being a 45-minute meeting.</p>
+      </div>
+    </div>
+    <div class="oc">
+      <div class="oc-arrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </div>
+      <div>
+        <h3>Problems show up before they get expensive.</h3>
+        <p>Sentra watches your data so you don't have to. It tells you what needs attention before someone else notices.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="cta-section">
+  <div class="cta-box">
+    <h2>See what's hiding<br><em>in your own data.</em></h2>
+    <p>Enter your email. We send you a live demo link. Two minutes, no setup.</p>
+    <div class="cta-actions">
+      <button class="btn-main-lg" onclick="openModal()">
+        Try the demo
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      </button>
+      <p class="cta-note">Free · No credit card · Link sent to your inbox</p>
+      <div class="cta-or">or</div>
+      <button class="btn-talk" onclick="openModal()">Talk to us — no demo, no deck</button>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <span>An <strong>Agmentic</strong> product · © 2026</span>
+  <a href="https://www.linkedin.com/company/agmentic/" target="_blank" rel="noreferrer">LinkedIn</a>
+</footer>
+
+<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+
+    <div id="modal-form-view">
+      <div class="modal-top"></div>
+      <h3>Get your demo link</h3>
+      <p class="modal-sub">We'll send a link to your inbox. Open it, connect a sample dataset, and see Sentra work on real data — in about two minutes.</p>
+      <div class="modal-input-row">
+        <input class="modal-input" type="email" id="modal-email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')submitModal()">
+        <button class="modal-btn" id="modal-submit" onclick="submitModal()">Send link →</button>
+      </div>
+      <p class="modal-error" id="modal-error"></p>
+      <p class="modal-note">No setup. No credit card. Link expires in 24 hours.</p>
+    </div>
+
+    <div class="modal-success" id="modal-success-view">
+      <svg class="modal-success-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <h4>Check your inbox.</h4>
+      <p id="modal-success-text">Your demo link is on its way. Open it when you're ready — no rush.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const endpoint = "/api/sentra-demo-access";
+
+  function openModal() {
+    document.getElementById("modal").classList.add("open");
+    document.getElementById("modal-form-view").style.display = "block";
+    document.getElementById("modal-success-view").style.display = "none";
+    document.getElementById("modal-error").style.display = "none";
+    setTimeout(() => document.getElementById("modal-email")?.focus(), 100);
+  }
+
+  function closeModal() {
+    document.getElementById("modal").classList.remove("open");
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById("modal")) closeModal();
+  }
+
+  async function submitModal() {
+    const emailInput = document.getElementById("modal-email");
+    const errorEl = document.getElementById("modal-error");
+    const button = document.getElementById("modal-submit");
+    const email = emailInput.value.trim();
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errorEl.textContent = "Please enter a valid email address.";
+      errorEl.style.display = "block";
+      emailInput.focus();
+      return;
+    }
+
+    errorEl.style.display = "none";
+    button.disabled = true;
+    button.textContent = "Sending...";
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "We couldn't send the access email right now. Please try again.");
+      }
+
+      document.getElementById("modal-form-view").style.display = "none";
+      document.getElementById("modal-success-view").style.display = "block";
+      document.getElementById("modal-success-text").textContent = "Your demo link is on its way to " + email + ". Open it when you're ready — no rush.";
+    } catch (error) {
+      errorEl.textContent = error.message || "Something went wrong.";
+      errorEl.style.display = "block";
+    } finally {
+      button.disabled = false;
+      button.textContent = "Send link →";
+    }
+  }
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") closeModal();
+  });
+</script>
+</body>
 </html>
