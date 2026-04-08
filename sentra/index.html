@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="color-scheme" content="light" />
-    <meta name="theme-color" content="#13203A" />
+    <meta name="theme-color" content="#0C1220" />
     <title>Sentra — Your data, finally useful</title>
     <meta
       name="description"
@@ -72,20 +72,19 @@
 
       html,
       body {
-        background: #F5F1E8;
-        color: #13203A;
+        background: #0C1220;
+        color: #EDE8DF;
       }
 
       body::selection {
-        background: rgba(132, 32, 41, 0.18);
+        background: rgba(201, 138, 60, 0.22);
       }
 
       nav {
-        background: #F5F1E8 !important;
-        background-image: none !important;
-        -webkit-backdrop-filter: none !important;
-        backdrop-filter: none !important;
-        border-bottom: 1px solid rgba(31, 38, 48, 0.12) !important;
+        background: rgba(12, 18, 32, 0.85) !important;
+        -webkit-backdrop-filter: blur(20px) !important;
+        backdrop-filter: blur(20px) !important;
+        border-bottom: 1px solid rgba(237, 232, 223, 0.08) !important;
       }
 
       img[alt="Agmentic"] {
@@ -556,27 +555,31 @@
 
       footer,
       footer.bg-\[\#0F1417\] {
-        background: #D8C6A8 !important;
-        border-top-color: rgba(19, 32, 58, 0.14) !important;
+        background: #0C1220 !important;
+        border-top-color: rgba(237, 232, 223, 0.08) !important;
       }
 
       footer h4,
       footer p,
       footer a,
       footer span {
-        color: #13203A !important;
+        color: rgba(237, 232, 223, 0.28) !important;
+      }
+
+      footer strong {
+        color: #EDE8DF !important;
       }
 
       footer .text-muted-foreground,
       footer p.text-muted-foreground,
       footer a.text-muted-foreground,
       footer .border-border\/30 {
-        color: rgba(19, 32, 58, 0.76) !important;
-        border-color: rgba(19, 32, 58, 0.14) !important;
+        color: rgba(237, 232, 223, 0.28) !important;
+        border-color: rgba(237, 232, 223, 0.08) !important;
       }
 
       footer a:hover {
-        color: #842029 !important;
+        color: #C98A3C !important;
       }
 
       :root {
@@ -711,7 +714,7 @@
 
       .sentra-footer {
         border-top: 1px solid var(--line) !important;
-        background: transparent !important;
+        background: var(--navy) !important;
       }
 
       .sentra-footer a {
@@ -738,6 +741,6 @@
 
   <body>
     <div id="root"></div>
-    <script defer src="./agmentic-service.assets.js?v=20260408-g9a"></script>
+    <script defer src="./agmentic-service.assets.js?v=20260408-g9b"></script>
   </body>
 </html>
