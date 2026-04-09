@@ -91,12 +91,18 @@ nav {
 
 .hero {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
   padding: 120px 48px 80px;
   position: relative;
   overflow: hidden;
+}
+.hero-layout {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100vh - 200px);
+  display: grid;
+  grid-template-columns: minmax(0, 680px) minmax(320px, 1fr);
+  align-items: center;
+  gap: 48px;
 }
 .hero-bg {
   position: absolute;
@@ -114,7 +120,54 @@ nav {
   background-size: 48px 48px;
   mask-image: radial-gradient(ellipse 60% 80% at 10% 50%, black 0%, transparent 70%);
 }
-.hero-inner { position: relative; z-index: 1; max-width: 680px; }
+.hero-inner { position: relative; max-width: 680px; }
+.hero-visual {
+  position: relative;
+  min-height: 560px;
+  border-radius: 24px;
+  border: 1px solid var(--line);
+  background:
+    radial-gradient(circle at 50% 50%, rgba(201,138,60,0.06) 0%, transparent 38%),
+    radial-gradient(circle at 18% 20%, rgba(201,138,60,0.08) 0%, transparent 28%),
+    radial-gradient(circle at 82% 76%, rgba(223,160,72,0.05) 0%, transparent 24%),
+    rgba(17,26,46,0.72);
+  overflow: hidden;
+  box-shadow: inset 0 1px 0 rgba(237,232,223,0.06);
+}
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: linear-gradient(rgba(237,232,223,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(237,232,223,0.04) 1px, transparent 1px);
+  background-size: 64px 64px;
+  mask-image: radial-gradient(circle at 50% 50%, black 0%, transparent 82%);
+  opacity: 0.35;
+}
+.hero-node-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.hero-visual-copy {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 24px;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.hero-visual-copy span:last-child {
+  color: rgba(237,232,223,0.44);
+}
 .hero-tag,
 .section-tag {
   font-size: 11px;
@@ -450,16 +503,59 @@ nav {
 
 footer {
   border-top: 1px solid var(--line);
-  padding: 24px 48px;
+  padding: 32px 48px 26px;
+}
+.footer-top {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 28px;
+  margin-bottom: 24px;
+}
+.footer-brand {
+  max-width: 520px;
+}
+.footer-mark {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 12px;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-family: "Fraunces", serif;
+  font-size: 20px;
+  color: var(--cream);
+}
+.footer-mark .logo-dot {
+  flex: 0 0 auto;
+}
+.footer-copy {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+}
+.footer-links {
+  min-width: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+}
+.footer-links-title {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--cream);
+}
+.footer-links a {
+  font-size: 15px;
+  color: var(--muted);
+}
+.footer-links a:hover { color: var(--amber); }
+.footer-bottom {
+  padding-top: 18px;
+  border-top: 1px solid var(--line);
   font-size: 12px;
   color: var(--muted-2);
 }
-footer strong { color: var(--cream); }
-footer a:hover { color: var(--amber); }
 
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(20px); }
@@ -588,6 +684,8 @@ footer a:hover { color: var(--amber); }
 
 @media (max-width: 860px) {
   nav, .hero, .pain, .how, .outcomes, .cta-section, footer { padding-left: 24px; padding-right: 24px; }
+  .hero-layout { grid-template-columns: 1fr; gap: 36px; min-height: auto; }
+  .hero-visual { min-height: 420px; }
   .pain-cards { grid-template-columns: 1fr; }
   .cycle { grid-template-columns: repeat(2, 1fr); }
   .cycle-step:nth-child(2) { border-right: 0; }
@@ -601,9 +699,11 @@ footer a:hover { color: var(--amber); }
   .hero { padding: 108px 20px 60px; }
   .pain, .how, .outcomes { padding: 56px 20px; }
   .cta-section { padding: 0 20px 60px; }
-  footer { padding: 22px 20px; flex-direction: column; align-items: flex-start; }
+  footer { padding: 28px 20px 22px; }
   nav { padding: 0 20px; }
   .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-visual { min-height: 320px; border-radius: 18px; }
+  .hero-visual-copy { left: 18px; right: 18px; bottom: 16px; flex-direction: column; align-items: flex-start; gap: 6px; }
   .btn-main, .btn-soft { justify-content: center; }
   .cycle { grid-template-columns: 1fr; }
   .cycle-step {
@@ -614,6 +714,9 @@ footer a:hover { color: var(--amber); }
   .cycle-step:last-child { border-bottom: 0; }
   .modal { padding: 32px 24px; }
   .modal-input-row { flex-direction: column; }
+  .footer-top { flex-direction: column; align-items: flex-start; margin-bottom: 20px; }
+  .footer-links { align-items: flex-start; }
+  .footer-copy { font-size: 14px; }
 }
 </style>
 </head>
@@ -626,18 +729,27 @@ footer a:hover { color: var(--amber); }
 
 <section class="hero">
   <div class="hero-bg"></div>
-  <div class="hero-inner">
-    <p class="hero-tag">By Agmentic</p>
-    <h1>Your data has<br>the answer.<br><em>Go find it.</em></h1>
-    <p class="hero-sub">
-      Most businesses are sitting on decisions they haven't made yet — because the data that backs them is scattered, stale, or stuck with one person. Sentra fixes that.
-    </p>
-    <div class="hero-actions">
-      <button class="btn-main" onclick="openModal()">
-        Try the demo
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-      </button>
-      <button class="btn-soft" onclick="openModal()">Talk to us — no deck, no pitch</button>
+  <div class="hero-layout">
+    <div class="hero-inner">
+      <p class="hero-tag">By Agmentic</p>
+      <h1>Your data has<br>the answer.<br><em>Go find it.</em></h1>
+      <p class="hero-sub">
+        Most businesses are sitting on decisions they haven't made yet — because the data that backs them is scattered, stale, or stuck with one person. Sentra fixes that.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-main" onclick="openModal()">
+          Try the demo
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </button>
+        <button class="btn-soft" onclick="openModal()">Talk to us — no deck, no pitch</button>
+      </div>
+    </div>
+    <div class="hero-visual" aria-hidden="true">
+      <canvas class="hero-node-canvas" id="hero-node-canvas"></canvas>
+      <div class="hero-visual-copy">
+        <span>Live Signal Map</span>
+        <span>Quiet background activity</span>
+      </div>
     </div>
   </div>
 </section>
@@ -745,8 +857,20 @@ footer a:hover { color: var(--amber); }
 </div>
 
 <footer>
-  <span>An <strong>Agmentic</strong> product · © 2026</span>
-  <a href="https://www.linkedin.com/company/agmentic/" target="_blank" rel="noreferrer">LinkedIn</a>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="footer-mark">
+        <div class="logo-dot"></div>
+        <span>Sentra</span>
+      </div>
+      <p class="footer-copy">Your company already has the answers. Sentra finds them before the meeting where everyone's guessing.</p>
+    </div>
+    <div class="footer-links">
+      <span class="footer-links-title">Connect</span>
+      <a href="https://www.linkedin.com/company/agmentic/" target="_blank" rel="noreferrer">LinkedIn</a>
+    </div>
+  </div>
+  <div class="footer-bottom">An <strong>Agmentic</strong> product · © 2026</div>
 </footer>
 
 <div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
@@ -837,6 +961,134 @@ footer a:hover { color: var(--amber); }
   document.addEventListener("keydown", e => {
     if (e.key === "Escape") closeModal();
   });
+
+  (function initHeroNodes() {
+    const canvas = document.getElementById("hero-node-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const palette = [
+      { stroke: "201,138,60", fill: "223,160,72" },
+      { stroke: "237,232,223", fill: "237,232,223" },
+      { stroke: "160,55,68", fill: "201,138,60" }
+    ];
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let nodes = [];
+    let links = [];
+    let raf = 0;
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buildNodes();
+    }
+
+    function buildNodes() {
+      const count = width < 540 ? 18 : 28;
+      nodes = Array.from({ length: count }, (_, index) => {
+        const angle = (index / count) * Math.PI * 2;
+        const radius = Math.min(width, height) * (0.18 + Math.random() * 0.26);
+        const orbit = 0.0008 + Math.random() * 0.0015;
+        const cluster = palette[index % palette.length];
+        return {
+          cx: width * (0.52 + Math.cos(angle) * 0.16),
+          cy: height * (0.48 + Math.sin(angle) * 0.16),
+          radius,
+          angle,
+          orbit,
+          size: 1.6 + Math.random() * 3.8,
+          pulse: Math.random() * Math.PI * 2,
+          cluster
+        };
+      });
+
+      links = [];
+      for (let i = 0; i < nodes.length; i += 1) {
+        for (let j = i + 1; j < nodes.length; j += 1) {
+          const dx = nodes[i].cx - nodes[j].cx;
+          const dy = nodes[i].cy - nodes[j].cy;
+          const dist = Math.hypot(dx, dy);
+          if (dist < Math.min(width, height) * 0.22 && Math.random() > 0.42) {
+            links.push([i, j]);
+          }
+        }
+      }
+    }
+
+    function draw(time) {
+      ctx.clearRect(0, 0, width, height);
+
+      const coreX = width * 0.56;
+      const coreY = height * 0.48;
+      const halo = ctx.createRadialGradient(coreX, coreY, 0, coreX, coreY, Math.min(width, height) * 0.34);
+      halo.addColorStop(0, "rgba(201,138,60,0.10)");
+      halo.addColorStop(1, "rgba(201,138,60,0)");
+      ctx.fillStyle = halo;
+      ctx.beginPath();
+      ctx.arc(coreX, coreY, Math.min(width, height) * 0.34, 0, Math.PI * 2);
+      ctx.fill();
+
+      const positions = nodes.map(node => {
+        const t = time * node.orbit + node.pulse;
+        return {
+          x: node.cx + Math.cos(t) * node.radius,
+          y: node.cy + Math.sin(t) * node.radius * 0.72,
+          size: node.size + Math.sin(time * 0.0013 + node.pulse) * 0.45,
+          cluster: node.cluster
+        };
+      });
+
+      links.forEach(([a, b], index) => {
+        const from = positions[a];
+        const to = positions[b];
+        const alpha = 0.05 + ((Math.sin(time * 0.0008 + index) + 1) * 0.5) * 0.08;
+        ctx.beginPath();
+        ctx.moveTo(from.x, from.y);
+        ctx.lineTo(to.x, to.y);
+        ctx.strokeStyle = `rgba(237,232,223,${alpha})`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+
+      positions.forEach((node, index) => {
+        const glow = ctx.createRadialGradient(node.x, node.y, 0, node.x, node.y, node.size * 4.6);
+        glow.addColorStop(0, `rgba(${node.cluster.fill},0.18)`);
+        glow.addColorStop(1, `rgba(${node.cluster.fill},0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.size * 4.6, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(node.x, node.y, node.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${node.cluster.fill},0.92)`;
+        ctx.fill();
+
+        if (index % 5 === 0) {
+          ctx.beginPath();
+          ctx.arc(node.x, node.y, node.size + 5 + Math.sin(time * 0.001 + index) * 1.2, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(${node.cluster.stroke},0.14)`;
+          ctx.lineWidth = 0.9;
+          ctx.stroke();
+        }
+      });
+
+      raf = requestAnimationFrame(draw);
+    }
+
+    resize();
+    raf = requestAnimationFrame(draw);
+    window.addEventListener("resize", resize);
+  })();
 </script>
 </body>
 </html>
