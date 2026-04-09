@@ -1,0 +1,45 @@
+session_id,event_id,title,track,format,start_time,duration_min,speaker_company_id
+S2024-01,K5-2024,Logistics: What’s Next?,Logistics,Panel,2024-06-25T9:00:00,45,C011
+S2024-02,K5-2024,CRM & CDP: What’s Next?,CRM & CDP,Case Study,2024-06-25T10:00:00,30,C018
+S2024-03,K5-2024,CRM & CDP: What’s Next?,CRM & CDP,Keynote,2024-06-25T11:00:00,45,C080
+S2024-04,K5-2024,CRM & CDP: What’s Next?,CRM & CDP,Fireside,2024-06-25T12:00:00,30,C040
+S2024-05,K5-2024,CRM & CDP: What’s Next?,CRM & CDP,Workshop,2024-06-25T13:00:00,45,C009
+S2024-06,K5-2024,Payments: What’s Next?,Payments,Panel,2024-06-25T14:00:00,40,C008
+S2024-07,K5-2024,AI in Commerce: What’s Next?,AI in Commerce,Case Study,2024-06-25T15:00:00,30,C035
+S2024-08,K5-2024,Sustainability: What’s Next?,Sustainability,Case Study,2024-06-25T9:00:00,45,C014
+S2024-09,K5-2024,Marketplaces: What’s Next?,Marketplaces,Case Study,2024-06-25T10:00:00,30,C071
+S2024-10,K5-2024,AI in Commerce: What’s Next?,AI in Commerce,Workshop,2024-06-25T11:00:00,40,C025
+S2024-11,K5-2024,Live Commerce: What’s Next?,Live Commerce,Case Study,2024-06-25T12:00:00,45,C031
+S2024-12,K5-2024,CRM & CDP: What’s Next?,CRM & CDP,Workshop,2024-06-25T13:00:00,30,C036
+S2024-13,K5-2024,Retail Media: What’s Next?,Retail Media,Case Study,2024-06-25T14:00:00,45,C072
+S2024-14,K5-2024,Pricing: What’s Next?,Pricing,Workshop,2024-06-25T15:00:00,30,C049
+S2024-15,K5-2024,International Expansion: What’s Next?,International Expansion,Case Study,2024-06-25T9:00:00,60,C054
+S2024-16,K5-2024,International Expansion: What’s Next?,International Expansion,Workshop,2024-06-25T10:00:00,30,C071
+S2024-17,K5-2024,CRM & CDP: What’s Next?,CRM & CDP,Fireside,2024-06-25T11:00:00,30,C055
+S2024-18,K5-2024,Payments: What’s Next?,Payments,Workshop,2024-06-25T12:00:00,30,C031
+S2024-19,K5-2024,CRM & CDP: What’s Next?,CRM & CDP,Keynote,2024-06-25T13:00:00,30,C065
+S2024-20,K5-2024,Marketplaces: What’s Next?,Marketplaces,Case Study,2024-06-25T14:00:00,60,C045
+S2024-21,K5-2024,Retail Media: What’s Next?,Retail Media,Case Study,2024-06-25T15:00:00,45,C066
+S2024-22,K5-2024,Retail Media: What’s Next?,Retail Media,Case Study,2024-06-25T9:00:00,45,C042
+S2025-01,K5-2025,CRM & CDP: What’s Next?,CRM & CDP,Keynote,2025-06-25T9:00:00,40,C028
+S2025-02,K5-2025,Retail Media: What’s Next?,Retail Media,Fireside,2025-06-25T10:00:00,60,C041
+S2025-03,K5-2025,Marketplaces: What’s Next?,Marketplaces,Panel,2025-06-25T11:00:00,45,C019
+S2025-04,K5-2025,Pricing: What’s Next?,Pricing,Workshop,2025-06-25T12:00:00,60,C025
+S2025-05,K5-2025,Payments: What’s Next?,Payments,Fireside,2025-06-25T13:00:00,40,C040
+S2025-06,K5-2025,Retail Media: What’s Next?,Retail Media,Keynote,2025-06-25T14:00:00,30,C057
+S2025-07,K5-2025,Logistics: What’s Next?,Logistics,Fireside,2025-06-25T15:00:00,45,C023
+S2025-08,K5-2025,Logistics: What’s Next?,Logistics,Fireside,2025-06-25T9:00:00,60,C073
+S2025-09,K5-2025,International Expansion: What’s Next?,International Expansion,Workshop,2025-06-25T10:00:00,60,C036
+S2025-10,K5-2025,Marketplaces: What’s Next?,Marketplaces,Keynote,2025-06-25T11:00:00,30,C006
+S2025-11,K5-2025,Pricing: What’s Next?,Pricing,Panel,2025-06-25T12:00:00,40,C067
+S2025-12,K5-2025,Payments: What’s Next?,Payments,Fireside,2025-06-25T13:00:00,40,C032
+S2025-13,K5-2025,AI in Commerce: What’s Next?,AI in Commerce,Keynote,2025-06-25T14:00:00,45,C034
+S2025-14,K5-2025,CRM & CDP: What’s Next?,CRM & CDP,Keynote,2025-06-25T15:00:00,30,C003
+S2025-15,K5-2025,Live Commerce: What’s Next?,Live Commerce,Workshop,2025-06-25T9:00:00,40,C007
+S2025-16,K5-2025,Marketplaces: What’s Next?,Marketplaces,Case Study,2025-06-25T10:00:00,30,C069
+S2025-17,K5-2025,Sustainability: What’s Next?,Sustainability,Panel,2025-06-25T11:00:00,30,C038
+S2025-18,K5-2025,Marketplaces: What’s Next?,Marketplaces,Keynote,2025-06-25T12:00:00,40,C006
+S2025-19,K5-2025,Marketplaces: What’s Next?,Marketplaces,Keynote,2025-06-25T13:00:00,60,C052
+S2025-20,K5-2025,International Expansion: What’s Next?,International Expansion,Keynote,2025-06-25T14:00:00,45,C066
+S2025-21,K5-2025,Live Commerce: What’s Next?,Live Commerce,Workshop,2025-06-25T15:00:00,60,C062
+S2025-22,K5-2025,Logistics: What’s Next?,Logistics,Fireside,2025-06-25T9:00:00,60,C064

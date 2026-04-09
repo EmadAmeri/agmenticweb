@@ -329,11 +329,11 @@ async function rewriteWithGroq(question: string, answer: string, sources: string
         {
           role: "system",
           content:
-            "You are Sentra, a decision-intelligence assistant. Answer only from the grounded context provided. Do not invent companies, people, metrics, or recommendations. Keep answers concise and business-friendly.",
+            "You are Sentra, a decision-intelligence assistant. Answer only from the grounded context provided. Do not invent companies, people, metrics, or recommendations. Write clean plain text for a simple chat bubble UI. Do not use markdown tables, pipes, bold markers, code fences, or source lists. Prefer one short intro sentence followed by compact numbered items or hyphen bullets.",
         },
         {
           role: "user",
-          content: `User question:\n${question}\n\nGrounded context:\n${compactContext(answer)}\n\nSources:\n${sources.join(", ") || "None"}\n\nRewrite this as a natural assistant answer while staying faithful to the grounded context.`,
+          content: `User question:\n${question}\n\nGrounded context:\n${compactContext(answer)}\n\nSources:\n${sources.join(", ") || "None"}\n\nRewrite this as a polished assistant answer while staying faithful to the grounded context. Keep it concise, readable, and well-structured in plain text.`,
         },
       ],
     }),

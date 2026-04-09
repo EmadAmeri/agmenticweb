@@ -1,0 +1,1809 @@
+event_id,attendee_id,session_id,attended,rating,feedback_comment
+K5-2025,A00133,S2025-06,True,4,Great insights on AI.
+K5-2025,A00133,S2025-11,True,4,
+K5-2025,A00133,S2025-13,True,3,
+K5-2025,A00133,S2025-15,True,4,Very practical.
+K5-2025,A00133,S2025-22,True,5,Too salesy.
+K5-2025,A00133,S2025-04,True,5,
+K5-2025,A00133,S2025-17,True,5,
+K5-2025,A00133,S2025-08,True,1,Good moderation.
+K5-2025,A00133,S2025-09,True,5,More examples needed.
+K5-2025,A00156,S2025-16,True,4,Strong speakers.
+K5-2025,A00156,S2025-13,True,4,Loved the case study.
+K5-2025,A00156,S2025-05,True,3,
+K5-2025,A00156,S2025-14,True,5,Good moderation.
+K5-2025,A00156,S2025-22,True,5,Loved the case study.
+K5-2025,A00156,S2025-06,True,1,
+K5-2025,A00156,S2025-15,True,5,Too salesy.
+K5-2024,A00226,S2024-08,True,3,Loved the case study.
+K5-2024,A00226,S2024-20,True,4,Great insights on AI.
+K5-2024,A00226,S2024-22,True,5,More examples needed.
+K5-2024,A00226,S2024-21,True,4,Loved the case study.
+K5-2024,A00226,S2024-15,True,4,
+K5-2024,A00226,S2024-13,True,5,Very practical.
+K5-2025,A00322,S2025-12,True,4,Great insights on AI.
+K5-2025,A00322,S2025-11,True,1,
+K5-2025,A00322,S2025-03,True,5,Great insights on AI.
+K5-2025,A00322,S2025-10,True,5,Great insights on AI.
+K5-2025,A00322,S2025-04,True,2,
+K5-2025,A00285,S2025-03,True,3,Loved the case study.
+K5-2025,A00285,S2025-19,True,4,
+K5-2025,A00285,S2025-02,True,5,Very practical.
+K5-2025,A00285,S2025-17,True,4,Too salesy.
+K5-2025,A00285,S2025-14,True,4,More examples needed.
+K5-2025,A00285,S2025-07,True,5,Too salesy.
+K5-2025,A00285,S2025-01,True,3,Very practical.
+K5-2025,A00382,S2025-21,True,5,
+K5-2025,A00382,S2025-20,True,4,Very practical.
+K5-2025,A00382,S2025-07,True,4,Too salesy.
+K5-2025,A00382,S2025-18,True,5,Loved the case study.
+K5-2025,A00382,S2025-09,True,5,
+K5-2025,A00382,S2025-22,True,4,
+K5-2025,A00417,S2025-10,True,3,Too salesy.
+K5-2025,A00417,S2025-01,True,5,
+K5-2025,A00417,S2025-20,True,5,Good moderation.
+K5-2025,A00417,S2025-04,True,4,Great insights on AI.
+K5-2025,A00417,S2025-21,True,5,
+K5-2025,A00417,S2025-13,True,5,Good moderation.
+K5-2025,A00417,S2025-14,True,4,
+K5-2025,A00417,S2025-12,True,4,
+K5-2025,A00417,S2025-08,True,5,Great insights on AI.
+K5-2025,A00071,S2025-19,True,3,Too salesy.
+K5-2025,A00071,S2025-09,True,5,Too salesy.
+K5-2025,A00071,S2025-18,True,5,
+K5-2025,A00071,S2025-15,True,2,
+K5-2025,A00071,S2025-01,True,4,
+K5-2025,A00071,S2025-10,True,5,Great insights on AI.
+K5-2024,A00368,S2024-01,True,4,
+K5-2024,A00368,S2024-17,True,4,Loved the case study.
+K5-2024,A00368,S2024-14,True,5,Loved the case study.
+K5-2024,A00368,S2024-04,True,3,Very practical.
+K5-2024,A00368,S2024-16,True,2,More examples needed.
+K5-2024,A00368,S2024-03,True,3,Very practical.
+K5-2024,A00368,S2024-19,True,2,
+K5-2024,A00368,S2024-05,True,4,Too salesy.
+K5-2024,A00368,S2024-22,True,4,Good moderation.
+K5-2024,A00368,S2024-07,True,4,
+K5-2024,A00147,S2024-17,True,4,Very practical.
+K5-2024,A00147,S2024-14,True,5,Very practical.
+K5-2024,A00147,S2024-19,True,4,
+K5-2024,A00147,S2024-20,True,5,Too salesy.
+K5-2024,A00147,S2024-06,True,5,Too salesy.
+K5-2024,A00147,S2024-22,True,5,More examples needed.
+K5-2024,A00147,S2024-01,True,4,
+K5-2024,A00147,S2024-02,True,5,Too salesy.
+K5-2024,A00147,S2024-03,True,5,More examples needed.
+K5-2025,A00408,S2025-05,True,1,Too salesy.
+K5-2025,A00408,S2025-17,True,4,More examples needed.
+K5-2025,A00408,S2025-16,True,4,Very practical.
+K5-2025,A00408,S2025-07,True,4,Great insights on AI.
+K5-2025,A00408,S2025-10,True,4,Very practical.
+K5-2025,A00408,S2025-21,True,5,Strong speakers.
+K5-2025,A00408,S2025-01,True,5,
+K5-2025,A00408,S2025-13,True,5,Too salesy.
+K5-2025,A00408,S2025-04,True,5,More examples needed.
+K5-2025,A00261,S2025-08,True,4,Strong speakers.
+K5-2025,A00261,S2025-14,True,5,Loved the case study.
+K5-2025,A00261,S2025-19,True,4,
+K5-2025,A00261,S2025-13,True,5,Great insights on AI.
+K5-2025,A00261,S2025-03,True,2,
+K5-2025,A00261,S2025-18,True,5,
+K5-2025,A00261,S2025-04,True,4,Good moderation.
+K5-2025,A00261,S2025-02,True,4,
+K5-2024,A00138,S2024-02,True,5,Good moderation.
+K5-2024,A00138,S2024-05,True,5,Good moderation.
+K5-2024,A00138,S2024-20,True,5,More examples needed.
+K5-2024,A00138,S2024-17,True,5,More examples needed.
+K5-2024,A00138,S2024-08,True,4,Very practical.
+K5-2025,A00134,S2025-12,True,5,Strong speakers.
+K5-2025,A00134,S2025-05,True,3,Loved the case study.
+K5-2025,A00134,S2025-11,True,5,Great insights on AI.
+K5-2025,A00134,S2025-15,True,3,
+K5-2025,A00134,S2025-06,True,4,Strong speakers.
+K5-2025,A00134,S2025-19,True,5,Very practical.
+K5-2025,A00418,S2025-08,True,4,Loved the case study.
+K5-2025,A00418,S2025-16,True,2,
+K5-2025,A00418,S2025-10,True,4,
+K5-2025,A00418,S2025-19,True,3,
+K5-2025,A00418,S2025-18,True,1,Very practical.
+K5-2025,A00418,S2025-12,True,4,
+K5-2025,A00418,S2025-01,True,2,
+K5-2025,A00418,S2025-17,True,5,
+K5-2025,A00187,S2025-06,True,2,Great insights on AI.
+K5-2025,A00187,S2025-01,True,5,
+K5-2025,A00187,S2025-18,True,3,Strong speakers.
+K5-2025,A00187,S2025-09,True,4,Very practical.
+K5-2025,A00187,S2025-12,True,3,Too salesy.
+K5-2025,A00187,S2025-13,True,1,
+K5-2025,A00187,S2025-07,True,3,More examples needed.
+K5-2024,A00113,S2024-12,True,4,Strong speakers.
+K5-2024,A00113,S2024-11,True,4,Good moderation.
+K5-2024,A00113,S2024-21,True,5,Great insights on AI.
+K5-2024,A00113,S2024-05,True,5,
+K5-2024,A00113,S2024-01,True,5,Very practical.
+K5-2024,A00113,S2024-17,True,4,
+K5-2025,A00312,S2025-15,True,3,Loved the case study.
+K5-2025,A00312,S2025-07,True,4,
+K5-2025,A00312,S2025-16,True,5,
+K5-2025,A00312,S2025-05,True,4,Too salesy.
+K5-2025,A00312,S2025-04,True,5,
+K5-2025,A00312,S2025-17,True,3,Good moderation.
+K5-2025,A00312,S2025-22,True,3,Loved the case study.
+K5-2024,A00120,S2024-07,True,3,Good moderation.
+K5-2024,A00120,S2024-21,True,1,Strong speakers.
+K5-2024,A00120,S2024-20,True,4,
+K5-2024,A00120,S2024-13,True,4,
+K5-2024,A00120,S2024-17,True,4,
+K5-2024,A00120,S2024-03,True,4,Great insights on AI.
+K5-2024,A00120,S2024-01,True,4,Too salesy.
+K5-2024,A00120,S2024-04,True,4,
+K5-2024,A00120,S2024-14,True,4,Very practical.
+K5-2025,A00214,S2025-13,True,3,Strong speakers.
+K5-2025,A00214,S2025-09,True,2,More examples needed.
+K5-2025,A00214,S2025-07,True,5,More examples needed.
+K5-2025,A00214,S2025-21,True,4,
+K5-2025,A00214,S2025-22,True,5,More examples needed.
+K5-2025,A00214,S2025-04,True,1,Loved the case study.
+K5-2025,A00214,S2025-14,True,2,
+K5-2025,A00214,S2025-17,True,5,
+K5-2025,A00096,S2025-09,True,3,Very practical.
+K5-2025,A00096,S2025-05,True,4,Great insights on AI.
+K5-2025,A00096,S2025-21,True,5,Loved the case study.
+K5-2025,A00096,S2025-22,True,4,
+K5-2025,A00096,S2025-17,True,3,Very practical.
+K5-2025,A00032,S2025-06,True,4,Too salesy.
+K5-2025,A00032,S2025-05,True,4,Too salesy.
+K5-2025,A00032,S2025-13,True,5,
+K5-2025,A00032,S2025-03,True,4,Very practical.
+K5-2025,A00032,S2025-16,True,5,
+K5-2025,A00034,S2025-17,True,5,Good moderation.
+K5-2025,A00034,S2025-01,True,2,More examples needed.
+K5-2025,A00034,S2025-21,True,3,Loved the case study.
+K5-2025,A00034,S2025-04,True,4,Too salesy.
+K5-2025,A00034,S2025-03,True,4,Too salesy.
+K5-2025,A00034,S2025-19,True,5,More examples needed.
+K5-2025,A00034,S2025-12,True,4,Good moderation.
+K5-2025,A00034,S2025-22,True,4,More examples needed.
+K5-2025,A00370,S2025-18,True,3,Good moderation.
+K5-2025,A00370,S2025-06,True,4,More examples needed.
+K5-2025,A00370,S2025-22,True,5,Great insights on AI.
+K5-2025,A00370,S2025-02,True,2,Very practical.
+K5-2025,A00370,S2025-10,True,2,More examples needed.
+K5-2025,A00370,S2025-07,True,4,Great insights on AI.
+K5-2025,A00370,S2025-17,True,4,Very practical.
+K5-2025,A00370,S2025-03,True,5,
+K5-2024,A00184,S2024-14,True,3,
+K5-2024,A00184,S2024-22,True,5,Great insights on AI.
+K5-2024,A00184,S2024-09,True,4,Great insights on AI.
+K5-2024,A00184,S2024-10,True,4,Too salesy.
+K5-2024,A00184,S2024-21,True,5,Loved the case study.
+K5-2024,A00184,S2024-20,True,4,
+K5-2024,A00184,S2024-16,True,4,Great insights on AI.
+K5-2024,A00190,S2024-18,True,1,
+K5-2024,A00190,S2024-10,True,4,
+K5-2024,A00190,S2024-04,True,4,Great insights on AI.
+K5-2024,A00190,S2024-16,True,2,Great insights on AI.
+K5-2024,A00190,S2024-03,True,5,Too salesy.
+K5-2025,A00316,S2025-17,True,3,
+K5-2025,A00316,S2025-09,True,5,Loved the case study.
+K5-2025,A00316,S2025-22,True,4,
+K5-2025,A00316,S2025-11,True,3,Too salesy.
+K5-2025,A00316,S2025-13,True,4,Strong speakers.
+K5-2025,A00316,S2025-05,True,3,
+K5-2025,A00316,S2025-15,True,3,Too salesy.
+K5-2025,A00400,S2025-11,True,5,More examples needed.
+K5-2025,A00400,S2025-22,True,5,Too salesy.
+K5-2025,A00400,S2025-14,True,5,More examples needed.
+K5-2025,A00400,S2025-16,True,5,
+K5-2025,A00400,S2025-01,True,3,Good moderation.
+K5-2025,A00400,S2025-05,True,3,Great insights on AI.
+K5-2025,A00400,S2025-17,True,1,Good moderation.
+K5-2025,A00400,S2025-04,True,4,Good moderation.
+K5-2025,A00400,S2025-06,True,5,Loved the case study.
+K5-2025,A00400,S2025-15,True,5,
+K5-2025,A00343,S2025-19,True,5,Strong speakers.
+K5-2025,A00343,S2025-20,True,2,Too salesy.
+K5-2025,A00343,S2025-08,True,1,More examples needed.
+K5-2025,A00343,S2025-11,True,4,Great insights on AI.
+K5-2025,A00343,S2025-02,True,1,Strong speakers.
+K5-2025,A00343,S2025-05,True,3,More examples needed.
+K5-2025,A00343,S2025-03,True,5,Loved the case study.
+K5-2025,A00343,S2025-15,True,4,Too salesy.
+K5-2025,A00343,S2025-12,True,4,Very practical.
+K5-2025,A00004,S2025-17,True,2,Great insights on AI.
+K5-2025,A00004,S2025-08,True,3,Loved the case study.
+K5-2025,A00004,S2025-21,True,5,
+K5-2025,A00004,S2025-16,True,3,Very practical.
+K5-2025,A00004,S2025-09,True,4,Great insights on AI.
+K5-2025,A00004,S2025-06,True,3,
+K5-2025,A00091,S2025-17,True,4,Very practical.
+K5-2025,A00091,S2025-09,True,4,Great insights on AI.
+K5-2025,A00091,S2025-03,True,5,
+K5-2025,A00091,S2025-04,True,4,Great insights on AI.
+K5-2025,A00091,S2025-19,True,5,Too salesy.
+K5-2025,A00091,S2025-12,True,4,Strong speakers.
+K5-2025,A00091,S2025-16,True,3,
+K5-2025,A00296,S2025-05,True,3,Great insights on AI.
+K5-2025,A00296,S2025-02,True,3,Strong speakers.
+K5-2025,A00296,S2025-06,True,2,Great insights on AI.
+K5-2025,A00296,S2025-07,True,4,
+K5-2025,A00296,S2025-16,True,1,
+K5-2025,A00296,S2025-22,True,4,More examples needed.
+K5-2025,A00296,S2025-08,True,4,Strong speakers.
+K5-2025,A00064,S2025-08,True,4,
+K5-2025,A00064,S2025-17,True,3,Very practical.
+K5-2025,A00064,S2025-20,True,4,
+K5-2025,A00064,S2025-10,True,4,Good moderation.
+K5-2025,A00064,S2025-04,True,4,Loved the case study.
+K5-2025,A00064,S2025-19,True,5,Good moderation.
+K5-2025,A00064,S2025-02,True,4,Great insights on AI.
+K5-2025,A00064,S2025-05,True,5,
+K5-2025,A00064,S2025-14,True,4,Great insights on AI.
+K5-2025,A00352,S2025-05,True,4,Strong speakers.
+K5-2025,A00352,S2025-07,True,4,Strong speakers.
+K5-2025,A00352,S2025-18,True,5,
+K5-2025,A00352,S2025-12,True,4,Too salesy.
+K5-2025,A00079,S2025-03,True,5,
+K5-2025,A00079,S2025-08,True,4,
+K5-2025,A00079,S2025-13,True,4,Very practical.
+K5-2025,A00079,S2025-09,True,5,Loved the case study.
+K5-2025,A00079,S2025-15,True,4,Very practical.
+K5-2025,A00079,S2025-05,True,2,Great insights on AI.
+K5-2025,A00079,S2025-19,True,5,
+K5-2025,A00378,S2025-11,True,2,
+K5-2025,A00378,S2025-15,True,3,
+K5-2025,A00378,S2025-17,True,4,
+K5-2025,A00378,S2025-13,True,5,Strong speakers.
+K5-2024,A00415,S2024-01,True,3,
+K5-2024,A00415,S2024-20,True,3,Very practical.
+K5-2024,A00415,S2024-16,True,4,
+K5-2024,A00415,S2024-04,True,2,Very practical.
+K5-2024,A00415,S2024-03,True,5,Very practical.
+K5-2024,A00415,S2024-18,True,3,
+K5-2024,A00415,S2024-14,True,5,Too salesy.
+K5-2025,A00116,S2025-21,True,3,Too salesy.
+K5-2025,A00116,S2025-03,True,5,
+K5-2025,A00116,S2025-13,True,5,
+K5-2025,A00116,S2025-17,True,3,Loved the case study.
+K5-2024,A00168,S2024-18,True,5,Great insights on AI.
+K5-2024,A00168,S2024-17,True,2,Too salesy.
+K5-2024,A00168,S2024-04,True,4,
+K5-2024,A00168,S2024-16,True,2,Too salesy.
+K5-2024,A00168,S2024-19,True,1,
+K5-2024,A00336,S2024-13,True,5,Very practical.
+K5-2024,A00336,S2024-04,True,5,Strong speakers.
+K5-2024,A00336,S2024-11,True,4,Good moderation.
+K5-2024,A00336,S2024-02,True,5,Loved the case study.
+K5-2025,A00307,S2025-11,True,1,Great insights on AI.
+K5-2025,A00307,S2025-12,True,4,Very practical.
+K5-2025,A00307,S2025-04,True,4,Good moderation.
+K5-2025,A00307,S2025-21,True,3,Great insights on AI.
+K5-2025,A00234,S2025-07,True,4,
+K5-2025,A00234,S2025-05,True,4,Good moderation.
+K5-2025,A00234,S2025-01,True,5,
+K5-2025,A00234,S2025-20,True,3,
+K5-2025,A00242,S2025-06,True,5,
+K5-2025,A00242,S2025-09,True,2,
+K5-2025,A00242,S2025-19,True,4,Too salesy.
+K5-2025,A00242,S2025-07,True,2,Very practical.
+K5-2024,A00358,S2024-20,True,2,
+K5-2024,A00358,S2024-01,True,4,Very practical.
+K5-2024,A00358,S2024-06,True,3,
+K5-2024,A00358,S2024-07,True,2,
+K5-2024,A00358,S2024-14,True,4,
+K5-2024,A00358,S2024-17,True,4,
+K5-2024,A00358,S2024-02,True,2,Strong speakers.
+K5-2024,A00358,S2024-16,True,5,Strong speakers.
+K5-2025,A00391,S2025-13,True,5,Great insights on AI.
+K5-2025,A00391,S2025-18,True,4,
+K5-2025,A00391,S2025-22,True,4,Too salesy.
+K5-2025,A00391,S2025-12,True,5,More examples needed.
+K5-2025,A00391,S2025-16,True,4,Great insights on AI.
+K5-2025,A00391,S2025-02,True,4,Good moderation.
+K5-2025,A00391,S2025-08,True,5,More examples needed.
+K5-2025,A00391,S2025-17,True,5,Good moderation.
+K5-2025,A00391,S2025-10,True,2,More examples needed.
+K5-2025,A00398,S2025-02,True,3,
+K5-2025,A00398,S2025-19,True,2,
+K5-2025,A00398,S2025-11,True,5,Loved the case study.
+K5-2025,A00398,S2025-16,True,4,Strong speakers.
+K5-2025,A00398,S2025-01,True,4,Too salesy.
+K5-2025,A00248,S2025-20,True,3,Loved the case study.
+K5-2025,A00248,S2025-16,True,4,
+K5-2025,A00248,S2025-15,True,2,Loved the case study.
+K5-2025,A00248,S2025-03,True,5,Very practical.
+K5-2025,A00248,S2025-10,True,4,More examples needed.
+K5-2025,A00248,S2025-04,True,5,Great insights on AI.
+K5-2025,A00248,S2025-09,True,4,Very practical.
+K5-2025,A00248,S2025-19,True,2,Too salesy.
+K5-2025,A00067,S2025-09,True,5,
+K5-2025,A00067,S2025-05,True,4,Good moderation.
+K5-2025,A00067,S2025-10,True,4,Good moderation.
+K5-2025,A00067,S2025-12,True,4,
+K5-2025,A00067,S2025-08,True,3,
+K5-2025,A00067,S2025-20,True,3,Strong speakers.
+K5-2025,A00150,S2025-20,True,4,Too salesy.
+K5-2025,A00150,S2025-15,True,5,Very practical.
+K5-2025,A00150,S2025-09,True,4,
+K5-2025,A00150,S2025-10,True,3,Great insights on AI.
+K5-2025,A00150,S2025-06,True,5,Good moderation.
+K5-2025,A00150,S2025-13,True,3,
+K5-2025,A00113,S2025-07,True,4,Strong speakers.
+K5-2025,A00113,S2025-17,True,4,Good moderation.
+K5-2025,A00113,S2025-09,True,2,Great insights on AI.
+K5-2025,A00113,S2025-02,True,2,Great insights on AI.
+K5-2025,A00221,S2025-14,True,4,
+K5-2025,A00221,S2025-16,True,5,Great insights on AI.
+K5-2025,A00221,S2025-01,True,1,More examples needed.
+K5-2025,A00221,S2025-17,True,5,
+K5-2025,A00221,S2025-12,True,4,Too salesy.
+K5-2025,A00221,S2025-10,True,4,Too salesy.
+K5-2025,A00221,S2025-02,True,1,Very practical.
+K5-2025,A00221,S2025-08,True,5,
+K5-2025,A00100,S2025-01,True,5,More examples needed.
+K5-2025,A00100,S2025-17,True,5,
+K5-2025,A00100,S2025-18,True,3,Too salesy.
+K5-2025,A00100,S2025-16,True,5,More examples needed.
+K5-2025,A00100,S2025-12,True,5,Good moderation.
+K5-2025,A00100,S2025-08,True,4,
+K5-2025,A00100,S2025-06,True,4,Good moderation.
+K5-2025,A00100,S2025-02,True,1,Loved the case study.
+K5-2025,A00016,S2025-02,True,5,
+K5-2025,A00016,S2025-13,True,4,Good moderation.
+K5-2025,A00016,S2025-15,True,5,
+K5-2025,A00016,S2025-17,True,5,
+K5-2025,A00383,S2025-04,True,2,Strong speakers.
+K5-2025,A00383,S2025-03,True,4,Great insights on AI.
+K5-2025,A00383,S2025-18,True,5,More examples needed.
+K5-2025,A00383,S2025-06,True,4,Too salesy.
+K5-2025,A00383,S2025-07,True,5,
+K5-2025,A00383,S2025-21,True,5,
+K5-2025,A00200,S2025-19,True,5,
+K5-2025,A00200,S2025-12,True,4,Too salesy.
+K5-2025,A00200,S2025-01,True,4,
+K5-2025,A00200,S2025-04,True,4,Great insights on AI.
+K5-2025,A00200,S2025-03,True,4,
+K5-2025,A00200,S2025-15,True,4,Very practical.
+K5-2025,A00200,S2025-22,True,4,
+K5-2025,A00200,S2025-10,True,3,
+K5-2025,A00200,S2025-17,True,3,
+K5-2025,A00200,S2025-06,True,5,Good moderation.
+K5-2024,A00374,S2024-13,True,2,Loved the case study.
+K5-2024,A00374,S2024-12,True,5,Too salesy.
+K5-2024,A00374,S2024-16,True,1,Strong speakers.
+K5-2024,A00374,S2024-03,True,4,Strong speakers.
+K5-2024,A00374,S2024-11,True,5,Very practical.
+K5-2024,A00374,S2024-06,True,5,Great insights on AI.
+K5-2024,A00374,S2024-05,True,3,Good moderation.
+K5-2024,A00374,S2024-08,True,5,Strong speakers.
+K5-2025,A00098,S2025-10,True,4,Too salesy.
+K5-2025,A00098,S2025-18,True,2,More examples needed.
+K5-2025,A00098,S2025-08,True,1,
+K5-2025,A00098,S2025-06,True,4,Strong speakers.
+K5-2025,A00098,S2025-19,True,5,Great insights on AI.
+K5-2025,A00098,S2025-22,True,5,
+K5-2025,A00098,S2025-16,True,4,Strong speakers.
+K5-2025,A00093,S2025-21,True,4,
+K5-2025,A00093,S2025-10,True,4,Good moderation.
+K5-2025,A00093,S2025-04,True,4,More examples needed.
+K5-2025,A00093,S2025-03,True,4,Great insights on AI.
+K5-2025,A00093,S2025-20,True,5,Very practical.
+K5-2025,A00093,S2025-16,True,5,Loved the case study.
+K5-2025,A00093,S2025-05,True,4,Good moderation.
+K5-2025,A00093,S2025-14,True,4,
+K5-2025,A00093,S2025-13,True,4,
+K5-2025,A00093,S2025-06,True,4,Great insights on AI.
+K5-2024,A00044,S2024-22,True,4,Great insights on AI.
+K5-2024,A00044,S2024-10,True,5,Great insights on AI.
+K5-2024,A00044,S2024-04,True,5,
+K5-2024,A00044,S2024-19,True,1,More examples needed.
+K5-2024,A00044,S2024-17,True,4,Loved the case study.
+K5-2025,A00003,S2025-01,True,4,
+K5-2025,A00003,S2025-12,True,3,Great insights on AI.
+K5-2025,A00003,S2025-13,True,5,Very practical.
+K5-2025,A00003,S2025-02,True,3,Strong speakers.
+K5-2025,A00003,S2025-09,True,5,Great insights on AI.
+K5-2025,A00003,S2025-17,True,3,
+K5-2025,A00003,S2025-03,True,4,
+K5-2025,A00003,S2025-11,True,3,Good moderation.
+K5-2025,A00003,S2025-06,True,4,Strong speakers.
+K5-2025,A00254,S2025-18,True,5,Too salesy.
+K5-2025,A00254,S2025-08,True,4,Loved the case study.
+K5-2025,A00254,S2025-09,True,5,
+K5-2025,A00254,S2025-01,True,4,Good moderation.
+K5-2025,A00254,S2025-14,True,4,Strong speakers.
+K5-2025,A00254,S2025-12,True,4,Great insights on AI.
+K5-2025,A00015,S2025-18,True,4,
+K5-2025,A00015,S2025-17,True,5,Loved the case study.
+K5-2025,A00015,S2025-15,True,5,
+K5-2025,A00015,S2025-03,True,5,Great insights on AI.
+K5-2025,A00015,S2025-02,True,5,Strong speakers.
+K5-2025,A00015,S2025-12,True,5,Very practical.
+K5-2025,A00015,S2025-19,True,4,
+K5-2024,A00317,S2024-01,True,4,
+K5-2024,A00317,S2024-20,True,4,
+K5-2024,A00317,S2024-11,True,4,Too salesy.
+K5-2024,A00317,S2024-09,True,1,Strong speakers.
+K5-2024,A00317,S2024-17,True,3,
+K5-2024,A00317,S2024-07,True,3,Loved the case study.
+K5-2025,A00246,S2025-04,True,4,Very practical.
+K5-2025,A00246,S2025-15,True,4,More examples needed.
+K5-2025,A00246,S2025-08,True,5,More examples needed.
+K5-2025,A00246,S2025-12,True,3,Strong speakers.
+K5-2025,A00246,S2025-09,True,3,Good moderation.
+K5-2025,A00246,S2025-02,True,4,Too salesy.
+K5-2025,A00246,S2025-20,True,4,Loved the case study.
+K5-2025,A00246,S2025-17,True,5,Too salesy.
+K5-2025,A00102,S2025-11,True,3,Too salesy.
+K5-2025,A00102,S2025-07,True,4,Loved the case study.
+K5-2025,A00102,S2025-01,True,4,Great insights on AI.
+K5-2025,A00102,S2025-18,True,4,
+K5-2025,A00102,S2025-03,True,4,Very practical.
+K5-2025,A00102,S2025-16,True,4,Good moderation.
+K5-2025,A00102,S2025-19,True,5,Very practical.
+K5-2025,A00102,S2025-04,True,2,
+K5-2025,A00345,S2025-18,True,2,
+K5-2025,A00345,S2025-17,True,5,Too salesy.
+K5-2025,A00345,S2025-21,True,4,Very practical.
+K5-2025,A00345,S2025-06,True,4,Loved the case study.
+K5-2025,A00345,S2025-05,True,3,Great insights on AI.
+K5-2025,A00345,S2025-12,True,4,Loved the case study.
+K5-2025,A00080,S2025-11,True,5,Great insights on AI.
+K5-2025,A00080,S2025-03,True,4,Loved the case study.
+K5-2025,A00080,S2025-16,True,4,
+K5-2025,A00080,S2025-07,True,3,
+K5-2025,A00080,S2025-10,True,3,
+K5-2025,A00101,S2025-11,True,3,
+K5-2025,A00101,S2025-03,True,4,Loved the case study.
+K5-2025,A00101,S2025-19,True,4,Very practical.
+K5-2025,A00101,S2025-06,True,5,Great insights on AI.
+K5-2025,A00101,S2025-12,True,3,Loved the case study.
+K5-2025,A00101,S2025-13,True,3,Great insights on AI.
+K5-2025,A00101,S2025-18,True,4,Loved the case study.
+K5-2025,A00192,S2025-21,True,5,Loved the case study.
+K5-2025,A00192,S2025-17,True,5,Loved the case study.
+K5-2025,A00192,S2025-16,True,5,
+K5-2025,A00192,S2025-05,True,5,More examples needed.
+K5-2025,A00192,S2025-07,True,4,More examples needed.
+K5-2025,A00192,S2025-19,True,4,
+K5-2025,A00158,S2025-14,True,4,Loved the case study.
+K5-2025,A00158,S2025-05,True,1,
+K5-2025,A00158,S2025-02,True,5,Strong speakers.
+K5-2025,A00158,S2025-21,True,5,Loved the case study.
+K5-2024,A00072,S2024-04,True,4,
+K5-2024,A00072,S2024-15,True,1,Loved the case study.
+K5-2024,A00072,S2024-14,True,4,Very practical.
+K5-2024,A00072,S2024-20,True,1,
+K5-2024,A00072,S2024-11,True,5,Loved the case study.
+K5-2024,A00072,S2024-13,True,5,Too salesy.
+K5-2024,A00072,S2024-09,True,3,Very practical.
+K5-2025,A00132,S2025-12,True,3,Loved the case study.
+K5-2025,A00132,S2025-02,True,3,Loved the case study.
+K5-2025,A00132,S2025-22,True,4,
+K5-2025,A00132,S2025-20,True,3,Strong speakers.
+K5-2025,A00132,S2025-06,True,4,Great insights on AI.
+K5-2025,A00132,S2025-10,True,5,More examples needed.
+K5-2025,A00132,S2025-14,True,4,Too salesy.
+K5-2025,A00132,S2025-04,True,2,Strong speakers.
+K5-2025,A00132,S2025-18,True,4,Very practical.
+K5-2025,A00174,S2025-19,True,3,
+K5-2025,A00174,S2025-18,True,4,Great insights on AI.
+K5-2025,A00174,S2025-12,True,3,
+K5-2025,A00174,S2025-14,True,2,Too salesy.
+K5-2025,A00174,S2025-22,True,3,
+K5-2025,A00174,S2025-03,True,1,Good moderation.
+K5-2025,A00174,S2025-10,True,4,
+K5-2025,A00389,S2025-11,True,5,Good moderation.
+K5-2025,A00389,S2025-08,True,5,Strong speakers.
+K5-2025,A00389,S2025-21,True,3,
+K5-2025,A00389,S2025-20,True,2,
+K5-2025,A00389,S2025-06,True,5,Great insights on AI.
+K5-2025,A00389,S2025-15,True,4,More examples needed.
+K5-2025,A00389,S2025-05,True,1,Good moderation.
+K5-2025,A00389,S2025-12,True,5,Loved the case study.
+K5-2025,A00389,S2025-22,True,5,Great insights on AI.
+K5-2025,A00325,S2025-03,True,5,
+K5-2025,A00325,S2025-12,True,2,Too salesy.
+K5-2025,A00325,S2025-16,True,5,Strong speakers.
+K5-2025,A00325,S2025-21,True,5,Too salesy.
+K5-2025,A00325,S2025-04,True,5,Loved the case study.
+K5-2025,A00325,S2025-22,True,3,Strong speakers.
+K5-2025,A00325,S2025-17,True,4,
+K5-2025,A00325,S2025-07,True,4,Very practical.
+K5-2025,A00325,S2025-13,True,3,
+K5-2025,A00295,S2025-22,True,4,Great insights on AI.
+K5-2025,A00295,S2025-17,True,4,
+K5-2025,A00295,S2025-08,True,5,More examples needed.
+K5-2025,A00295,S2025-12,True,4,
+K5-2025,A00076,S2025-05,True,4,
+K5-2025,A00076,S2025-07,True,5,Loved the case study.
+K5-2025,A00076,S2025-12,True,5,Great insights on AI.
+K5-2025,A00076,S2025-10,True,5,Strong speakers.
+K5-2025,A00076,S2025-09,True,5,Very practical.
+K5-2025,A00076,S2025-11,True,5,
+K5-2025,A00076,S2025-14,True,2,Strong speakers.
+K5-2025,A00076,S2025-03,True,4,More examples needed.
+K5-2025,A00076,S2025-21,True,2,Good moderation.
+K5-2025,A00076,S2025-19,True,5,Good moderation.
+K5-2025,A00126,S2025-10,True,3,
+K5-2025,A00126,S2025-19,True,4,
+K5-2025,A00126,S2025-09,True,3,
+K5-2025,A00126,S2025-02,True,5,Great insights on AI.
+K5-2025,A00126,S2025-03,True,4,Loved the case study.
+K5-2025,A00126,S2025-07,True,5,Very practical.
+K5-2025,A00126,S2025-05,True,4,More examples needed.
+K5-2025,A00126,S2025-20,True,4,
+K5-2025,A00126,S2025-13,True,4,Loved the case study.
+K5-2025,A00126,S2025-06,True,4,Strong speakers.
+K5-2025,A00260,S2025-02,True,5,
+K5-2025,A00260,S2025-08,True,3,Loved the case study.
+K5-2025,A00260,S2025-07,True,4,
+K5-2025,A00260,S2025-21,True,5,Loved the case study.
+K5-2025,A00260,S2025-05,True,5,Great insights on AI.
+K5-2025,A00167,S2025-04,True,5,More examples needed.
+K5-2025,A00167,S2025-17,True,4,Loved the case study.
+K5-2025,A00167,S2025-16,True,4,Loved the case study.
+K5-2025,A00167,S2025-11,True,5,
+K5-2025,A00167,S2025-13,True,4,More examples needed.
+K5-2025,A00167,S2025-02,True,3,Good moderation.
+K5-2024,A00217,S2024-02,True,4,Loved the case study.
+K5-2024,A00217,S2024-10,True,4,
+K5-2024,A00217,S2024-06,True,3,
+K5-2024,A00217,S2024-13,True,4,
+K5-2024,A00217,S2024-22,True,4,Good moderation.
+K5-2024,A00217,S2024-07,True,5,Loved the case study.
+K5-2025,A00412,S2025-13,True,5,Good moderation.
+K5-2025,A00412,S2025-01,True,4,
+K5-2025,A00412,S2025-06,True,4,Loved the case study.
+K5-2025,A00412,S2025-08,True,4,More examples needed.
+K5-2025,A00059,S2025-06,True,5,Very practical.
+K5-2025,A00059,S2025-01,True,3,
+K5-2025,A00059,S2025-14,True,4,More examples needed.
+K5-2025,A00059,S2025-16,True,4,
+K5-2025,A00059,S2025-02,True,3,Good moderation.
+K5-2025,A00059,S2025-07,True,4,Good moderation.
+K5-2025,A00059,S2025-19,True,5,Great insights on AI.
+K5-2025,A00059,S2025-18,True,2,Very practical.
+K5-2024,A00338,S2024-15,True,4,Good moderation.
+K5-2024,A00338,S2024-06,True,4,
+K5-2024,A00338,S2024-13,True,4,More examples needed.
+K5-2024,A00338,S2024-16,True,4,Good moderation.
+K5-2025,A00131,S2025-15,True,3,Strong speakers.
+K5-2025,A00131,S2025-02,True,3,Great insights on AI.
+K5-2025,A00131,S2025-13,True,3,
+K5-2025,A00131,S2025-12,True,5,
+K5-2025,A00131,S2025-17,True,3,
+K5-2025,A00131,S2025-08,True,5,Too salesy.
+K5-2025,A00021,S2025-01,True,4,More examples needed.
+K5-2025,A00021,S2025-16,True,1,Loved the case study.
+K5-2025,A00021,S2025-20,True,4,Good moderation.
+K5-2025,A00021,S2025-19,True,3,Very practical.
+K5-2025,A00021,S2025-15,True,2,
+K5-2025,A00021,S2025-13,True,4,
+K5-2025,A00021,S2025-10,True,4,Very practical.
+K5-2025,A00021,S2025-17,True,3,Great insights on AI.
+K5-2025,A00365,S2025-04,True,4,Too salesy.
+K5-2025,A00365,S2025-17,True,4,More examples needed.
+K5-2025,A00365,S2025-05,True,3,Good moderation.
+K5-2025,A00365,S2025-03,True,4,
+K5-2025,A00365,S2025-02,True,1,Loved the case study.
+K5-2025,A00365,S2025-08,True,2,Too salesy.
+K5-2025,A00365,S2025-19,True,3,Loved the case study.
+K5-2025,A00365,S2025-16,True,4,
+K5-2025,A00375,S2025-14,True,4,
+K5-2025,A00375,S2025-15,True,5,Loved the case study.
+K5-2025,A00375,S2025-06,True,1,Great insights on AI.
+K5-2025,A00375,S2025-22,True,5,Too salesy.
+K5-2025,A00375,S2025-20,True,2,Too salesy.
+K5-2025,A00375,S2025-04,True,4,
+K5-2025,A00375,S2025-21,True,4,Good moderation.
+K5-2025,A00375,S2025-16,True,3,
+K5-2024,A00024,S2024-18,True,4,Great insights on AI.
+K5-2024,A00024,S2024-20,True,4,
+K5-2024,A00024,S2024-06,True,4,Very practical.
+K5-2024,A00024,S2024-12,True,5,Too salesy.
+K5-2024,A00024,S2024-15,True,3,Good moderation.
+K5-2024,A00024,S2024-07,True,1,Loved the case study.
+K5-2024,A00024,S2024-16,True,4,Very practical.
+K5-2024,A00024,S2024-03,True,3,Great insights on AI.
+K5-2025,A00063,S2025-10,True,4,Great insights on AI.
+K5-2025,A00063,S2025-16,True,5,More examples needed.
+K5-2025,A00063,S2025-13,True,5,Great insights on AI.
+K5-2025,A00063,S2025-01,True,2,Too salesy.
+K5-2025,A00063,S2025-14,True,5,Great insights on AI.
+K5-2025,A00063,S2025-20,True,5,
+K5-2025,A00063,S2025-08,True,3,Very practical.
+K5-2025,A00176,S2025-10,True,3,
+K5-2025,A00176,S2025-18,True,5,Very practical.
+K5-2025,A00176,S2025-22,True,1,Too salesy.
+K5-2025,A00176,S2025-06,True,5,
+K5-2025,A00176,S2025-07,True,5,
+K5-2025,A00176,S2025-03,True,2,Loved the case study.
+K5-2024,A00318,S2024-02,True,5,
+K5-2024,A00318,S2024-22,True,2,Strong speakers.
+K5-2024,A00318,S2024-09,True,4,Very practical.
+K5-2024,A00318,S2024-17,True,5,Great insights on AI.
+K5-2024,A00318,S2024-11,True,4,Loved the case study.
+K5-2025,A00288,S2025-20,True,4,Good moderation.
+K5-2025,A00288,S2025-04,True,5,
+K5-2025,A00288,S2025-22,True,5,Loved the case study.
+K5-2025,A00288,S2025-17,True,2,Great insights on AI.
+K5-2025,A00288,S2025-01,True,4,Strong speakers.
+K5-2025,A00208,S2025-20,True,5,
+K5-2025,A00208,S2025-06,True,4,
+K5-2025,A00208,S2025-22,True,3,Loved the case study.
+K5-2025,A00208,S2025-17,True,2,More examples needed.
+K5-2025,A00208,S2025-21,True,2,
+K5-2025,A00208,S2025-14,True,5,Strong speakers.
+K5-2025,A00208,S2025-18,True,5,Great insights on AI.
+K5-2025,A00208,S2025-02,True,4,Loved the case study.
+K5-2024,A00062,S2024-01,True,5,Loved the case study.
+K5-2024,A00062,S2024-17,True,1,
+K5-2024,A00062,S2024-09,True,4,
+K5-2024,A00062,S2024-03,True,5,Great insights on AI.
+K5-2024,A00062,S2024-13,True,4,
+K5-2024,A00062,S2024-20,True,5,
+K5-2024,A00062,S2024-16,True,4,Too salesy.
+K5-2024,A00062,S2024-02,True,4,Too salesy.
+K5-2024,A00249,S2024-02,True,4,Strong speakers.
+K5-2024,A00249,S2024-05,True,4,
+K5-2024,A00249,S2024-07,True,3,
+K5-2024,A00249,S2024-03,True,5,Very practical.
+K5-2024,A00249,S2024-22,True,3,Too salesy.
+K5-2024,A00249,S2024-18,True,3,Too salesy.
+K5-2024,A00249,S2024-06,True,4,
+K5-2024,A00249,S2024-04,True,4,Loved the case study.
+K5-2024,A00026,S2024-05,True,5,
+K5-2024,A00026,S2024-12,True,5,Great insights on AI.
+K5-2024,A00026,S2024-15,True,4,
+K5-2024,A00026,S2024-04,True,4,Very practical.
+K5-2024,A00026,S2024-16,True,5,Good moderation.
+K5-2024,A00026,S2024-17,True,5,Loved the case study.
+K5-2024,A00026,S2024-03,True,5,
+K5-2025,A00274,S2025-07,True,3,
+K5-2025,A00274,S2025-11,True,5,Too salesy.
+K5-2025,A00274,S2025-04,True,4,
+K5-2025,A00274,S2025-08,True,4,Too salesy.
+K5-2025,A00274,S2025-20,True,5,Good moderation.
+K5-2025,A00202,S2025-12,True,5,Good moderation.
+K5-2025,A00202,S2025-03,True,4,Good moderation.
+K5-2025,A00202,S2025-22,True,3,Strong speakers.
+K5-2025,A00202,S2025-10,True,5,
+K5-2025,A00202,S2025-17,True,4,Very practical.
+K5-2025,A00202,S2025-20,True,4,Strong speakers.
+K5-2025,A00202,S2025-08,True,2,
+K5-2025,A00202,S2025-15,True,5,
+K5-2025,A00202,S2025-18,True,4,Loved the case study.
+K5-2025,A00202,S2025-07,True,5,Strong speakers.
+K5-2025,A00401,S2025-03,True,3,Strong speakers.
+K5-2025,A00401,S2025-11,True,5,Good moderation.
+K5-2025,A00401,S2025-01,True,4,Strong speakers.
+K5-2025,A00401,S2025-16,True,2,Great insights on AI.
+K5-2025,A00401,S2025-17,True,4,Very practical.
+K5-2025,A00401,S2025-19,True,4,
+K5-2025,A00401,S2025-22,True,4,Very practical.
+K5-2025,A00401,S2025-09,True,4,Great insights on AI.
+K5-2025,A00401,S2025-18,True,4,Good moderation.
+K5-2025,A00061,S2025-01,True,4,Loved the case study.
+K5-2025,A00061,S2025-09,True,4,Great insights on AI.
+K5-2025,A00061,S2025-21,True,3,Great insights on AI.
+K5-2025,A00061,S2025-18,True,2,Strong speakers.
+K5-2025,A00061,S2025-22,True,3,Loved the case study.
+K5-2025,A00061,S2025-04,True,4,Loved the case study.
+K5-2025,A00184,S2025-15,True,2,
+K5-2025,A00184,S2025-03,True,4,More examples needed.
+K5-2025,A00184,S2025-06,True,4,
+K5-2025,A00184,S2025-16,True,4,
+K5-2025,A00184,S2025-05,True,2,Strong speakers.
+K5-2025,A00184,S2025-10,True,4,Very practical.
+K5-2025,A00184,S2025-09,True,4,
+K5-2025,A00184,S2025-12,True,4,Loved the case study.
+K5-2025,A00111,S2025-07,True,5,Loved the case study.
+K5-2025,A00111,S2025-15,True,4,Loved the case study.
+K5-2025,A00111,S2025-13,True,5,Loved the case study.
+K5-2025,A00111,S2025-11,True,4,Very practical.
+K5-2025,A00111,S2025-06,True,5,Strong speakers.
+K5-2025,A00111,S2025-17,True,4,Great insights on AI.
+K5-2025,A00111,S2025-20,True,4,
+K5-2025,A00111,S2025-10,True,5,Too salesy.
+K5-2025,A00111,S2025-08,True,2,Strong speakers.
+K5-2025,A00268,S2025-03,True,4,Very practical.
+K5-2025,A00268,S2025-17,True,5,Too salesy.
+K5-2025,A00268,S2025-19,True,3,Great insights on AI.
+K5-2025,A00268,S2025-06,True,4,
+K5-2025,A00268,S2025-21,True,5,
+K5-2025,A00268,S2025-01,True,4,Strong speakers.
+K5-2025,A00268,S2025-15,True,3,Strong speakers.
+K5-2025,A00268,S2025-05,True,5,Great insights on AI.
+K5-2025,A00268,S2025-07,True,5,
+K5-2025,A00294,S2025-10,True,5,Strong speakers.
+K5-2025,A00294,S2025-20,True,3,Loved the case study.
+K5-2025,A00294,S2025-14,True,5,More examples needed.
+K5-2025,A00294,S2025-05,True,5,Too salesy.
+K5-2025,A00017,S2025-15,True,4,Strong speakers.
+K5-2025,A00017,S2025-18,True,4,More examples needed.
+K5-2025,A00017,S2025-12,True,4,
+K5-2025,A00017,S2025-01,True,3,
+K5-2025,A00017,S2025-04,True,5,Very practical.
+K5-2025,A00017,S2025-03,True,3,Loved the case study.
+K5-2025,A00017,S2025-19,True,5,Very practical.
+K5-2025,A00017,S2025-20,True,3,Too salesy.
+K5-2025,A00244,S2025-17,True,3,Great insights on AI.
+K5-2025,A00244,S2025-03,True,4,Good moderation.
+K5-2025,A00244,S2025-02,True,3,
+K5-2025,A00244,S2025-21,True,3,
+K5-2025,A00244,S2025-08,True,5,
+K5-2025,A00244,S2025-11,True,1,Very practical.
+K5-2025,A00244,S2025-18,True,4,Great insights on AI.
+K5-2025,A00244,S2025-19,True,4,
+K5-2025,A00244,S2025-14,True,5,
+K5-2025,A00244,S2025-06,True,5,Loved the case study.
+K5-2025,A00235,S2025-04,True,3,Strong speakers.
+K5-2025,A00235,S2025-15,True,4,
+K5-2025,A00235,S2025-22,True,3,Too salesy.
+K5-2025,A00235,S2025-05,True,4,Too salesy.
+K5-2025,A00342,S2025-18,True,5,More examples needed.
+K5-2025,A00342,S2025-19,True,2,Too salesy.
+K5-2025,A00342,S2025-02,True,5,
+K5-2025,A00342,S2025-22,True,3,
+K5-2025,A00342,S2025-13,True,5,Good moderation.
+K5-2025,A00342,S2025-17,True,5,Loved the case study.
+K5-2025,A00342,S2025-09,True,4,
+K5-2025,A00342,S2025-05,True,1,Strong speakers.
+K5-2025,A00342,S2025-15,True,4,Good moderation.
+K5-2025,A00342,S2025-11,True,4,Too salesy.
+K5-2025,A00108,S2025-12,True,4,Good moderation.
+K5-2025,A00108,S2025-03,True,5,Great insights on AI.
+K5-2025,A00108,S2025-04,True,3,Strong speakers.
+K5-2025,A00108,S2025-16,True,5,Strong speakers.
+K5-2025,A00108,S2025-09,True,5,Strong speakers.
+K5-2025,A00108,S2025-13,True,5,
+K5-2025,A00108,S2025-11,True,4,
+K5-2025,A00108,S2025-08,True,4,Loved the case study.
+K5-2025,A00108,S2025-21,True,2,
+K5-2025,A00108,S2025-18,True,3,Very practical.
+K5-2025,A00287,S2025-12,True,5,Strong speakers.
+K5-2025,A00287,S2025-01,True,3,Great insights on AI.
+K5-2025,A00287,S2025-18,True,5,
+K5-2025,A00287,S2025-11,True,4,Very practical.
+K5-2025,A00287,S2025-10,True,4,Very practical.
+K5-2024,A00206,S2024-01,True,4,
+K5-2024,A00206,S2024-20,True,5,
+K5-2024,A00206,S2024-09,True,1,
+K5-2024,A00206,S2024-16,True,3,
+K5-2024,A00206,S2024-05,True,1,Good moderation.
+K5-2024,A00206,S2024-04,True,3,
+K5-2024,A00206,S2024-11,True,2,Good moderation.
+K5-2024,A00206,S2024-15,True,4,Great insights on AI.
+K5-2024,A00117,S2024-08,True,3,Too salesy.
+K5-2024,A00117,S2024-21,True,4,Very practical.
+K5-2024,A00117,S2024-20,True,5,
+K5-2024,A00117,S2024-10,True,5,
+K5-2024,A00117,S2024-04,True,4,Good moderation.
+K5-2024,A00117,S2024-13,True,5,
+K5-2024,A00117,S2024-03,True,4,More examples needed.
+K5-2024,A00117,S2024-22,True,4,
+K5-2024,A00117,S2024-01,True,3,Strong speakers.
+K5-2024,A00117,S2024-02,True,2,Great insights on AI.
+K5-2024,A00399,S2024-13,True,5,
+K5-2024,A00399,S2024-16,True,4,
+K5-2024,A00399,S2024-07,True,1,Too salesy.
+K5-2024,A00399,S2024-21,True,5,Good moderation.
+K5-2024,A00399,S2024-20,True,4,Loved the case study.
+K5-2024,A00105,S2024-19,True,4,Strong speakers.
+K5-2024,A00105,S2024-20,True,3,Very practical.
+K5-2024,A00105,S2024-16,True,4,Loved the case study.
+K5-2024,A00105,S2024-18,True,4,Very practical.
+K5-2024,A00105,S2024-09,True,4,Great insights on AI.
+K5-2025,A00255,S2025-13,True,5,Very practical.
+K5-2025,A00255,S2025-17,True,3,Loved the case study.
+K5-2025,A00255,S2025-22,True,5,Loved the case study.
+K5-2025,A00255,S2025-05,True,5,Good moderation.
+K5-2025,A00346,S2025-19,True,5,More examples needed.
+K5-2025,A00346,S2025-02,True,2,
+K5-2025,A00346,S2025-15,True,4,Strong speakers.
+K5-2025,A00346,S2025-17,True,3,More examples needed.
+K5-2025,A00346,S2025-20,True,4,Too salesy.
+K5-2025,A00346,S2025-01,True,5,Strong speakers.
+K5-2025,A00346,S2025-22,True,5,Too salesy.
+K5-2025,A00346,S2025-13,True,4,Very practical.
+K5-2025,A00346,S2025-16,True,5,Great insights on AI.
+K5-2025,A00344,S2025-15,True,2,Too salesy.
+K5-2025,A00344,S2025-08,True,2,
+K5-2025,A00344,S2025-10,True,2,Strong speakers.
+K5-2025,A00344,S2025-12,True,3,More examples needed.
+K5-2025,A00344,S2025-18,True,3,Loved the case study.
+K5-2025,A00344,S2025-17,True,4,
+K5-2025,A00170,S2025-11,True,4,More examples needed.
+K5-2025,A00170,S2025-05,True,5,More examples needed.
+K5-2025,A00170,S2025-16,True,4,Loved the case study.
+K5-2025,A00170,S2025-14,True,4,Too salesy.
+K5-2025,A00170,S2025-15,True,4,
+K5-2025,A00170,S2025-12,True,4,Too salesy.
+K5-2025,A00170,S2025-17,True,1,
+K5-2025,A00170,S2025-08,True,4,
+K5-2025,A00170,S2025-13,True,5,
+K5-2025,A00170,S2025-20,True,4,Very practical.
+K5-2025,A00306,S2025-11,True,5,Very practical.
+K5-2025,A00306,S2025-06,True,5,Very practical.
+K5-2025,A00306,S2025-16,True,5,Too salesy.
+K5-2025,A00306,S2025-20,True,3,
+K5-2025,A00306,S2025-05,True,5,Too salesy.
+K5-2025,A00306,S2025-14,True,4,Strong speakers.
+K5-2025,A00179,S2025-07,True,4,More examples needed.
+K5-2025,A00179,S2025-10,True,4,
+K5-2025,A00179,S2025-09,True,4,
+K5-2025,A00179,S2025-08,True,3,
+K5-2025,A00336,S2025-08,True,5,Very practical.
+K5-2025,A00336,S2025-02,True,4,
+K5-2025,A00336,S2025-03,True,4,
+K5-2025,A00336,S2025-10,True,5,Very practical.
+K5-2025,A00336,S2025-14,True,5,Very practical.
+K5-2025,A00336,S2025-05,True,5,
+K5-2025,A00336,S2025-20,True,3,
+K5-2025,A00336,S2025-13,True,2,Loved the case study.
+K5-2025,A00028,S2025-03,True,4,
+K5-2025,A00028,S2025-07,True,4,
+K5-2025,A00028,S2025-21,True,5,
+K5-2025,A00028,S2025-06,True,4,More examples needed.
+K5-2025,A00028,S2025-02,True,2,Good moderation.
+K5-2025,A00028,S2025-22,True,2,Strong speakers.
+K5-2025,A00028,S2025-10,True,4,
+K5-2025,A00028,S2025-17,True,4,
+K5-2025,A00028,S2025-18,True,5,Loved the case study.
+K5-2025,A00177,S2025-11,True,3,Loved the case study.
+K5-2025,A00177,S2025-02,True,4,Very practical.
+K5-2025,A00177,S2025-21,True,4,More examples needed.
+K5-2025,A00177,S2025-04,True,5,Strong speakers.
+K5-2025,A00177,S2025-18,True,4,Very practical.
+K5-2025,A00177,S2025-05,True,5,
+K5-2025,A00213,S2025-05,True,5,
+K5-2025,A00213,S2025-02,True,5,Loved the case study.
+K5-2025,A00213,S2025-19,True,5,
+K5-2025,A00213,S2025-15,True,4,Very practical.
+K5-2025,A00213,S2025-09,True,4,Strong speakers.
+K5-2025,A00340,S2025-16,True,4,
+K5-2025,A00340,S2025-21,True,5,
+K5-2025,A00340,S2025-12,True,3,Good moderation.
+K5-2025,A00340,S2025-15,True,4,Too salesy.
+K5-2024,A00303,S2024-05,True,4,Loved the case study.
+K5-2024,A00303,S2024-21,True,5,Great insights on AI.
+K5-2024,A00303,S2024-14,True,4,More examples needed.
+K5-2024,A00303,S2024-17,True,2,Very practical.
+K5-2024,A00303,S2024-15,True,5,Too salesy.
+K5-2024,A00303,S2024-16,True,5,More examples needed.
+K5-2024,A00303,S2024-02,True,4,
+K5-2024,A00303,S2024-04,True,5,Very practical.
+K5-2024,A00069,S2024-10,True,5,
+K5-2024,A00069,S2024-07,True,3,More examples needed.
+K5-2024,A00069,S2024-15,True,4,Great insights on AI.
+K5-2024,A00069,S2024-08,True,3,
+K5-2024,A00069,S2024-17,True,4,Good moderation.
+K5-2024,A00069,S2024-05,True,4,Great insights on AI.
+K5-2024,A00069,S2024-03,True,1,
+K5-2024,A00069,S2024-09,True,3,Too salesy.
+K5-2024,A00069,S2024-04,True,5,
+K5-2024,A00069,S2024-12,True,4,
+K5-2024,A00152,S2024-06,True,4,Good moderation.
+K5-2024,A00152,S2024-13,True,5,Good moderation.
+K5-2024,A00152,S2024-10,True,4,
+K5-2024,A00152,S2024-05,True,5,Very practical.
+K5-2024,A00152,S2024-18,True,5,
+K5-2024,A00152,S2024-19,True,4,Strong speakers.
+K5-2024,A00152,S2024-17,True,4,Good moderation.
+K5-2024,A00152,S2024-20,True,5,Strong speakers.
+K5-2025,A00335,S2025-10,True,5,Too salesy.
+K5-2025,A00335,S2025-21,True,2,Loved the case study.
+K5-2025,A00335,S2025-13,True,3,
+K5-2025,A00335,S2025-03,True,5,Strong speakers.
+K5-2025,A00335,S2025-22,True,3,More examples needed.
+K5-2025,A00335,S2025-02,True,3,
+K5-2025,A00335,S2025-01,True,4,
+K5-2025,A00088,S2025-19,True,4,Very practical.
+K5-2025,A00088,S2025-04,True,3,More examples needed.
+K5-2025,A00088,S2025-18,True,4,
+K5-2025,A00088,S2025-11,True,4,Too salesy.
+K5-2025,A00088,S2025-17,True,4,Loved the case study.
+K5-2025,A00088,S2025-07,True,5,
+K5-2025,A00088,S2025-05,True,4,More examples needed.
+K5-2025,A00088,S2025-03,True,5,More examples needed.
+K5-2025,A00189,S2025-22,True,2,
+K5-2025,A00189,S2025-01,True,5,
+K5-2025,A00189,S2025-03,True,5,Strong speakers.
+K5-2025,A00189,S2025-14,True,2,Good moderation.
+K5-2025,A00189,S2025-02,True,4,Loved the case study.
+K5-2025,A00189,S2025-21,True,5,Too salesy.
+K5-2025,A00189,S2025-04,True,4,Loved the case study.
+K5-2025,A00189,S2025-20,True,4,Very practical.
+K5-2025,A00189,S2025-13,True,3,
+K5-2025,A00360,S2025-04,True,5,Too salesy.
+K5-2025,A00360,S2025-07,True,4,
+K5-2025,A00360,S2025-21,True,4,Good moderation.
+K5-2025,A00360,S2025-13,True,5,
+K5-2025,A00360,S2025-02,True,5,
+K5-2025,A00360,S2025-03,True,5,
+K5-2025,A00360,S2025-16,True,2,Good moderation.
+K5-2025,A00360,S2025-12,True,3,Loved the case study.
+K5-2025,A00286,S2025-01,True,3,Strong speakers.
+K5-2025,A00286,S2025-13,True,4,
+K5-2025,A00286,S2025-04,True,3,Good moderation.
+K5-2025,A00286,S2025-08,True,4,Great insights on AI.
+K5-2025,A00286,S2025-18,True,5,Strong speakers.
+K5-2025,A00286,S2025-17,True,5,More examples needed.
+K5-2025,A00286,S2025-12,True,2,Strong speakers.
+K5-2025,A00286,S2025-15,True,5,Loved the case study.
+K5-2025,A00068,S2025-13,True,5,More examples needed.
+K5-2025,A00068,S2025-02,True,4,Loved the case study.
+K5-2025,A00068,S2025-19,True,3,Good moderation.
+K5-2025,A00068,S2025-22,True,3,Strong speakers.
+K5-2025,A00068,S2025-03,True,5,More examples needed.
+K5-2025,A00068,S2025-14,True,3,
+K5-2025,A00068,S2025-05,True,4,More examples needed.
+K5-2025,A00068,S2025-21,True,3,
+K5-2025,A00320,S2025-07,True,5,
+K5-2025,A00320,S2025-08,True,4,
+K5-2025,A00320,S2025-20,True,4,
+K5-2025,A00320,S2025-21,True,3,
+K5-2025,A00320,S2025-01,True,2,Too salesy.
+K5-2025,A00320,S2025-22,True,3,Good moderation.
+K5-2025,A00320,S2025-06,True,5,
+K5-2025,A00320,S2025-05,True,3,Good moderation.
+K5-2025,A00320,S2025-16,True,4,Great insights on AI.
+K5-2025,A00280,S2025-01,True,5,More examples needed.
+K5-2025,A00280,S2025-02,True,4,Good moderation.
+K5-2025,A00280,S2025-07,True,4,Loved the case study.
+K5-2025,A00280,S2025-11,True,5,More examples needed.
+K5-2025,A00280,S2025-19,True,3,
+K5-2025,A00280,S2025-05,True,4,Good moderation.
+K5-2025,A00280,S2025-22,True,3,Too salesy.
+K5-2025,A00280,S2025-21,True,4,Very practical.
+K5-2025,A00280,S2025-16,True,4,Strong speakers.
+K5-2025,A00280,S2025-09,True,4,
+K5-2024,A00250,S2024-11,True,5,
+K5-2024,A00250,S2024-15,True,3,Great insights on AI.
+K5-2024,A00250,S2024-14,True,4,Too salesy.
+K5-2024,A00250,S2024-21,True,4,Loved the case study.
+K5-2024,A00250,S2024-04,True,5,Great insights on AI.
+K5-2024,A00250,S2024-08,True,4,Good moderation.
+K5-2024,A00250,S2024-03,True,5,Great insights on AI.
+K5-2024,A00250,S2024-10,True,3,Great insights on AI.
+K5-2024,A00250,S2024-05,True,2,Very practical.
+K5-2024,A00250,S2024-13,True,3,
+K5-2025,A00075,S2025-10,True,2,Loved the case study.
+K5-2025,A00075,S2025-07,True,4,
+K5-2025,A00075,S2025-02,True,2,Loved the case study.
+K5-2025,A00075,S2025-13,True,4,Too salesy.
+K5-2025,A00075,S2025-11,True,3,More examples needed.
+K5-2025,A00075,S2025-09,True,4,Loved the case study.
+K5-2025,A00075,S2025-14,True,3,
+K5-2025,A00075,S2025-12,True,4,Loved the case study.
+K5-2025,A00042,S2025-19,True,3,Very practical.
+K5-2025,A00042,S2025-12,True,3,
+K5-2025,A00042,S2025-07,True,5,Good moderation.
+K5-2025,A00042,S2025-16,True,4,Great insights on AI.
+K5-2025,A00042,S2025-11,True,4,
+K5-2025,A00042,S2025-14,True,2,
+K5-2025,A00042,S2025-18,True,3,
+K5-2025,A00042,S2025-21,True,5,More examples needed.
+K5-2025,A00042,S2025-01,True,5,
+K5-2025,A00042,S2025-09,True,4,More examples needed.
+K5-2025,A00048,S2025-02,True,5,Too salesy.
+K5-2025,A00048,S2025-20,True,5,
+K5-2025,A00048,S2025-09,True,4,Loved the case study.
+K5-2025,A00048,S2025-08,True,4,Good moderation.
+K5-2025,A00048,S2025-07,True,4,
+K5-2025,A00048,S2025-19,True,1,Great insights on AI.
+K5-2025,A00297,S2025-14,True,4,
+K5-2025,A00297,S2025-11,True,4,Very practical.
+K5-2025,A00297,S2025-01,True,3,Too salesy.
+K5-2025,A00297,S2025-12,True,4,Great insights on AI.
+K5-2025,A00297,S2025-22,True,1,Too salesy.
+K5-2025,A00297,S2025-17,True,4,Great insights on AI.
+K5-2025,A00297,S2025-16,True,2,
+K5-2025,A00297,S2025-06,True,4,More examples needed.
+K5-2025,A00297,S2025-04,True,4,Very practical.
+K5-2025,A00297,S2025-15,True,1,
+K5-2024,A00013,S2024-16,True,4,Too salesy.
+K5-2024,A00013,S2024-04,True,5,Loved the case study.
+K5-2024,A00013,S2024-15,True,4,Good moderation.
+K5-2024,A00013,S2024-13,True,4,
+K5-2024,A00013,S2024-18,True,3,Good moderation.
+K5-2024,A00013,S2024-22,True,4,
+K5-2024,A00013,S2024-03,True,4,More examples needed.
+K5-2024,A00013,S2024-02,True,3,Very practical.
+K5-2024,A00013,S2024-12,True,5,Strong speakers.
+K5-2025,A00276,S2025-12,True,3,
+K5-2025,A00276,S2025-06,True,3,Very practical.
+K5-2025,A00276,S2025-05,True,1,
+K5-2025,A00276,S2025-09,True,4,Strong speakers.
+K5-2025,A00276,S2025-11,True,4,Too salesy.
+K5-2025,A00276,S2025-18,True,4,
+K5-2025,A00276,S2025-17,True,4,Very practical.
+K5-2024,A00153,S2024-19,True,4,Very practical.
+K5-2024,A00153,S2024-08,True,5,More examples needed.
+K5-2024,A00153,S2024-02,True,5,Good moderation.
+K5-2024,A00153,S2024-16,True,4,Good moderation.
+K5-2024,A00153,S2024-14,True,4,
+K5-2024,A00153,S2024-07,True,5,
+K5-2024,A00153,S2024-06,True,2,Strong speakers.
+K5-2024,A00153,S2024-20,True,2,
+K5-2024,A00153,S2024-21,True,4,
+K5-2024,A00055,S2024-16,True,5,Great insights on AI.
+K5-2024,A00055,S2024-01,True,5,Good moderation.
+K5-2024,A00055,S2024-05,True,4,Loved the case study.
+K5-2024,A00055,S2024-15,True,4,Very practical.
+K5-2024,A00055,S2024-07,True,5,Loved the case study.
+K5-2024,A00055,S2024-09,True,5,
+K5-2024,A00055,S2024-18,True,3,Too salesy.
+K5-2024,A00055,S2024-20,True,5,
+K5-2024,A00055,S2024-11,True,5,
+K5-2025,A00199,S2025-04,True,3,Strong speakers.
+K5-2025,A00199,S2025-05,True,4,Very practical.
+K5-2025,A00199,S2025-20,True,4,Good moderation.
+K5-2025,A00199,S2025-06,True,3,Good moderation.
+K5-2025,A00199,S2025-14,True,4,Great insights on AI.
+K5-2025,A00199,S2025-01,True,4,Too salesy.
+K5-2025,A00199,S2025-02,True,5,Too salesy.
+K5-2025,A00308,S2025-09,True,2,
+K5-2025,A00308,S2025-11,True,4,Loved the case study.
+K5-2025,A00308,S2025-03,True,4,Good moderation.
+K5-2025,A00308,S2025-18,True,3,Very practical.
+K5-2025,A00155,S2025-02,True,5,
+K5-2025,A00155,S2025-20,True,5,
+K5-2025,A00155,S2025-12,True,5,Loved the case study.
+K5-2025,A00155,S2025-08,True,4,
+K5-2025,A00155,S2025-05,True,4,Strong speakers.
+K5-2025,A00155,S2025-03,True,4,Great insights on AI.
+K5-2025,A00155,S2025-10,True,3,Strong speakers.
+K5-2025,A00155,S2025-19,True,4,Too salesy.
+K5-2025,A00155,S2025-15,True,5,Too salesy.
+K5-2025,A00374,S2025-22,True,5,Too salesy.
+K5-2025,A00374,S2025-18,True,5,
+K5-2025,A00374,S2025-14,True,3,More examples needed.
+K5-2025,A00374,S2025-09,True,4,Strong speakers.
+K5-2025,A00374,S2025-15,True,5,Very practical.
+K5-2025,A00374,S2025-20,True,5,Very practical.
+K5-2025,A00374,S2025-08,True,4,
+K5-2025,A00374,S2025-06,True,3,
+K5-2024,A00008,S2024-09,True,4,More examples needed.
+K5-2024,A00008,S2024-05,True,5,Strong speakers.
+K5-2024,A00008,S2024-11,True,5,More examples needed.
+K5-2024,A00008,S2024-15,True,5,Loved the case study.
+K5-2024,A00008,S2024-03,True,4,
+K5-2024,A00008,S2024-20,True,4,Loved the case study.
+K5-2024,A00008,S2024-21,True,4,Loved the case study.
+K5-2024,A00008,S2024-08,True,5,Strong speakers.
+K5-2024,A00008,S2024-18,True,4,
+K5-2025,A00359,S2025-21,True,4,Great insights on AI.
+K5-2025,A00359,S2025-18,True,5,
+K5-2025,A00359,S2025-03,True,4,
+K5-2025,A00359,S2025-13,True,5,
+K5-2024,A00212,S2024-08,True,5,
+K5-2024,A00212,S2024-18,True,2,Very practical.
+K5-2024,A00212,S2024-09,True,4,Loved the case study.
+K5-2024,A00212,S2024-17,True,5,Great insights on AI.
+K5-2024,A00315,S2024-16,True,2,More examples needed.
+K5-2024,A00315,S2024-02,True,4,Loved the case study.
+K5-2024,A00315,S2024-20,True,4,Loved the case study.
+K5-2024,A00315,S2024-03,True,4,Too salesy.
+K5-2025,A00302,S2025-08,True,4,Strong speakers.
+K5-2025,A00302,S2025-21,True,3,More examples needed.
+K5-2025,A00302,S2025-05,True,4,More examples needed.
+K5-2025,A00302,S2025-14,True,5,
+K5-2025,A00302,S2025-04,True,4,Loved the case study.
+K5-2025,A00302,S2025-20,True,4,Very practical.
+K5-2025,A00302,S2025-18,True,5,
+K5-2025,A00302,S2025-06,True,4,Too salesy.
+K5-2025,A00009,S2025-19,True,5,
+K5-2025,A00009,S2025-02,True,5,Too salesy.
+K5-2025,A00009,S2025-11,True,5,
+K5-2025,A00009,S2025-22,True,4,Loved the case study.
+K5-2025,A00009,S2025-20,True,3,Great insights on AI.
+K5-2025,A00009,S2025-13,True,4,More examples needed.
+K5-2025,A00009,S2025-10,True,4,Strong speakers.
+K5-2025,A00009,S2025-18,True,5,Strong speakers.
+K5-2025,A00290,S2025-13,True,5,
+K5-2025,A00290,S2025-20,True,5,More examples needed.
+K5-2025,A00290,S2025-16,True,2,
+K5-2025,A00290,S2025-05,True,5,Strong speakers.
+K5-2025,A00290,S2025-11,True,3,More examples needed.
+K5-2025,A00290,S2025-08,True,5,Good moderation.
+K5-2025,A00290,S2025-04,True,5,
+K5-2025,A00031,S2025-07,True,5,Very practical.
+K5-2025,A00031,S2025-19,True,3,Too salesy.
+K5-2025,A00031,S2025-15,True,5,
+K5-2025,A00031,S2025-11,True,4,
+K5-2025,A00031,S2025-01,True,4,Very practical.
+K5-2025,A00031,S2025-03,True,5,Great insights on AI.
+K5-2025,A00363,S2025-09,True,3,Strong speakers.
+K5-2025,A00363,S2025-19,True,3,Good moderation.
+K5-2025,A00363,S2025-11,True,5,
+K5-2025,A00363,S2025-17,True,3,More examples needed.
+K5-2025,A00363,S2025-05,True,3,Great insights on AI.
+K5-2024,A00065,S2024-10,True,4,
+K5-2024,A00065,S2024-13,True,5,Great insights on AI.
+K5-2024,A00065,S2024-12,True,3,Good moderation.
+K5-2024,A00065,S2024-01,True,4,Great insights on AI.
+K5-2024,A00065,S2024-08,True,4,Great insights on AI.
+K5-2024,A00065,S2024-16,True,3,Too salesy.
+K5-2024,A00065,S2024-19,True,4,
+K5-2024,A00065,S2024-18,True,5,Very practical.
+K5-2025,A00293,S2025-07,True,2,Good moderation.
+K5-2025,A00293,S2025-21,True,5,Strong speakers.
+K5-2025,A00293,S2025-11,True,2,Great insights on AI.
+K5-2025,A00293,S2025-02,True,4,Strong speakers.
+K5-2025,A00293,S2025-10,True,5,
+K5-2025,A00293,S2025-09,True,5,Good moderation.
+K5-2025,A00293,S2025-13,True,5,
+K5-2024,A00372,S2024-19,True,4,More examples needed.
+K5-2024,A00372,S2024-06,True,5,
+K5-2024,A00372,S2024-13,True,4,Loved the case study.
+K5-2024,A00372,S2024-05,True,5,Great insights on AI.
+K5-2024,A00372,S2024-12,True,4,Strong speakers.
+K5-2024,A00372,S2024-08,True,5,Good moderation.
+K5-2025,A00247,S2025-17,True,5,
+K5-2025,A00247,S2025-03,True,5,More examples needed.
+K5-2025,A00247,S2025-01,True,5,Very practical.
+K5-2025,A00247,S2025-20,True,3,Too salesy.
+K5-2025,A00247,S2025-04,True,4,Great insights on AI.
+K5-2025,A00247,S2025-14,True,5,
+K5-2025,A00247,S2025-10,True,3,More examples needed.
+K5-2025,A00247,S2025-08,True,4,
+K5-2025,A00247,S2025-21,True,5,Great insights on AI.
+K5-2024,A00183,S2024-05,True,5,
+K5-2024,A00183,S2024-01,True,3,Good moderation.
+K5-2024,A00183,S2024-10,True,4,Strong speakers.
+K5-2024,A00183,S2024-22,True,5,
+K5-2024,A00183,S2024-06,True,4,
+K5-2024,A00183,S2024-19,True,3,Strong speakers.
+K5-2024,A00183,S2024-02,True,5,Too salesy.
+K5-2024,A00183,S2024-13,True,5,Too salesy.
+K5-2024,A00057,S2024-10,True,5,Good moderation.
+K5-2024,A00057,S2024-03,True,4,Too salesy.
+K5-2024,A00057,S2024-20,True,3,Very practical.
+K5-2024,A00057,S2024-12,True,5,More examples needed.
+K5-2025,A00215,S2025-08,True,3,Strong speakers.
+K5-2025,A00215,S2025-07,True,4,
+K5-2025,A00215,S2025-14,True,4,Great insights on AI.
+K5-2025,A00215,S2025-19,True,2,Very practical.
+K5-2025,A00215,S2025-15,True,5,
+K5-2025,A00215,S2025-16,True,3,More examples needed.
+K5-2025,A00035,S2025-14,True,4,
+K5-2025,A00035,S2025-12,True,2,
+K5-2025,A00035,S2025-21,True,4,Too salesy.
+K5-2025,A00035,S2025-05,True,2,Loved the case study.
+K5-2025,A00035,S2025-18,True,4,Strong speakers.
+K5-2025,A00035,S2025-13,True,3,Too salesy.
+K5-2025,A00002,S2025-01,True,5,
+K5-2025,A00002,S2025-05,True,4,Too salesy.
+K5-2025,A00002,S2025-02,True,2,Great insights on AI.
+K5-2025,A00002,S2025-10,True,4,
+K5-2025,A00002,S2025-15,True,5,
+K5-2025,A00002,S2025-19,True,5,Good moderation.
+K5-2025,A00002,S2025-22,True,5,Great insights on AI.
+K5-2025,A00002,S2025-12,True,5,Loved the case study.
+K5-2025,A00002,S2025-06,True,3,
+K5-2025,A00002,S2025-13,True,5,More examples needed.
+K5-2025,A00373,S2025-11,True,5,More examples needed.
+K5-2025,A00373,S2025-16,True,1,More examples needed.
+K5-2025,A00373,S2025-19,True,5,
+K5-2025,A00373,S2025-21,True,4,
+K5-2025,A00373,S2025-20,True,4,More examples needed.
+K5-2025,A00373,S2025-22,True,2,Too salesy.
+K5-2025,A00373,S2025-07,True,4,More examples needed.
+K5-2025,A00014,S2025-19,True,4,More examples needed.
+K5-2025,A00014,S2025-02,True,3,
+K5-2025,A00014,S2025-18,True,3,Great insights on AI.
+K5-2025,A00014,S2025-10,True,4,More examples needed.
+K5-2025,A00014,S2025-17,True,5,Good moderation.
+K5-2025,A00014,S2025-03,True,4,
+K5-2025,A00014,S2025-07,True,4,Very practical.
+K5-2025,A00014,S2025-06,True,3,Loved the case study.
+K5-2025,A00011,S2025-07,True,4,Too salesy.
+K5-2025,A00011,S2025-20,True,5,Great insights on AI.
+K5-2025,A00011,S2025-16,True,4,Great insights on AI.
+K5-2025,A00011,S2025-15,True,4,More examples needed.
+K5-2025,A00011,S2025-17,True,3,Great insights on AI.
+K5-2025,A00175,S2025-08,True,4,Very practical.
+K5-2025,A00175,S2025-06,True,4,Too salesy.
+K5-2025,A00175,S2025-22,True,4,Great insights on AI.
+K5-2025,A00175,S2025-02,True,3,Good moderation.
+K5-2025,A00175,S2025-13,True,5,
+K5-2025,A00175,S2025-11,True,2,Strong speakers.
+K5-2025,A00175,S2025-10,True,5,Very practical.
+K5-2025,A00175,S2025-16,True,3,
+K5-2025,A00175,S2025-17,True,4,Strong speakers.
+K5-2025,A00384,S2025-17,True,4,More examples needed.
+K5-2025,A00384,S2025-03,True,5,Great insights on AI.
+K5-2025,A00384,S2025-21,True,3,More examples needed.
+K5-2025,A00384,S2025-08,True,5,More examples needed.
+K5-2025,A00109,S2025-08,True,4,More examples needed.
+K5-2025,A00109,S2025-12,True,5,Very practical.
+K5-2025,A00109,S2025-14,True,4,
+K5-2025,A00109,S2025-10,True,5,
+K5-2025,A00109,S2025-21,True,4,
+K5-2025,A00109,S2025-11,True,4,Loved the case study.
+K5-2025,A00109,S2025-05,True,5,Loved the case study.
+K5-2024,A00040,S2024-18,True,4,Loved the case study.
+K5-2024,A00040,S2024-10,True,3,Loved the case study.
+K5-2024,A00040,S2024-05,True,5,Great insights on AI.
+K5-2024,A00040,S2024-13,True,5,
+K5-2024,A00040,S2024-16,True,4,
+K5-2024,A00040,S2024-08,True,5,Too salesy.
+K5-2024,A00040,S2024-09,True,3,Good moderation.
+K5-2024,A00040,S2024-02,True,5,Strong speakers.
+K5-2024,A00040,S2024-14,True,4,
+K5-2025,A00110,S2025-18,True,3,Good moderation.
+K5-2025,A00110,S2025-02,True,5,Too salesy.
+K5-2025,A00110,S2025-11,True,4,Very practical.
+K5-2025,A00110,S2025-09,True,5,More examples needed.
+K5-2025,A00405,S2025-02,True,3,Loved the case study.
+K5-2025,A00405,S2025-19,True,4,More examples needed.
+K5-2025,A00405,S2025-03,True,3,
+K5-2025,A00405,S2025-18,True,5,Loved the case study.
+K5-2025,A00405,S2025-14,True,5,More examples needed.
+K5-2025,A00270,S2025-19,True,4,Good moderation.
+K5-2025,A00270,S2025-14,True,4,
+K5-2025,A00270,S2025-12,True,5,More examples needed.
+K5-2025,A00270,S2025-08,True,4,Good moderation.
+K5-2025,A00270,S2025-21,True,5,
+K5-2025,A00270,S2025-06,True,5,Great insights on AI.
+K5-2025,A00270,S2025-01,True,4,Very practical.
+K5-2025,A00270,S2025-18,True,3,Strong speakers.
+K5-2025,A00267,S2025-09,True,5,Loved the case study.
+K5-2025,A00267,S2025-04,True,1,
+K5-2025,A00267,S2025-02,True,4,Great insights on AI.
+K5-2025,A00267,S2025-10,True,3,Strong speakers.
+K5-2025,A00267,S2025-11,True,5,
+K5-2025,A00327,S2025-03,True,4,Strong speakers.
+K5-2025,A00327,S2025-21,True,4,
+K5-2025,A00327,S2025-11,True,3,More examples needed.
+K5-2025,A00327,S2025-12,True,3,Good moderation.
+K5-2025,A00327,S2025-18,True,4,Great insights on AI.
+K5-2025,A00327,S2025-05,True,2,
+K5-2025,A00281,S2025-02,True,4,
+K5-2025,A00281,S2025-11,True,4,
+K5-2025,A00281,S2025-22,True,5,
+K5-2025,A00281,S2025-03,True,2,More examples needed.
+K5-2025,A00281,S2025-09,True,3,More examples needed.
+K5-2025,A00197,S2025-02,True,5,Strong speakers.
+K5-2025,A00197,S2025-03,True,5,More examples needed.
+K5-2025,A00197,S2025-12,True,5,Good moderation.
+K5-2025,A00197,S2025-22,True,2,Loved the case study.
+K5-2025,A00197,S2025-15,True,5,Too salesy.
+K5-2025,A00197,S2025-11,True,4,Too salesy.
+K5-2025,A00197,S2025-16,True,2,Too salesy.
+K5-2025,A00197,S2025-07,True,4,More examples needed.
+K5-2025,A00197,S2025-14,True,4,More examples needed.
+K5-2025,A00054,S2025-03,True,5,Very practical.
+K5-2025,A00054,S2025-12,True,2,Strong speakers.
+K5-2025,A00054,S2025-07,True,4,
+K5-2025,A00054,S2025-21,True,4,Good moderation.
+K5-2025,A00054,S2025-16,True,4,Good moderation.
+K5-2025,A00190,S2025-08,True,5,Strong speakers.
+K5-2025,A00190,S2025-04,True,2,Too salesy.
+K5-2025,A00190,S2025-20,True,5,Strong speakers.
+K5-2025,A00190,S2025-16,True,5,More examples needed.
+K5-2025,A00190,S2025-07,True,4,Great insights on AI.
+K5-2025,A00190,S2025-22,True,4,Very practical.
+K5-2025,A00190,S2025-17,True,5,Great insights on AI.
+K5-2025,A00190,S2025-19,True,2,Great insights on AI.
+K5-2025,A00190,S2025-21,True,3,
+K5-2025,A00190,S2025-09,True,5,More examples needed.
+K5-2024,A00136,S2024-07,True,3,Great insights on AI.
+K5-2024,A00136,S2024-10,True,4,Strong speakers.
+K5-2024,A00136,S2024-17,True,5,Great insights on AI.
+K5-2024,A00136,S2024-16,True,5,Strong speakers.
+K5-2024,A00136,S2024-02,True,5,Strong speakers.
+K5-2024,A00136,S2024-22,True,3,Good moderation.
+K5-2024,A00136,S2024-13,True,5,
+K5-2024,A00136,S2024-19,True,4,Very practical.
+K5-2025,A00038,S2025-12,True,5,Great insights on AI.
+K5-2025,A00038,S2025-03,True,5,More examples needed.
+K5-2025,A00038,S2025-18,True,5,
+K5-2025,A00038,S2025-21,True,4,Good moderation.
+K5-2025,A00038,S2025-04,True,4,Too salesy.
+K5-2025,A00038,S2025-20,True,2,Very practical.
+K5-2025,A00038,S2025-16,True,5,Loved the case study.
+K5-2025,A00087,S2025-19,True,4,
+K5-2025,A00087,S2025-03,True,1,Very practical.
+K5-2025,A00087,S2025-15,True,4,Very practical.
+K5-2025,A00087,S2025-04,True,4,Great insights on AI.
+K5-2025,A00087,S2025-09,True,3,
+K5-2025,A00087,S2025-20,True,5,
+K5-2025,A00087,S2025-02,True,4,
+K5-2025,A00087,S2025-18,True,2,Loved the case study.
+K5-2025,A00087,S2025-11,True,5,Good moderation.
+K5-2025,A00087,S2025-10,True,4,
+K5-2025,A00323,S2025-07,True,1,More examples needed.
+K5-2025,A00323,S2025-20,True,5,Very practical.
+K5-2025,A00323,S2025-19,True,4,
+K5-2025,A00323,S2025-02,True,4,
+K5-2025,A00323,S2025-03,True,4,
+K5-2025,A00323,S2025-11,True,2,
+K5-2025,A00323,S2025-06,True,2,Loved the case study.
+K5-2025,A00323,S2025-17,True,5,Too salesy.
+K5-2025,A00323,S2025-15,True,3,Great insights on AI.
+K5-2025,A00159,S2025-15,True,4,
+K5-2025,A00159,S2025-17,True,3,
+K5-2025,A00159,S2025-01,True,3,
+K5-2025,A00159,S2025-21,True,4,
+K5-2025,A00159,S2025-09,True,5,More examples needed.
+K5-2025,A00159,S2025-12,True,4,
+K5-2025,A00173,S2025-06,True,4,Great insights on AI.
+K5-2025,A00173,S2025-04,True,3,
+K5-2025,A00173,S2025-17,True,3,Good moderation.
+K5-2025,A00173,S2025-11,True,4,Loved the case study.
+K5-2025,A00173,S2025-03,True,4,
+K5-2025,A00173,S2025-18,True,5,Too salesy.
+K5-2025,A00173,S2025-05,True,4,More examples needed.
+K5-2025,A00186,S2025-17,True,4,
+K5-2025,A00186,S2025-16,True,4,Strong speakers.
+K5-2025,A00186,S2025-05,True,5,
+K5-2025,A00186,S2025-13,True,4,
+K5-2025,A00069,S2025-07,True,4,Too salesy.
+K5-2025,A00069,S2025-17,True,4,Very practical.
+K5-2025,A00069,S2025-05,True,4,
+K5-2025,A00069,S2025-06,True,5,More examples needed.
+K5-2025,A00069,S2025-10,True,4,Loved the case study.
+K5-2025,A00069,S2025-22,True,4,
+K5-2024,A00094,S2024-12,True,5,Strong speakers.
+K5-2024,A00094,S2024-10,True,3,
+K5-2024,A00094,S2024-21,True,3,
+K5-2024,A00094,S2024-05,True,5,Good moderation.
+K5-2024,A00094,S2024-14,True,4,
+K5-2024,A00094,S2024-17,True,4,Strong speakers.
+K5-2024,A00094,S2024-09,True,4,Too salesy.
+K5-2024,A00094,S2024-20,True,4,More examples needed.
+K5-2024,A00094,S2024-01,True,3,
+K5-2025,A00066,S2025-18,True,4,Great insights on AI.
+K5-2025,A00066,S2025-10,True,5,
+K5-2025,A00066,S2025-04,True,3,More examples needed.
+K5-2025,A00066,S2025-13,True,5,
+K5-2025,A00066,S2025-22,True,2,Very practical.
+K5-2025,A00066,S2025-20,True,5,
+K5-2025,A00318,S2025-03,True,2,Very practical.
+K5-2025,A00318,S2025-10,True,5,More examples needed.
+K5-2025,A00318,S2025-18,True,5,
+K5-2025,A00318,S2025-04,True,4,
+K5-2025,A00318,S2025-11,True,4,More examples needed.
+K5-2025,A00318,S2025-13,True,3,Good moderation.
+K5-2025,A00318,S2025-14,True,3,Loved the case study.
+K5-2025,A00172,S2025-12,True,4,
+K5-2025,A00172,S2025-20,True,5,Strong speakers.
+K5-2025,A00172,S2025-11,True,5,
+K5-2025,A00172,S2025-02,True,5,Loved the case study.
+K5-2025,A00172,S2025-01,True,5,
+K5-2025,A00172,S2025-10,True,2,Too salesy.
+K5-2025,A00172,S2025-19,True,2,
+K5-2025,A00172,S2025-21,True,1,
+K5-2025,A00172,S2025-15,True,4,Strong speakers.
+K5-2025,A00172,S2025-13,True,4,Good moderation.
+K5-2025,A00049,S2025-14,True,5,Strong speakers.
+K5-2025,A00049,S2025-16,True,5,Great insights on AI.
+K5-2025,A00049,S2025-20,True,4,Good moderation.
+K5-2025,A00049,S2025-17,True,5,Strong speakers.
+K5-2025,A00049,S2025-15,True,5,Very practical.
+K5-2025,A00049,S2025-02,True,5,Loved the case study.
+K5-2025,A00224,S2025-02,True,5,More examples needed.
+K5-2025,A00224,S2025-08,True,2,
+K5-2025,A00224,S2025-22,True,5,More examples needed.
+K5-2025,A00224,S2025-14,True,4,
+K5-2025,A00224,S2025-04,True,5,Great insights on AI.
+K5-2025,A00224,S2025-05,True,4,Loved the case study.
+K5-2025,A00224,S2025-12,True,5,Loved the case study.
+K5-2025,A00224,S2025-03,True,4,
+K5-2025,A00252,S2025-20,True,3,Great insights on AI.
+K5-2025,A00252,S2025-03,True,5,
+K5-2025,A00252,S2025-19,True,3,
+K5-2025,A00252,S2025-02,True,2,
+K5-2025,A00252,S2025-04,True,3,Strong speakers.
+K5-2025,A00252,S2025-12,True,3,Great insights on AI.
+K5-2025,A00252,S2025-07,True,4,Loved the case study.
+K5-2025,A00252,S2025-13,True,4,More examples needed.
+K5-2025,A00252,S2025-15,True,2,
+K5-2025,A00241,S2025-12,True,4,Loved the case study.
+K5-2025,A00241,S2025-14,True,5,Great insights on AI.
+K5-2025,A00241,S2025-05,True,2,Loved the case study.
+K5-2025,A00241,S2025-22,True,4,
+K5-2025,A00241,S2025-03,True,5,Too salesy.
+K5-2025,A00241,S2025-06,True,3,
+K5-2025,A00241,S2025-15,True,1,Very practical.
+K5-2025,A00241,S2025-18,True,4,More examples needed.
+K5-2025,A00193,S2025-04,True,4,
+K5-2025,A00193,S2025-05,True,4,Good moderation.
+K5-2025,A00193,S2025-17,True,1,Great insights on AI.
+K5-2025,A00193,S2025-07,True,4,More examples needed.
+K5-2025,A00193,S2025-19,True,4,Good moderation.
+K5-2025,A00193,S2025-20,True,5,Very practical.
+K5-2025,A00193,S2025-13,True,5,Too salesy.
+K5-2025,A00193,S2025-10,True,4,More examples needed.
+K5-2025,A00193,S2025-16,True,5,
+K5-2025,A00129,S2025-16,True,4,Strong speakers.
+K5-2025,A00129,S2025-17,True,5,More examples needed.
+K5-2025,A00129,S2025-21,True,5,Great insights on AI.
+K5-2025,A00129,S2025-14,True,2,Great insights on AI.
+K5-2025,A00129,S2025-01,True,4,
+K5-2025,A00129,S2025-04,True,5,More examples needed.
+K5-2025,A00129,S2025-15,True,5,
+K5-2025,A00129,S2025-12,True,4,More examples needed.
+K5-2024,A00290,S2024-11,True,5,Loved the case study.
+K5-2024,A00290,S2024-07,True,1,Loved the case study.
+K5-2024,A00290,S2024-22,True,5,Very practical.
+K5-2024,A00290,S2024-05,True,4,Too salesy.
+K5-2024,A00290,S2024-03,True,5,Good moderation.
+K5-2024,A00290,S2024-09,True,5,
+K5-2024,A00290,S2024-20,True,2,Good moderation.
+K5-2024,A00290,S2024-06,True,4,
+K5-2024,A00290,S2024-17,True,4,Great insights on AI.
+K5-2024,A00290,S2024-13,True,3,
+K5-2024,A00170,S2024-02,True,2,
+K5-2024,A00170,S2024-20,True,5,
+K5-2024,A00170,S2024-22,True,3,Too salesy.
+K5-2024,A00170,S2024-09,True,4,
+K5-2024,A00170,S2024-14,True,2,Too salesy.
+K5-2024,A00170,S2024-06,True,4,More examples needed.
+K5-2024,A00170,S2024-10,True,3,Too salesy.
+K5-2025,A00146,S2025-11,True,5,
+K5-2025,A00146,S2025-04,True,4,Too salesy.
+K5-2025,A00146,S2025-06,True,3,Good moderation.
+K5-2025,A00146,S2025-15,True,5,Great insights on AI.
+K5-2025,A00146,S2025-09,True,5,
+K5-2025,A00146,S2025-20,True,3,Loved the case study.
+K5-2025,A00146,S2025-05,True,4,
+K5-2025,A00146,S2025-17,True,4,Good moderation.
+K5-2025,A00146,S2025-10,True,4,More examples needed.
+K5-2025,A00146,S2025-12,True,5,Too salesy.
+K5-2024,A00387,S2024-19,True,4,
+K5-2024,A00387,S2024-15,True,1,Strong speakers.
+K5-2024,A00387,S2024-14,True,5,Too salesy.
+K5-2024,A00387,S2024-05,True,5,Good moderation.
+K5-2024,A00387,S2024-06,True,4,
+K5-2024,A00387,S2024-02,True,5,Too salesy.
+K5-2024,A00387,S2024-08,True,3,Strong speakers.
+K5-2024,A00060,S2024-11,True,4,More examples needed.
+K5-2024,A00060,S2024-19,True,4,Loved the case study.
+K5-2024,A00060,S2024-09,True,4,
+K5-2024,A00060,S2024-14,True,4,
+K5-2024,A00060,S2024-05,True,3,
+K5-2024,A00060,S2024-06,True,5,Strong speakers.
+K5-2024,A00060,S2024-07,True,3,
+K5-2024,A00064,S2024-19,True,5,Loved the case study.
+K5-2024,A00064,S2024-20,True,5,
+K5-2024,A00064,S2024-16,True,5,Great insights on AI.
+K5-2024,A00064,S2024-13,True,4,Too salesy.
+K5-2025,A00330,S2025-06,True,3,
+K5-2025,A00330,S2025-18,True,4,Good moderation.
+K5-2025,A00330,S2025-12,True,2,
+K5-2025,A00330,S2025-05,True,3,More examples needed.
+K5-2025,A00188,S2025-22,True,4,Too salesy.
+K5-2025,A00188,S2025-16,True,5,Great insights on AI.
+K5-2025,A00188,S2025-03,True,4,More examples needed.
+K5-2025,A00188,S2025-19,True,5,Strong speakers.
+K5-2025,A00188,S2025-07,True,4,Too salesy.
+K5-2025,A00188,S2025-13,True,4,Loved the case study.
+K5-2025,A00097,S2025-10,True,5,More examples needed.
+K5-2025,A00097,S2025-04,True,4,Great insights on AI.
+K5-2025,A00097,S2025-09,True,5,Great insights on AI.
+K5-2025,A00097,S2025-21,True,5,
+K5-2025,A00097,S2025-01,True,4,Good moderation.
+K5-2025,A00097,S2025-14,True,5,
+K5-2025,A00097,S2025-13,True,4,
+K5-2025,A00097,S2025-22,True,5,Too salesy.
+K5-2025,A00143,S2025-07,True,2,
+K5-2025,A00143,S2025-05,True,5,Very practical.
+K5-2025,A00143,S2025-03,True,4,More examples needed.
+K5-2025,A00143,S2025-13,True,5,Very practical.
+K5-2025,A00143,S2025-20,True,4,Good moderation.
+K5-2025,A00143,S2025-08,True,5,
+K5-2025,A00394,S2025-01,True,2,Great insights on AI.
+K5-2025,A00394,S2025-19,True,3,More examples needed.
+K5-2025,A00394,S2025-10,True,4,
+K5-2025,A00394,S2025-07,True,5,More examples needed.
+K5-2025,A00394,S2025-09,True,3,Good moderation.
+K5-2025,A00397,S2025-06,True,5,Loved the case study.
+K5-2025,A00397,S2025-10,True,4,
+K5-2025,A00397,S2025-12,True,4,
+K5-2025,A00397,S2025-15,True,4,
+K5-2025,A00397,S2025-17,True,4,Too salesy.
+K5-2025,A00397,S2025-08,True,3,Good moderation.
+K5-2025,A00397,S2025-14,True,4,
+K5-2025,A00397,S2025-05,True,4,Very practical.
+K5-2025,A00397,S2025-20,True,3,More examples needed.
+K5-2025,A00357,S2025-18,True,3,Strong speakers.
+K5-2025,A00357,S2025-02,True,5,Very practical.
+K5-2025,A00357,S2025-12,True,2,
+K5-2025,A00357,S2025-04,True,4,Loved the case study.
+K5-2025,A00357,S2025-06,True,2,Loved the case study.
+K5-2025,A00357,S2025-05,True,3,Very practical.
+K5-2025,A00357,S2025-03,True,3,More examples needed.
+K5-2024,A00352,S2024-21,True,4,Too salesy.
+K5-2024,A00352,S2024-07,True,4,More examples needed.
+K5-2024,A00352,S2024-11,True,3,Great insights on AI.
+K5-2024,A00352,S2024-02,True,4,Too salesy.
+K5-2024,A00352,S2024-20,True,3,Good moderation.
+K5-2024,A00352,S2024-22,True,3,Good moderation.
+K5-2024,A00352,S2024-03,True,5,Very practical.
+K5-2024,A00352,S2024-15,True,5,Strong speakers.
+K5-2024,A00352,S2024-10,True,1,
+K5-2024,A00352,S2024-18,True,5,More examples needed.
+K5-2025,A00309,S2025-22,True,4,Too salesy.
+K5-2025,A00309,S2025-21,True,4,Great insights on AI.
+K5-2025,A00309,S2025-15,True,2,
+K5-2025,A00309,S2025-17,True,4,Strong speakers.
+K5-2025,A00309,S2025-20,True,5,Great insights on AI.
+K5-2025,A00309,S2025-04,True,1,
+K5-2025,A00099,S2025-09,True,4,Too salesy.
+K5-2025,A00099,S2025-17,True,4,
+K5-2025,A00099,S2025-13,True,4,Strong speakers.
+K5-2025,A00099,S2025-16,True,2,Great insights on AI.
+K5-2025,A00099,S2025-14,True,3,Great insights on AI.
+K5-2025,A00099,S2025-18,True,4,Great insights on AI.
+K5-2025,A00099,S2025-03,True,4,Great insights on AI.
+K5-2025,A00396,S2025-01,True,5,Loved the case study.
+K5-2025,A00396,S2025-08,True,5,Great insights on AI.
+K5-2025,A00396,S2025-22,True,4,
+K5-2025,A00396,S2025-13,True,5,
+K5-2025,A00396,S2025-15,True,2,
+K5-2025,A00396,S2025-10,True,2,
+K5-2025,A00396,S2025-20,True,4,
+K5-2025,A00396,S2025-05,True,4,Good moderation.
+K5-2025,A00396,S2025-07,True,4,Strong speakers.
+K5-2025,A00396,S2025-17,True,3,Loved the case study.
+K5-2025,A00195,S2025-15,True,1,More examples needed.
+K5-2025,A00195,S2025-10,True,5,
+K5-2025,A00195,S2025-22,True,5,Very practical.
+K5-2025,A00195,S2025-06,True,1,
+K5-2025,A00195,S2025-20,True,5,Strong speakers.
+K5-2025,A00195,S2025-03,True,4,
+K5-2025,A00195,S2025-01,True,5,Too salesy.
+K5-2024,A00419,S2024-16,True,4,More examples needed.
+K5-2024,A00419,S2024-12,True,4,
+K5-2024,A00419,S2024-04,True,4,Great insights on AI.
+K5-2024,A00419,S2024-20,True,3,Strong speakers.
+K5-2024,A00419,S2024-03,True,4,
+K5-2024,A00419,S2024-09,True,4,Very practical.
+K5-2024,A00419,S2024-21,True,5,Too salesy.
+K5-2024,A00419,S2024-02,True,4,Very practical.
+K5-2024,A00419,S2024-08,True,4,Strong speakers.
+K5-2024,A00273,S2024-13,True,5,More examples needed.
+K5-2024,A00273,S2024-21,True,4,Too salesy.
+K5-2024,A00273,S2024-04,True,4,Strong speakers.
+K5-2024,A00273,S2024-02,True,5,
+K5-2024,A00273,S2024-05,True,4,Loved the case study.
+K5-2024,A00273,S2024-20,True,4,Too salesy.
+K5-2024,A00273,S2024-07,True,4,Too salesy.
+K5-2025,A00266,S2025-18,True,4,Great insights on AI.
+K5-2025,A00266,S2025-14,True,2,Loved the case study.
+K5-2025,A00266,S2025-13,True,5,Too salesy.
+K5-2025,A00266,S2025-12,True,5,Loved the case study.
+K5-2025,A00266,S2025-19,True,2,Too salesy.
+K5-2025,A00266,S2025-08,True,5,
+K5-2025,A00266,S2025-15,True,5,More examples needed.
+K5-2025,A00266,S2025-06,True,2,Loved the case study.
+K5-2025,A00266,S2025-03,True,3,Great insights on AI.
+K5-2024,A00121,S2024-12,True,5,Very practical.
+K5-2024,A00121,S2024-17,True,5,Loved the case study.
+K5-2024,A00121,S2024-06,True,4,
+K5-2024,A00121,S2024-19,True,3,Very practical.
+K5-2024,A00121,S2024-13,True,5,Very practical.
+K5-2024,A00121,S2024-11,True,4,Good moderation.
+K5-2024,A00086,S2024-20,True,4,Very practical.
+K5-2024,A00086,S2024-05,True,3,Loved the case study.
+K5-2024,A00086,S2024-21,True,4,Too salesy.
+K5-2024,A00086,S2024-03,True,5,Too salesy.
+K5-2024,A00086,S2024-02,True,5,Loved the case study.
+K5-2024,A00086,S2024-10,True,5,
+K5-2024,A00086,S2024-14,True,5,
+K5-2025,A00218,S2025-11,True,4,Too salesy.
+K5-2025,A00218,S2025-01,True,4,Very practical.
+K5-2025,A00218,S2025-14,True,4,Too salesy.
+K5-2025,A00218,S2025-20,True,4,Good moderation.
+K5-2025,A00218,S2025-17,True,5,Great insights on AI.
+K5-2025,A00218,S2025-10,True,4,More examples needed.
+K5-2025,A00218,S2025-02,True,3,
+K5-2025,A00058,S2025-16,True,5,Good moderation.
+K5-2025,A00058,S2025-13,True,4,Good moderation.
+K5-2025,A00058,S2025-09,True,3,Too salesy.
+K5-2025,A00058,S2025-14,True,1,Strong speakers.
+K5-2025,A00089,S2025-22,True,5,Great insights on AI.
+K5-2025,A00089,S2025-13,True,3,Great insights on AI.
+K5-2025,A00089,S2025-14,True,4,Great insights on AI.
+K5-2025,A00089,S2025-01,True,2,Strong speakers.
+K5-2025,A00089,S2025-04,True,4,
+K5-2025,A00089,S2025-05,True,5,
+K5-2025,A00089,S2025-19,True,5,
+K5-2025,A00089,S2025-08,True,4,Great insights on AI.
+K5-2025,A00006,S2025-02,True,5,Very practical.
+K5-2025,A00006,S2025-16,True,5,More examples needed.
+K5-2025,A00006,S2025-11,True,3,
+K5-2025,A00006,S2025-21,True,2,Strong speakers.
+K5-2025,A00006,S2025-22,True,4,
+K5-2025,A00006,S2025-17,True,4,More examples needed.
+K5-2025,A00006,S2025-08,True,4,Strong speakers.
+K5-2025,A00006,S2025-12,True,1,Very practical.
+K5-2025,A00006,S2025-20,True,4,Very practical.
+K5-2025,A00006,S2025-05,True,4,
+K5-2024,A00019,S2024-09,True,4,Loved the case study.
+K5-2024,A00019,S2024-22,True,5,More examples needed.
+K5-2024,A00019,S2024-16,True,5,
+K5-2024,A00019,S2024-06,True,5,
+K5-2024,A00019,S2024-01,True,5,Loved the case study.
+K5-2024,A00019,S2024-02,True,5,
+K5-2024,A00019,S2024-15,True,4,Too salesy.
+K5-2024,A00019,S2024-11,True,4,Too salesy.
+K5-2024,A00019,S2024-10,True,5,Great insights on AI.
+K5-2025,A00107,S2025-16,True,4,Great insights on AI.
+K5-2025,A00107,S2025-20,True,3,
+K5-2025,A00107,S2025-06,True,4,Loved the case study.
+K5-2025,A00107,S2025-03,True,3,Great insights on AI.
+K5-2025,A00107,S2025-15,True,2,Loved the case study.
+K5-2025,A00107,S2025-01,True,5,More examples needed.
+K5-2025,A00107,S2025-17,True,4,Too salesy.
+K5-2025,A00107,S2025-19,True,5,
+K5-2025,A00107,S2025-07,True,4,
+K5-2025,A00107,S2025-14,True,5,
+K5-2025,A00135,S2025-20,True,4,
+K5-2025,A00135,S2025-02,True,4,Loved the case study.
+K5-2025,A00135,S2025-17,True,3,
+K5-2025,A00135,S2025-10,True,3,Too salesy.
+K5-2025,A00135,S2025-21,True,3,
+K5-2025,A00328,S2025-18,True,4,
+K5-2025,A00328,S2025-13,True,4,Too salesy.
+K5-2025,A00328,S2025-06,True,3,Too salesy.
+K5-2025,A00328,S2025-04,True,4,Very practical.
+K5-2025,A00328,S2025-08,True,3,
+K5-2025,A00328,S2025-14,True,3,Strong speakers.
+K5-2025,A00328,S2025-15,True,5,
+K5-2025,A00328,S2025-02,True,4,Good moderation.
+K5-2025,A00328,S2025-22,True,3,Great insights on AI.
+K5-2025,A00328,S2025-16,True,4,Very practical.
+K5-2024,A00122,S2024-15,True,4,
+K5-2024,A00122,S2024-04,True,3,Very practical.
+K5-2024,A00122,S2024-07,True,5,
+K5-2024,A00122,S2024-22,True,5,
+K5-2024,A00122,S2024-03,True,5,Good moderation.
+K5-2025,A00225,S2025-03,True,5,Loved the case study.
+K5-2025,A00225,S2025-05,True,4,Very practical.
+K5-2025,A00225,S2025-09,True,4,Strong speakers.
+K5-2025,A00225,S2025-18,True,2,Good moderation.
+K5-2025,A00225,S2025-14,True,2,
+K5-2025,A00225,S2025-02,True,3,Great insights on AI.
+K5-2025,A00225,S2025-13,True,3,Loved the case study.
+K5-2025,A00225,S2025-11,True,5,
+K5-2025,A00225,S2025-19,True,4,Great insights on AI.
+K5-2025,A00191,S2025-13,True,4,Loved the case study.
+K5-2025,A00191,S2025-02,True,5,
+K5-2025,A00191,S2025-05,True,5,Great insights on AI.
+K5-2025,A00191,S2025-10,True,2,
+K5-2025,A00191,S2025-18,True,5,Great insights on AI.
+K5-2025,A00191,S2025-14,True,5,More examples needed.
+K5-2025,A00282,S2025-10,True,4,Strong speakers.
+K5-2025,A00282,S2025-09,True,3,Strong speakers.
+K5-2025,A00282,S2025-14,True,4,Loved the case study.
+K5-2025,A00282,S2025-07,True,5,More examples needed.
+K5-2025,A00282,S2025-19,True,5,Too salesy.
+K5-2025,A00282,S2025-22,True,5,Great insights on AI.
+K5-2025,A00282,S2025-20,True,4,Very practical.
+K5-2025,A00282,S2025-16,True,4,Too salesy.
+K5-2025,A00282,S2025-11,True,3,Too salesy.
+K5-2025,A00282,S2025-04,True,3,Strong speakers.
+K5-2025,A00160,S2025-15,True,4,Loved the case study.
+K5-2025,A00160,S2025-01,True,5,Very practical.
+K5-2025,A00160,S2025-22,True,4,Strong speakers.
+K5-2025,A00160,S2025-17,True,4,Loved the case study.
+K5-2025,A00160,S2025-18,True,5,More examples needed.
+K5-2024,A00332,S2024-03,True,4,
+K5-2024,A00332,S2024-13,True,4,Loved the case study.
+K5-2024,A00332,S2024-14,True,5,Great insights on AI.
+K5-2024,A00332,S2024-12,True,4,
+K5-2024,A00332,S2024-11,True,3,Good moderation.
+K5-2025,A00273,S2025-09,True,5,
+K5-2025,A00273,S2025-08,True,4,Strong speakers.
+K5-2025,A00273,S2025-05,True,5,Great insights on AI.
+K5-2025,A00273,S2025-17,True,3,
+K5-2025,A00273,S2025-14,True,4,Strong speakers.
+K5-2025,A00273,S2025-19,True,5,Loved the case study.
+K5-2025,A00273,S2025-15,True,1,Loved the case study.
+K5-2025,A00256,S2025-21,True,3,More examples needed.
+K5-2025,A00256,S2025-11,True,4,Too salesy.
+K5-2025,A00256,S2025-05,True,3,Loved the case study.
+K5-2025,A00256,S2025-12,True,5,More examples needed.
+K5-2024,A00228,S2024-19,True,5,
+K5-2024,A00228,S2024-22,True,5,Great insights on AI.
+K5-2024,A00228,S2024-13,True,4,Great insights on AI.
+K5-2024,A00228,S2024-07,True,3,Loved the case study.
+K5-2024,A00228,S2024-05,True,5,Great insights on AI.
+K5-2024,A00228,S2024-11,True,4,Very practical.
+K5-2024,A00228,S2024-12,True,3,
+K5-2024,A00228,S2024-08,True,4,
+K5-2024,A00228,S2024-06,True,1,Loved the case study.
+K5-2025,A00070,S2025-19,True,4,More examples needed.
+K5-2025,A00070,S2025-18,True,3,Too salesy.
+K5-2025,A00070,S2025-02,True,2,Very practical.
+K5-2025,A00070,S2025-15,True,4,More examples needed.
+K5-2025,A00070,S2025-17,True,5,More examples needed.
+K5-2025,A00030,S2025-17,True,4,
+K5-2025,A00030,S2025-14,True,4,Too salesy.
+K5-2025,A00030,S2025-12,True,5,Loved the case study.
+K5-2025,A00030,S2025-07,True,4,Too salesy.
+K5-2025,A00030,S2025-15,True,4,Loved the case study.
+K5-2025,A00030,S2025-22,True,5,Great insights on AI.
+K5-2024,A00033,S2024-08,True,5,Good moderation.
+K5-2024,A00033,S2024-14,True,5,Very practical.
+K5-2024,A00033,S2024-15,True,4,Very practical.
+K5-2024,A00033,S2024-19,True,5,Strong speakers.
+K5-2024,A00033,S2024-18,True,2,Strong speakers.
+K5-2024,A00033,S2024-17,True,4,Strong speakers.
+K5-2024,A00033,S2024-04,True,1,Good moderation.
+K5-2024,A00033,S2024-12,True,5,Loved the case study.
+K5-2025,A00198,S2025-02,True,4,Loved the case study.
+K5-2025,A00198,S2025-01,True,3,
+K5-2025,A00198,S2025-08,True,5,More examples needed.
+K5-2025,A00198,S2025-17,True,1,
+K5-2025,A00198,S2025-20,True,4,
+K5-2025,A00198,S2025-10,True,5,Very practical.
+K5-2025,A00198,S2025-19,True,5,Too salesy.
+K5-2025,A00198,S2025-14,True,3,More examples needed.
+K5-2025,A00198,S2025-09,True,2,
+K5-2025,A00198,S2025-03,True,3,Strong speakers.
+K5-2025,A00347,S2025-12,True,4,Very practical.
+K5-2025,A00347,S2025-19,True,4,
+K5-2025,A00347,S2025-06,True,5,
+K5-2025,A00347,S2025-05,True,4,Loved the case study.
+K5-2025,A00347,S2025-14,True,4,Loved the case study.
+K5-2025,A00347,S2025-08,True,3,
+K5-2025,A00347,S2025-10,True,5,Loved the case study.
+K5-2025,A00347,S2025-04,True,4,Great insights on AI.
+K5-2025,A00347,S2025-13,True,5,Very practical.
+K5-2024,A00216,S2024-07,True,3,Very practical.
+K5-2024,A00216,S2024-20,True,4,Too salesy.
+K5-2024,A00216,S2024-13,True,5,More examples needed.
+K5-2024,A00216,S2024-04,True,5,
+K5-2024,A00216,S2024-18,True,4,Very practical.
+K5-2024,A00115,S2024-12,True,4,
+K5-2024,A00115,S2024-16,True,4,Strong speakers.
+K5-2024,A00115,S2024-07,True,2,Very practical.
+K5-2024,A00115,S2024-18,True,4,
+K5-2024,A00115,S2024-08,True,1,
+K5-2024,A00115,S2024-06,True,5,More examples needed.
+K5-2024,A00115,S2024-21,True,4,Good moderation.
+K5-2024,A00115,S2024-19,True,5,Very practical.
+K5-2025,A00239,S2025-13,True,4,
+K5-2025,A00239,S2025-09,True,2,
+K5-2025,A00239,S2025-22,True,3,Too salesy.
+K5-2025,A00239,S2025-16,True,5,Too salesy.
+K5-2025,A00239,S2025-19,True,3,Strong speakers.
+K5-2025,A00239,S2025-07,True,4,More examples needed.
+K5-2025,A00239,S2025-05,True,5,Too salesy.
+K5-2025,A00289,S2025-18,True,5,Very practical.
+K5-2025,A00289,S2025-08,True,4,Very practical.
+K5-2025,A00289,S2025-05,True,5,
+K5-2025,A00289,S2025-03,True,5,Very practical.
+K5-2025,A00289,S2025-14,True,4,
+K5-2025,A00289,S2025-09,True,5,More examples needed.
+K5-2025,A00289,S2025-22,True,3,Loved the case study.
+K5-2024,A00284,S2024-12,True,5,
+K5-2024,A00284,S2024-08,True,2,
+K5-2024,A00284,S2024-01,True,4,
+K5-2024,A00284,S2024-21,True,4,
+K5-2024,A00284,S2024-18,True,5,Loved the case study.
+K5-2024,A00284,S2024-15,True,4,More examples needed.
+K5-2024,A00284,S2024-14,True,5,Great insights on AI.
+K5-2024,A00284,S2024-20,True,5,
+K5-2025,A00250,S2025-20,True,4,
+K5-2025,A00250,S2025-05,True,4,Good moderation.
+K5-2025,A00250,S2025-11,True,4,
+K5-2025,A00250,S2025-15,True,4,Too salesy.
+K5-2025,A00250,S2025-12,True,3,Strong speakers.
+K5-2025,A00161,S2025-06,True,5,Too salesy.
+K5-2025,A00161,S2025-04,True,5,Very practical.
+K5-2025,A00161,S2025-14,True,2,Very practical.
+K5-2025,A00161,S2025-20,True,3,
+K5-2025,A00161,S2025-05,True,4,Loved the case study.
+K5-2025,A00161,S2025-01,True,4,Great insights on AI.
+K5-2025,A00161,S2025-18,True,3,
+K5-2025,A00390,S2025-06,True,5,
+K5-2025,A00390,S2025-18,True,4,
+K5-2025,A00390,S2025-14,True,3,Strong speakers.
+K5-2025,A00390,S2025-11,True,4,Very practical.

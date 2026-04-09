@@ -1,0 +1,421 @@
+attendee_id,first_name,last_name,email,job_title,company_id,country,gdpr_consent,created_at
+A00001,Marie,Fischer,marie.fischer@omnisolutions.de,Data Analyst,C078,FR,True,2023-05-05
+A00002,Sarah,Schwarz,sarah.schwarz@cloudlabs.de,Product Lead,C055,IT,True,2023-03-16
+A00003,Ben,Neumann,ben.neumann@bluebrands.de,CMO,C061,PL,True,2023-08-06
+A00004,Paul,Wagner,paul.wagner@novagroup.de,CTO,C034,ES,True,2024-10-20
+A00005,Felix,Fischer,felix.fischer@brightsolutions.de,VP Sales,C053,UK,True,2023-05-21
+A00006,Marie,Schäfer,marie.schäfer@cloudmarkets.de,CMO,C079,NL,True,2024-02-12
+A00007,Tim,Becker,tim.becker@vistamarkets.de,Head of E-Commerce,C070,CH,True,2023-06-15
+A00008,Leon,Wolf,leon.wolf@cloudlogistics.de,Product Lead,C027,SE,False,2024-03-07
+A00009,Mia,Klein,mia.klein@cloudgroup.de,Product Lead,C036,NL,False,2023-04-05
+A00010,Felix,Schmidt,felix.schmidt@cloudsolutions.de,Product Lead,C073,DE,True,2024-07-21
+A00011,Marie,Schwarz,marie.schwarz@brightmarkets.de,CEO,C080,NL,True,2024-01-29
+A00012,Nina,Bauer,nina.bauer@pulselabs.de,Founder,C049,NL,True,2023-03-07
+A00013,Tom,Schäfer,tom.schäfer@vistabrands.de,CMO,C008,CH,True,2023-03-28
+A00014,Laura,Koch,laura.koch@greencapital.de,CEO,C042,IT,True,2023-07-05
+A00015,Laura,Fischer,laura.fischer@greengroup.de,Data Analyst,C029,CH,True,2024-11-23
+A00016,Laura,Wolf,laura.wolf@novacommerce.de,CTO,C072,CH,True,2024-07-03
+A00017,Julia,Zimmermann,julia.zimmermann@hyperlogistics.de,Product Lead,C026,CH,True,2023-04-02
+A00018,Laura,Müller,laura.müller@nordicsystems.de,CTO,C052,NL,False,2024-03-11
+A00019,Lena,Koch,lena.koch@cloudpartners.de,CEO,C045,DE,True,2024-10-11
+A00020,Lena,Koch,lena.koch@cloudgroup.de,CMO,C063,ES,False,2024-09-14
+A00021,Ben,Weber,ben.weber@summitpartners.de,VP Sales,C069,PL,False,2023-05-05
+A00022,Marie,Schmidt,marie.schmidt@greensolutions.de,Product Lead,C038,DE,True,2024-07-20
+A00023,Leon,Koch,leon.koch@cloudgroup.de,Partnerships Manager,C036,NL,False,2023-05-13
+A00024,Max,Schäfer,max.schäfer@cloudmarkets.de,CMO,C079,NL,True,2023-06-15
+A00025,Laura,Müller,laura.müller@omnipartners.de,CTO,C011,DE,True,2023-07-26
+A00026,Paul,Bauer,paul.bauer@vistabrands.de,Founder,C008,CH,True,2023-07-30
+A00027,Paul,Schwarz,paul.schwarz@cloudgroup.de,Founder,C036,NL,True,2024-11-19
+A00028,Jonas,Koch,jonas.koch@greengroup.de,Product Lead,C074,ES,True,2023-01-19
+A00029,Laura,Müller,laura.müller@novabrands.de,CEO,C039,PL,True,2023-01-19
+A00030,Julia,Hoffmann,julia.hoffmann@cloudlogistics.de,Founder,C027,SE,True,2024-05-01
+A00031,Ben,Schwarz,ben.schwarz@nextsystems.de,CMO,C025,NL,True,2024-11-05
+A00032,Leon,Zimmermann,leon.zimmermann@vistalabs.de,Founder,C066,NL,True,2024-02-07
+A00033,Julia,Bauer,julia.bauer@greengroup.de,Head of E-Commerce,C074,ES,True,2023-08-24
+A00034,Nina,Hoffmann,nina.hoffmann@novacommerce.de,CTO,C072,CH,False,2024-02-19
+A00035,Felix,Müller,felix.müller@cloudcapital.de,CTO,C043,AT,False,2023-01-15
+A00036,Lena,Koch,lena.koch@omnilogistics.de,Data Analyst,C005,AT,True,2023-06-17
+A00037,Max,Weber,max.weber@nextgroup.de,Data Analyst,C006,PL,False,2024-06-02
+A00038,Paul,Schäfer,paul.schäfer@cloudlabs.de,VP Sales,C055,IT,False,2023-02-16
+A00039,Marie,Becker,marie.becker@nextmarkets.de,CTO,C051,DE,False,2023-10-03
+A00040,Marie,Schmidt,marie.schmidt@greencapital.de,VP Sales,C042,IT,True,2024-01-08
+A00041,Nina,Richter,nina.richter@nextmarkets.de,Head of E-Commerce,C051,DE,True,2023-02-05
+A00042,Paul,Hoffmann,paul.hoffmann@primecapital.de,Product Lead,C021,FR,True,2023-07-07
+A00043,Anna,Richter,anna.richter@nordicretail.de,Data Analyst,C040,SE,True,2023-03-27
+A00044,Tim,Koch,tim.koch@nextmarkets.de,Founder,C046,ES,False,2024-11-02
+A00045,Mia,Schäfer,mia.schäfer@nordicretail.de,Founder,C040,SE,True,2023-01-06
+A00046,Lena,Koch,lena.koch@nordicsystems.de,CMO,C052,NL,True,2023-05-28
+A00047,Sarah,Müller,sarah.müller@greensolutions.de,Data Analyst,C038,DE,False,2023-01-24
+A00048,Paul,Bauer,paul.bauer@omnipartners.de,Head of E-Commerce,C011,DE,False,2023-03-28
+A00049,Emil,Fischer,emil.fischer@urbansolutions.de,Partnerships Manager,C010,AT,False,2024-02-03
+A00050,Nina,Zimmermann,nina.zimmermann@cloudcapital.de,CTO,C043,AT,True,2023-10-18
+A00051,Lisa,Fischer,lisa.fischer@brightsystems.de,CEO,C048,UK,False,2024-06-09
+A00052,Leon,Fischer,leon.fischer@cloudgroup.de,Founder,C036,NL,True,2024-05-31
+A00053,Emil,Schmidt,emil.schmidt@primecapital.de,Partnerships Manager,C021,FR,True,2024-11-30
+A00054,Ben,Weber,ben.weber@nextsystems.de,CEO,C025,NL,True,2023-02-12
+A00055,Sofia,Klein,sofia.klein@hypergroup.de,CMO,C059,SE,False,2024-01-21
+A00056,Marie,Müller,marie.müller@summitmedia.de,CEO,C016,PL,True,2024-10-03
+A00057,David,Schäfer,david.schäfer@cloudlogistics.de,Retail Director,C027,SE,False,2023-09-28
+A00058,Anna,Schwarz,anna.schwarz@summitmedia.de,CMO,C016,PL,True,2024-05-30
+A00059,David,Weber,david.weber@nordicretail.de,Founder,C040,SE,True,2023-03-09
+A00060,Tim,Koch,tim.koch@hypermedia.de,CMO,C013,IT,True,2023-09-29
+A00061,Ben,Hoffmann,ben.hoffmann@hypermedia.de,Head of E-Commerce,C013,IT,True,2024-10-27
+A00062,Marie,Zimmermann,marie.zimmermann@urbansolutions.de,Data Analyst,C010,AT,False,2023-03-20
+A00063,Tim,Bauer,tim.bauer@summitlogistics.de,CEO,C058,CH,False,2024-09-23
+A00064,Mia,Weber,mia.weber@omniretail.de,Partnerships Manager,C009,CH,True,2023-05-31
+A00065,Nina,Koch,nina.koch@nordiclabs.de,VP Sales,C075,DE,False,2024-09-28
+A00066,Emil,Fischer,emil.fischer@omnipartners.de,CEO,C011,DE,False,2024-05-08
+A00067,Max,Zimmermann,max.zimmermann@nordiccapital.de,VP Sales,C031,FR,True,2024-11-19
+A00068,Tom,Hoffmann,tom.hoffmann@bluebrands.de,Retail Director,C061,PL,True,2023-10-25
+A00069,Julia,Bauer,julia.bauer@vistamarkets.de,Retail Director,C070,CH,True,2024-04-22
+A00070,Marie,Wagner,marie.wagner@summitcommerce.de,Founder,C047,AT,True,2023-07-24
+A00071,Paul,Weber,paul.weber@hyperlogistics.de,Retail Director,C004,AT,True,2023-01-18
+A00072,Paul,Schwarz,paul.schwarz@nextsystems.de,CMO,C025,NL,True,2024-06-02
+A00073,Marie,Koch,marie.koch@nordicretail.de,Data Analyst,C040,SE,True,2023-08-03
+A00074,Mia,Weber,mia.weber@urbanmarkets.de,Partnerships Manager,C002,PL,True,2023-04-03
+A00075,Sofia,Koch,sofia.koch@nextmarkets.de,Product Lead,C051,DE,True,2023-05-16
+A00076,Lisa,Koch,lisa.koch@hyperlogistics.de,CMO,C004,AT,False,2024-01-09
+A00077,Ben,Zimmermann,ben.zimmermann@cloudlogistics.de,Retail Director,C027,SE,True,2024-02-08
+A00078,Anna,Becker,anna.becker@novasolutions.de,CEO,C033,ES,True,2024-05-18
+A00079,Marie,Wolf,marie.wolf@bluebrands.de,VP Sales,C061,PL,True,2023-05-25
+A00080,Leon,Klein,leon.klein@cloudmarkets.de,Data Analyst,C079,NL,True,2023-11-20
+A00081,Tom,Richter,tom.richter@urbanbrands.de,CEO,C030,NL,False,2023-11-29
+A00082,Nina,Wolf,nina.wolf@cloudmarkets.de,CMO,C079,NL,True,2023-07-20
+A00083,Anna,Bauer,anna.bauer@omnilogistics.de,VP Sales,C005,AT,True,2024-01-17
+A00084,Lena,Wolf,lena.wolf@nextmarkets.de,Data Analyst,C046,ES,True,2024-08-26
+A00085,Lena,Klein,lena.klein@cloudlabs.de,Data Analyst,C055,IT,True,2023-10-09
+A00086,Max,Koch,max.koch@novabrands.de,CMO,C039,PL,True,2023-02-22
+A00087,Paul,Fischer,paul.fischer@bluecapital.de,Head of E-Commerce,C018,AT,False,2023-09-30
+A00088,Leon,Richter,leon.richter@pulseretail.de,Head of E-Commerce,C076,DE,False,2024-01-18
+A00089,Leon,Schmidt,leon.schmidt@summitlogistics.de,Data Analyst,C058,CH,False,2024-07-21
+A00090,David,Hoffmann,david.hoffmann@hyperlogistics.de,CMO,C035,AT,True,2023-02-20
+A00091,Leon,Schwarz,leon.schwarz@cloudmarkets.de,Partnerships Manager,C079,NL,False,2023-05-22
+A00092,Paul,Zimmermann,paul.zimmermann@summitgroup.de,CEO,C023,IT,False,2024-07-17
+A00093,Sofia,Becker,sofia.becker@urbanbrands.de,Retail Director,C030,NL,True,2024-02-29
+A00094,Nina,Bauer,nina.bauer@cloudlabs.de,VP Sales,C055,IT,True,2023-09-19
+A00095,Laura,Wolf,laura.wolf@hyperlogistics.de,Head of E-Commerce,C035,AT,True,2023-11-05
+A00096,Tim,Wolf,tim.wolf@greengroup.de,CMO,C074,ES,True,2023-06-21
+A00097,Jonas,Weber,jonas.weber@pulsegroup.de,Head of E-Commerce,C057,AT,True,2024-05-27
+A00098,Tim,Schäfer,tim.schäfer@pulsemarkets.de,Retail Director,C019,UK,True,2023-12-07
+A00099,Marie,Neumann,marie.neumann@hyperlogistics.de,CTO,C004,AT,True,2024-07-14
+A00100,Mia,Schäfer,mia.schäfer@pulseretail.de,CMO,C077,PL,False,2023-06-28
+A00101,Nina,Weber,nina.weber@pulsemarkets.de,Product Lead,C019,UK,True,2023-09-02
+A00102,Felix,Koch,felix.koch@greengroup.de,Partnerships Manager,C029,CH,True,2023-07-26
+A00103,Anna,Neumann,anna.neumann@primemarkets.de,Data Analyst,C067,UK,True,2024-02-28
+A00104,Julia,Hoffmann,julia.hoffmann@cloudgroup.de,Data Analyst,C036,NL,True,2023-10-04
+A00105,Nina,Müller,nina.müller@nextgroup.de,Retail Director,C006,PL,True,2023-10-12
+A00106,Emil,Klein,emil.klein@nordiclabs.de,CTO,C075,DE,True,2024-05-30
+A00107,Julia,Hoffmann,julia.hoffmann@cloudlogistics.de,CMO,C027,SE,True,2023-10-05
+A00108,Ben,Wolf,ben.wolf@primecapital.de,Data Analyst,C021,FR,True,2024-10-23
+A00109,Marie,Neumann,marie.neumann@novasolutions.de,VP Sales,C033,ES,False,2023-01-23
+A00110,Sofia,Müller,sofia.müller@greengroup.de,Data Analyst,C074,ES,True,2024-04-29
+A00111,Emil,Zimmermann,emil.zimmermann@novabrands.de,CEO,C039,PL,True,2023-03-16
+A00112,Sarah,Schwarz,sarah.schwarz@pulsegroup.de,Retail Director,C057,AT,True,2023-09-12
+A00113,Tom,Schäfer,tom.schäfer@urbanmarkets.de,CTO,C002,PL,False,2023-06-05
+A00114,Julia,Wagner,julia.wagner@greensystems.de,Retail Director,C014,NL,True,2023-03-29
+A00115,David,Müller,david.müller@blueretail.de,CEO,C044,FR,True,2023-05-09
+A00116,Ben,Müller,ben.müller@bluecapital.de,VP Sales,C018,AT,False,2023-05-12
+A00117,Laura,Neumann,laura.neumann@greenbrands.de,CMO,C001,DE,True,2023-04-12
+A00118,Lena,Bauer,lena.bauer@brightsystems.de,Founder,C048,UK,True,2024-08-19
+A00119,Mia,Wolf,mia.wolf@bluecapital.de,VP Sales,C018,AT,True,2023-08-17
+A00120,Lisa,Schmidt,lisa.schmidt@nextmarkets.de,CEO,C046,ES,True,2024-07-04
+A00121,Paul,Schwarz,paul.schwarz@summitgroup.de,VP Sales,C023,IT,True,2023-11-20
+A00122,Ben,Zimmermann,ben.zimmermann@vistamarkets.de,Founder,C028,SE,False,2023-08-29
+A00123,David,Schäfer,david.schäfer@novasolutions.de,CEO,C033,ES,True,2024-02-26
+A00124,Paul,Müller,paul.müller@vistamarkets.de,CEO,C070,CH,False,2023-07-18
+A00125,Tim,Neumann,tim.neumann@nordicbrands.de,CMO,C032,UK,False,2023-09-21
+A00126,Ben,Neumann,ben.neumann@brightsolutions.de,Product Lead,C053,UK,True,2023-08-21
+A00127,Tim,Müller,tim.müller@primecapital.de,Product Lead,C021,FR,True,2024-03-06
+A00128,Felix,Wolf,felix.wolf@omnisolutions.de,Head of E-Commerce,C078,FR,True,2023-01-07
+A00129,Paul,Weber,paul.weber@atlassolutions.de,Head of E-Commerce,C022,SE,False,2024-05-22
+A00130,Mia,Bauer,mia.bauer@pulsegroup.de,Head of E-Commerce,C057,AT,False,2023-08-25
+A00131,Marie,Schäfer,marie.schäfer@nextmarkets.de,VP Sales,C051,DE,True,2023-10-30
+A00132,Tom,Zimmermann,tom.zimmermann@greensystems.de,Partnerships Manager,C014,NL,True,2023-07-11
+A00133,Ben,Zimmermann,ben.zimmermann@hypergroup.de,Data Analyst,C059,SE,True,2024-11-12
+A00134,Max,Fischer,max.fischer@cloudmarkets.de,Data Analyst,C079,NL,True,2023-02-25
+A00135,Mia,Schmidt,mia.schmidt@pulsemarkets.de,Partnerships Manager,C019,UK,True,2023-05-26
+A00136,Leon,Müller,leon.müller@omnipartners.de,CEO,C011,DE,True,2023-07-08
+A00137,Sarah,Schwarz,sarah.schwarz@novacommerce.de,Product Lead,C072,CH,True,2023-04-26
+A00138,Lena,Becker,lena.becker@cloudmarkets.de,Product Lead,C079,NL,True,2023-07-15
+A00139,Jonas,Schwarz,jonas.schwarz@vistalabs.de,CEO,C066,NL,True,2023-11-16
+A00140,Sarah,Klein,sarah.klein@urbanretail.de,Product Lead,C017,UK,True,2024-03-29
+A00141,Jonas,Wagner,jonas.wagner@brightsystems.de,CEO,C048,UK,True,2023-03-22
+A00142,Laura,Weber,laura.weber@nextmarkets.de,Product Lead,C051,DE,False,2024-03-06
+A00143,Tom,Hoffmann,tom.hoffmann@nordicsystems.de,Data Analyst,C052,NL,True,2024-01-01
+A00144,Paul,Neumann,paul.neumann@hyperlogistics.de,CMO,C004,AT,True,2023-02-20
+A00145,Tim,Hoffmann,tim.hoffmann@nextgroup.de,Product Lead,C006,PL,True,2024-07-08
+A00146,Marie,Hoffmann,marie.hoffmann@vistamarkets.de,Product Lead,C028,SE,True,2024-01-08
+A00147,Tim,Schmidt,tim.schmidt@omnipartners.de,Data Analyst,C011,DE,True,2023-09-11
+A00148,Sarah,Müller,sarah.müller@urbanmarkets.de,Data Analyst,C002,PL,False,2023-02-05
+A00149,Marie,Weber,marie.weber@blueretail.de,CEO,C044,FR,True,2023-09-21
+A00150,Mia,Weber,mia.weber@omnilogistics.de,Partnerships Manager,C005,AT,False,2023-12-14
+A00151,Felix,Koch,felix.koch@cloudlabs.de,Product Lead,C055,IT,True,2024-09-23
+A00152,Max,Koch,max.koch@greencapital.de,Product Lead,C042,IT,True,2023-10-10
+A00153,Paul,Schmidt,paul.schmidt@hyperlogistics.de,Partnerships Manager,C026,CH,True,2024-10-11
+A00154,Lena,Schmidt,lena.schmidt@atlassolutions.de,Head of E-Commerce,C022,SE,True,2023-04-20
+A00155,Tim,Schwarz,tim.schwarz@vistabrands.de,Data Analyst,C008,CH,True,2023-09-15
+A00156,Leon,Zimmermann,leon.zimmermann@cloudmarkets.de,CTO,C079,NL,True,2024-05-23
+A00157,Jonas,Schmidt,jonas.schmidt@novagroup.de,VP Sales,C034,ES,True,2023-06-04
+A00158,Lisa,Schäfer,lisa.schäfer@pulseretail.de,Product Lead,C076,DE,False,2023-11-24
+A00159,Marie,Klein,marie.klein@brightsolutions.de,Partnerships Manager,C053,UK,True,2023-03-22
+A00160,Julia,Hoffmann,julia.hoffmann@vistamarkets.de,Data Analyst,C070,CH,False,2023-06-13
+A00161,Ben,Neumann,ben.neumann@omnisolutions.de,CMO,C078,FR,True,2024-10-27
+A00162,Max,Zimmermann,max.zimmermann@summitcommerce.de,Founder,C047,AT,True,2024-07-11
+A00163,Nina,Becker,nina.becker@novasolutions.de,Data Analyst,C056,UK,True,2023-04-18
+A00164,Lena,Koch,lena.koch@pulselabs.de,Partnerships Manager,C049,NL,True,2023-03-28
+A00165,Mia,Wagner,mia.wagner@greenbrands.de,Data Analyst,C024,DE,True,2024-05-25
+A00166,Marie,Becker,marie.becker@novacapital.de,Head of E-Commerce,C020,AT,True,2023-05-17
+A00167,Leon,Schwarz,leon.schwarz@nextmarkets.de,Partnerships Manager,C046,ES,False,2024-11-21
+A00168,Ben,Wagner,ben.wagner@bluecapital.de,VP Sales,C018,AT,True,2023-10-28
+A00169,Laura,Koch,laura.koch@cloudlogistics.de,Product Lead,C027,SE,True,2023-09-18
+A00170,Laura,Hoffmann,laura.hoffmann@summitmedia.de,Retail Director,C016,PL,False,2023-09-11
+A00171,Jonas,Schäfer,jonas.schäfer@hyperlogistics.de,Head of E-Commerce,C026,CH,False,2023-06-07
+A00172,Paul,Hoffmann,paul.hoffmann@atlassolutions.de,Product Lead,C022,SE,False,2023-03-08
+A00173,Sarah,Koch,sarah.koch@cloudgroup.de,Head of E-Commerce,C063,ES,False,2024-06-03
+A00174,Julia,Schäfer,julia.schäfer@primecapital.de,CMO,C021,FR,False,2024-10-31
+A00175,Marie,Müller,marie.müller@nordicsystems.de,CMO,C052,NL,True,2023-01-05
+A00176,Tim,Schäfer,tim.schäfer@bluegroup.de,Retail Director,C041,PL,True,2024-01-18
+A00177,Max,Bauer,max.bauer@cloudpartners.de,Head of E-Commerce,C045,DE,True,2023-05-03
+A00178,Max,Hoffmann,max.hoffmann@nextmarkets.de,Partnerships Manager,C051,DE,True,2024-08-20
+A00179,Mia,Weber,mia.weber@bluecapital.de,Product Lead,C018,AT,True,2024-06-08
+A00180,Jonas,Schwarz,jonas.schwarz@novabrands.de,Partnerships Manager,C039,PL,True,2023-09-24
+A00181,Anna,Wagner,anna.wagner@brightsolutions.de,Partnerships Manager,C053,UK,True,2024-09-26
+A00182,Felix,Hoffmann,felix.hoffmann@brightmarkets.de,CEO,C080,NL,False,2024-01-13
+A00183,Nina,Fischer,nina.fischer@nextmarkets.de,CEO,C046,ES,True,2023-07-28
+A00184,Laura,Müller,laura.müller@pulseretail.de,Partnerships Manager,C077,PL,True,2024-10-29
+A00185,Mia,Schmidt,mia.schmidt@novabrands.de,Product Lead,C039,PL,True,2024-02-23
+A00186,Felix,Becker,felix.becker@vistamarkets.de,Partnerships Manager,C028,SE,True,2023-11-16
+A00187,Lena,Hoffmann,lena.hoffmann@greengroup.de,CEO,C029,CH,True,2024-05-22
+A00188,David,Zimmermann,david.zimmermann@brightsolutions.de,CMO,C053,UK,True,2024-02-22
+A00189,Tom,Wolf,tom.wolf@cloudsolutions.de,Founder,C073,DE,True,2023-06-08
+A00190,David,Weber,david.weber@summitlogistics.de,CTO,C058,CH,True,2024-02-12
+A00191,Laura,Neumann,laura.neumann@greensolutions.de,VP Sales,C038,DE,False,2024-11-14
+A00192,Paul,Neumann,paul.neumann@urbansolutions.de,CEO,C015,IT,True,2023-11-16
+A00193,Emil,Klein,emil.klein@novasolutions.de,Data Analyst,C033,ES,True,2024-03-02
+A00194,Anna,Klein,anna.klein@pulseretail.de,Head of E-Commerce,C076,DE,True,2024-02-05
+A00195,Sarah,Hoffmann,sarah.hoffmann@novacapital.de,CEO,C020,AT,True,2024-03-20
+A00196,Jonas,Neumann,jonas.neumann@novagroup.de,CMO,C034,ES,True,2023-04-03
+A00197,Sarah,Klein,sarah.klein@hypercommerce.de,Retail Director,C007,ES,True,2023-06-16
+A00198,Sofia,Schmidt,sofia.schmidt@greensystems.de,CEO,C014,NL,True,2024-07-18
+A00199,Sofia,Wolf,sofia.wolf@cloudmarkets.de,CMO,C079,NL,True,2024-08-09
+A00200,Lisa,Klein,lisa.klein@nextgroup.de,Founder,C006,PL,False,2023-06-25
+A00201,Sofia,Klein,sofia.klein@vistamarkets.de,VP Sales,C028,SE,True,2023-06-15
+A00202,Julia,Becker,julia.becker@greengroup.de,CMO,C029,CH,True,2023-04-22
+A00203,Sarah,Zimmermann,sarah.zimmermann@cloudgroup.de,Head of E-Commerce,C063,ES,False,2023-11-05
+A00204,Sofia,Müller,sofia.müller@novabrands.de,Retail Director,C039,PL,True,2023-11-19
+A00205,Max,Wolf,max.wolf@hypermedia.de,CMO,C013,IT,True,2024-09-27
+A00206,Jonas,Schäfer,jonas.schäfer@omnipartners.de,Partnerships Manager,C065,NL,False,2024-02-19
+A00207,Lisa,Hoffmann,lisa.hoffmann@novagroup.de,Retail Director,C034,ES,False,2023-07-07
+A00208,Emil,Hoffmann,emil.hoffmann@greenretail.de,CEO,C054,NL,False,2024-02-14
+A00209,Julia,Becker,julia.becker@greensolutions.de,Data Analyst,C038,DE,False,2024-01-03
+A00210,Tom,Fischer,tom.fischer@summitgroup.de,Head of E-Commerce,C023,IT,True,2023-07-17
+A00211,Max,Müller,max.müller@nextsystems.de,Product Lead,C025,NL,True,2023-05-01
+A00212,Sarah,Schwarz,sarah.schwarz@omnisolutions.de,Founder,C078,FR,True,2024-10-04
+A00213,Paul,Neumann,paul.neumann@greencapital.de,VP Sales,C042,IT,True,2024-08-19
+A00214,Ben,Neumann,ben.neumann@cloudlabs.de,Data Analyst,C055,IT,True,2024-11-05
+A00215,Felix,Schwarz,felix.schwarz@nordiclabs.de,Founder,C075,DE,True,2024-03-24
+A00216,Jonas,Schmidt,jonas.schmidt@bluecapital.de,CEO,C018,AT,True,2024-09-25
+A00217,Tim,Schwarz,tim.schwarz@urbansolutions.de,Head of E-Commerce,C015,IT,True,2024-04-02
+A00218,Lisa,Schwarz,lisa.schwarz@summitpartners.de,CTO,C069,PL,True,2024-04-29
+A00219,Sarah,Wagner,sarah.wagner@hyperlogistics.de,CMO,C026,CH,True,2023-05-12
+A00220,Felix,Neumann,felix.neumann@pulseretail.de,Product Lead,C076,DE,False,2023-04-04
+A00221,Marie,Müller,marie.müller@urbansolutions.de,CEO,C010,AT,False,2024-10-13
+A00222,Sofia,Weber,sofia.weber@hyperlogistics.de,Product Lead,C035,AT,False,2024-06-07
+A00223,Lena,Müller,lena.müller@brightsolutions.de,Founder,C053,UK,True,2024-01-22
+A00224,Sofia,Schmidt,sofia.schmidt@nordicbrands.de,CMO,C032,UK,False,2024-09-20
+A00225,Tom,Hoffmann,tom.hoffmann@nordicbrands.de,CTO,C032,UK,True,2024-05-18
+A00226,Paul,Becker,paul.becker@greensystems.de,Head of E-Commerce,C014,NL,True,2023-03-09
+A00227,Felix,Koch,felix.koch@bluegroup.de,CTO,C041,PL,True,2023-11-28
+A00228,Lisa,Koch,lisa.koch@hypergroup.de,Retail Director,C059,SE,True,2023-05-28
+A00229,Laura,Zimmermann,laura.zimmermann@hypercommerce.de,Head of E-Commerce,C007,ES,True,2024-08-29
+A00230,Laura,Schäfer,laura.schäfer@vistabrands.de,Product Lead,C008,CH,True,2024-01-17
+A00231,Max,Hoffmann,max.hoffmann@omnibrands.de,CTO,C071,CH,True,2024-02-18
+A00232,Jonas,Koch,jonas.koch@nordicretail.de,Product Lead,C040,SE,False,2024-01-21
+A00233,Jonas,Koch,jonas.koch@bluebrands.de,CMO,C061,PL,True,2024-06-27
+A00234,Max,Klein,max.klein@omnipartners.de,Retail Director,C011,DE,True,2024-07-22
+A00235,Julia,Wagner,julia.wagner@hypergroup.de,VP Sales,C059,SE,True,2024-07-02
+A00236,Sarah,Klein,sarah.klein@brightmarkets.de,VP Sales,C080,NL,False,2024-01-20
+A00237,Felix,Fischer,felix.fischer@brightsystems.de,Product Lead,C048,UK,True,2023-12-05
+A00238,Lena,Schwarz,lena.schwarz@cloudmarkets.de,Head of E-Commerce,C079,NL,True,2023-06-30
+A00239,Lisa,Müller,lisa.müller@brightsystems.de,VP Sales,C048,UK,True,2024-06-12
+A00240,Laura,Bauer,laura.bauer@summitmedia.de,Partnerships Manager,C016,PL,True,2024-11-10
+A00241,Nina,Schmidt,nina.schmidt@urbanretail.de,CEO,C017,UK,True,2023-08-15
+A00242,Sofia,Bauer,sofia.bauer@novabrands.de,Partnerships Manager,C039,PL,True,2024-10-02
+A00243,Leon,Neumann,leon.neumann@greensystems.de,Founder,C014,NL,True,2024-01-08
+A00244,Max,Fischer,max.fischer@urbansolutions.de,Retail Director,C015,IT,False,2023-08-21
+A00245,Lisa,Müller,lisa.müller@novagroup.de,CEO,C034,ES,True,2023-02-25
+A00246,Anna,Klein,anna.klein@bluegroup.de,VP Sales,C041,PL,True,2023-04-19
+A00247,Julia,Klein,julia.klein@summitmedia.de,Founder,C016,PL,False,2023-08-18
+A00248,Leon,Bauer,leon.bauer@cloudpartners.de,Partnerships Manager,C045,DE,True,2023-05-17
+A00249,Mia,Klein,mia.klein@cloudlabs.de,Partnerships Manager,C055,IT,True,2024-05-01
+A00250,Jonas,Fischer,jonas.fischer@hyperlogistics.de,CEO,C004,AT,True,2023-09-07
+A00251,Sofia,Schwarz,sofia.schwarz@novabrands.de,CMO,C039,PL,True,2023-03-07
+A00252,Sofia,Koch,sofia.koch@novabrands.de,Data Analyst,C039,PL,True,2023-09-28
+A00253,Anna,Müller,anna.müller@omniretail.de,Founder,C009,CH,True,2023-12-25
+A00254,Lisa,Schwarz,lisa.schwarz@pulselabs.de,Partnerships Manager,C049,NL,False,2024-06-14
+A00255,Tim,Schäfer,tim.schäfer@nordicretail.de,CTO,C040,SE,True,2023-01-01
+A00256,Max,Müller,max.müller@bluebrands.de,Founder,C061,PL,True,2023-01-26
+A00257,Sarah,Becker,sarah.becker@cloudmarkets.de,Head of E-Commerce,C079,NL,False,2023-06-13
+A00258,Max,Wagner,max.wagner@nextgroup.de,CEO,C006,PL,True,2024-09-19
+A00259,David,Hoffmann,david.hoffmann@summitlogistics.de,CTO,C058,CH,False,2024-02-28
+A00260,Mia,Neumann,mia.neumann@vistamarkets.de,Partnerships Manager,C070,CH,True,2023-06-28
+A00261,Julia,Bauer,julia.bauer@greenretail.de,CMO,C054,NL,False,2023-11-04
+A00262,Max,Zimmermann,max.zimmermann@nordiccapital.de,Founder,C031,FR,False,2023-01-07
+A00263,Sarah,Neumann,sarah.neumann@hyperlogistics.de,Retail Director,C004,AT,False,2023-03-24
+A00264,Marie,Becker,marie.becker@omnipartners.de,Head of E-Commerce,C011,DE,True,2023-04-18
+A00265,Laura,Schäfer,laura.schäfer@summitlogistics.de,CEO,C058,CH,True,2023-05-07
+A00266,Nina,Koch,nina.koch@hypermedia.de,CEO,C013,IT,True,2023-09-30
+A00267,David,Neumann,david.neumann@primemarkets.de,Founder,C068,DE,True,2023-09-29
+A00268,Paul,Hoffmann,paul.hoffmann@nextmarkets.de,CMO,C046,ES,True,2024-06-03
+A00269,Anna,Becker,anna.becker@pulsegroup.de,VP Sales,C057,AT,False,2023-08-30
+A00270,Mia,Becker,mia.becker@brightsystems.de,Product Lead,C048,UK,True,2023-07-16
+A00271,Sarah,Richter,sarah.richter@novasolutions.de,Partnerships Manager,C056,UK,False,2023-09-02
+A00272,Sarah,Zimmermann,sarah.zimmermann@hyperlogistics.de,Retail Director,C035,AT,True,2024-06-27
+A00273,Anna,Schmidt,anna.schmidt@summitcapital.de,Data Analyst,C062,PL,True,2023-08-28
+A00274,Emil,Bauer,emil.bauer@pulseretail.de,Head of E-Commerce,C076,DE,True,2024-02-05
+A00275,Lisa,Weber,lisa.weber@brightsolutions.de,Partnerships Manager,C053,UK,True,2023-06-25
+A00276,Sofia,Müller,sofia.müller@nextmarkets.de,CEO,C046,ES,True,2023-04-25
+A00277,Tom,Becker,tom.becker@bluecapital.de,Product Lead,C018,AT,True,2023-05-26
+A00278,Anna,Schmidt,anna.schmidt@novasolutions.de,CEO,C033,ES,True,2023-05-22
+A00279,Max,Weber,max.weber@urbanbrands.de,CEO,C030,NL,True,2023-03-09
+A00280,Emil,Klein,emil.klein@cloudgroup.de,Head of E-Commerce,C036,NL,True,2024-06-30
+A00281,Lena,Wolf,lena.wolf@cloudsolutions.de,CMO,C073,DE,True,2023-09-10
+A00282,Mia,Hoffmann,mia.hoffmann@hyperlogistics.de,CMO,C026,CH,True,2023-02-04
+A00283,Max,Weber,max.weber@cloudmarkets.de,VP Sales,C079,NL,True,2024-05-03
+A00284,Tom,Fischer,tom.fischer@brightsolutions.de,CMO,C053,UK,False,2024-10-23
+A00285,Mia,Bauer,mia.bauer@pulseretail.de,Product Lead,C077,PL,True,2023-12-11
+A00286,Leon,Koch,leon.koch@bluecapital.de,CEO,C018,AT,True,2023-12-26
+A00287,Laura,Bauer,laura.bauer@novasolutions.de,CEO,C056,UK,True,2024-01-12
+A00288,Nina,Zimmermann,nina.zimmermann@brightmarkets.de,VP Sales,C080,NL,True,2024-09-25
+A00289,Anna,Neumann,anna.neumann@brightsystems.de,CEO,C048,UK,False,2024-03-22
+A00290,Julia,Wagner,julia.wagner@nordicbrands.de,Product Lead,C032,UK,True,2024-04-25
+A00291,Max,Hoffmann,max.hoffmann@hypermedia.de,CMO,C013,IT,True,2024-08-11
+A00292,Paul,Becker,paul.becker@vistamarkets.de,Data Analyst,C070,CH,False,2023-01-02
+A00293,Julia,Hoffmann,julia.hoffmann@pulsegroup.de,VP Sales,C057,AT,True,2023-02-25
+A00294,Anna,Klein,anna.klein@summitmedia.de,Retail Director,C016,PL,False,2023-04-08
+A00295,Tim,Becker,tim.becker@hyperlogistics.de,Retail Director,C004,AT,True,2024-08-29
+A00296,Felix,Koch,felix.koch@nordicmarkets.de,Partnerships Manager,C003,AT,True,2023-06-12
+A00297,Paul,Hoffmann,paul.hoffmann@omnibrands.de,Head of E-Commerce,C064,AT,True,2024-05-25
+A00298,Jonas,Wagner,jonas.wagner@nordicbrands.de,CMO,C032,UK,True,2024-05-17
+A00299,David,Wagner,david.wagner@novacommerce.de,Product Lead,C072,CH,True,2023-12-31
+A00300,Tom,Wolf,tom.wolf@urbansolutions.de,Data Analyst,C010,AT,True,2023-03-30
+A00301,Leon,Schmidt,leon.schmidt@brightmarkets.de,Product Lead,C080,NL,True,2023-07-31
+A00302,Paul,Koch,paul.koch@hyperlogistics.de,Data Analyst,C026,CH,False,2024-07-12
+A00303,Julia,Becker,julia.becker@urbanmarkets.de,Data Analyst,C002,PL,True,2024-10-07
+A00304,Ben,Schwarz,ben.schwarz@nordicretail.de,CTO,C040,SE,True,2024-06-28
+A00305,Lisa,Müller,lisa.müller@novalabs.de,Product Lead,C050,NL,True,2024-08-18
+A00306,Nina,Fischer,nina.fischer@primemarkets.de,Retail Director,C068,DE,True,2024-11-08
+A00307,David,Richter,david.richter@greengroup.de,CTO,C074,ES,True,2024-04-19
+A00308,Marie,Koch,marie.koch@blueretail.de,Partnerships Manager,C044,FR,True,2023-08-25
+A00309,Sofia,Richter,sofia.richter@greenbrands.de,Retail Director,C024,DE,True,2024-10-20
+A00310,Ben,Hoffmann,ben.hoffmann@pulselabs.de,VP Sales,C049,NL,True,2023-11-05
+A00311,Lisa,Fischer,lisa.fischer@novasolutions.de,CTO,C033,ES,True,2023-09-11
+A00312,Nina,Klein,nina.klein@brightmarkets.de,CTO,C080,NL,True,2023-08-30
+A00313,Nina,Hoffmann,nina.hoffmann@bluecapital.de,VP Sales,C018,AT,True,2023-04-15
+A00314,Jonas,Wagner,jonas.wagner@omnipartners.de,Head of E-Commerce,C011,DE,True,2024-01-29
+A00315,Sofia,Fischer,sofia.fischer@summitmedia.de,VP Sales,C016,PL,True,2023-11-01
+A00316,Leon,Koch,leon.koch@urbanmarkets.de,Head of E-Commerce,C002,PL,True,2023-04-22
+A00317,Tom,Koch,tom.koch@greengroup.de,Head of E-Commerce,C074,ES,False,2024-02-02
+A00318,Marie,Müller,marie.müller@summitcapital.de,CEO,C062,PL,False,2024-02-13
+A00319,Leon,Schäfer,leon.schäfer@nextgroup.de,Founder,C006,PL,True,2024-10-09
+A00320,Paul,Schwarz,paul.schwarz@brightsystems.de,CEO,C048,UK,True,2023-05-26
+A00321,Laura,Wolf,laura.wolf@omnipartners.de,CEO,C065,NL,True,2023-09-06
+A00322,Leon,Neumann,leon.neumann@omnipartners.de,Head of E-Commerce,C065,NL,True,2024-11-14
+A00323,Emil,Schäfer,emil.schäfer@hypergroup.de,CTO,C059,SE,True,2024-10-18
+A00324,Tom,Schwarz,tom.schwarz@novacommerce.de,Data Analyst,C072,CH,True,2023-11-17
+A00325,Laura,Wagner,laura.wagner@omniretail.de,Data Analyst,C009,CH,True,2023-09-06
+A00326,Sarah,Becker,sarah.becker@greencapital.de,VP Sales,C042,IT,False,2024-03-09
+A00327,Tim,Schwarz,tim.schwarz@blueretail.de,CEO,C044,FR,True,2024-09-28
+A00328,Leon,Becker,leon.becker@nordicretail.de,Product Lead,C040,SE,True,2023-01-11
+A00329,Sarah,Zimmermann,sarah.zimmermann@summitgroup.de,CMO,C023,IT,False,2023-02-09
+A00330,Laura,Hoffmann,laura.hoffmann@brightsystems.de,CTO,C048,UK,True,2023-07-24
+A00331,Julia,Klein,julia.klein@atlassolutions.de,CMO,C022,SE,True,2024-08-11
+A00332,Marie,Hoffmann,marie.hoffmann@nextsystems.de,Retail Director,C025,NL,True,2024-06-08
+A00333,Anna,Klein,anna.klein@omnisolutions.de,Founder,C078,FR,True,2023-12-18
+A00334,Leon,Schwarz,leon.schwarz@novalabs.de,Head of E-Commerce,C012,ES,False,2024-12-01
+A00335,Jonas,Wolf,jonas.wolf@novacapital.de,Founder,C020,AT,True,2023-05-06
+A00336,Lisa,Klein,lisa.klein@pulseretail.de,CEO,C077,PL,True,2023-09-16
+A00337,Laura,Wolf,laura.wolf@omnipartners.de,Data Analyst,C011,DE,True,2023-03-04
+A00338,Anna,Weber,anna.weber@novalabs.de,Data Analyst,C050,NL,False,2024-03-06
+A00339,Felix,Koch,felix.koch@hyperlogistics.de,CMO,C004,AT,True,2023-08-18
+A00340,Paul,Wolf,paul.wolf@nordicsystems.de,Founder,C052,NL,False,2023-08-13
+A00341,Sarah,Schwarz,sarah.schwarz@greenbrands.de,Head of E-Commerce,C024,DE,True,2023-06-18
+A00342,Sofia,Weber,sofia.weber@vistabrands.de,Head of E-Commerce,C008,CH,True,2024-04-25
+A00343,David,Schäfer,david.schäfer@vistabrands.de,CTO,C008,CH,True,2023-12-28
+A00344,Leon,Schwarz,leon.schwarz@hyperlogistics.de,VP Sales,C026,CH,False,2024-07-15
+A00345,Sofia,Zimmermann,sofia.zimmermann@cloudlogistics.de,Product Lead,C027,SE,True,2023-08-24
+A00346,Laura,Wolf,laura.wolf@omnisolutions.de,VP Sales,C078,FR,True,2024-03-12
+A00347,Jonas,Zimmermann,jonas.zimmermann@cloudpartners.de,CEO,C045,DE,True,2023-10-15
+A00348,Felix,Schäfer,felix.schäfer@cloudgroup.de,VP Sales,C036,NL,False,2023-11-25
+A00349,Tim,Zimmermann,tim.zimmermann@cloudgroup.de,Data Analyst,C063,ES,True,2024-09-30
+A00350,Lena,Klein,lena.klein@greengroup.de,CTO,C074,ES,True,2023-11-07
+A00351,Sarah,Müller,sarah.müller@omniretail.de,CMO,C009,CH,True,2024-08-01
+A00352,Nina,Fischer,nina.fischer@cloudcapital.de,Founder,C043,AT,True,2023-12-20
+A00353,Emil,Schmidt,emil.schmidt@cloudcapital.de,CEO,C043,AT,True,2023-08-03
+A00354,Lena,Bauer,lena.bauer@summitlogistics.de,VP Sales,C058,CH,True,2024-09-14
+A00355,Tom,Fischer,tom.fischer@nordiclabs.de,Head of E-Commerce,C075,DE,True,2023-07-10
+A00356,Marie,Klein,marie.klein@vistamarkets.de,CTO,C028,SE,True,2023-08-02
+A00357,Sarah,Becker,sarah.becker@nordicmarkets.de,Partnerships Manager,C003,AT,True,2024-09-14
+A00358,Lena,Bauer,lena.bauer@pulsegroup.de,Head of E-Commerce,C057,AT,True,2024-05-21
+A00359,Mia,Weber,mia.weber@hypercommerce.de,Retail Director,C007,ES,True,2024-11-18
+A00360,Tom,Wagner,tom.wagner@cloudgroup.de,VP Sales,C036,NL,False,2024-03-05
+A00361,Ben,Fischer,ben.fischer@bluecapital.de,Retail Director,C018,AT,True,2024-05-19
+A00362,David,Müller,david.müller@pulselabs.de,Retail Director,C049,NL,False,2024-04-23
+A00363,Sofia,Zimmermann,sofia.zimmermann@omnipartners.de,Head of E-Commerce,C065,NL,False,2024-05-25
+A00364,Jonas,Schmidt,jonas.schmidt@nordiclabs.de,CTO,C075,DE,False,2023-11-25
+A00365,Marie,Zimmermann,marie.zimmermann@nextgroup.de,VP Sales,C006,PL,False,2024-04-21
+A00366,Felix,Neumann,felix.neumann@novacommerce.de,Data Analyst,C072,CH,True,2024-11-23
+A00367,Lena,Becker,lena.becker@summitcapital.de,Product Lead,C062,PL,True,2024-10-13
+A00368,Anna,Schmidt,anna.schmidt@cloudlabs.de,Partnerships Manager,C055,IT,True,2023-02-16
+A00369,Nina,Wagner,nina.wagner@novagroup.de,Founder,C034,ES,True,2024-05-10
+A00370,Tim,Fischer,tim.fischer@greensystems.de,CEO,C014,NL,True,2023-08-07
+A00371,Leon,Fischer,leon.fischer@pulsegroup.de,Product Lead,C057,AT,True,2023-04-07
+A00372,Felix,Richter,felix.richter@vistamarkets.de,Retail Director,C070,CH,True,2024-06-22
+A00373,David,Hoffmann,david.hoffmann@novasolutions.de,VP Sales,C033,ES,False,2024-03-21
+A00374,Nina,Neumann,nina.neumann@greenretail.de,VP Sales,C054,NL,True,2024-07-21
+A00375,Max,Bauer,max.bauer@greengroup.de,VP Sales,C074,ES,True,2023-12-30
+A00376,Tim,Wolf,tim.wolf@greenretail.de,Product Lead,C054,NL,False,2024-05-30
+A00377,Laura,Klein,laura.klein@omnisolutions.de,Head of E-Commerce,C078,FR,True,2024-11-01
+A00378,Tim,Wagner,tim.wagner@pulsegroup.de,Product Lead,C057,AT,True,2023-07-16
+A00379,Nina,Bauer,nina.bauer@nordicmarkets.de,CTO,C003,AT,False,2024-08-23
+A00380,Lena,Müller,lena.müller@cloudgroup.de,Data Analyst,C036,NL,True,2024-07-21
+A00381,Sarah,Müller,sarah.müller@urbanlabs.de,Data Analyst,C037,AT,True,2023-11-04
+A00382,Tom,Schmidt,tom.schmidt@omnibrands.de,CEO,C071,CH,True,2023-07-14
+A00383,Tim,Müller,tim.müller@omnipartners.de,Founder,C011,DE,True,2024-07-10
+A00384,Lisa,Wolf,lisa.wolf@summitmedia.de,Partnerships Manager,C016,PL,True,2023-05-31
+A00385,Lisa,Weber,lisa.weber@omnibrands.de,Head of E-Commerce,C071,CH,True,2023-02-10
+A00386,Marie,Becker,marie.becker@brightmarkets.de,CMO,C080,NL,True,2024-11-10
+A00387,Jonas,Müller,jonas.müller@cloudlogistics.de,Data Analyst,C027,SE,True,2023-04-14
+A00388,Anna,Klein,anna.klein@omnipartners.de,CTO,C065,NL,True,2023-11-13
+A00389,David,Koch,david.koch@hyperlogistics.de,VP Sales,C004,AT,True,2023-07-09
+A00390,Leon,Müller,leon.müller@cloudmarkets.de,Product Lead,C079,NL,False,2023-01-21
+A00391,Leon,Müller,leon.müller@nordicbrands.de,Retail Director,C032,UK,True,2024-08-04
+A00392,Julia,Müller,julia.müller@cloudlogistics.de,CMO,C027,SE,False,2024-03-07
+A00393,Emil,Wolf,emil.wolf@cloudgroup.de,Retail Director,C063,ES,False,2023-03-10
+A00394,Anna,Wolf,anna.wolf@greencapital.de,Partnerships Manager,C042,IT,True,2024-08-29
+A00395,Sofia,Zimmermann,sofia.zimmermann@novalabs.de,Data Analyst,C012,ES,True,2024-07-15
+A00396,Tom,Weber,tom.weber@summitmedia.de,Retail Director,C016,PL,False,2023-08-06
+A00397,Sofia,Schmidt,sofia.schmidt@summitcommerce.de,Data Analyst,C047,AT,True,2023-01-05
+A00398,Anna,Wagner,anna.wagner@greensystems.de,CMO,C014,NL,True,2023-08-12
+A00399,Tom,Fischer,tom.fischer@cloudlogistics.de,Retail Director,C027,SE,False,2023-01-19
+A00400,Laura,Schäfer,laura.schäfer@primemarkets.de,Retail Director,C068,DE,True,2023-07-11
+A00401,Max,Klein,max.klein@hypergroup.de,CTO,C059,SE,False,2023-03-28
+A00402,Paul,Zimmermann,paul.zimmermann@novalabs.de,Retail Director,C012,ES,True,2024-11-16
+A00403,Laura,Müller,laura.müller@greengroup.de,CEO,C029,CH,False,2023-01-12
+A00404,Max,Schmidt,max.schmidt@novalabs.de,Partnerships Manager,C012,ES,False,2023-03-23
+A00405,Sarah,Bauer,sarah.bauer@omnibrands.de,VP Sales,C071,CH,True,2024-09-06
+A00406,Jonas,Zimmermann,jonas.zimmermann@summitpartners.de,Partnerships Manager,C069,PL,False,2023-03-03
+A00407,Nina,Klein,nina.klein@nextmarkets.de,Partnerships Manager,C051,DE,False,2024-03-25
+A00408,Tim,Becker,tim.becker@vistalabs.de,CTO,C066,NL,True,2023-04-30
+A00409,Felix,Becker,felix.becker@cloudlabs.de,Data Analyst,C055,IT,True,2024-05-03
+A00410,Sarah,Schwarz,sarah.schwarz@novasolutions.de,VP Sales,C056,UK,False,2024-08-03
+A00411,Nina,Bauer,nina.bauer@pulsemarkets.de,VP Sales,C019,UK,True,2023-03-04
+A00412,Lisa,Richter,lisa.richter@brightmarkets.de,Partnerships Manager,C080,NL,True,2023-01-16
+A00413,Sofia,Bauer,sofia.bauer@vistabrands.de,Partnerships Manager,C008,CH,False,2024-03-14
+A00414,Ben,Wolf,ben.wolf@nordicbrands.de,Data Analyst,C032,UK,True,2024-01-21
+A00415,Lisa,Schäfer,lisa.schäfer@urbanmarkets.de,Retail Director,C002,PL,False,2023-10-18
+A00416,Anna,Richter,anna.richter@omnibrands.de,VP Sales,C064,AT,True,2023-10-02
+A00417,Leon,Becker,leon.becker@nordiclabs.de,Partnerships Manager,C075,DE,True,2023-02-13
+A00418,Paul,Fischer,paul.fischer@bluegroup.de,Partnerships Manager,C041,PL,True,2023-05-31
+A00419,Laura,Zimmermann,laura.zimmermann@greensystems.de,Product Lead,C014,NL,True,2024-07-01
+A00420,Lena,Zimmermann,lena.zimmermann@urbansolutions.de,Data Analyst,C010,AT,True,2023-07-25
