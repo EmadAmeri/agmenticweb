@@ -1,0 +1,23 @@
+{
+  "name": "sentra-demo-access",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-04-03",
+  "routes": [
+    {
+      "pattern": "agmentic.com/api/sentra-demo-access",
+      "zone_name": "agmentic.com"
+    },
+    {
+      "pattern": "www.agmentic.com/api/sentra-demo-access",
+      "zone_name": "agmentic.com"
+    },
+    {
+      "pattern": "agmentic.com/api/sentra-chat",
+      "zone_name": "agmentic.com"
+    },
+    {
+      "pattern": "www.agmentic.com/api/sentra-chat",
+      "zone_name": "agmentic.com"
+    }
+  ]
+}

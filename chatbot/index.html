@@ -686,41 +686,88 @@
   document.querySelectorAll('.dataset-btn').forEach(b => b.addEventListener('click', () => openDataset(b)));
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-  document.querySelectorAll('.suggestion-btn').forEach(b => {
-    b.addEventListener('click', () => {
-      document.getElementById('chatInput').value = b.textContent;
-      document.getElementById('chatInput').focus();
-    });
-  });
-
   const sendBtn = document.getElementById('sendBtn');
   const chatInput = document.getElementById('chatInput');
   const thread = document.getElementById('thread');
+  const suggestionButtons = document.querySelectorAll('.suggestion-btn');
+  const CHAT_API_URL =
+    window.SENTRA_CHAT_API_URL ||
+    localStorage.getItem('sentra_chat_api_url') ||
+    (['127.0.0.1', 'localhost'].includes(window.location.hostname)
+      ? '/api/chat'
+      : 'https://agmentic.com/api/sentra-chat');
 
-  const appendMsg = (text, type) => {
-    const aiAvatar = `<div class="avatar ai"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/><circle cx="18" cy="5" r="2" fill="currentColor" stroke="none"/></svg></div>`;
-    const userAvatar = `<div class="avatar user"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/></svg></div>`;
+  const aiAvatar = `<div class="avatar ai"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/><circle cx="18" cy="5" r="2" fill="currentColor" stroke="none"/></svg></div>`;
+  const userAvatar = `<div class="avatar user"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/></svg></div>`;
+
+  const formatAssistantText = (text, sources = []) => {
+    const body = escapeHtml(text).replace(/\n/g, '<br>');
+    if (!sources.length) return body;
+    return `${body}<br><br><span style="color:var(--muted);font-size:12px;">Sources: ${escapeHtml(sources.join(', '))}</span>`;
+  };
+
+  const appendMsg = (text, type, sources = []) => {
     const row = document.createElement('div');
     row.className = `msg-row ${type}`;
     row.innerHTML = type === 'user'
       ? `<div class="bubble">${escapeHtml(text)}</div>${userAvatar}`
-      : `${aiAvatar}<div class="bubble">${text}</div>`;
+      : `${aiAvatar}<div class="bubble">${formatAssistantText(text, sources)}</div>`;
     thread.appendChild(row);
     thread.scrollTop = thread.scrollHeight;
+    return row;
   };
 
-  const send = () => {
-    const msg = chatInput.value.trim();
+  const setPending = isPending => {
+    chatInput.disabled = isPending;
+    sendBtn.disabled = isPending;
+    sendBtn.style.opacity = isPending ? '0.6' : '1';
+    sendBtn.style.transform = 'none';
+  };
+
+  const send = async presetMessage => {
+    const msg = (presetMessage ?? chatInput.value).trim();
     if (!msg) return;
+
     appendMsg(msg, 'user');
     chatInput.value = '';
-    setTimeout(() => {
-      appendMsg('This is a demo - your real data is not connected yet. <span class="highlight">Once it is, I will answer from your actual business context.</span> <a href="mailto:hello@agmentic.com?subject=I tried the demo" style="color:var(--amber);text-decoration:underline;">Talk to us</a> to get started.', 'ai');
-    }, 600);
+    setPending(true);
+    const pendingRow = appendMsg('Thinking through the demo data...', 'ai');
+
+    try {
+      const res = await fetch(CHAT_API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question: msg })
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+
+      const data = await res.json();
+      pendingRow.remove();
+      appendMsg(data.answer || 'No answer returned.', 'ai', data.sources || []);
+    } catch (error) {
+      pendingRow.remove();
+      appendMsg(
+        'I could not reach the demo backend. For local testing, run the backend on http://127.0.0.1:8000 and try again.',
+        'ai'
+      );
+    } finally {
+      setPending(false);
+      chatInput.focus();
+    }
   };
 
-  sendBtn.addEventListener('click', send);
-  chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+  suggestionButtons.forEach(button => {
+    button.addEventListener('click', () => send(button.textContent || ''));
+  });
+
+  sendBtn.addEventListener('click', () => send());
+  chatInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
+      send();
+    }
+  });
   window.addEventListener('resize', () => {
     if (isMobile()) document.body.classList.remove('sidebar-collapsed');
   });
