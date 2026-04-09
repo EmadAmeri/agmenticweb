@@ -129,23 +129,24 @@ nav {
 .hero-inner { position: relative; max-width: 680px; }
 .hero-visual {
   position: relative;
-  min-height: 560px;
+  min-height: 620px;
   border-radius: 40px;
   overflow: hidden;
   background:
-    radial-gradient(circle at 50% 54%, rgba(201,138,60,0.08) 0%, transparent 18%),
-    radial-gradient(circle at 76% 18%, rgba(237,232,223,0.06) 0%, transparent 16%),
-    radial-gradient(circle at 78% 72%, rgba(223,160,72,0.06) 0%, transparent 14%),
-    radial-gradient(circle at 20% 30%, rgba(237,232,223,0.03) 0%, transparent 22%);
+    radial-gradient(circle at 58% 52%, rgba(223,160,72,0.08) 0%, transparent 17%),
+    radial-gradient(circle at 78% 16%, rgba(153,169,224,0.08) 0%, transparent 14%),
+    radial-gradient(circle at 32% 34%, rgba(237,232,223,0.04) 0%, transparent 18%),
+    radial-gradient(circle at 78% 76%, rgba(223,160,72,0.06) 0%, transparent 14%);
 }
 .hero-visual::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: linear-gradient(rgba(237,232,223,0.022) 1px, transparent 1px), linear-gradient(90deg, rgba(237,232,223,0.022) 1px, transparent 1px);
-  background-size: 72px 72px, 72px 72px;
-  mask-image: radial-gradient(circle at 50% 50%, black 0%, transparent 92%);
-  opacity: 0.32;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(237,232,223,0.04) 0%, transparent 8%),
+    radial-gradient(circle at 82% 72%, rgba(237,232,223,0.03) 0%, transparent 10%);
+  mask-image: radial-gradient(circle at 58% 50%, black 0%, transparent 94%);
+  opacity: 0.4;
 }
 .hero-node-canvas {
   position: absolute;
@@ -981,28 +982,113 @@ footer {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const palette = [
-      { color: "rgba(223,160,72,0.92)", glow: "rgba(223,160,72,0.2)" },
-      { color: "rgba(237,232,223,0.9)", glow: "rgba(237,232,223,0.18)" },
-      { color: "rgba(153,169,224,0.88)", glow: "rgba(153,169,224,0.2)" }
+    const labels = ["Sales", "Marketing", "Product", "Finance", "Strategy"];
+    const darkClusterColors = [
+      "153, 169, 224",
+      "223, 160, 72",
+      "237, 232, 223",
+      "196, 142, 63",
+      "186, 154, 226"
     ];
-    const orbitNodes = [
-      { angle: 0, orbitSpeed: 0.08, orbitRadius: 0.26, color: palette[2].color, glow: palette[2].glow, size: 28 },
-      { angle: 72, orbitSpeed: 0.065, orbitRadius: 0.26, color: palette[1].color, glow: palette[1].glow, size: 26 },
-      { angle: 144, orbitSpeed: 0.055, orbitRadius: 0.24, color: palette[0].color, glow: palette[0].glow, size: 25 },
-      { angle: 216, orbitSpeed: 0.07, orbitRadius: 0.25, color: palette[0].color, glow: palette[0].glow, size: 27 },
-      { angle: 288, orbitSpeed: 0.06, orbitRadius: 0.24, color: palette[2].color, glow: palette[2].glow, size: 25 }
-    ];
+    const coreLineColor = "237, 232, 223";
+    const governanceColor = "223, 160, 72";
+    const inboundColor = "223, 160, 72";
+    const outerNetworkColor = "237, 232, 223";
+    const ringOffset = [Math.PI * 0.01, 0, 0, 0, 0];
+    const neuralCount = 40;
 
     let width = 0;
     let height = 0;
     let dpr = 1;
-    let stars = [];
-    let pulses = [];
-    let orbitAngles = orbitNodes.map(node => node.angle * Math.PI / 180);
-    let time = 0;
-    let last = 0;
+    let hubs = [];
+    let inboundParticles = [];
+    let hubClouds = [];
+    let outerCloud = createNeuralCloud();
+    let corePulse = 0;
+    let tick = 0;
+    let prefersReducedMotion = false;
+    let scrollProgress = 0;
     let raf = 0;
+
+    function createNeuralCloud() {
+      const neurons = [];
+      for (let i = 0; i < neuralCount; i += 1) {
+        neurons.push({
+          angleOffset: (i / neuralCount) * Math.PI * 2 + (Math.random() - 0.5) * 1.2,
+          orbitRadius: 57 + Math.random() * 105,
+          orbitSpeed: 0.015 + Math.random() * 0.04,
+          floatPhase: Math.random() * Math.PI * 2,
+          floatAmp: 3 + Math.random() * 5,
+          size: 0.6 + Math.random()
+        });
+      }
+
+      const connections = [];
+      for (let i = 0; i < neuralCount; i += 1) {
+        for (let step = 1; step <= 3; step += 1) {
+          connections.push([i, (i + step) % neuralCount]);
+        }
+        if (i % 2 === 0) {
+          connections.push([i, (i + Math.floor(neuralCount / 2)) % neuralCount]);
+        }
+        if (i % 3 === 0) {
+          const randomIndex = Math.floor(Math.random() * neuralCount);
+          if (randomIndex !== i) connections.push([i, randomIndex]);
+        }
+      }
+
+      return { neurons, connections, pulses: [], nextPulseTime: Math.random() * 2 };
+    }
+
+    function createInboundParticle(hubCount) {
+      const targetIndex = Math.floor(Math.random() * hubCount);
+      return {
+        x: 0,
+        y: 0,
+        targetIdx: targetIndex,
+        sourceIdx: targetIndex,
+        progress: Math.random(),
+        speed: 0.001 + Math.random() * 0.002,
+        size: 1 + Math.random() * 1.5,
+        opacity: 0.4 + Math.random() * 0.4,
+        phase: 0
+      };
+    }
+
+    function neuralPoint(neuron, cx, cy, t, scale) {
+      const angle = neuron.angleOffset + t * neuron.orbitSpeed;
+      const orbit = neuron.orbitRadius * scale;
+      const floatX = Math.sin(t * 0.5 + neuron.floatPhase) * neuron.floatAmp;
+      const floatY = Math.cos(t * 0.7 + neuron.floatPhase) * neuron.floatAmp;
+      return [
+        cx + Math.cos(angle) * orbit + floatX,
+        cy + Math.sin(angle) * orbit + floatY
+      ];
+    }
+
+    function buildScene() {
+      const centerX = width * 0.58;
+      const centerY = height * 0.52;
+      const hubRadius = Math.min(width, height) * 0.31;
+      hubs = labels.map((label, index) => {
+        const angle = -Math.PI / 2 + (index / labels.length) * Math.PI * 2 + (ringOffset[index] || 0);
+        return {
+          x: centerX + Math.cos(angle) * hubRadius,
+          y: centerY + Math.sin(angle) * hubRadius,
+          label,
+          radius: 6,
+          color: darkClusterColors[index],
+          glowColor: darkClusterColors[index],
+          pulse: Math.random() * Math.PI * 2,
+          pulseSpeed: 0.006 + Math.random() * 0.005,
+          activity: 0.0
+        };
+      });
+      if (hubClouds.length === 0) {
+        hubClouds = labels.map(() => createNeuralCloud());
+      }
+      inboundParticles = Array.from({ length: 40 }, () => createInboundParticle(hubs.length));
+    }
 
     function resize() {
       const rect = canvas.getBoundingClientRect();
@@ -1012,172 +1098,353 @@ footer {
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      stars = Array.from({ length: 110 }, () => ({
-        x: Math.random(),
-        y: Math.random(),
-        size: Math.random() * 1.5 + 0.35,
-        opacity: Math.random() * 0.45 + 0.08,
-        twinkleSpeed: Math.random() * 2 + 1,
-        twinkleOffset: Math.random() * Math.PI * 2
-      }));
-      pulses = Array.from({ length: 24 }, () => ({
-        progress: Math.random(),
-        speed: Math.random() * 0.3 + 0.15,
-        nodeIndex: Math.floor(Math.random() * orbitNodes.length),
-        returning: Math.random() > 0.5,
-        opacity: 0
-      }));
-      orbitAngles = orbitNodes.map(node => node.angle * Math.PI / 180);
+      buildScene();
     }
 
     function draw(now) {
-      const delta = last ? (now - last) / 1000 : 0.016;
-      last = now;
-      time += delta;
       ctx.clearRect(0, 0, width, height);
+      const motion = prefersReducedMotion ? 0.3 : 1;
+      tick += 0.016 * motion;
 
-      const centerX = width * 0.55;
-      const centerY = height * 0.54;
+      const centerX = width * 0.58;
+      const centerY = height * 0.52;
       const scale = Math.min(width, height);
+      const coreScale = 1 + Math.min(scrollProgress, 0.5) * 0.12;
+      const coreColor = coreLineColor;
+      const governance = governanceColor;
 
-      stars.forEach(star => {
-        const glow = Math.sin(time * star.twinkleSpeed + star.twinkleOffset) * 0.3 + 0.7;
-        ctx.beginPath();
-        ctx.arc(star.x * width, star.y * height, star.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(237,232,223,${Math.max(0.08, star.opacity * glow)})`;
-        ctx.fill();
+      hubs.forEach((hub, index) => {
+        hub.color = darkClusterColors[index];
+        hub.glowColor = darkClusterColors[index];
+        hub.pulse += hub.pulseSpeed * motion;
+        hub.activity = 0.3 + Math.sin(tick * 0.8 + index * 1.2) * 0.3;
       });
 
-      orbitNodes.forEach(node => {
-        const orbit = node.orbitRadius * scale;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, orbit, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(237,232,223,0.08)";
-        ctx.lineWidth = 0.5;
-        ctx.stroke();
+      const orbitRadius = Math.min(width, height) * 0.34 * coreScale;
+      hubs.forEach((hub, index) => {
+        const angle = -Math.PI / 2 + (index / hubs.length) * Math.PI * 2 + (ringOffset[index] || 0);
+        hub.x = centerX + Math.cos(angle) * orbitRadius;
+        hub.y = centerY + Math.sin(angle) * orbitRadius;
       });
 
-      orbitAngles = orbitAngles.map((angle, index) => angle + orbitNodes[index].orbitSpeed * delta);
-      const positions = orbitNodes.map((node, index) => {
-        const angle = orbitAngles[index];
-        const orbit = node.orbitRadius * scale;
-        return {
-          x: centerX + Math.cos(angle) * orbit,
-          y: centerY + Math.sin(angle) * orbit
-        };
-      });
-
-      positions.forEach((point, index) => {
-        const node = orbitNodes[index];
-        const gradient = ctx.createLinearGradient(centerX, centerY, point.x, point.y);
-        gradient.addColorStop(0, "rgba(237,232,223,0.18)");
-        gradient.addColorStop(0.55, "rgba(237,232,223,0.10)");
-        gradient.addColorStop(1, "rgba(237,232,223,0.03)");
-        const curveX = (centerX + point.x) / 2 + Math.sin(orbitAngles[index] * 2) * 15;
-        const curveY = (centerY + point.y) / 2 + Math.cos(orbitAngles[index] * 2) * 15;
-
+      hubs.forEach(hub => {
+        const pulse = 0.5 + Math.sin(hub.pulse) * 0.2;
         ctx.beginPath();
-        ctx.moveTo(centerX, centerY);
-        ctx.quadraticCurveTo(curveX, curveY, point.x, point.y);
-        ctx.strokeStyle = gradient;
-        ctx.lineWidth = 1.15;
-        ctx.stroke();
-      });
-
-      pulses.forEach(pulse => {
-        pulse.progress += pulse.speed * delta;
-        if (pulse.progress > 1) {
-          pulse.progress = 0;
-          pulse.returning = !pulse.returning;
-          pulse.nodeIndex = Math.floor(Math.random() * orbitNodes.length);
-        }
-
-        const point = positions[pulse.nodeIndex];
-        const eased = pulse.returning ? 1 - pulse.progress : pulse.progress;
-        const t = eased * eased * (3 - 2 * eased);
-        const curveX = (centerX + point.x) / 2 + Math.sin(orbitAngles[pulse.nodeIndex] * 2) * 15;
-        const curveY = (centerY + point.y) / 2 + Math.cos(orbitAngles[pulse.nodeIndex] * 2) * 15;
-        const inv = 1 - t;
-        const x = inv * inv * centerX + 2 * inv * t * curveX + t * t * point.x;
-        const y = inv * inv * centerY + 2 * inv * t * curveY + t * t * point.y;
-        pulse.opacity = Math.sin(pulse.progress * Math.PI) * 0.9;
-
-        const glow = ctx.createRadialGradient(x, y, 0, x, y, 4);
-        glow.addColorStop(0, `rgba(223,160,72,${pulse.opacity})`);
-        glow.addColorStop(1, "rgba(223,160,72,0)");
-        ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = glow;
-        ctx.fill();
-      });
-
-      const coreRadius = scale * 0.055;
-      for (let ring = 0; ring < 3; ring += 1) {
-        const oscillation = Math.sin(time * 1.2 + ring * 0.8) * 0.3 + 0.7;
-        const radius = coreRadius * (2.2 + ring * 0.8) * oscillation;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(223,160,72,${0.08 - ring * 0.018})`;
-        ctx.lineWidth = 0.85;
-        ctx.stroke();
-      }
-
-      const coreHalo = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, coreRadius * 2.6);
-      coreHalo.addColorStop(0, "rgba(223,160,72,0.18)");
-      coreHalo.addColorStop(1, "rgba(223,160,72,0)");
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, coreRadius * 2.6, 0, Math.PI * 2);
-      ctx.fillStyle = coreHalo;
-      ctx.fill();
-
-      const innerHalo = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, coreRadius * 1.6);
-      innerHalo.addColorStop(0, "rgba(237,232,223,0.14)");
-      innerHalo.addColorStop(1, "rgba(237,232,223,0)");
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, coreRadius * 1.6, 0, Math.PI * 2);
-      ctx.fillStyle = innerHalo;
-      ctx.fill();
-
-      const core = ctx.createRadialGradient(centerX - coreRadius * 0.2, centerY - coreRadius * 0.2, 0, centerX, centerY, coreRadius);
-      core.addColorStop(0, "rgba(223,160,72,0.98)");
-      core.addColorStop(0.42, "rgba(223,160,72,0.86)");
-      core.addColorStop(0.88, "rgba(223,160,72,0.52)");
-      core.addColorStop(1, "rgba(223,160,72,0.18)");
-      ctx.beginPath();
-      ctx.arc(centerX, centerY, coreRadius, 0, Math.PI * 2);
-      ctx.fillStyle = core;
-      ctx.fill();
-
-      positions.forEach((point, index) => {
-        const node = orbitNodes[index];
-        const size = node.size * (scale / 500) * (Math.sin(time * 1.5 + index) * 0.08 + 1);
-        const glow = ctx.createRadialGradient(point.x, point.y, 0, point.x, point.y, size * 2.6);
-        glow.addColorStop(0, node.glow);
-        glow.addColorStop(1, node.glow.replace(/0\.\d+\)/, "0)"));
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, size * 2.6, 0, Math.PI * 2);
-        ctx.fillStyle = glow;
-        ctx.fill();
-
-        const sphere = ctx.createRadialGradient(point.x - size * 0.2, point.y - size * 0.2, 0, point.x, point.y, size);
-        sphere.addColorStop(0, node.color);
-        sphere.addColorStop(0.72, node.color.replace(/0\.\d+\)/, "0.72)"));
-        sphere.addColorStop(1, node.color.replace(/0\.\d+\)/, "0.28)"));
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
-        ctx.fillStyle = sphere;
-        ctx.fill();
-
-        ctx.beginPath();
-        ctx.arc(point.x, point.y, size, 0, Math.PI * 2);
-        ctx.strokeStyle = node.color.replace(/0\.\d+\)/, "0.32)");
+        ctx.moveTo(hub.x, hub.y);
+        ctx.lineTo(centerX, centerY);
+        ctx.strokeStyle = `rgba(${coreColor}, ${0.06 + pulse * 0.06})`;
         ctx.lineWidth = 1;
         ctx.stroke();
       });
 
+      corePulse *= 0.97;
+      for (let i = inboundParticles.length - 1; i >= 0; i -= 1) {
+        const particle = inboundParticles[i];
+        particle.progress += particle.speed * motion;
+
+        if (particle.progress >= 1) {
+          if (particle.phase === 0) {
+            particle.phase = 1;
+            particle.progress = 0;
+            particle.speed = 0.0015 + Math.random() * 0.002;
+            particle.sourceIdx = particle.targetIdx;
+          } else {
+            corePulse = Math.min(corePulse + 0.4, 1);
+            inboundParticles[i] = createInboundParticle(hubs.length);
+            continue;
+          }
+        }
+
+        let startX;
+        let startY;
+        let endX;
+        let endY;
+
+        if (particle.phase === 0) {
+          const target = hubs[particle.targetIdx];
+          const angle = -Math.PI / 2 + (particle.targetIdx / hubs.length) * Math.PI * 2 + (ringOffset[particle.targetIdx] || 0);
+          const farRadius = Math.max(width, height) * 0.6;
+          startX = centerX + Math.cos(angle) * farRadius;
+          startY = centerY + Math.sin(angle) * farRadius;
+          endX = target.x;
+          endY = target.y;
+        } else {
+          const source = hubs[particle.sourceIdx];
+          startX = source.x;
+          startY = source.y;
+          endX = centerX;
+          endY = centerY;
+        }
+
+        const t = particle.progress < 0.5 ? 2 * particle.progress * particle.progress : 1 - Math.pow(-2 * particle.progress + 2, 2) / 2;
+        particle.x = startX + (endX - startX) * t;
+        particle.y = startY + (endY - startY) * t;
+        const fadeIn = Math.min(particle.progress * 5, 1);
+        const fadeOut = Math.min((1 - particle.progress) * 5, 1);
+        const opacity = fadeIn * fadeOut * particle.opacity;
+        const color = particle.phase === 0 ? hubs[particle.targetIdx].color : coreColor;
+        const glow = ctx.createRadialGradient(particle.x, particle.y, 0, particle.x, particle.y, particle.size * 4);
+        glow.addColorStop(0, `rgba(${color}, ${opacity * 0.6})`);
+        glow.addColorStop(1, `rgba(${color}, 0)`);
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size * 4, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color}, ${opacity})`;
+        ctx.fill();
+      });
+
+      hubs.forEach((hub, index) => {
+        const pulse = 0.7 + Math.sin(hub.pulse) * 0.3;
+        const radius = (hub.radius + hub.activity * 4) * coreScale;
+        const glow = ctx.createRadialGradient(hub.x, hub.y, 0, hub.x, hub.y, radius * 6);
+        glow.addColorStop(0, `rgba(${hub.glowColor}, ${0.15 * pulse})`);
+        glow.addColorStop(0.5, `rgba(${hub.glowColor}, ${0.05 * pulse})`);
+        glow.addColorStop(1, `rgba(${hub.glowColor}, 0)`);
+        ctx.beginPath();
+        ctx.arc(hub.x, hub.y, radius * 6, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(hub.x, hub.y, hub.radius * coreScale, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${hub.color}, ${0.7 + pulse * 0.3})`;
+        ctx.fill();
+
+        ctx.fillStyle = `rgba(${hub.color}, ${0.5 + pulse * 0.3})`;
+        ctx.font = `${10 * coreScale}px 'DM Sans', sans-serif`;
+        ctx.textAlign = "center";
+        ctx.fillText(hub.label, hub.x, hub.y + hub.radius * coreScale + 16);
+
+        drawNeuralCloud(hubClouds[index], hub.x, hub.y, hub.color, tick, coreScale, motion);
+      });
+
+      const pulse = 0.5 + Math.sin(tick * 0.6) * 0.3;
+      const coreRadius = 10 * coreScale;
+      const coreGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, coreRadius * 8);
+      coreGlow.addColorStop(0, `rgba(${coreColor}, ${0.25 * pulse})`);
+      coreGlow.addColorStop(0.4, `rgba(${coreColor}, ${0.08 * pulse})`);
+      coreGlow.addColorStop(1, `rgba(${coreColor}, 0)`);
+      ctx.fillStyle = coreGlow;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, coreRadius * 8, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, coreRadius * 1.8, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${coreColor}, ${0.15 + pulse * 0.15})`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, coreRadius, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${coreColor}, ${0.6 + pulse * 0.4})`;
+      ctx.fill();
+
+      ctx.fillStyle = `rgba(${coreColor}, ${0.5 + pulse * 0.3})`;
+      ctx.font = `${11 * coreScale}px 'DM Sans', sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillText("Decision Core", centerX, centerY + coreRadius + 18);
+
+      const governanceBase = coreRadius * 6.9;
+      const governancePulse = 0.3 + Math.sin(tick * 0.5) * 0.15;
+      const governanceEnergy = corePulse;
+      const governanceRadius = governanceBase;
+      const governanceField = ctx.createRadialGradient(centerX, centerY, coreRadius * 1.5, centerX, centerY, governanceRadius);
+      governanceField.addColorStop(0, `rgba(${governance}, ${0.02 + governanceEnergy * 0.04})`);
+      governanceField.addColorStop(0.7, `rgba(${governance}, ${0.04 + governanceEnergy * 0.06})`);
+      governanceField.addColorStop(1, `rgba(${governance}, 0)`);
+      ctx.fillStyle = governanceField;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, governanceRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      const ringRadii = [governanceRadius * 0.75, governanceRadius, governanceRadius * 1.18];
+      const ringWidths = [0.8, 1.8 + governanceEnergy * 2, 0.6];
+      const ringAlpha = [
+        (0.12 + governancePulse * 0.1 + governanceEnergy * 0.35) * 0.4,
+        0.12 + governancePulse * 0.1 + governanceEnergy * 0.35,
+        (0.12 + governancePulse * 0.1 + governanceEnergy * 0.35) * 0.3
+      ];
+      const arcPulse = (Math.sin(tick * 0.8) + 1) * 0.5;
+      for (let i = 0; i < 3; i += 1) {
+        const radius = ringRadii[i] + arcPulse * 3 * (i - 1);
+        const glow = ctx.createRadialGradient(centerX, centerY, radius - 6, centerX, centerY, radius + 10);
+        glow.addColorStop(0, `rgba(${governance}, 0)`);
+        glow.addColorStop(0.4, `rgba(${governance}, ${ringAlpha[i] * 0.2})`);
+        glow.addColorStop(1, `rgba(${governance}, 0)`);
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius + 10, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${governance}, ${ringAlpha[i]})`;
+        ctx.lineWidth = ringWidths[i];
+        ctx.stroke();
+
+        const start = tick * 0.4 + i * Math.PI * 0.25;
+        const end = start + Math.PI * 0.4;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, start, end);
+        ctx.strokeStyle = `rgba(${governance}, ${0.25 + governanceEnergy * 0.3})`;
+        ctx.lineWidth = ringWidths[i] + 1;
+        ctx.stroke();
+      }
+
+      if (governanceEnergy > 0.05) {
+        ringRadii.forEach(radius => {
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+          ctx.strokeStyle = `rgba(${governance}, ${governanceEnergy * 0.4})`;
+          ctx.lineWidth = 3 * governanceEnergy;
+          ctx.stroke();
+        });
+      }
+
+      ctx.fillStyle = `rgba(${governance}, ${0.4 + governancePulse * 0.2 + governanceEnergy * 0.3})`;
+      ctx.font = `${10 * coreScale}px 'DM Sans', sans-serif`;
+      ctx.textAlign = "center";
+      ctx.fillText("Governance", centerX, centerY + ringRadii[2] + 20);
+
+      drawOuterCloud(outerCloud, centerX, centerY, governance, tick, coreScale, motion);
+
       raf = requestAnimationFrame(draw);
     }
 
+    function drawNeuralCloud(cloud, x, y, color, t, scale, motion) {
+      const points = cloud.neurons.map(neuron => neuralPoint(neuron, x, y, t, scale));
+
+      cloud.connections.forEach(([fromIndex, toIndex]) => {
+        const [fromX, fromY] = points[fromIndex];
+        const [toX, toY] = points[toIndex];
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(toX, toY);
+        ctx.strokeStyle = `rgba(${color}, 0.08)`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      });
+
+      for (let i = cloud.pulses.length - 1; i >= 0; i -= 1) {
+        const pulse = cloud.pulses[i];
+        pulse.progress += pulse.speed * motion;
+        if (pulse.progress >= 1) {
+          cloud.pulses.splice(i, 1);
+          continue;
+        }
+        const [fromX, fromY] = points[pulse.fromIdx];
+        const [toX, toY] = points[pulse.toIdx];
+        const x = fromX + (toX - fromX) * pulse.progress;
+        const y = fromY + (toY - fromY) * pulse.progress;
+        const intensity = Math.sin(pulse.progress * Math.PI) * 0.6;
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, 4);
+        glow.addColorStop(0, `rgba(${color}, ${intensity})`);
+        glow.addColorStop(1, `rgba(${color}, 0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      cloud.nextPulseTime -= 0.016 * motion;
+      if (cloud.nextPulseTime <= 0) {
+        const pulseCount = 1 + Math.floor(Math.random() * 3);
+        for (let i = 0; i < pulseCount; i += 1) {
+          const edge = cloud.connections[Math.floor(Math.random() * cloud.connections.length)];
+          const [fromIdx, toIdx] = Math.random() > 0.5 ? [edge[0], edge[1]] : [edge[1], edge[0]];
+          cloud.pulses.push({ fromIdx, toIdx, progress: 0, speed: 0.004 + Math.random() * 0.008 });
+        }
+        cloud.nextPulseTime = 0.15 + Math.random() * 0.8;
+      }
+
+      points.forEach(([nodeX, nodeY]) => {
+        const glow = ctx.createRadialGradient(nodeX, nodeY, 0, nodeX, nodeY, 5);
+        glow.addColorStop(0, `rgba(${color}, 0.25)`);
+        glow.addColorStop(1, `rgba(${color}, 0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(nodeX, nodeY, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(nodeX, nodeY, 1, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color}, 0.5)`;
+        ctx.fill();
+      });
+    }
+
+    function drawOuterCloud(cloud, centerX, centerY, color, t, scale, motion) {
+      const radius = 10 * scale * 6.9;
+      const points = cloud.neurons.map((neuron, index) => {
+        const angle = (index / cloud.neurons.length) * Math.PI * 2 + t * neuron.orbitSpeed * 0.5;
+        const orbit = radius + Math.sin(t * 0.5 + neuron.floatPhase) * neuron.floatAmp;
+        return [centerX + Math.cos(angle) * orbit, centerY + Math.sin(angle) * orbit];
+      });
+
+      cloud.connections.forEach(([fromIndex, toIndex]) => {
+        const [fromX, fromY] = points[fromIndex];
+        const [toX, toY] = points[toIndex];
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(toX, toY);
+        ctx.strokeStyle = `rgba(${color}, 0.06)`;
+        ctx.lineWidth = 0.5;
+        ctx.stroke();
+      });
+
+      for (let i = cloud.pulses.length - 1; i >= 0; i -= 1) {
+        const pulse = cloud.pulses[i];
+        pulse.progress += pulse.speed * motion;
+        if (pulse.progress >= 1) {
+          cloud.pulses.splice(i, 1);
+          continue;
+        }
+        const [fromX, fromY] = points[pulse.fromIdx];
+        const [toX, toY] = points[pulse.toIdx];
+        const x = fromX + (toX - fromX) * pulse.progress;
+        const y = fromY + (toY - fromY) * pulse.progress;
+        const intensity = Math.sin(pulse.progress * Math.PI) * 0.5;
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, 4);
+        glow.addColorStop(0, `rgba(${color}, ${intensity})`);
+        glow.addColorStop(1, `rgba(${color}, 0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      cloud.nextPulseTime -= 0.016 * motion;
+      if (cloud.nextPulseTime <= 0) {
+        const edge = cloud.connections[Math.floor(Math.random() * cloud.connections.length)];
+        cloud.pulses.push({ fromIdx: edge[0], toIdx: edge[1], progress: 0, speed: 0.012 + Math.random() * 0.012 });
+        cloud.nextPulseTime = 0.4 + Math.random() * 1.5;
+      }
+
+      points.forEach(([nodeX, nodeY]) => {
+        const glow = ctx.createRadialGradient(nodeX, nodeY, 0, nodeX, nodeY, 5);
+        glow.addColorStop(0, `rgba(${color}, 0.2)`);
+        glow.addColorStop(1, `rgba(${color}, 0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(nodeX, nodeY, 5, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(nodeX, nodeY, 0.8, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${color}, 0.45)`;
+        ctx.fill();
+      });
+    }
+
+    prefersReducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    window.addEventListener("scroll", () => {
+      scrollProgress = window.scrollY / window.innerHeight;
+    }, { passive: true });
     resize();
     raf = requestAnimationFrame(draw);
     window.addEventListener("resize", resize);
