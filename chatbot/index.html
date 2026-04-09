@@ -145,6 +145,7 @@
     }
 
     .dataset-list { display: flex; flex-direction: column; gap: 8px; }
+    .dataset-list[hidden] { display: none; }
 
     .dataset-btn {
       width: 100%;
@@ -169,6 +170,23 @@
     .dataset-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
     .dataset-meta-text { font-size: 11px; color: var(--muted); }
     .dataset-view { font-size: 11px; font-weight: 600; color: var(--amber); white-space: nowrap; }
+    .dataset-toggle {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid var(--line);
+      background: rgba(237,232,223,0.04);
+      color: var(--cream);
+      text-align: left;
+      font-size: 12px;
+      font-weight: 600;
+      transition: background .15s, border-color .15s;
+    }
+    .dataset-toggle:hover {
+      background: rgba(237,232,223,0.08);
+      border-color: var(--line-2);
+    }
 
     .sidebar-note {
       background: rgba(201,138,60,0.07);
@@ -495,6 +513,13 @@
             </div>
             <span class="dataset-view">View -&gt;</span>
           </button>
+        </div>
+
+        <button class="dataset-toggle" type="button" id="datasetToggle" aria-expanded="false" aria-controls="moreDatasets">
+          Show 5 more raw datasets
+        </button>
+
+        <div class="dataset-list" id="moreDatasets" hidden>
 
           <button class="dataset-btn" type="button" data-file="./datasets/session_engagement.csv" data-title="Session Engagement">
             <div class="dataset-icon">
@@ -540,50 +565,6 @@
             <span class="dataset-view">View -&gt;</span>
           </button>
 
-          <button class="dataset-btn" type="button" data-file="./datasets/company_profiles.csv" data-title="Company Profiles">
-            <div class="dataset-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4h6v4"/></svg>
-            </div>
-            <div>
-              <div class="dataset-name">Company Profiles</div>
-              <div class="dataset-meta-text">Profile · 12 records</div>
-            </div>
-            <span class="dataset-view">View -&gt;</span>
-          </button>
-
-          <button class="dataset-btn" type="button" data-file="./datasets/attendee_profiles_v2.csv" data-title="Attendee Profiles">
-            <div class="dataset-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/></svg>
-            </div>
-            <div>
-              <div class="dataset-name">Attendee Profiles</div>
-              <div class="dataset-meta-text">Profile · 25 records</div>
-            </div>
-            <span class="dataset-view">View -&gt;</span>
-          </button>
-
-          <button class="dataset-btn" type="button" data-file="./datasets/session_profiles_v2.csv" data-title="Session Profiles">
-            <div class="dataset-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 4h14v16H5z"/><path d="M8 8h8M8 12h8M8 16h5"/></svg>
-            </div>
-            <div>
-              <div class="dataset-name">Session Profiles</div>
-              <div class="dataset-meta-text">Profile · 8 records</div>
-            </div>
-            <span class="dataset-view">View -&gt;</span>
-          </button>
-
-          <button class="dataset-btn" type="button" data-file="./datasets/knowledge_base.csv" data-title="Knowledge Base">
-            <div class="dataset-icon">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
-            </div>
-            <div>
-              <div class="dataset-name">Knowledge Base</div>
-              <div class="dataset-meta-text">Reference · 5 records</div>
-            </div>
-            <span class="dataset-view">View -&gt;</span>
-          </button>
-
           <button class="dataset-btn" type="button" data-file="./datasets/events.csv" data-title="Events">
             <div class="dataset-icon">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M8 2v4M16 2v4M3 10h18"/><rect x="3" y="4" width="18" height="18" rx="2"/></svg>
@@ -617,7 +598,7 @@
         </div>
         <div class="topbar-status">
           <div class="status-dot"></div>
-          <span>12 datasets loaded</span>
+          <span>8 raw datasets loaded</span>
         </div>
       </div>
       <div class="topbar-right">
@@ -639,7 +620,7 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/><circle cx="18" cy="5" r="2" fill="currentColor" stroke="none"/></svg>
         </div>
         <div class="bubble">
-          I've loaded raw event data, profile snapshots, and reference tables for this demo. Open any dataset from the sidebar to inspect the sample source data, then ask Sentra a question.
+          I've loaded the raw event and company data for this demo. Open any dataset from the sidebar to inspect the sample source data, then ask Sentra a question.
         </div>
       </div>
 
@@ -740,6 +721,8 @@
   const modalSub = document.getElementById('modalSub');
   const modalPath = document.getElementById('modalPath');
   const tableWrap = document.getElementById('tableWrap');
+  const datasetToggle = document.getElementById('datasetToggle');
+  const moreDatasets = document.getElementById('moreDatasets');
 
   const escapeHtml = v => String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
@@ -790,6 +773,12 @@
   document.getElementById('modalClose').addEventListener('click', closeModal);
   modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
   document.querySelectorAll('.dataset-btn').forEach(b => b.addEventListener('click', () => openDataset(b)));
+  datasetToggle.addEventListener('click', () => {
+    const isExpanded = datasetToggle.getAttribute('aria-expanded') === 'true';
+    datasetToggle.setAttribute('aria-expanded', String(!isExpanded));
+    datasetToggle.textContent = isExpanded ? 'Show 5 more raw datasets' : 'Hide extra raw datasets';
+    moreDatasets.hidden = isExpanded;
+  });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
   const sendBtn = document.getElementById('sendBtn');
