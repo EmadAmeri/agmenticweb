@@ -983,11 +983,11 @@ footer {
     if (!ctx) return;
 
     const clusterConfig = [
-      { label: "Strategy", x: 0.28, y: 0.46, color: "170, 140, 228", spread: 0.16, points: 34, labelOffset: 22, dot: 6.2 },
-      { label: "Sales", x: 0.56, y: 0.16, color: "145, 172, 232", spread: 0.13, points: 28, labelOffset: 20, dot: 5.8 },
-      { label: "Marketing", x: 0.80, y: 0.46, color: "223, 160, 72", spread: 0.16, points: 35, labelOffset: 22, dot: 6.4 },
-      { label: "Finance", x: 0.48, y: 0.84, color: "214, 182, 108", spread: 0.15, points: 31, labelOffset: 22, dot: 5.8 },
-      { label: "Product", x: 0.74, y: 0.84, color: "168, 196, 215", spread: 0.15, points: 31, labelOffset: 22, dot: 5.8 }
+      { label: "Strategy", x: 0.18, y: 0.43, color: "170, 140, 228", spread: 0.19, points: 34, labelOffset: 22, dot: 6.2 },
+      { label: "Sales", x: 0.56, y: 0.12, color: "145, 172, 232", spread: 0.15, points: 28, labelOffset: 20, dot: 5.8 },
+      { label: "Marketing", x: 0.87, y: 0.45, color: "223, 160, 72", spread: 0.18, points: 35, labelOffset: 22, dot: 6.4 },
+      { label: "Finance", x: 0.42, y: 0.88, color: "214, 182, 108", spread: 0.17, points: 31, labelOffset: 22, dot: 5.8 },
+      { label: "Product", x: 0.80, y: 0.88, color: "168, 196, 215", spread: 0.17, points: 31, labelOffset: 22, dot: 5.8 }
     ];
     const coreColor = "223, 160, 72";
     const coreSupportColor = "237, 232, 223";
@@ -1045,7 +1045,7 @@ footer {
       clusters = clusterConfig.map(createCluster);
       coreParticles = Array.from({ length: 22 }, () => createCoreParticle());
       stars = Array.from({ length: 80 }, () => ({
-        x: 0.42 + Math.random() * 0.54,
+        x: 0.30 + Math.random() * 0.66,
         y: 0.1 + Math.random() * 0.78,
         size: 0.4 + Math.random() * 1.2,
         opacity: 0.08 + Math.random() * 0.16,
@@ -1163,7 +1163,7 @@ footer {
     }
 
     function drawCore(time, motion) {
-      const centerX = width * 0.55;
+      const centerX = width * 0.54;
       const centerY = height * 0.58;
       const coreRadius = Math.min(width, height) * 0.03;
 
