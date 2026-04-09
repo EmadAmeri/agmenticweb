@@ -1,1126 +1,719 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Agmentic Chat</title>
-    <meta
-      name="description"
-      content="Agmentic Chat - a decision intelligence assistant with a collapsible sidebar and read-only dataset viewer."
-    />
-    <link rel="stylesheet" href="./styles.css" />
-    <style>
-      :root {
-        --chat-bg: #eef4fc;
-        --chat-surface: rgba(255, 255, 255, 0.82);
-        --chat-surface-strong: rgba(255, 255, 255, 0.94);
-        --chat-line: rgba(10, 53, 119, 0.1);
-        --chat-line-strong: rgba(12, 99, 212, 0.2);
-        --chat-shadow: 0 24px 70px rgba(11, 31, 67, 0.12);
-        --chat-text: #071731;
-        --chat-muted: #627493;
-        --chat-primary: #0c63d4;
-        --chat-primary-deep: #03132f;
-        --chat-sidebar-width: 312px;
-        --chat-sidebar-collapsed: 88px;
-      }
-
-      * {
-        box-sizing: border-box;
-      }
-
-      body.chat-page {
-        margin: 0;
-        min-height: 100vh;
-        overflow-x: hidden;
-        background:
-          radial-gradient(circle at top right, rgba(12, 99, 212, 0.12), transparent 24%),
-          radial-gradient(circle at left top, rgba(3, 19, 47, 0.08), transparent 24%),
-          linear-gradient(180deg, #fbfdff 0%, var(--chat-bg) 100%);
-        color: var(--chat-text);
-        font-family: "Avenir Next", "SF Pro Display", "Segoe UI", sans-serif;
-      }
-
-      body.chat-page::before {
-        content: "";
-        position: fixed;
-        inset: 0;
-        background-image:
-          linear-gradient(rgba(48, 88, 154, 0.08) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(48, 88, 154, 0.08) 1px, transparent 1px);
-        background-size: 42px 42px;
-        mask-image: linear-gradient(180deg, rgba(0, 0, 0, 0.6), transparent 90%);
-        pointer-events: none;
-      }
-
-      a {
-        color: inherit;
-        text-decoration: none;
-      }
-
-      button,
-      input {
-        font: inherit;
-      }
-
-      button {
-        cursor: pointer;
-      }
-
-      .chat-app {
-        position: relative;
-        width: min(calc(100% - 32px), 1400px);
-        margin: 0 auto;
-        padding: 20px 0 0;
-      }
-
-      .chat-frame {
-        display: grid;
-        grid-template-columns: var(--chat-sidebar-width) minmax(0, 1fr);
-        align-items: stretch;
-        gap: 18px;
-        transition: grid-template-columns 220ms ease;
-      }
-
-      body.sidebar-collapsed .chat-frame {
-        grid-template-columns: minmax(0, 1fr);
-        gap: 0;
-      }
-
-      .sidebar-overlay {
-        display: none;
-      }
-
-      .chat-sidebar,
-      .chat-main {
-        background: var(--chat-surface);
-        border: 1px solid rgba(255, 255, 255, 0.84);
-        border-radius: 30px;
-        box-shadow: var(--chat-shadow);
-        backdrop-filter: blur(18px);
-        -webkit-backdrop-filter: blur(18px);
-      }
-
-      .chat-sidebar {
-        position: relative;
-        display: flex;
-        flex-direction: column;
-        align-self: stretch;
-        min-width: 0;
-        overflow: hidden;
-        transition:
-          opacity 180ms ease,
-          transform 180ms ease,
-          border-color 180ms ease,
-          box-shadow 180ms ease;
-      }
-
-      .sidebar-inner {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        padding: 18px 16px 16px;
-      }
-
-      .brand-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        min-width: 0;
-        color: var(--chat-text);
-        font-weight: 600;
-        letter-spacing: -0.04em;
-      }
-
-      .brand-link .brand-mark {
-        width: 44px;
-        height: 44px;
-      }
-
-      .brand-label {
-        white-space: nowrap;
-      }
-
-      .collapse-button,
-      .topbar-button {
-        width: 42px;
-        height: 42px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 14px;
-        border: 1px solid var(--chat-line);
-        background: rgba(255, 255, 255, 0.6);
-        color: var(--chat-text);
-        flex-shrink: 0;
-      }
-
-      .topbar-button {
-        display: inline-flex;
-        order: -1;
-      }
-
-      .sidebar-group {
-        padding: 14px;
-        border-radius: 20px;
-        background: var(--chat-surface-strong);
-        border: 1px solid var(--chat-line);
-      }
-
-      .sidebar-hero {
-        padding: 18px 16px 20px;
-      }
-
-      .sidebar-hero .brand-link {
-        margin-bottom: 20px;
-      }
-
-      .sidebar-group h3 {
-        margin: 0 0 12px;
-        font-size: 0.92rem;
-      }
-
-      .group-list {
-        display: flex;
-        flex-direction: column;
-        gap: 8px;
-      }
-
-      .history-item,
-      .dataset-item {
-        width: 100%;
-        display: grid;
-        grid-template-columns: auto minmax(0, 1fr);
-        align-items: center;
-        gap: 10px;
-        min-height: 42px;
-        padding: 10px 12px;
-        border-radius: 14px;
-        border: 1px solid transparent;
-        background: rgba(245, 249, 255, 0.88);
-        color: var(--chat-text);
-        text-align: left;
-      }
-
-      .dataset-item {
-        grid-template-columns: auto minmax(0, 1fr) auto;
-      }
-
-      .history-item:hover,
-      .dataset-item:hover {
-        border-color: var(--chat-line-strong);
-      }
-
-      .list-icon {
-        width: 28px;
-        height: 28px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 10px;
-        background: rgba(12, 99, 212, 0.1);
-        color: var(--chat-primary);
-        flex-shrink: 0;
-      }
-
-      .dataset-meta,
-      .history-copy {
-        min-width: 0;
-      }
-
-      .dataset-name,
-      .history-title {
-        display: block;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        font-weight: 600;
-      }
-
-      .dataset-size,
-      .history-sub {
-        color: var(--chat-muted);
-        font-size: 0.82rem;
-      }
-
-      .dataset-open {
-        color: var(--chat-primary);
-        font-size: 0.82rem;
-        font-weight: 600;
-      }
-
-      .sidebar-note {
-        padding: 14px;
-        border-radius: 20px;
-        background: linear-gradient(145deg, rgba(3, 19, 47, 0.96), rgba(10, 79, 181, 0.9));
-        color: #eef5ff;
-        margin-bottom: 14px;
-      }
-
-      .sidebar-note p {
-        margin: 0;
-        color: rgba(238, 245, 255, 0.76);
-        line-height: 1.65;
-        font-size: 0.9rem;
-      }
-
-      .sidebar-intro {
-        padding: 0;
-      }
-
-      .sidebar-intro h1 {
-        margin: 0 0 14px;
-        font-size: clamp(2rem, 4vw, 3.6rem);
-        line-height: 0.92;
-        letter-spacing: -0.06em;
-      }
-
-      .sidebar-intro p {
-        margin: 0;
-        color: var(--chat-muted);
-        line-height: 1.7;
-      }
-
-      body.sidebar-collapsed .chat-sidebar {
-        opacity: 0;
-        transform: translateX(-12px);
-        pointer-events: none;
-        border-color: transparent;
-        box-shadow: none;
-        display: none;
-      }
-
-      .chat-main {
-        display: flex;
-        flex-direction: column;
-        align-self: stretch;
-        gap: 14px;
-        min-width: 0;
-        overflow: hidden;
-        padding: 16px;
-      }
-
-      .chat-main-topbar {
-        display: flex;
-        align-items: center;
-        justify-content: flex-start;
-        gap: 14px;
-        padding: 6px 6px 16px;
-        border-bottom: 1px solid var(--chat-line);
-      }
-
-      .topbar-left {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        gap: 14px;
-        min-width: 0;
-        justify-content: flex-start;
-      }
-
-      .topbar-brand {
-        display: inline-flex;
-        align-items: center;
-        gap: 10px;
-        min-width: 0;
-        font-weight: 600;
-        letter-spacing: -0.04em;
-      }
-
-      .topbar-brand .brand-mark {
-        width: 40px;
-        height: 40px;
-        flex-shrink: 0;
-      }
-
-      .topbar-brand .brand-label {
-        display: inline-block;
-      }
-
-      .chat-thread {
-        min-width: 0;
-        overflow: auto;
-        padding: 2px 4px 0;
-        display: flex;
-        flex-direction: column;
-        gap: 18px;
-        flex: 0 0 auto;
-      }
-
-      .message-row {
-        display: flex;
-        align-items: flex-end;
-        gap: 12px;
-      }
-
-      .message-row.user {
-        justify-content: flex-end;
-      }
-
-      .message-row.assistant {
-        justify-content: flex-start;
-      }
-
-      .bubble-avatar {
-        width: 34px;
-        height: 34px;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        border-radius: 12px;
-        background: rgba(12, 99, 212, 0.1);
-        border: 1px solid rgba(12, 99, 212, 0.16);
-        color: var(--chat-primary);
-        flex-shrink: 0;
-      }
-
-      .message-row.user .bubble-avatar {
-        order: 2;
-        background: rgba(255, 255, 255, 0.62);
-        border-color: var(--chat-line);
-        color: var(--chat-muted);
-      }
-
-      .message-bubble {
-        max-width: min(74%, 820px);
-        padding: 16px 18px;
-        border-radius: 24px;
-        line-height: 1.7;
-      }
-
-      .message-row.user .message-bubble {
-        background: linear-gradient(135deg, #1660c3, #2f7be3);
-        color: #f7fbff;
-        border-bottom-right-radius: 10px;
-      }
-
-      .message-row.assistant .message-bubble {
-        background: rgba(245, 249, 255, 0.94);
-        color: var(--chat-text);
-        border: 1px solid var(--chat-line);
-        border-bottom-left-radius: 10px;
-      }
-
-      .suggestion-panel {
-        padding: 8px 6px 0;
-        margin-bottom: 0;
-      }
-
-      .suggestion-panel p {
-        margin: 0 0 12px;
-        color: var(--chat-muted);
-      }
-
-      .suggestions {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-      }
-
-      .suggestions button {
-        min-height: 40px;
-        padding: 0 14px;
-        border-radius: 999px;
-        border: 1px solid rgba(12, 99, 212, 0.22);
-        background: rgba(255, 255, 255, 0.84);
-        color: var(--chat-text);
-      }
-
-      .input-shell {
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: 12px;
-        padding: 8px;
-        margin-top: 0;
-        border-radius: 24px;
-        background: rgba(255, 255, 255, 0.76);
-        border: 1px solid var(--chat-line);
-      }
-
-      .chat-input {
-        width: 100%;
-        min-height: 58px;
-        border: 0;
-        outline: 0;
-        background: transparent;
-        padding: 0 16px;
-        color: var(--chat-text);
-      }
-
-      .chat-input::placeholder {
-        color: #8091ac;
-      }
-
-      .send-button {
-        width: 58px;
-        min-height: 58px;
-        border: 0;
-        border-radius: 18px;
-        background: linear-gradient(135deg, var(--chat-primary-deep), var(--chat-primary));
-        color: #f8fbff;
-      }
-
-      .dataset-modal {
-        position: fixed;
-        inset: 0;
-        display: none;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-        background: rgba(3, 14, 33, 0.42);
-        z-index: 60;
-      }
-
-      .dataset-modal.is-open {
-        display: flex;
-      }
-
-      .dataset-dialog {
-        width: min(1100px, 100%);
-        max-height: min(82vh, 900px);
-        display: grid;
-        grid-template-rows: auto auto 1fr;
-        gap: 14px;
-        padding: 18px;
-        border-radius: 28px;
-        background: rgba(255, 255, 255, 0.96);
-        border: 1px solid rgba(255, 255, 255, 0.88);
-        box-shadow: 0 24px 80px rgba(11, 31, 67, 0.22);
-      }
-
-      .dataset-dialog-top {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 14px;
-      }
-
-      .dataset-dialog-top h2 {
-        margin: 0;
-        font-size: 1.2rem;
-      }
-
-      .dataset-dialog-top p {
-        margin: 4px 0 0;
-        color: var(--chat-muted);
-      }
-
-      .dataset-close {
-        width: 42px;
-        height: 42px;
-        border: 1px solid var(--chat-line);
-        border-radius: 14px;
-        background: rgba(255, 255, 255, 0.72);
-        color: var(--chat-text);
-      }
-
-      .dataset-toolbar {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: 12px;
-        padding: 12px 14px;
-        border-radius: 18px;
-        background: rgba(245, 249, 255, 0.92);
-        border: 1px solid var(--chat-line);
-        color: var(--chat-muted);
-      }
-
-      .dataset-table-wrap {
-        overflow: auto;
-        border-radius: 18px;
-        border: 1px solid var(--chat-line);
-      }
-
-      .dataset-table {
-        width: 100%;
-        min-width: 680px;
-        border-collapse: collapse;
-        background: #ffffff;
-      }
-
-      .dataset-table th,
-      .dataset-table td {
-        padding: 12px 14px;
-        text-align: left;
-        border-bottom: 1px solid rgba(12, 55, 119, 0.08);
-        white-space: nowrap;
-      }
-
-      .dataset-table th {
-        position: sticky;
-        top: 0;
-        background: #f5f9ff;
-        color: var(--chat-text);
-      }
-
-      .dataset-empty {
-        padding: 18px;
-        border-radius: 18px;
-        background: rgba(245, 249, 255, 0.92);
-        border: 1px dashed var(--chat-line-strong);
-        color: var(--chat-muted);
-      }
-
-      @media (max-width: 1180px) {
-        .chat-frame {
-          grid-template-columns: 280px minmax(0, 1fr);
-        }
-      }
-
-      @media (max-width: 980px) {
-        .topbar-button {
-          display: inline-flex;
-        }
-
-        .chat-app {
-          width: min(calc(100% - 20px), 1400px);
-          padding-top: 12px;
-        }
-
-        .chat-frame {
-          grid-template-columns: 1fr;
-        }
-
-        body.sidebar-collapsed .chat-frame {
-          grid-template-columns: 1fr;
-        }
-
-        .sidebar-overlay {
-          position: fixed;
-          inset: 0;
-          display: block;
-          background: rgba(3, 14, 33, 0.28);
-          opacity: 0;
-          pointer-events: none;
-          transition: opacity 180ms ease;
-          z-index: 39;
-        }
-
-        body.sidebar-open .sidebar-overlay {
-          opacity: 1;
-          pointer-events: auto;
-        }
-
-        .chat-sidebar {
-          position: fixed;
-          inset: 12px auto 12px 12px;
-          width: min(340px, calc(100vw - 24px));
-          min-height: auto;
-          z-index: 40;
-          transform: translateX(-110%);
-          transition: transform 220ms ease;
-        }
-
-        body.sidebar-open .chat-sidebar {
-          transform: translateX(0);
-        }
-
-        body.sidebar-collapsed .chat-sidebar {
-          transform: translateX(-110%);
-          opacity: 1;
-          pointer-events: auto;
-          border-color: rgba(255, 255, 255, 0.84);
-          box-shadow: var(--chat-shadow);
-          display: flex;
-        }
-
-        .chat-main-topbar {
-          padding-top: 4px;
-        }
-      }
-
-      @media (max-width: 720px) {
-        .chat-app {
-          width: 100%;
-          padding: 8px 0 0;
-        }
-
-        .chat-main {
-          padding: 12px;
-          border-radius: 22px;
-        }
-
-        .chat-main-topbar {
-          align-items: center;
-          padding: 4px 2px 12px;
-        }
-
-        .topbar-brand .brand-mark {
-          width: 34px;
-          height: 34px;
-        }
-
-        .topbar-brand .brand-label {
-          font-size: 1rem;
-        }
-
-        .message-bubble {
-          max-width: 100%;
-          padding: 14px;
-          font-size: 0.92rem;
-        }
-
-        .message-row {
-          gap: 8px;
-        }
-
-        .bubble-avatar {
-          width: 32px;
-          height: 32px;
-          border-radius: 10px;
-        }
-
-        .suggestions {
-          gap: 8px;
-        }
-
-        .suggestions button {
-          width: 100%;
-          justify-content: flex-start;
-          text-align: left;
-        }
-
-        .input-shell {
-          grid-template-columns: 1fr;
-        }
-
-        .send-button {
-          width: 100%;
-          min-height: 48px;
-        }
-
-        .dataset-modal {
-          padding: 12px;
-        }
-
-        .dataset-dialog {
-          max-height: 88vh;
-          padding: 14px;
-          border-radius: 22px;
-        }
-
-        .dataset-toolbar {
-          flex-direction: column;
-          align-items: flex-start;
-        }
-
-        .chat-thread {
-          gap: 14px;
-        }
-
-        .message-row {
-          align-items: flex-start;
-        }
-
-        .message-row.user {
-          gap: 6px;
-        }
-
-        .input-shell {
-          position: sticky;
-          bottom: 0;
-          background: rgba(255, 255, 255, 0.94);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
-        }
-      }
-    </style>
-  </head>
-  <body class="chat-page">
-    <div class="sidebar-overlay" id="sidebarOverlay"></div>
-
-    <div class="chat-app">
-      <div class="chat-frame">
-        <aside class="chat-sidebar" id="chatSidebar">
-          <div class="sidebar-inner">
-            <section class="sidebar-group sidebar-hero">
-              <section class="sidebar-intro">
-                <h1>Agmentic Chat</h1>
-                <p>
-                  A decision intelligence assistant designed to turn product signals,
-                  company data, and strategic questions into clearer next moves.
-                </p>
-              </section>
-            </section>
-
-            <section class="sidebar-group">
-              <h3 class="group-label">Datasets</h3>
-              <div class="sidebar-note">
-                <p>
-                  Read-only dataset viewer. Users can inspect available CSVs before asking
-                  questions about them.
-                </p>
-              </div>
-              <div class="group-list">
-                <button class="dataset-item" type="button" data-file="./datasets/customer-signals.csv" data-title="Customer Signals">
-                  <span class="list-icon">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M8 7H16M8 12H16M8 17H12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                      <path d="M7 4H17L20 7V17C20 18.1 19.1 19 18 19H7C5.9 19 5 18.1 5 17V6C5 4.9 5.9 4 7 4Z" stroke="currentColor" stroke-width="1.6" />
-                    </svg>
-                  </span>
-                  <span class="dataset-meta">
-                    <span class="dataset-name">customer-signals.csv</span>
-                    <span class="dataset-size">12 rows</span>
-                  </span>
-                  <span class="dataset-open">View</span>
-                </button>
-
-                <button class="dataset-item" type="button" data-file="./datasets/company-tracker.csv" data-title="Company Tracker">
-                  <span class="list-icon">
-                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                      <path d="M8 7H16M8 12H16M8 17H12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                      <path d="M7 4H17L20 7V17C20 18.1 19.1 19 18 19H7C5.9 19 5 18.1 5 17V6C5 4.9 5.9 4 7 4Z" stroke="currentColor" stroke-width="1.6" />
-                    </svg>
-                  </span>
-                  <span class="dataset-meta">
-                    <span class="dataset-name">company-tracker.csv</span>
-                    <span class="dataset-size">8 rows</span>
-                  </span>
-                  <span class="dataset-open">View</span>
-                </button>
-              </div>
-            </section>
-          </div>
-        </aside>
-
-        <main class="chat-main">
-          <div class="chat-main-topbar">
-            <div class="topbar-left">
-              <button class="topbar-button" id="sidebarToggle" type="button" aria-label="Toggle sidebar">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M4 7H20M4 12H20M4 17H20" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-                </svg>
-              </button>
-              <a class="topbar-brand" href="../index.html" aria-label="Agmentic home">
-                <span class="brand-mark" aria-hidden="true">
-                  <svg viewBox="0 0 160 160" role="img" aria-hidden="true">
-                    <defs>
-                      <linearGradient id="chatTopbarGradient" x1="0%" x2="100%" y1="0%" y2="100%">
-                        <stop offset="0%" stop-color="#03132f" />
-                        <stop offset="100%" stop-color="#0c63d4" />
-                      </linearGradient>
-                    </defs>
-                    <circle cx="36" cy="104" r="10" fill="url(#chatTopbarGradient)" />
-                    <circle cx="64" cy="72" r="14" fill="url(#chatTopbarGradient)" />
-                    <path
-                      d="M69 24 L122 123"
-                      fill="none"
-                      stroke="url(#chatTopbarGradient)"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="24"
-                    />
-                    <path
-                      d="M56 126 L101 94"
-                      fill="none"
-                      stroke="url(#chatTopbarGradient)"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="20"
-                    />
-                  </svg>
-                </span>
-                <span class="brand-label">Agmentic</span>
-              </a>
-            </div>
-          </div>
-
-          <div class="chat-thread">
-            <div class="message-row assistant">
-              <span class="bubble-avatar">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="5" y="7" width="14" height="10" rx="3" stroke="currentColor" stroke-width="1.6" />
-                  <path d="M9 4V7M15 4V7M9 12H15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                </svg>
-              </span>
-              <div class="message-bubble">
-                I can answer questions about your product signals, company intelligence, and
-                the CSV datasets available in this workspace.
-              </div>
-            </div>
-
-            <div class="message-row user">
-              <div class="message-bubble">What datasets are available right now?</div>
-              <span class="bubble-avatar">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
-                    stroke="currentColor"
-                    stroke-width="1.6"
-                  />
-                  <path
-                    d="M4 21C4.8 17.8 7.6 16 12 16C16.4 16 19.2 17.8 20 21"
-                    stroke="currentColor"
-                    stroke-width="1.6"
-                    stroke-linecap="round"
-                  />
-                </svg>
-              </span>
-            </div>
-
-            <div class="message-row assistant">
-              <span class="bubble-avatar">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="5" y="7" width="14" height="10" rx="3" stroke="currentColor" stroke-width="1.6" />
-                  <path d="M9 4V7M15 4V7M9 12H15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                </svg>
-              </span>
-              <div class="message-bubble">
-                Two datasets are currently loaded: <strong>customer-signals.csv</strong> and
-                <strong>company-tracker.csv</strong>. Open them from the sidebar to inspect the
-                contents before asking questions.
-              </div>
-            </div>
-
-            <div class="message-row user">
-              <div class="message-bubble">Show me how you would use product data to guide a team.</div>
-              <span class="bubble-avatar">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path
-                    d="M12 12C14.7614 12 17 9.76142 17 7C17 4.23858 14.7614 2 12 2C9.23858 2 7 4.23858 7 7C7 9.76142 9.23858 12 12 12Z"
-                    stroke="currentColor"
-                    stroke-width="1.6"
-                  />
-                  <path
-                    d="M4 21C4.8 17.8 7.6 16 12 16C16.4 16 19.2 17.8 20 21"
-                    stroke="currentColor"
-                    stroke-width="1.6"
-                    stroke-linecap="round"
-                  />
-                </svg>
-              </span>
-            </div>
-
-            <div class="message-row assistant">
-              <span class="bubble-avatar">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <rect x="5" y="7" width="14" height="10" rx="3" stroke="currentColor" stroke-width="1.6" />
-                  <path d="M9 4V7M15 4V7M9 12H15" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" />
-                </svg>
-              </span>
-              <div class="message-bubble">
-                I would look for patterns in activation, retention, usage depth, and churn
-                risk, then summarize which features drive the strongest outcomes and where the
-                product team should focus next.
-              </div>
-            </div>
-          </div>
-
-          <div class="suggestion-panel">
-            <p>Try asking:</p>
-            <div class="suggestions">
-              <button type="button">Which customers show churn risk?</button>
-              <button type="button">What signals drive retention?</button>
-              <button type="button">Summarize the company tracker</button>
-              <button type="button">What should the product team focus on next?</button>
-            </div>
-          </div>
-
-          <div class="input-shell">
-            <input class="chat-input" type="text" placeholder="Ask Agmentic about your data..." />
-            <button class="send-button" type="button" aria-label="Send">
-              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M4 12L20 4L14 20L11 13L4 12Z" fill="currentColor" />
-              </svg>
-            </button>
-          </div>
-
-        </main>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sentra - Ask your data anything</title>
+  <meta name="description" content="Sentra chat - ask questions about your business data and get real answers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --navy: #0C1220;
+      --navy-2: #111A2E;
+      --navy-3: #182038;
+      --navy-4: #1E2A48;
+      --amber: #C98A3C;
+      --amber-2: #DFA048;
+      --amber-soft: rgba(201,138,60,0.14);
+      --amber-line: rgba(201,138,60,0.28);
+      --cream: #EDE8DF;
+      --muted: rgba(237,232,223,0.50);
+      --muted-2: rgba(237,232,223,0.28);
+      --line: rgba(237,232,223,0.08);
+      --line-2: rgba(237,232,223,0.14);
+      --sidebar-w: 300px;
+      --r: 16px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { height: 100%; }
+
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--navy);
+      color: var(--cream);
+      -webkit-font-smoothing: antialiased;
+      overflow: hidden;
+    }
+
+    body::after {
+      content: "";
+      position: fixed; inset: 0; z-index: 9999; pointer-events: none; opacity: 0.022;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+    }
+
+    body::before {
+      content: "";
+      position: fixed; inset: 0; pointer-events: none;
+      background:
+        radial-gradient(ellipse 60% 50% at 0% 50%, rgba(201,138,60,0.07) 0%, transparent 60%),
+        radial-gradient(ellipse 40% 60% at 100% 10%, rgba(168,32,48,0.05) 0%, transparent 55%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { cursor: pointer; font: inherit; }
+
+    .app {
+      display: grid;
+      grid-template-columns: var(--sidebar-w) minmax(0, 1fr);
+      height: 100vh;
+      padding: 16px;
+      gap: 14px;
+      position: relative; z-index: 1;
+    }
+
+    .sidebar {
+      display: flex; flex-direction: column;
+      background: var(--navy-2);
+      border: 1px solid var(--line-2);
+      border-radius: 22px;
+      overflow: hidden;
+      transition: transform .22s ease, opacity .18s ease;
+    }
+
+    .sidebar-inner {
+      display: flex; flex-direction: column;
+      gap: 12px; padding: 16px;
+      overflow-y: auto; flex: 1;
+    }
+    .sidebar-inner::-webkit-scrollbar { width: 0; }
+
+    .sidebar-brand {
+      display: flex; align-items: center; gap: 10px;
+      padding: 4px 2px 8px;
+      border-bottom: 1px solid var(--line);
+      margin-bottom: 4px;
+    }
+    .sidebar-pip {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--amber); box-shadow: 0 0 10px var(--amber);
+      flex-shrink: 0;
+    }
+    .sidebar-brand-name {
+      font-family: "Fraunces", serif;
+      font-size: 18px; font-weight: 700; letter-spacing: -0.02em;
+    }
+    .sidebar-brand-tag {
+      margin-left: auto;
+      font-size: 10px; font-weight: 600; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--amber);
+      background: var(--amber-soft);
+      border: 1px solid var(--amber-line);
+      border-radius: 20px; padding: 3px 8px;
+      white-space: nowrap;
+    }
+
+    .sidebar-intro {
+      padding: 12px 4px 4px;
+    }
+    .sidebar-intro h2 {
+      font-family: "Fraunces", serif;
+      font-size: 22px; font-weight: 700; letter-spacing: -0.03em;
+      line-height: 1.1; margin-bottom: 8px;
+    }
+    .sidebar-intro h2 em { font-style: italic; font-weight: 400; color: var(--amber); }
+    .sidebar-intro p {
+      font-size: 13px; line-height: 1.65; color: var(--muted);
+    }
+
+    .sidebar-section {
+      background: var(--navy-3);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 14px;
+    }
+    .sidebar-section-label {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--amber);
+      margin-bottom: 12px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .sidebar-section-label::before {
+      content: ""; width: 14px; height: 1px; background: var(--amber); opacity: .6;
+    }
+
+    .dataset-list { display: flex; flex-direction: column; gap: 8px; }
+
+    .dataset-btn {
+      width: 100%;
+      display: grid; grid-template-columns: 28px minmax(0,1fr) auto;
+      gap: 10px; align-items: center;
+      padding: 10px 12px;
+      border-radius: 10px;
+      border: 1px solid transparent;
+      background: rgba(237,232,223,0.04);
+      color: var(--cream); text-align: left;
+      transition: background .15s, border-color .15s;
+    }
+    .dataset-btn:hover {
+      background: rgba(237,232,223,0.08);
+      border-color: var(--line-2);
+    }
+    .dataset-icon {
+      width: 28px; height: 28px; border-radius: 8px;
+      background: var(--amber-soft); border: 1px solid var(--amber-line);
+      display: grid; place-items: center; color: var(--amber); flex-shrink: 0;
+    }
+    .dataset-name { font-size: 13px; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .dataset-meta-text { font-size: 11px; color: var(--muted); }
+    .dataset-view { font-size: 11px; font-weight: 600; color: var(--amber); white-space: nowrap; }
+
+    .sidebar-note {
+      background: rgba(201,138,60,0.07);
+      border: 1px solid var(--amber-line);
+      border-radius: 10px; padding: 12px;
+      font-size: 12px; line-height: 1.6; color: var(--muted);
+    }
+    .sidebar-note strong { color: var(--cream); font-weight: 600; }
+
+    .main {
+      display: flex; flex-direction: column;
+      background: var(--navy-2);
+      border: 1px solid var(--line-2);
+      border-radius: 22px;
+      overflow: hidden;
+    }
+
+    .topbar {
+      display: flex; align-items: center; justify-content: space-between;
+      gap: 14px; padding: 14px 18px;
+      border-bottom: 1px solid var(--line);
+      flex-shrink: 0;
+    }
+    .topbar-left { display: flex; align-items: center; gap: 12px; }
+
+    .menu-btn {
+      width: 36px; height: 36px; border-radius: 10px;
+      border: 1px solid var(--line); background: rgba(237,232,223,0.04);
+      color: var(--muted); display: grid; place-items: center;
+      transition: background .15s, color .15s;
+    }
+    .menu-btn:hover { background: rgba(237,232,223,0.08); color: var(--cream); }
+
+    .topbar-brand {
+      display: flex; align-items: center; gap: 8px;
+      font-family: "Fraunces", serif;
+      font-size: 17px; font-weight: 700; letter-spacing: -0.02em;
+    }
+    .topbar-pip {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--amber); box-shadow: 0 0 8px var(--amber);
+    }
+
+    .topbar-status {
+      display: flex; align-items: center; gap: 7px;
+      font-size: 12px; color: var(--muted);
+    }
+    .status-dot {
+      width: 7px; height: 7px; border-radius: 50%;
+      background: #4CAF82;
+      box-shadow: 0 0 6px rgba(76,175,130,0.5);
+      animation: pulse 2.4s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: .45; }
+    }
+
+    .topbar-right { display: flex; align-items: center; gap: 10px; }
+    .topbar-link {
+      border: 1px solid var(--line); border-radius: 8px; padding: 7px 14px;
+      font-size: 12px; font-weight: 500; color: var(--muted);
+      background: transparent;
+      transition: color .15s, border-color .15s;
+      text-decoration: none; display: inline-flex; align-items: center; gap: 6px;
+    }
+    .topbar-link:hover { color: var(--cream); border-color: var(--line-2); }
+
+    .thread {
+      flex: 1; overflow-y: auto;
+      padding: 20px 18px; display: flex; flex-direction: column; gap: 16px;
+    }
+    .thread::-webkit-scrollbar { width: 4px; }
+    .thread::-webkit-scrollbar-track { background: transparent; }
+    .thread::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
+
+    .msg-row { display: flex; align-items: flex-end; gap: 10px; }
+    .msg-row.user { justify-content: flex-end; }
+
+    .avatar {
+      width: 32px; height: 32px; border-radius: 10px;
+      display: grid; place-items: center; flex-shrink: 0;
+    }
+    .avatar.ai {
+      background: var(--amber-soft); border: 1px solid var(--amber-line);
+      color: var(--amber);
+    }
+    .avatar.user {
+      background: rgba(237,232,223,0.06); border: 1px solid var(--line);
+      color: var(--muted); order: 2;
+    }
+
+    .bubble {
+      max-width: min(72%, 700px);
+      padding: 13px 16px; border-radius: 18px;
+      font-size: 14px; line-height: 1.7;
+    }
+    .msg-row.ai .bubble {
+      background: var(--navy-3);
+      border: 1px solid var(--line-2);
+      border-bottom-left-radius: 5px;
+    }
+    .msg-row.user .bubble {
+      background: linear-gradient(135deg, #1E3A6E, #2652A4);
+      color: #EEF4FF;
+      border-bottom-right-radius: 5px;
+    }
+    .bubble strong { font-weight: 600; color: var(--cream); }
+    .bubble .highlight { color: var(--amber); font-weight: 600; }
+
+    .suggestions-wrap {
+      padding: 4px 18px 8px;
+      flex-shrink: 0;
+    }
+    .suggestions-label {
+      font-size: 11px; color: var(--muted-2); margin-bottom: 10px;
+      letter-spacing: 0.04em;
+    }
+    .suggestions {
+      display: flex; flex-wrap: wrap; gap: 8px;
+    }
+    .suggestion-btn {
+      padding: 8px 14px; border-radius: 999px;
+      border: 1px solid var(--line-2);
+      background: rgba(237,232,223,0.04);
+      color: var(--muted); font-size: 13px;
+      transition: background .15s, color .15s, border-color .15s;
+    }
+    .suggestion-btn:hover {
+      background: rgba(237,232,223,0.08);
+      color: var(--cream); border-color: var(--line-2);
+    }
+
+    .input-bar {
+      padding: 10px 14px 14px; flex-shrink: 0;
+    }
+    .input-shell {
+      display: grid; grid-template-columns: 1fr auto;
+      gap: 10px; padding: 8px 8px 8px 16px;
+      border-radius: 16px;
+      background: var(--navy-3);
+      border: 1px solid var(--line-2);
+      transition: border-color .2s;
+    }
+    .input-shell:focus-within {
+      border-color: var(--amber-line);
+      box-shadow: 0 0 0 3px rgba(201,138,60,0.06);
+    }
+    .chat-input {
+      border: 0; background: transparent; outline: 0;
+      color: var(--cream); font-size: 14px; padding: 6px 0;
+      width: 100%;
+    }
+    .chat-input::placeholder { color: var(--muted-2); }
+    .send-btn {
+      width: 42px; height: 42px; border-radius: 12px; border: 0;
+      background: var(--amber); color: var(--navy);
+      display: grid; place-items: center;
+      transition: background .15s, transform .1s;
+      flex-shrink: 0;
+    }
+    .send-btn:hover { background: var(--amber-2); transform: scale(1.04); }
+
+    .dataset-modal {
+      position: fixed; inset: 0; z-index: 100;
+      display: none; align-items: center; justify-content: center;
+      padding: 20px;
+      background: rgba(8,12,20,0.72);
+      backdrop-filter: blur(12px);
+    }
+    .dataset-modal.is-open { display: flex; }
+
+    .dataset-dialog {
+      width: min(1060px, 100%);
+      max-height: min(82vh, 880px);
+      display: grid; grid-template-rows: auto auto 1fr;
+      gap: 12px; padding: 18px;
+      border-radius: 20px;
+      background: var(--navy-2);
+      border: 1px solid var(--line-2);
+      box-shadow: 0 40px 100px rgba(0,0,0,0.5);
+    }
+
+    .dialog-top {
+      display: flex; align-items: center; justify-content: space-between; gap: 14px;
+    }
+    .dialog-top h2 {
+      font-family: "Fraunces", serif;
+      font-size: 18px; font-weight: 700; letter-spacing: -0.02em; margin-bottom: 3px;
+    }
+    .dialog-top p { font-size: 12px; color: var(--muted); }
+    .dialog-close {
+      width: 36px; height: 36px; border-radius: 10px;
+      border: 1px solid var(--line); background: rgba(237,232,223,0.04);
+      color: var(--muted); display: grid; place-items: center;
+      transition: background .15s;
+    }
+    .dialog-close:hover { background: rgba(237,232,223,0.08); color: var(--cream); }
+
+    .dialog-toolbar {
+      display: flex; align-items: center; justify-content: space-between; gap: 12px;
+      padding: 10px 14px; border-radius: 10px;
+      background: var(--navy-3); border: 1px solid var(--line);
+      font-size: 12px; color: var(--muted);
+    }
+    .dialog-toolbar span:first-child { color: var(--amber); font-weight: 500; }
+
+    .table-wrap {
+      overflow: auto; border-radius: 12px; border: 1px solid var(--line);
+    }
+    .table-wrap::-webkit-scrollbar { height: 6px; width: 6px; }
+    .table-wrap::-webkit-scrollbar-track { background: transparent; }
+    .table-wrap::-webkit-scrollbar-thumb { background: var(--line-2); border-radius: 4px; }
+
+    .data-table {
+      width: 100%; min-width: 600px; border-collapse: collapse;
+      background: var(--navy-3); font-size: 13px;
+    }
+    .data-table th, .data-table td {
+      padding: 10px 14px; text-align: left;
+      border-bottom: 1px solid var(--line); white-space: nowrap;
+    }
+    .data-table th {
+      position: sticky; top: 0;
+      background: var(--navy-4); color: var(--amber);
+      font-size: 11px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .data-table td { color: var(--cream); }
+    .data-table tr:last-child td { border-bottom: 0; }
+    .data-table tr:hover td { background: rgba(237,232,223,0.03); }
+
+    .table-empty {
+      padding: 28px 18px; text-align: center;
+      font-size: 13px; color: var(--muted); border-radius: 10px;
+      border: 1px dashed var(--line-2);
+      background: var(--navy-3);
+    }
+
+    .sidebar-overlay {
+      display: none; position: fixed; inset: 0; z-index: 39;
+      background: rgba(8,12,20,0.6);
+      backdrop-filter: blur(4px);
+      opacity: 0; pointer-events: none;
+      transition: opacity .2s;
+    }
+
+    @media (max-width: 960px) {
+      .app { grid-template-columns: 1fr; padding: 10px; gap: 0; }
+
+      .sidebar {
+        position: fixed; inset: 10px auto 10px 10px;
+        width: min(300px, calc(100vw - 20px)); z-index: 40;
+        transform: translateX(-110%);
+      }
+      body.sidebar-open .sidebar { transform: none; }
+      body.sidebar-open .sidebar-overlay { opacity: 1; pointer-events: auto; display: block; }
+
+      .main { border-radius: 16px; }
+    }
+
+    @media (max-width: 560px) {
+      .app { padding: 6px; }
+      .main { border-radius: 12px; }
+      .topbar { padding: 10px 14px; }
+      .thread { padding: 14px 12px; }
+      .bubble { max-width: 88%; font-size: 13px; }
+      .input-bar { padding: 8px 10px 10px; }
+      .topbar-link span { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<div class="app">
+
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-inner">
+
+      <div class="sidebar-brand">
+        <div class="sidebar-pip"></div>
+        <span class="sidebar-brand-name">Sentra</span>
+        <span class="sidebar-brand-tag">Demo</span>
       </div>
-    </div>
 
-    <div class="dataset-modal" id="datasetModal" aria-hidden="true">
-      <div class="dataset-dialog" role="dialog" aria-modal="true" aria-labelledby="datasetTitle">
-        <div class="dataset-dialog-top">
-          <div>
-            <h2 id="datasetTitle">Dataset Viewer</h2>
-            <p id="datasetSubtitle">Read-only CSV preview</p>
-          </div>
-          <button class="dataset-close" id="datasetClose" type="button" aria-label="Close dataset viewer">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M6 6L18 18M18 6L6 18" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
-            </svg>
+      <div class="sidebar-intro">
+        <h2>Ask your data<br><em>anything.</em></h2>
+        <p>This is a read-only demo. The datasets below are loaded - browse them, then ask Sentra a question.</p>
+      </div>
+
+      <div class="sidebar-section">
+        <p class="sidebar-section-label">Datasets</p>
+        <div class="dataset-list">
+          <button class="dataset-btn" type="button"
+            data-file="./datasets/customer-signals.csv"
+            data-title="Customer Profiles">
+            <div class="dataset-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/></svg>
+            </div>
+            <div>
+              <div class="dataset-name">Customer Profiles</div>
+              <div class="dataset-meta-text">Sample · 12 records</div>
+            </div>
+            <span class="dataset-view">View -&gt;</span>
+          </button>
+
+          <button class="dataset-btn" type="button"
+            data-file="./datasets/company-tracker.csv"
+            data-title="Company Tracker">
+            <div class="dataset-icon">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
+            </div>
+            <div>
+              <div class="dataset-name">Company Tracker</div>
+              <div class="dataset-meta-text">Sample · 8 records</div>
+            </div>
+            <span class="dataset-view">View -&gt;</span>
           </button>
         </div>
+      </div>
 
-        <div class="dataset-toolbar">
-          <span id="datasetPath">No dataset selected</span>
-          <span>Preview only. Editing is disabled.</span>
-        </div>
+      <div class="sidebar-note">
+        <strong>This is a demo.</strong> You're seeing sample data. When you connect your own data, Sentra builds smart profiles from it automatically - no manual setup.
+      </div>
 
-        <div class="dataset-table-wrap" id="datasetTableWrap">
-          <div class="dataset-empty">Choose a dataset from the sidebar to preview its rows.</div>
+    </div>
+  </aside>
+
+  <main class="main">
+
+    <div class="topbar">
+      <div class="topbar-left">
+        <button class="menu-btn" id="menuBtn" aria-label="Toggle sidebar">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+        </button>
+        <div class="topbar-brand">
+          <div class="topbar-pip"></div>
+          Sentra
         </div>
+        <div class="topbar-status">
+          <div class="status-dot"></div>
+          <span>2 datasets loaded</span>
+        </div>
+      </div>
+      <div class="topbar-right">
+        <a href="mailto:hello@agmentic.com?subject=I tried the Sentra demo&body=Hi,%0A%0AI just tried the Sentra demo and I'd like to talk.%0A%0ACompany:%0AWhat I'm dealing with:" class="topbar-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+          <span>Talk to us</span>
+        </a>
+        <a href="../index.html" class="topbar-link">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
+          <span>Back to Sentra</span>
+        </a>
       </div>
     </div>
 
-    <script>
-      const body = document.body;
-      const sidebarToggle = document.getElementById("sidebarToggle");
-      const sidebarOverlay = document.getElementById("sidebarOverlay");
-      const datasetButtons = document.querySelectorAll(".dataset-item");
-      const datasetModal = document.getElementById("datasetModal");
-      const datasetClose = document.getElementById("datasetClose");
-      const datasetTitle = document.getElementById("datasetTitle");
-      const datasetSubtitle = document.getElementById("datasetSubtitle");
-      const datasetPath = document.getElementById("datasetPath");
-      const datasetTableWrap = document.getElementById("datasetTableWrap");
+    <div class="thread" id="thread">
 
-      const isMobile = () => window.innerWidth <= 980;
+      <div class="msg-row ai">
+        <div class="avatar ai">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/><circle cx="18" cy="5" r="2" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="bubble">
+          I've loaded two sample datasets for this demo - <strong>Customer Profiles</strong> and <strong>Company Tracker</strong>. Open them from the sidebar to browse the data, then ask me anything about it.
+        </div>
+      </div>
 
-      const syncSidebarState = () => {
-        if (isMobile()) {
-          body.classList.remove("sidebar-collapsed");
-        } else {
-          body.classList.remove("sidebar-open");
-        }
-      };
+      <div class="msg-row user">
+        <div class="bubble">What can you actually do with this data?</div>
+        <div class="avatar user">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/></svg>
+        </div>
+      </div>
 
-      const toggleSidebar = () => {
-        if (isMobile()) {
-          body.classList.toggle("sidebar-open");
-        } else {
-          body.classList.toggle("sidebar-collapsed");
-        }
-      };
+      <div class="msg-row ai">
+        <div class="avatar ai">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/><circle cx="18" cy="5" r="2" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="bubble">
+          A few things. I can <strong>search and filter</strong> - find specific customers, contacts, or records based on any criteria you give me. I can <strong>spot patterns</strong> - who's at risk, who's growing, what's changing. And I can <strong>give you a decision</strong> - not just the data, but what it means for your next move.<br><br>
+          Try asking something like: <span class="highlight">"Which customers haven't been contacted in 3 months?"</span>
+        </div>
+      </div>
 
-      const escapeHtml = (value) =>
-        String(value)
-          .replaceAll("&", "&amp;")
-          .replaceAll("<", "&lt;")
-          .replaceAll(">", "&gt;")
-          .replaceAll('"', "&quot;")
-          .replaceAll("'", "&#39;");
+      <div class="msg-row user">
+        <div class="bubble">Show me how the profiles work.</div>
+        <div class="avatar user">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/></svg>
+        </div>
+      </div>
 
-      const parseCsv = (text) => {
-        const rows = [];
-        let row = [];
-        let cell = "";
-        let inQuotes = false;
+      <div class="msg-row ai">
+        <div class="avatar ai">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/><circle cx="18" cy="5" r="2" fill="currentColor" stroke="none"/></svg>
+        </div>
+        <div class="bubble">
+          When you connect real data, Sentra reads each row and builds a <strong>living profile</strong> for every customer, contact, or entity in it. Not just storing the fields - actually understanding them.<br><br>
+          For each profile Sentra tracks: what they've done, how they've changed over time, and what that signals. Then when you ask a question, the answer comes from <span class="highlight">real context</span> - not a keyword search.
+        </div>
+      </div>
 
-        for (let i = 0; i < text.length; i += 1) {
-          const char = text[i];
-          const next = text[i + 1];
+    </div>
 
-          if (char === '"') {
-            if (inQuotes && next === '"') {
-              cell += '"';
-              i += 1;
-            } else {
-              inQuotes = !inQuotes;
-            }
-          } else if (char === "," && !inQuotes) {
-            row.push(cell);
-            cell = "";
-          } else if ((char === "\n" || char === "\r") && !inQuotes) {
-            if (char === "\r" && next === "\n") {
-              i += 1;
-            }
-            row.push(cell);
-            if (row.some((item) => item.trim() !== "")) {
-              rows.push(row);
-            }
-            row = [];
-            cell = "";
-          } else {
-            cell += char;
-          }
-        }
+    <div class="suggestions-wrap">
+      <p class="suggestions-label">Try asking:</p>
+      <div class="suggestions">
+        <button class="suggestion-btn" type="button">Who should I follow up with this week?</button>
+        <button class="suggestion-btn" type="button">Which customers show churn signals?</button>
+        <button class="suggestion-btn" type="button">Summarize the company tracker</button>
+        <button class="suggestion-btn" type="button">What's the most important thing I'm missing?</button>
+      </div>
+    </div>
 
-        if (cell.length > 0 || row.length > 0) {
-          row.push(cell);
-          if (row.some((item) => item.trim() !== "")) {
-            rows.push(row);
-          }
-        }
+    <div class="input-bar">
+      <div class="input-shell">
+        <input class="chat-input" type="text" id="chatInput" placeholder="Ask anything about your data...">
+        <button class="send-btn" type="button" aria-label="Send" id="sendBtn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 12L20 4L14 20L11 13L4 12Z" fill="currentColor"/>
+          </svg>
+        </button>
+      </div>
+    </div>
 
-        return rows;
-      };
+  </main>
+</div>
 
-      const renderTable = (rows) => {
-        if (!rows.length) {
-          datasetTableWrap.innerHTML =
-            '<div class="dataset-empty">This dataset is empty.</div>';
-          return;
-        }
+<div class="dataset-modal" id="datasetModal">
+  <div class="dataset-dialog">
+    <div class="dialog-top">
+      <div>
+        <h2 id="modalTitle">Dataset</h2>
+        <p id="modalSub">Read-only preview</p>
+      </div>
+      <button class="dialog-close" id="modalClose" type="button" aria-label="Close">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 6L18 18M18 6L6 18"/></svg>
+      </button>
+    </div>
+    <div class="dialog-toolbar">
+      <span id="modalPath">-</span>
+      <span>Preview only · editing disabled</span>
+    </div>
+    <div class="table-wrap" id="tableWrap">
+      <div class="table-empty">Choose a dataset from the sidebar to preview it.</div>
+    </div>
+  </div>
+</div>
 
-        const headers = rows[0];
-        const bodyRows = rows.slice(1);
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const overlay = document.getElementById('sidebarOverlay');
+  const isMobile = () => window.innerWidth <= 960;
 
-        const headHtml = headers
-          .map((header) => `<th>${escapeHtml(header)}</th>`)
-          .join("");
-        const bodyHtml = bodyRows
-          .map(
-            (row) =>
-              `<tr>${headers
-                .map((_, index) => `<td>${escapeHtml(row[index] ?? "")}</td>`)
-                .join("")}</tr>`
-          )
-          .join("");
+  menuBtn.addEventListener('click', () => {
+    if (isMobile()) document.body.classList.toggle('sidebar-open');
+    else {
+      const sidebar = document.getElementById('sidebar');
+      sidebar.style.display = sidebar.style.display === 'none' ? '' : 'none';
+    }
+  });
+  overlay.addEventListener('click', () => document.body.classList.remove('sidebar-open'));
 
-        datasetTableWrap.innerHTML = `
-          <table class="dataset-table">
-            <thead><tr>${headHtml}</tr></thead>
-            <tbody>${bodyHtml}</tbody>
-          </table>
-        `;
-      };
+  const modal = document.getElementById('datasetModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalSub = document.getElementById('modalSub');
+  const modalPath = document.getElementById('modalPath');
+  const tableWrap = document.getElementById('tableWrap');
 
-      const openDataset = async (button) => {
-        const file = button.dataset.file;
-        const title = button.dataset.title || button.querySelector(".dataset-name")?.textContent || "Dataset";
+  const escapeHtml = v => String(v).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 
-        datasetTitle.textContent = title;
-        datasetSubtitle.textContent = "Read-only CSV preview";
-        datasetPath.textContent = file;
-        datasetTableWrap.innerHTML =
-          '<div class="dataset-empty">Loading dataset...</div>';
+  const parseCsv = text => {
+    const rows = []; let row = [], cell = '', inQ = false;
+    for (let i = 0; i < text.length; i++) {
+      const c = text[i], n = text[i + 1];
+      if (c === '"') { if (inQ && n === '"') { cell += '"'; i++; } else inQ = !inQ; }
+      else if (c === ',' && !inQ) { row.push(cell); cell = ''; }
+      else if ((c === '\n' || c === '\r') && !inQ) {
+        if (c === '\r' && n === '\n') i++;
+        row.push(cell); if (row.some(x => x.trim())) rows.push(row);
+        row = []; cell = '';
+      } else cell += c;
+    }
+    if (cell || row.length) { row.push(cell); if (row.some(x => x.trim())) rows.push(row); }
+    return rows;
+  };
 
-        datasetModal.classList.add("is-open");
-        datasetModal.setAttribute("aria-hidden", "false");
+  const renderTable = rows => {
+    if (!rows.length) { tableWrap.innerHTML = '<div class="table-empty">This dataset is empty.</div>'; return; }
+    const heads = rows[0];
+    const headHtml = heads.map(h => `<th>${escapeHtml(h)}</th>`).join('');
+    const bodyHtml = rows.slice(1).map(r =>
+      `<tr>${heads.map((_, i) => `<td>${escapeHtml(r[i] ?? '')}</td>`).join('')}</tr>`
+    ).join('');
+    tableWrap.innerHTML = `<table class="data-table"><thead><tr>${headHtml}</tr></thead><tbody>${bodyHtml}</tbody></table>`;
+  };
 
-        try {
-          const response = await fetch(file);
-          if (!response.ok) {
-            throw new Error(`Failed to load ${file}`);
-          }
+  const openDataset = async btn => {
+    const file = btn.dataset.file;
+    const title = btn.dataset.title || 'Dataset';
+    modalTitle.textContent = title;
+    modalSub.textContent = 'Read-only preview';
+    modalPath.textContent = file;
+    tableWrap.innerHTML = '<div class="table-empty">Loading...</div>';
+    modal.classList.add('is-open');
+    try {
+      const res = await fetch(file);
+      if (!res.ok) throw new Error();
+      renderTable(parseCsv(await res.text()));
+    } catch {
+      tableWrap.innerHTML = '<div class="table-empty">Could not load this dataset. Make sure the CSV file exists.</div>';
+    }
+  };
 
-          const text = await response.text();
-          const rows = parseCsv(text);
-          renderTable(rows);
-        } catch (error) {
-          datasetTableWrap.innerHTML = `
-            <div class="dataset-empty">
-              Could not load this dataset. Make sure the CSV file exists in the deployed site.
-            </div>
-          `;
-        }
-      };
+  const closeModal = () => modal.classList.remove('is-open');
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', e => { if (e.target === modal) closeModal(); });
+  document.querySelectorAll('.dataset-btn').forEach(b => b.addEventListener('click', () => openDataset(b)));
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
-      const closeDataset = () => {
-        datasetModal.classList.remove("is-open");
-        datasetModal.setAttribute("aria-hidden", "true");
-      };
+  document.querySelectorAll('.suggestion-btn').forEach(b => {
+    b.addEventListener('click', () => {
+      document.getElementById('chatInput').value = b.textContent;
+      document.getElementById('chatInput').focus();
+    });
+  });
 
-      sidebarToggle.addEventListener("click", toggleSidebar);
-      sidebarOverlay.addEventListener("click", () => body.classList.remove("sidebar-open"));
+  const sendBtn = document.getElementById('sendBtn');
+  const chatInput = document.getElementById('chatInput');
+  const thread = document.getElementById('thread');
 
-      datasetButtons.forEach((button) => {
-        button.addEventListener("click", () => openDataset(button));
-      });
+  const appendMsg = (text, type) => {
+    const aiAvatar = `<div class="avatar ai"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/><circle cx="18" cy="5" r="2" fill="currentColor" stroke="none"/></svg></div>`;
+    const userAvatar = `<div class="avatar user"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 12c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5z"/><path d="M4 21c.8-3.2 3.6-5 8-5s7.2 1.8 8 5"/></svg></div>`;
+    const row = document.createElement('div');
+    row.className = `msg-row ${type}`;
+    row.innerHTML = type === 'user'
+      ? `<div class="bubble">${escapeHtml(text)}</div>${userAvatar}`
+      : `${aiAvatar}<div class="bubble">${text}</div>`;
+    thread.appendChild(row);
+    thread.scrollTop = thread.scrollHeight;
+  };
 
-      datasetClose.addEventListener("click", closeDataset);
-      datasetModal.addEventListener("click", (event) => {
-        if (event.target === datasetModal) {
-          closeDataset();
-        }
-      });
+  const send = () => {
+    const msg = chatInput.value.trim();
+    if (!msg) return;
+    appendMsg(msg, 'user');
+    chatInput.value = '';
+    setTimeout(() => {
+      appendMsg('This is a demo - your real data is not connected yet. <span class="highlight">Once it is, I will answer from your actual business context.</span> <a href="mailto:hello@agmentic.com?subject=I tried the demo" style="color:var(--amber);text-decoration:underline;">Talk to us</a> to get started.', 'ai');
+    }, 600);
+  };
 
-      window.addEventListener("resize", syncSidebarState);
-      syncSidebarState();
-    </script>
-  </body>
+  sendBtn.addEventListener('click', send);
+  chatInput.addEventListener('keydown', e => { if (e.key === 'Enter') send(); });
+</script>
+</body>
 </html>
