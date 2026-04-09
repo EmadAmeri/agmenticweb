@@ -433,8 +433,10 @@ nav {
 
 .cta-section { padding: 56px 0 104px; }
 .cta-box {
+  width: min(100%, 1040px);
+  margin: 0 auto;
   border-radius: 18px;
-  padding: 64px 56px;
+  padding: 52px 48px;
   background: var(--navy-2);
   border: 1px solid var(--line-2);
   text-align: center;
@@ -474,7 +476,7 @@ nav {
 .cta-box p {
   font-size: 16px;
   color: var(--muted);
-  margin-bottom: 32px;
+  margin-bottom: 24px;
   position: relative;
   z-index: 1;
 }
@@ -694,7 +696,7 @@ footer {
   .cycle-step:nth-child(3),
   .cycle-step:nth-child(4) { border-top: 1px solid var(--line); }
   .cycle::before { display: none; }
-  .cta-box { padding: 44px 28px; }
+  .cta-box { padding: 40px 28px; }
 }
 
 @media (max-width: 560px) {
@@ -860,7 +862,6 @@ footer {
           Try the demo
           <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </button>
-        <p class="cta-note">Free · No credit card · Link sent to your inbox</p>
         <div class="cta-or">or</div>
         <button class="btn-talk" onclick="openModal()">Talk to us — no demo, no deck</button>
       </div>
