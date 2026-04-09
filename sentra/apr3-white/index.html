@@ -1,0 +1,588 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="color-scheme" content="light" />
+    <meta name="theme-color" content="#13203A" />
+    <title>Sentra | Decisions backed by your data</title>
+    <meta
+      name="description"
+      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+    />
+    <meta name="author" content="Agmentic" />
+
+    <meta property="og:title" content="Sentra | Decisions backed by your data" />
+    <meta
+      property="og:description"
+      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:image" content="./new without background.png" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@agmentic" />
+    <meta
+      name="twitter:description"
+      content="Sentra pulls together your data, systems, and history so your next decision is clear before it gets expensive."
+    />
+    <meta name="twitter:image" content="./new without background.png" />
+    <link rel="icon" type="image/png" href="./new without background.png" />
+    <link rel="apple-touch-icon" href="./new without background.png" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    />
+    <link rel="stylesheet" href="./agmentic-service.assets.css?v=20260403-g7e" />
+    <script>
+      document.documentElement.classList.add("dark");
+      try {
+        localStorage.setItem("theme", "dark");
+      } catch (e) {}
+    </script>
+    <style>
+      :root,
+      .dark,
+      html.dark {
+        --background: 38 30% 94%;
+        --foreground: 218 22% 18%;
+        --card: 39 34% 70%;
+        --card-foreground: 218 22% 18%;
+        --popover: 39 34% 70%;
+        --popover-foreground: 218 22% 18%;
+        --primary: 211 55% 18%;
+        --primary-foreground: 0 0% 100%;
+        --secondary: 39 34% 70%;
+        --secondary-foreground: 218 22% 18%;
+        --muted: 220 5% 48%;
+        --muted-foreground: 220 5% 48%;
+        --accent: 354 59% 33%;
+        --accent-foreground: 0 0% 100%;
+        --border: 220 5% 48%;
+        --input: 220 5% 48%;
+        --ring: 211 55% 18%;
+        --surface: 39 34% 70%;
+        --glow: 23 60% 21%;
+        --glow-secondary: 354 59% 33%;
+        --cyan: 211 55% 18%;
+      }
+
+      html,
+      body {
+        background: #F5F1E8;
+        color: #13203A;
+      }
+
+      body::selection {
+        background: rgba(132, 32, 41, 0.18);
+      }
+
+      nav {
+        background: #F5F1E8 !important;
+        background-image: none !important;
+        -webkit-backdrop-filter: none !important;
+        backdrop-filter: none !important;
+        border-bottom: 1px solid rgba(31, 38, 48, 0.12) !important;
+      }
+
+      img[alt="Agmentic"] {
+        position: relative;
+        z-index: 2;
+        filter: brightness(1.15) contrast(1.1) saturate(1.05);
+      }
+
+      a.flex.items-center:has(img[alt="Agmentic"])::before,
+      a.flex.items-center.mb-4:has(img[alt="Sentra"])::before {
+        display: none !important;
+        content: none !important;
+      }
+
+      a.flex.items-center:has(img[alt="Agmentic"]),
+      a.flex.items-center.mb-4:has(img[alt="Sentra"]),
+      a.flex.items-center:has(img[alt="Agmentic"]) span,
+      a.flex.items-center.mb-4:has(img[alt="Sentra"]) span,
+      a.flex.items-center:has(img[alt="Agmentic"]) p,
+      a.flex.items-center.mb-4:has(img[alt="Sentra"]) p,
+      a.flex.items-center:has(img[alt="Agmentic"]) div,
+      a.flex.items-center.mb-4:has(img[alt="Sentra"]) div {
+        color: #13203A !important;
+        -webkit-text-fill-color: #13203A !important;
+        background: none !important;
+        background-image: none !important;
+      }
+
+      img[alt="Sentra"] {
+        position: relative;
+        z-index: 2;
+        filter: brightness(1.15) contrast(1.1) saturate(1.05);
+      }
+
+      .grid-pattern {
+        opacity: 0 !important;
+        background-image: none !important;
+      }
+
+      .gradient-mesh-strong {
+        background: transparent !important;
+      }
+
+      .glass-card-strong {
+        background: #C9B79C !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      .glow-sm {
+        box-shadow: none !important;
+      }
+
+      .glow-md {
+        box-shadow: none !important;
+      }
+
+      .bg-card {
+        background-color: hsl(var(--card)) !important;
+        background-image: none !important;
+      }
+
+      .bg-background {
+        background-color: hsl(var(--background)) !important;
+        background-image: none !important;
+      }
+
+      .text-muted-foreground {
+        color: #6B6F76 !important;
+      }
+
+      .border-border {
+        border-color: rgba(107, 111, 118, 0.28) !important;
+      }
+
+      [class*="bg-gradient-to-"],
+      [class*="from-"],
+      [class*="to-"],
+      [class*="via-"] {
+        background-image: none !important;
+      }
+
+      [class*="glow"] {
+        box-shadow: none !important;
+        filter: none !important;
+      }
+
+      .bg-primary {
+        background-color: #13203A !important;
+      }
+
+      .bg-secondary,
+      .bg-accent {
+        background-color: #C9B79C !important;
+      }
+
+      .text-primary {
+        color: #13203A !important;
+      }
+
+      .text-accent-foreground,
+      .text-primary-foreground {
+        color: #F5F1E8 !important;
+      }
+
+      .text-foreground,
+      .text-card-foreground,
+      .text-popover-foreground {
+        color: #13203A !important;
+      }
+
+      .shadow-\[0_0_50px_hsl\(var\(--glow\)\/0\.1\)\],
+      .shadow-\[0_0_80px_hsl\(var\(--glow-secondary\)\/0\.08\)\] {
+        box-shadow: none !important;
+      }
+    
+      nav a.flex.items-center > div,
+      a.flex.items-center.mb-4 > div {
+        background: transparent !important;
+        background-image: none !important;
+        border: 0 !important;
+        box-shadow: none !important;
+        outline: none !important;
+      }
+
+      nav a.flex.items-center > div span,
+      a.flex.items-center.mb-4 > div span {
+        color: #13203A !important;
+        -webkit-text-fill-color: #13203A !important;
+        background: none !important;
+        background-image: none !important;
+        -webkit-background-clip: border-box !important;
+        text-shadow: none !important;
+        font-size: 34px !important;
+        letter-spacing: -0.035em !important;
+      }
+
+      .bg-card,
+      [class*="bg-card/"],
+      [class*="bg-secondary/"] {
+        background-color: #C9B79C !important;
+      }
+
+      .bg-background {
+        background-color: #F5F1E8 !important;
+      }
+
+      .text-white,
+      .text-foreground.text-white,
+      .dark .text-white {
+        color: #F5F1E8 !important;
+      }
+
+      .text-black,
+      .dark .text-black {
+        color: #13203A !important;
+      }
+
+      .text-\[\#00B4D8\],
+      .text-cyan,
+      .text-cyan-400,
+      .text-cyan-300,
+      .text-cyan-200 {
+        color: #13203A !important;
+      }
+
+      .text-\[\#8F6B2E\],
+      .text-yellow-400,
+      .text-yellow-300,
+      .text-amber-400,
+      .text-amber-300 {
+        color: #842029 !important;
+      }
+
+      .bg-\[\#0F1417\],
+      .bg-\[\#111111\],
+      .bg-\[\#13203A\],
+      .bg-slate-950,
+      .bg-zinc-950,
+      .bg-black {
+        background-color: #13203A !important;
+      }
+
+      .bg-\[\#842029\],
+      .bg-red-900,
+      .bg-rose-900,
+      .bg-burgundy {
+        background-color: #842029 !important;
+      }
+
+      .border-white\/10,
+      .border-white\/15,
+      .border-white\/20,
+      .border-black\/10,
+      .border-black\/15 {
+        border-color: rgba(107, 111, 118, 0.28) !important;
+      }
+
+      .text-muted,
+      .text-slate-400,
+      .text-slate-500,
+      .text-zinc-400,
+      .text-zinc-500,
+      .text-gray-500,
+      .text-gray-400 {
+        color: #6B6F76 !important;
+      }
+
+      .bg-white,
+      .dark .bg-white {
+        background-color: #F5F1E8 !important;
+      }
+
+      nav button,
+      nav .bg-primary,
+      nav [class*="bg-primary"] {
+        background: #842029 !important;
+        color: #F5F1E8 !important;
+        border: 1px solid #842029 !important;
+      }
+
+      nav button:hover,
+      nav .bg-primary:hover,
+      nav [class*="bg-primary"]:hover {
+        background: #13203A !important;
+        border-color: #13203A !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden {
+        background: #F5F1E8 !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden canvas {
+        opacity: 0.55 !important;
+        filter: none !important;
+        mix-blend-mode: normal;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden .gradient-mesh-strong {
+        background: transparent !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden h1 {
+        color: #13203A !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden p {
+        color: #6B6F76 !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden p.text-\[\#A6AFB8\] {
+        color: #6B6F76 !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden .rounded-\[12px\] {
+        background: rgba(245, 241, 232, 0.94) !important;
+        border: none !important;
+        box-shadow: none !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden a.group,
+      section.relative.min-h-screen.flex.items-center.overflow-hidden button.group {
+        min-height: 48px !important;
+        box-shadow: none !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden a.group {
+        background: #13203A !important;
+        color: #F5F1E8 !important;
+        border: 1px solid #13203A !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden button.group {
+        background: #842029 !important;
+        color: #F5F1E8 !important;
+        border: 1px solid #842029 !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden a.group:hover {
+        background: #842029 !important;
+        border-color: #842029 !important;
+      }
+
+      section.relative.min-h-screen.flex.items-center.overflow-hidden button.group:hover {
+        background: #13203A !important;
+        color: #F5F1E8 !important;
+        border-color: #13203A !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] > div.absolute.inset-0[style*="#0F1417"] {
+        background: #F5F1E8 !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] {
+        background: #F5F1E8 !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] .grid-pattern {
+        opacity: 0 !important;
+        background-image: none !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] h2 {
+        color: #13203A !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] > div > div:first-child > p:last-child {
+        color: #6B6F76 !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] h2,
+      section[class*="pt-24"][class*="pb-12"] h3,
+      section[class*="pt-24"][class*="pb-12"] p,
+      section[class*="pt-24"][class*="pb-12"] span {
+        text-shadow: none !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] h2.text-white,
+      section[class*="section-padding"] h2.text-white {
+        color: #F5F1E8 !important;
+      }
+
+      section[class*="section-padding"] .max-w-5xl.mb-12 h2,
+      section[class*="section-padding"] h2.lg\:whitespace-nowrap {
+        color: #13203A !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] p.text-\[\#A6AFB8\],
+      section[class*="section-padding"] p.text-\[\#A6AFB8\] {
+        color: #6B6F76 !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#243038\] {
+        background: #C9B79C !important;
+        color: #13203A !important;
+        border-color: rgba(201, 183, 156, 0.38) !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#243038\] h3,
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#243038\] p,
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#243038\] span {
+        color: #13203A !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] [style*="background: #C9B79C"] h3,
+      section[class*="pt-24"][class*="pb-12"] [style*="background: #C9B79C"] p,
+      section[class*="pt-24"][class*="pb-12"] [style*="background: #C9B79C"] span {
+        color: #13203A !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] [style*="background: #13203A"] h3,
+      section[class*="pt-24"][class*="pb-12"] [style*="background: #13203A"] p,
+      section[class*="pt-24"][class*="pb-12"] [style*="background: #13203A"] span,
+      section[class*="pt-24"][class*="pb-12"] [style*="background:#13203A"] h3,
+      section[class*="pt-24"][class*="pb-12"] [style*="background:#13203A"] p,
+      section[class*="pt-24"][class*="pb-12"] [style*="background:#13203A"] span {
+        color: #F5F1E8 !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#0F1417\] {
+        background: #842029 !important;
+        border-color: rgba(201, 183, 156, 0.38) !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#842029\],
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#13203A\] {
+        color: #F5F1E8 !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#842029\] h3,
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#842029\] p,
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#13203A\] h3,
+      section[class*="pt-24"][class*="pb-12"] .bg-\[\#13203A\] p {
+        color: #F5F1E8 !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] > div.relative.z-10.w-full.max-w-7xl > div:first-child h2 {
+        color: #13203A !important;
+        background: none !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] > div.relative.z-10.w-full.max-w-7xl > div:first-child > p:first-child {
+        color: #842029 !important;
+        background: none !important;
+      }
+
+      section[class*="pt-24"][class*="pb-12"] > div.relative.z-10.w-full.max-w-7xl > div:first-child > p:last-child {
+        color: #6B6F76 !important;
+        background: none !important;
+      }
+
+      section[class*="section-padding"] .grid > .relative.p-8,
+      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10 {
+        border-color: rgba(107, 111, 118, 0.26) !important;
+        box-shadow: none !important;
+      }
+
+      section[class*="section-padding"] .grid > .relative.p-8:nth-child(1),
+      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(1) {
+        background: #13203A !important;
+        color: #F5F1E8 !important;
+      }
+
+      section[class*="section-padding"] .grid > .relative.p-8:nth-child(2),
+      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(2) {
+        background: #C9B79C !important;
+        color: #13203A !important;
+      }
+
+      section[class*="section-padding"] .grid > .relative.p-8:nth-child(3),
+      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(3) {
+        background: #842029 !important;
+        color: #F5F1E8 !important;
+      }
+
+      section[class*="section-padding"] .grid > .relative.p-8 h3,
+      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10 h3,
+      section[class*="section-padding"] .grid > .relative.p-8 p,
+      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10 p {
+        color: #F5F1E8 !important;
+      }
+
+      section[class*="section-padding"] .grid > .relative.p-8:nth-child(2) h3,
+      section[class*="section-padding"] .grid > .relative.p-8:nth-child(2) p,
+      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(2) h3,
+      section[class*="section-padding"] .grid > .relative.p-8.md\:p-10:nth-child(2) p {
+        color: #13203A !important;
+      }
+
+      section[class*="section-padding"] .grid.md\:grid-cols-3 > .relative.p-8 h3,
+      section[class*="section-padding"] .grid.md\:grid-cols-3 > .relative.p-8.md\:p-10 h3 {
+        white-space: normal !important;
+        overflow-wrap: anywhere !important;
+        word-break: normal !important;
+        max-width: 100% !important;
+        font-size: clamp(1.45rem, 1.75vw, 1.9rem) !important;
+        line-height: 1.12 !important;
+      }
+
+      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > button,
+      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > a {
+        min-height: 52px !important;
+        background-image: none !important;
+        box-shadow: none !important;
+      }
+
+      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > button {
+        background: #842029 !important;
+        color: #F5F1E8 !important;
+        border: 1px solid #842029 !important;
+      }
+
+      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > a {
+        background: #13203A !important;
+        color: #F5F1E8 !important;
+        border: 1px solid #13203A !important;
+      }
+
+      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > button:hover {
+        background: #13203A !important;
+        border-color: #13203A !important;
+      }
+
+      section[class*="section-padding"] .flex.flex-col.sm\:flex-row.gap-4.justify-center > a:hover {
+        background: #842029 !important;
+        border-color: #842029 !important;
+      }
+
+      footer,
+      footer.bg-\[\#0F1417\] {
+        background: #D8C6A8 !important;
+        border-top-color: rgba(19, 32, 58, 0.14) !important;
+      }
+
+      footer h4,
+      footer p,
+      footer a,
+      footer span {
+        color: #13203A !important;
+      }
+
+      footer .text-muted-foreground,
+      footer p.text-muted-foreground,
+      footer a.text-muted-foreground,
+      footer .border-border\/30 {
+        color: rgba(19, 32, 58, 0.76) !important;
+        border-color: rgba(19, 32, 58, 0.14) !important;
+      }
+
+      footer a:hover {
+        color: #842029 !important;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script defer src="./agmentic-service.assets.js?v=20260404-g8i"></script>
+  </body>
+</html>
