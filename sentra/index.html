@@ -986,11 +986,11 @@ footer {
     if (!ctx) return;
 
     const clusterConfig = [
-      { label: "Strategy", x: 0.24, y: 0.44, color: "170, 140, 228", spread: 0.205, points: 34, labelOffset: 22, dot: 6.2 },
-      { label: "Sales", x: 0.56, y: 0.11, color: "145, 172, 232", spread: 0.17, points: 28, labelOffset: 20, dot: 5.8 },
-      { label: "Marketing", x: 0.82, y: 0.46, color: "223, 160, 72", spread: 0.2, points: 35, labelOffset: 22, dot: 6.4 },
-      { label: "Finance", x: 0.44, y: 0.87, color: "214, 182, 108", spread: 0.19, points: 31, labelOffset: 22, dot: 5.8 },
-      { label: "Product", x: 0.75, y: 0.87, color: "168, 196, 215", spread: 0.19, points: 31, labelOffset: 22, dot: 5.8 }
+      { label: "Strategy", x: 0.18, y: 0.42, color: "170, 140, 228", spread: 0.235, points: 30, labelOffset: 22, dot: 6.2 },
+      { label: "Sales", x: 0.50, y: 0.09, color: "145, 172, 232", spread: 0.195, points: 24, labelOffset: 20, dot: 5.8 },
+      { label: "Marketing", x: 0.76, y: 0.44, color: "223, 160, 72", spread: 0.225, points: 31, labelOffset: 22, dot: 6.4 },
+      { label: "Finance", x: 0.38, y: 0.88, color: "214, 182, 108", spread: 0.215, points: 28, labelOffset: 22, dot: 5.8 },
+      { label: "Product", x: 0.66, y: 0.88, color: "168, 196, 215", spread: 0.215, points: 28, labelOffset: 22, dot: 5.8 }
     ];
     const coreColor = "223, 160, 72";
     const coreSupportColor = "237, 232, 223";
@@ -1047,11 +1047,11 @@ footer {
     function buildScene() {
       clusters = clusterConfig.map(createCluster);
       coreParticles = Array.from({ length: 22 }, () => createCoreParticle());
-      stars = Array.from({ length: 88 }, () => ({
-        x: 0.24 + Math.random() * 0.66,
+      stars = Array.from({ length: 92 }, () => ({
+        x: 0.18 + Math.random() * 0.68,
         y: 0.1 + Math.random() * 0.78,
         size: 0.4 + Math.random() * 1.2,
-        opacity: 0.08 + Math.random() * 0.16,
+        opacity: 0.06 + Math.random() * 0.14,
         phase: Math.random() * Math.PI * 2
       }));
     }
@@ -1166,7 +1166,7 @@ footer {
     }
 
     function drawCore(time, motion) {
-      const centerX = width * 0.52;
+      const centerX = width * 0.46;
       const centerY = height * 0.58;
       const coreRadius = Math.min(width, height) * 0.03;
 
