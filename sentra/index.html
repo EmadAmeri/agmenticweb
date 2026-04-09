@@ -130,6 +130,8 @@ nav {
 .hero-visual {
   position: relative;
   min-height: 620px;
+  width: calc(100% + 140px);
+  margin-left: -140px;
   border-radius: 40px;
   overflow: hidden;
   background:
@@ -701,7 +703,7 @@ footer {
 @media (max-width: 860px) {
   .shell { width: min(1220px, calc(100vw - 48px)); }
   .hero-layout { grid-template-columns: 1fr; gap: 36px; min-height: auto; }
-  .hero-visual { min-height: 420px; }
+  .hero-visual { min-height: 420px; width: 100%; margin-left: 0; }
   .pain-cards { grid-template-columns: 1fr; }
   .cycle { grid-template-columns: repeat(2, 1fr); }
   .cycle-step:nth-child(2) { border-right: 0; }
@@ -998,11 +1000,11 @@ footer {
     if (!ctx) return;
 
     const clusterConfig = [
-      { label: "Strategy", x: 0.18, y: 0.42, color: "170, 140, 228", spread: 0.235, points: 30, labelOffset: 22, dot: 6.2 },
-      { label: "Sales", x: 0.50, y: 0.09, color: "145, 172, 232", spread: 0.195, points: 24, labelOffset: 20, dot: 5.8 },
-      { label: "Marketing", x: 0.76, y: 0.44, color: "223, 160, 72", spread: 0.225, points: 31, labelOffset: 22, dot: 6.4 },
-      { label: "Finance", x: 0.38, y: 0.88, color: "214, 182, 108", spread: 0.215, points: 28, labelOffset: 22, dot: 5.8 },
-      { label: "Product", x: 0.66, y: 0.88, color: "168, 196, 215", spread: 0.215, points: 28, labelOffset: 22, dot: 5.8 }
+      { label: "Strategy", x: 0.10, y: 0.42, color: "170, 140, 228", spread: 0.255, points: 28, labelOffset: 22, dot: 6.2 },
+      { label: "Sales", x: 0.48, y: 0.07, color: "145, 172, 232", spread: 0.215, points: 22, labelOffset: 20, dot: 5.8 },
+      { label: "Marketing", x: 0.84, y: 0.44, color: "223, 160, 72", spread: 0.245, points: 28, labelOffset: 22, dot: 6.4 },
+      { label: "Finance", x: 0.28, y: 0.90, color: "214, 182, 108", spread: 0.235, points: 25, labelOffset: 22, dot: 5.8 },
+      { label: "Product", x: 0.76, y: 0.90, color: "168, 196, 215", spread: 0.235, points: 25, labelOffset: 22, dot: 5.8 }
     ];
     const coreColor = "223, 160, 72";
     const coreSupportColor = "237, 232, 223";
@@ -1060,7 +1062,7 @@ footer {
       clusters = clusterConfig.map(createCluster);
       coreParticles = Array.from({ length: 22 }, () => createCoreParticle());
       stars = Array.from({ length: 92 }, () => ({
-        x: 0.18 + Math.random() * 0.68,
+        x: 0.08 + Math.random() * 0.82,
         y: 0.1 + Math.random() * 0.78,
         size: 0.4 + Math.random() * 1.2,
         opacity: 0.06 + Math.random() * 0.14,
@@ -1178,7 +1180,7 @@ footer {
     }
 
     function drawCore(time, motion) {
-      const centerX = width * 0.46;
+      const centerX = width * 0.40;
       const centerY = height * 0.58;
       const coreRadius = Math.min(width, height) * 0.03;
 
