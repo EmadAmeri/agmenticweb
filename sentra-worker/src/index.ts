@@ -49,32 +49,38 @@ function isValidEmail(email: string) {
 function requesterTemplate(email: string, demoLink?: string) {
   const accessSection = demoLink
     ? `
-      <div style="margin: 28px 0;">
-        <a href="${demoLink}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#13203A;color:#F5F1E8;text-decoration:none;font-weight:600;">
-          Open Sentra Demo
+      <div style="margin: 24px 0 20px;">
+        <a href="${demoLink}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#D89A3D;color:#111827;text-decoration:none;font-size:14px;font-weight:600;">
+          See it work →
         </a>
       </div>
-      <p style="font-size:13px;line-height:1.7;color:#6B6F76;margin:0;">
-        If the button does not open, copy this link into your browser:<br />
-        <span style="color:#13203A;">${demoLink}</span>
+      <p style="font-size:12px;line-height:1.7;color:rgba(237,232,223,.62);margin:0;">
+        If the button doesn't open, use this link:<br />
+        <a href="${demoLink}" style="color:#EDE8DF;text-decoration:none;">${demoLink}</a>
       </p>
     `
     : `
-      <p style="font-size:14px;line-height:1.8;color:#374151;margin:0;">
-        We received your request and will send your Sentra demo details shortly.
+      <p style="font-size:14px;line-height:1.8;color:rgba(237,232,223,.72);margin:0;">
+        We received your request and will send your Sentra demo link shortly.
       </p>
     `;
 
   return `
-    <div style="font-family:Inter,Segoe UI,Arial,sans-serif;max-width:560px;margin:0 auto;padding:40px 24px;background:#F5F1E8;color:#13203A;border-radius:20px;">
-      <p style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#842029;margin:0 0 14px;">Sentra</p>
-      <h1 style="font-size:28px;line-height:1.2;margin:0 0 14px;">Your demo access request is in motion.</h1>
-      <p style="font-size:15px;line-height:1.8;color:#374151;margin:0 0 20px;">
-        We received a Sentra demo access request for <strong>${email}</strong>.
-      </p>
-      ${accessSection}
-      <div style="margin-top:28px;padding-top:18px;border-top:1px solid rgba(19,32,58,.12);font-size:12px;line-height:1.7;color:#6B6F76;">
-        If you did not request this, you can ignore this email.
+    <div style="margin:0;padding:24px;background:#0B1020;">
+      <div style="font-family:Georgia,'Times New Roman',serif;max-width:520px;margin:0 auto;background:linear-gradient(180deg,#11192E 0%,#0E1527 100%);color:#EDE8DF;border:1px solid rgba(237,232,223,.12);border-radius:20px;padding:32px 24px;box-sizing:border-box;">
+        <p style="font-family:Inter,Segoe UI,Arial,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#D89A3D;margin:0 0 14px;">By Agmentic</p>
+        <p style="font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.1;font-weight:700;color:#EDE8DF;margin:0 0 6px;">Sentra</p>
+        <h1 style="font-size:34px;line-height:1.02;font-weight:700;letter-spacing:-0.03em;margin:0 0 14px;color:#F3EEE6;">See what Sentra knows.</h1>
+        <p style="font-family:Inter,Segoe UI,Arial,sans-serif;font-size:15px;line-height:1.7;color:rgba(237,232,223,.72);margin:0 0 10px;">
+          Open the link below, ask questions, and see real answers in about two minutes.
+        </p>
+        <p style="font-family:Inter,Segoe UI,Arial,sans-serif;font-size:13px;line-height:1.7;color:rgba(237,232,223,.58);margin:0 0 4px;">
+          Requested for <strong>${email}</strong>
+        </p>
+        ${accessSection}
+        <div style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(237,232,223,.08);font-family:Inter,Segoe UI,Arial,sans-serif;font-size:12px;line-height:1.7;color:rgba(237,232,223,.52);">
+          If you didn't request this email, you can safely ignore it.
+        </div>
       </div>
     </div>
   `;
@@ -369,7 +375,7 @@ async function handleDemoAccess(request: Request, env: Env, origin: string) {
   await sendEmail(env.RESEND_API_KEY, {
     from,
     to: [email],
-    subject: "Your Sentra demo access request",
+    subject: "Your Sentra demo link",
     html: requesterTemplate(email, demoLink),
   });
 
@@ -416,6 +422,113 @@ async function handleChat(request: Request, env: Env, origin: string) {
   );
 }
 
+async function handleHornbachOrchestrate(request: Request, env: Env, origin: string) {
+  const body = (await request.json().catch(() => null)) as { message?: string } | null;
+  const message = body?.message?.trim() || "";
+
+  if (!message) {
+    return json({ error: "message is required" }, 400, origin);
+  }
+
+  if (!env.GROQ_API_KEY) {
+    return json({ error: "AI router is not configured" }, 500, origin);
+  }
+
+  const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${env.GROQ_API_KEY}`,
+      "Content-Type": "application/json",
+      "User-Agent": "AgmenticHornbachDemo/1.0",
+    },
+    body: JSON.stringify({
+      model: "openai/gpt-oss-20b",
+      temperature: 0.1,
+      max_tokens: 260,
+      messages: [
+        {
+          role: "system",
+          content:
+            "You are an orchestration router for a DIY retail demo. Read one customer message and return only valid JSON. Detect whether the question is sales, operations, or hybrid. Extract project, family, color, city, areaSqm, and quantityIntent. Keep values short and lowercase where possible. A hybrid question combines product advice with stock, store, pickup, or delivery intent.",
+        },
+        {
+          role: "user",
+          content: message,
+        },
+      ],
+      response_format: {
+        type: "json_schema",
+        json_schema: {
+          name: "hornbach_orchestration_plan",
+          strict: true,
+          schema: {
+            type: "object",
+            properties: {
+              routeType: {
+                type: "string",
+                enum: ["sales", "operations", "hybrid"],
+              },
+              confidence: { type: "number" },
+              summary: { type: "string" },
+              entities: {
+                type: "object",
+                properties: {
+                  project: { type: ["string", "null"] },
+                  family: { type: ["string", "null"] },
+                  color: { type: ["string", "null"] },
+                  city: { type: ["string", "null"] },
+                  areaSqm: { type: ["number", "null"] },
+                  quantityIntent: { type: "boolean" },
+                },
+                required: ["project", "family", "color", "city", "areaSqm", "quantityIntent"],
+                additionalProperties: false,
+              },
+              signals: {
+                type: "array",
+                items: { type: "string" },
+              },
+              tasks: {
+                type: "object",
+                properties: {
+                  sales: { type: ["string", "null"] },
+                  operations: { type: ["string", "null"] },
+                },
+                required: ["sales", "operations"],
+                additionalProperties: false,
+              },
+            },
+            required: ["routeType", "confidence", "summary", "entities", "signals", "tasks"],
+            additionalProperties: false,
+          },
+        },
+      },
+    }),
+  });
+
+  if (!response.ok) {
+    return json({ error: `Groq request failed with status ${response.status}` }, 502, origin);
+  }
+
+  const data = (await response.json()) as {
+    choices?: Array<{ message?: { content?: string } }>;
+  };
+  const content = data.choices?.[0]?.message?.content?.trim();
+
+  if (!content) {
+    return json({ error: "AI router returned an empty response" }, 502, origin);
+  }
+
+  return json(
+    {
+      provider: "groq",
+      model: "openai/gpt-oss-20b",
+      plan: JSON.parse(content),
+    },
+    200,
+    origin,
+  );
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const origin = request.headers.get("Origin") || env.ALLOWED_ORIGIN || DEFAULT_ALLOWED_ORIGIN;
@@ -436,6 +549,10 @@ export default {
 
       if (url.pathname.endsWith("/api/sentra-chat")) {
         return await handleChat(request, env, origin);
+      }
+
+      if (url.pathname.endsWith("/api/hornbach-orchestrate")) {
+        return await handleHornbachOrchestrate(request, env, origin);
       }
 
       return json({ error: "Not found" }, 404, origin);

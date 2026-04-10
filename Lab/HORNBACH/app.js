@@ -533,7 +533,10 @@ function delay(ms) {
 
 async function getAiPlan(message) {
   try {
-    const response = await fetch("/api/orchestrate", {
+    const endpoint = window.location.hostname.includes("agmentic.com")
+      ? "/api/hornbach-orchestrate"
+      : "/api/orchestrate";
+    const response = await fetch(endpoint, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
