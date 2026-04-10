@@ -1,0 +1,15 @@
+{
+  "name": "hornbach-orchestration",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-04-10",
+  "routes": [
+    {
+      "pattern": "agmentic.com/api/hornbach-orchestrate",
+      "zone_name": "agmentic.com"
+    },
+    {
+      "pattern": "www.agmentic.com/api/hornbach-orchestrate",
+      "zone_name": "agmentic.com"
+    }
+  ]
+}

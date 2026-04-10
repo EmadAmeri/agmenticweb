@@ -18,14 +18,6 @@
     {
       "pattern": "www.agmentic.com/api/sentra-chat",
       "zone_name": "agmentic.com"
-    },
-    {
-      "pattern": "agmentic.com/api/hornbach-orchestrate",
-      "zone_name": "agmentic.com"
-    },
-    {
-      "pattern": "www.agmentic.com/api/hornbach-orchestrate",
-      "zone_name": "agmentic.com"
     }
   ]
 }
