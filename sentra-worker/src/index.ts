@@ -447,6 +447,8 @@ async function handleHornbachOrchestrate(request: Request, env: Env, origin: str
     return json({ error: "AI router is not configured" }, 500, origin);
   }
 
+  const model = env.GROQ_MODEL || DEFAULT_GROQ_MODEL;
+
   const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
     headers: {
@@ -455,7 +457,7 @@ async function handleHornbachOrchestrate(request: Request, env: Env, origin: str
       "User-Agent": "AgmenticHornbachDemo/1.0",
     },
     body: JSON.stringify({
-      model: "openai/gpt-oss-20b",
+      model,
       temperature: 0.1,
       max_tokens: 260,
       messages: [
@@ -495,7 +497,7 @@ async function handleHornbachOrchestrate(request: Request, env: Env, origin: str
   return json(
     {
       provider: "groq",
-      model: "openai/gpt-oss-20b",
+      model,
       plan,
     },
     200,
