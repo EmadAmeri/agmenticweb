@@ -5,6 +5,8 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Sentra - Ask your data anything</title>
   <meta name="description" content="Sentra chat - ask questions about your business data and get real answers.">
+  <link rel="icon" type="image/png" href="./without back.png">
+  <link rel="apple-touch-icon" href="./without back.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -91,15 +93,17 @@
     .sidebar-inner::-webkit-scrollbar { width: 0; }
 
     .sidebar-brand {
-      display: flex; align-items: center; gap: 10px;
+      display: flex; align-items: center; gap: 12px;
       padding: 4px 2px 8px;
       border-bottom: 1px solid var(--line);
       margin-bottom: 4px;
     }
-    .sidebar-pip {
-      width: 8px; height: 8px; border-radius: 50%;
-      background: var(--amber); box-shadow: 0 0 10px var(--amber);
-      flex-shrink: 0;
+    .brand-logo {
+      width: 28px;
+      height: auto;
+      display: block;
+      object-fit: contain;
+      flex: 0 0 auto;
     }
     .sidebar-brand-name {
       font-family: "Fraunces", serif;
@@ -221,13 +225,12 @@
     .menu-btn:hover { background: rgba(237,232,223,0.08); color: var(--cream); }
 
     .topbar-brand {
-      display: flex; align-items: center; gap: 8px;
+      display: flex; align-items: center; gap: 10px;
       font-family: "Fraunces", serif;
       font-size: 17px; font-weight: 700; letter-spacing: -0.02em;
     }
-    .topbar-pip {
-      width: 6px; height: 6px; border-radius: 50%;
-      background: var(--amber); box-shadow: 0 0 8px var(--amber);
+    .topbar-brand .brand-logo {
+      width: 22px;
     }
 
     .topbar-status {
@@ -468,7 +471,7 @@
     <div class="sidebar-inner">
 
       <div class="sidebar-brand">
-        <div class="sidebar-pip"></div>
+        <img class="brand-logo" src="./without back.png" alt="Agmentic logo">
         <span class="sidebar-brand-name">Sentra</span>
         <span class="sidebar-brand-tag">Demo</span>
       </div>
@@ -593,8 +596,8 @@
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
         </button>
         <div class="topbar-brand">
-          <div class="topbar-pip"></div>
-          Sentra
+          <img class="brand-logo" src="./without back.png" alt="Agmentic logo">
+          <span>Sentra</span>
         </div>
         <div class="topbar-status">
           <div class="status-dot"></div>
