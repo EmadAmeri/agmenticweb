@@ -127,6 +127,19 @@ function compactContext(text: string) {
   return compact.join("\n");
 }
 
+function extractJsonObject(text: string) {
+  const fenced = text.match(/```json\s*([\s\S]*?)```/i);
+  if (fenced?.[1]) return fenced[1].trim();
+
+  const start = text.indexOf("{");
+  const end = text.lastIndexOf("}");
+  if (start >= 0 && end > start) {
+    return text.slice(start, end + 1);
+  }
+
+  return text.trim();
+}
+
 function scoreCompany(company: CompanyMetric) {
   return company.priority_score;
 }
@@ -449,59 +462,13 @@ async function handleHornbachOrchestrate(request: Request, env: Env, origin: str
         {
           role: "system",
           content:
-            "You are an orchestration router for a DIY retail demo. Read one customer message and return only valid JSON. Detect whether the question is sales, operations, or hybrid. Extract project, family, color, city, areaSqm, and quantityIntent. Keep values short and lowercase where possible. A hybrid question combines product advice with stock, store, pickup, or delivery intent.",
+            'You are an orchestration router for a DIY retail demo. Read one customer message and return only a single JSON object with no extra text. Detect whether the question is sales, operations, or hybrid. Extract project, family, color, city, areaSqm, and quantityIntent. Keep values short and lowercase where possible. A hybrid question combines product advice with stock, store, pickup, or delivery intent. Return this exact shape: {"routeType":"sales|operations|hybrid","confidence":0.0,"summary":"...","entities":{"project":null,"family":null,"color":null,"city":null,"areaSqm":null,"quantityIntent":false},"signals":[],"tasks":{"sales":null,"operations":null}}',
         },
         {
           role: "user",
           content: message,
         },
       ],
-      response_format: {
-        type: "json_schema",
-        json_schema: {
-          name: "hornbach_orchestration_plan",
-          strict: true,
-          schema: {
-            type: "object",
-            properties: {
-              routeType: {
-                type: "string",
-                enum: ["sales", "operations", "hybrid"],
-              },
-              confidence: { type: "number" },
-              summary: { type: "string" },
-              entities: {
-                type: "object",
-                properties: {
-                  project: { type: ["string", "null"] },
-                  family: { type: ["string", "null"] },
-                  color: { type: ["string", "null"] },
-                  city: { type: ["string", "null"] },
-                  areaSqm: { type: ["number", "null"] },
-                  quantityIntent: { type: "boolean" },
-                },
-                required: ["project", "family", "color", "city", "areaSqm", "quantityIntent"],
-                additionalProperties: false,
-              },
-              signals: {
-                type: "array",
-                items: { type: "string" },
-              },
-              tasks: {
-                type: "object",
-                properties: {
-                  sales: { type: ["string", "null"] },
-                  operations: { type: ["string", "null"] },
-                },
-                required: ["sales", "operations"],
-                additionalProperties: false,
-              },
-            },
-            required: ["routeType", "confidence", "summary", "entities", "signals", "tasks"],
-            additionalProperties: false,
-          },
-        },
-      },
     }),
   });
 
@@ -518,11 +485,18 @@ async function handleHornbachOrchestrate(request: Request, env: Env, origin: str
     return json({ error: "AI router returned an empty response" }, 502, origin);
   }
 
+  let plan: unknown;
+  try {
+    plan = JSON.parse(extractJsonObject(content));
+  } catch {
+    return json({ error: `AI router returned invalid JSON: ${content}` }, 502, origin);
+  }
+
   return json(
     {
       provider: "groq",
       model: "openai/gpt-oss-20b",
-      plan: JSON.parse(content),
+      plan,
     },
     200,
     origin,
