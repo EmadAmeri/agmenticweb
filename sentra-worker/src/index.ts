@@ -506,7 +506,7 @@ async function handleHornbachOrchestrate(request: Request, env: Env, origin: str
   });
 
   if (!response.ok) {
-    return json({ error: `Groq request failed with status ${response.status}` }, 502, origin);
+    return json({ error: `Groq request failed with status ${response.status}: ${await response.text()}` }, 502, origin);
   }
 
   const data = (await response.json()) as {
