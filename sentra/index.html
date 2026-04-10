@@ -6,6 +6,8 @@
 <meta name="theme-color" content="#0C1220">
 <title>Sentra — Your data, finally useful</title>
 <meta name="description" content="Sentra turns scattered business data into decisions. No analyst. No waiting.">
+<link rel="icon" type="image/png" href="./without back.png">
+<link rel="apple-touch-icon" href="./without back.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
@@ -75,12 +77,12 @@ nav {
   align-items: center;
   gap: 9px;
 }
-.logo-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: var(--amber);
-  box-shadow: 0 0 10px var(--amber);
+.brand-mark {
+  width: 30px;
+  height: auto;
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
 }
 .nav-cta {
   border: 0;
@@ -296,8 +298,8 @@ nav {
 .outcomes h2 em { font-style: italic; font-weight: 400; color: var(--muted); }
 .pain-lead,
 .how-lead {
-  font-size: 16px;
-  line-height: 1.7;
+  font-size: 17px;
+  line-height: 1.78;
   color: var(--muted);
   max-width: 68ch;
 }
@@ -305,7 +307,7 @@ nav {
 .how-copy {
   margin-bottom: 52px;
 }
-.how-lead { font-size: 15px; }
+.how-lead { font-size: 16px; }
 .pain-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -321,15 +323,15 @@ nav {
 .pc-1, .pc-3 { background: var(--navy-3); }
 .pc-2 { background: var(--amber); color: var(--navy); }
 .pc h3 {
-  font-size: 16px;
+  font-size: 17px;
   font-weight: 600;
   line-height: 1.25;
   letter-spacing: -0.015em;
   margin-bottom: 8px;
 }
 .pc p {
-  font-size: 13px;
-  line-height: 1.65;
+  font-size: 15px;
+  line-height: 1.72;
   color: var(--muted);
 }
 .pc-2 p { color: rgba(12,18,32,0.6); }
@@ -389,21 +391,21 @@ nav {
   color: var(--amber);
 }
 .cycle-step h3 {
-  font-size: 14px;
+  font-size: 16px;
   font-weight: 600;
   letter-spacing: -0.01em;
   line-height: 1.3;
   margin-bottom: 7px;
 }
 .cycle-step p {
-  font-size: 12px;
-  line-height: 1.65;
+  font-size: 14px;
+  line-height: 1.75;
   color: var(--muted);
 }
 .cycle-badge {
   display: inline-block;
   margin-bottom: 12px;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -540,7 +542,7 @@ footer {
   font-size: 20px;
   color: var(--cream);
 }
-.footer-mark .logo-dot {
+.footer-mark .brand-mark {
   flex: 0 0 auto;
 }
 .footer-copy {
@@ -747,7 +749,7 @@ footer {
 
 <nav>
   <div class="shell nav-shell">
-    <div class="logo"><div class="logo-dot"></div>Sentra</div>
+    <div class="logo"><img class="brand-mark" src="./without back.png" alt="Agmentic logo">Sentra</div>
     <button class="nav-cta" onclick="openModal()">Try the demo</button>
   </div>
 </nav>
@@ -850,7 +852,7 @@ footer {
     <div class="footer-top">
       <div class="footer-brand">
         <div class="footer-mark">
-          <div class="logo-dot"></div>
+          <img class="brand-mark" src="./without back.png" alt="Agmentic logo">
           <span>Sentra</span>
         </div>
         <p class="footer-copy">Your company already has the answers. Sentra finds them before the meeting where everyone's guessing.</p>
