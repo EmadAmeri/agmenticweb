@@ -73,7 +73,7 @@ body {
 }
 
 .hero-credit {
-  margin: 0 0 12px;
+  margin: 10px 0 0;
   color: var(--muted);
   font-size: 0.82rem;
   font-weight: 800;
