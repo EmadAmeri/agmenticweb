@@ -302,7 +302,12 @@ nav {
   max-width: 52ch;
 }
 .pain-lead { margin-bottom: 48px; }
-.how-lead { font-size: 15px; margin-bottom: 52px; }
+.how-copy {
+  display: grid;
+  gap: 18px;
+  margin-bottom: 52px;
+}
+.how-lead { font-size: 15px; }
 .pain-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -345,7 +350,7 @@ nav {
 
 .cycle {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
   border: 1px solid var(--line-2);
   border-radius: 16px;
@@ -357,8 +362,8 @@ nav {
   content: "";
   position: absolute;
   top: 48px;
-  left: calc(25% / 2);
-  right: calc(25% / 2);
+  left: calc(100% / 6);
+  right: calc(100% / 6);
   height: 1px;
   background: linear-gradient(90deg, transparent 0%, var(--amber) 12%, var(--amber) 88%, transparent 100%);
   opacity: 0.25;
@@ -707,8 +712,7 @@ footer {
   .pain-cards { grid-template-columns: 1fr; }
   .cycle { grid-template-columns: repeat(2, 1fr); }
   .cycle-step:nth-child(2) { border-right: 0; }
-  .cycle-step:nth-child(3),
-  .cycle-step:nth-child(4) { border-top: 1px solid var(--line); }
+  .cycle-step:nth-child(3) { border-top: 1px solid var(--line); }
   .cycle::before { display: none; }
   .cta-box { padding: 40px 28px; }
   .cta-actions { flex-direction: column; }
@@ -755,9 +759,9 @@ footer {
   <div class="shell hero-layout">
     <div class="hero-inner">
       <p class="hero-tag">By Agmentic</p>
-      <h1>Your data has<br>the answer.<br><em>Go find it.</em></h1>
+      <h1>Finally, someone<br>in the room<br>who knows.</h1>
       <p class="hero-sub">
-        Most businesses are sitting on decisions they haven't made yet — because the data that backs them is scattered, stale, or stuck with one person. Sentra fixes that.
+        Ask who to call. Ask what's slipping. Ask why last month looked the way it did. Sentra reads your data, builds a picture of your business, and answers — like someone who's been paying attention all along.
       </p>
       <div class="hero-actions">
         <button class="btn-main" onclick="openModal()">
@@ -779,21 +783,20 @@ footer {
 
 <section class="pain">
   <div class="shell">
-    <p class="section-tag">Sound familiar?</p>
-    <h2>The data's there.<br><em>The answer isn't.</em></h2>
-    <p class="pain-lead">One company had 40,000 contacts across 12 spreadsheets. Nobody could answer "who should we invite to dinner?" Same story, different business, every time.</p>
+    <h2>You're not missing data.<br><em>You're missing someone to make sense of it.</em></h2>
+    <p class="pain-lead">A company came to us with 40,000 contacts and one question they couldn't answer: "who should we invite to dinner tonight?" The data was there. Across 12 spreadsheets, three tools, and nobody's inbox in particular. That's not a data problem. That's a connection problem. And every business we've talked to has it.</p>
     <div class="pain-cards">
       <div class="pc pc-1">
-        <h3>Every team has their own version of the numbers.</h3>
-        <p>Meetings turn into arguments about whose spreadsheet is right. Nothing gets decided.</p>
+        <h3>"Let me check and get back to you."</h3>
+        <p>You've said this in a meeting. About your own business. More than once.</p>
       </div>
       <div class="pc pc-2">
-        <h3>You need to know what to do — not what happened last quarter.</h3>
-        <p>Dashboards are fine. But they don't tell you what needs your attention this week.</p>
+        <h3>You bought something for this already.</h3>
+        <p>It's open in a tab. Nobody uses it. Nobody trusts it.</p>
       </div>
       <div class="pc pc-3">
-        <h3>You've tried tools that sounded smart and stayed quiet.</h3>
-        <p>Sentra tells you the reason behind every answer. When someone asks why, you'll have a real one.</p>
+        <h3>The decision got made anyway.</h3>
+        <p>With half the information. Because waiting wasn't an option.</p>
       </div>
     </div>
   </div>
@@ -801,69 +804,29 @@ footer {
 
 <section class="how">
   <div class="shell">
-    <p class="section-tag">How it works</p>
-    <h2>Raw data in.<br><em>Decisions out.</em></h2>
-    <p class="how-lead">Sentra doesn't just store your data — it reads it, builds profiles from it, and keeps getting smarter as more comes in.</p>
+    <h2>Your business runs on data<br><em>that's never all in one place.</em></h2>
+    <div class="how-copy">
+      <p class="how-lead">HubSpot knows your deals. Sheets knows your numbers. Your files know your history. But none of them talk to each other — so nobody has the full picture.</p>
+      <p class="how-lead">Sentra connects everything, builds a live profile for every customer, contact, and deal, and keeps it updated automatically. So when you ask a question, the answer comes from your whole business — not just one corner of it.</p>
+    </div>
     <div class="cycle">
       <div class="cycle-step">
-        <span class="cycle-badge">Step 1</span>
+        <span class="cycle-badge">01</span>
         <div class="cycle-icon">1</div>
-        <h3>Connect your data</h3>
-        <p>CRM, files, spreadsheets, ops tools. Whatever you have, wherever it lives.</p>
+        <h3>Wherever it lives, we read it.</h3>
+        <p>HubSpot, Sheets, files, emails. No migration. No manual work. Just connect and go.</p>
       </div>
       <div class="cycle-step">
-        <span class="cycle-badge">Step 2</span>
+        <span class="cycle-badge">02</span>
         <div class="cycle-icon">2</div>
-        <h3>AI builds smart profiles</h3>
-        <p>Every customer, contact, or product gets a living profile — built from raw data, kept up to date automatically.</p>
+        <h3>We learn your business, not just your data.</h3>
+        <p>Every customer, contact, and deal gets a profile — built from everything you have across every tool. Who they are, what they've done, where things stand. So when you ask about them, the answer is complete.</p>
       </div>
       <div class="cycle-step">
-        <span class="cycle-badge">Step 3</span>
+        <span class="cycle-badge">03</span>
         <div class="cycle-icon">3</div>
-        <h3>Insights surface automatically</h3>
-        <p>Sentra reads your data continuously and turns patterns into decision reports — no one has to ask for them.</p>
-      </div>
-      <div class="cycle-step">
-        <span class="cycle-badge">Step 4</span>
-        <div class="cycle-icon">4</div>
-        <h3>Ask anything, get a real answer</h3>
-        <p>The profiles and insights become a knowledge base. Ask the chatbot a question — it answers from your actual data, not thin air.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section class="outcomes">
-  <div class="shell">
-    <p class="section-tag">What changes</p>
-    <h2>After Sentra,<br><em>decisions aren't hard anymore.</em></h2>
-    <div class="oc-list">
-      <div class="oc">
-        <div class="oc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-        <div>
-          <h3>You stop waiting on someone to pull the numbers.</h3>
-          <p>The context is already there. You just act on it.</p>
-        </div>
-      </div>
-      <div class="oc">
-        <div class="oc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-        <div>
-          <h3>Every team is working from the same picture.</h3>
-          <p>"Whose numbers are these?" stops being a 45-minute meeting.</p>
-        </div>
-      </div>
-      <div class="oc">
-        <div class="oc-arrow">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-        </div>
-        <div>
-          <h3>Problems show up before they get expensive.</h3>
-          <p>Sentra watches your data so you don't have to. It tells you what needs attention before someone else notices.</p>
-        </div>
+        <h3>Then you just ask.</h3>
+        <p>Plain language. Real answers. And always the reason behind them — so when someone asks why, you're not guessing.</p>
       </div>
     </div>
   </div>
@@ -872,8 +835,8 @@ footer {
 <div class="cta-section">
   <div class="shell">
     <div class="cta-box">
-      <h2>See what's hiding<br><em>in your own data.</em></h2>
-      <p>Enter your email. We send you a live demo link. Two minutes, no setup.</p>
+      <h2>See what Sentra knows<br><em>about a business like yours.</em></h2>
+      <p>Enter your email. We send you a live demo. Two minutes — no setup, no sales call.</p>
       <div class="cta-actions">
         <button class="btn-main-lg" onclick="openModal()">
           Try the demo
