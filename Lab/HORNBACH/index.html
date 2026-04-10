@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HORNBACH AI Orchestrator MVP</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <section class="hero">
+        <p class="eyebrow">HORNBACH AI Orchestration MVP</p>
+        <h1>Single-entry orchestration demo</h1>
+        <p class="lede">
+          This prototype demonstrates a simple orchestration flow: classify the
+          question, split it when it contains more than one intent, route each
+          task to the relevant agent, and return one unified answer.
+        </p>
+      </section>
+
+      <section class="composer">
+        <label for="question">Customer question</label>
+        <textarea id="question" rows="4">
+For a 30 square meter terrace, which waterproof decking would you recommend, and is it available in the Munich store?</textarea
+        >
+        <div class="actions">
+          <button id="run-demo">Run orchestration</button>
+          <button id="clear-log" class="ghost">Clear output</button>
+        </div>
+      </section>
+
+      <section class="grid">
+        <article class="panel">
+          <div class="panel-head">
+            <h2>How the question was handled</h2>
+            <span id="status-pill" class="pill idle">Ready</span>
+          </div>
+          <div id="trace" class="trace"></div>
+        </article>
+
+        <article class="panel">
+          <div class="panel-head">
+            <h2>Final answer</h2>
+          </div>
+          <div id="final-answer" class="answer empty">
+            No answer generated yet.
+          </div>
+        </article>
+      </section>
+    </main>
+
+    <script src="./app.js"></script>
+  </body>
+</html>
