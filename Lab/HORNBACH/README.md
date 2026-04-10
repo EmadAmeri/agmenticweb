@@ -1,5 +1,7 @@
 # HORNBACH Orchestration MVP
 
+This project is an Agmentic Lab product prototype.
+
 This demo shows a minimal orchestration flow for a customer question:
 
 1. detect the question category
