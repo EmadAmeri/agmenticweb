@@ -34,6 +34,14 @@
           page_type: config.pageType
         });
       })(window.AGMENTIC_ANALYTICS);
+
+      window.agmenticTrack = function(eventName, params) {
+        if (!window.gtag) return;
+        window.gtag("event", eventName, Object.assign({
+          site_section: window.AGMENTIC_ANALYTICS.siteSection,
+          page_type: window.AGMENTIC_ANALYTICS.pageType
+        }, params || {}));
+      };
     </script>
     <link rel="stylesheet" href="./styles.css" />
   </head>
@@ -49,7 +57,7 @@
         </p>
         <p class="hero-credit">
           A prototype by
-          <a href="https://agmentic.com/" target="_blank" rel="noreferrer">Agmentic</a>
+          <a href="https://agmentic.com/" target="_blank" rel="noreferrer" id="hornbachAgmenticLink">Agmentic</a>
           Lab
         </p>
       </section>

@@ -110,12 +110,26 @@ const detectionConfig = {
 };
 
 ui.clearButton.addEventListener("click", resetUi);
+ui.clearButton.addEventListener("click", () => {
+  window.agmenticTrack("tool_reset", {
+    tool_name: "orchestration_demo",
+  });
+});
 
 ui.runButton.addEventListener("click", async () => {
   const message = ui.question.value.trim();
   if (!message) {
     return;
   }
+
+  window.agmenticTrack("tool_run", {
+    tool_name: "orchestration_demo",
+    question_length: message.length,
+  });
+  window.agmenticTrack("question_submit", {
+    question_length: message.length,
+    has_store_reference: Boolean(detectCity(normalize(message))),
+  });
 
   resetUi();
   ui.answer.textContent = "Processing...";
@@ -494,6 +508,13 @@ function detectFirst(text, values) {
 function detectCity(text) {
   return Object.keys(detectionConfig.cityMap).find((city) => text.includes(city)) || null;
 }
+
+document.getElementById("hornbachAgmenticLink")?.addEventListener("click", function() {
+  window.agmenticTrack("outbound_click", {
+    destination_url: this.href,
+    link_text: "agmentic",
+  });
+});
 
 function detectAreaSqm(text) {
   const match = text.match(/(\d+(?:\.\d+)?)\s*(sqm|m2|square meter|square meters)/);

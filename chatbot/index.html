@@ -37,6 +37,14 @@
         page_type: config.pageType
       });
     })(window.AGMENTIC_ANALYTICS);
+
+    window.agmenticTrack = function(eventName, params) {
+      if (!window.gtag) return;
+      window.gtag("event", eventName, Object.assign({
+        site_section: window.AGMENTIC_ANALYTICS.siteSection,
+        page_type: window.AGMENTIC_ANALYTICS.pageType
+      }, params || {}));
+    };
   </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -636,11 +644,11 @@
         </div>
       </div>
       <div class="topbar-right">
-        <a href="mailto:hello@agmentic.com?subject=I%20tried%20the%20Sentra%20demo&body=Hi,%0A%0AI%20just%20tried%20the%20Sentra%20demo%20and%20I%27d%20like%20to%20talk.%0A%0ACompany:%0AWhat%20I%27m%20dealing%20with:" class="topbar-link">
+        <a href="mailto:hello@agmentic.com?subject=I%20tried%20the%20Sentra%20demo&body=Hi,%0A%0AI%20just%20tried%20the%20Sentra%20demo%20and%20I%27d%20like%20to%20talk.%0A%0ACompany:%0AWhat%20I%27m%20dealing%20with:" class="topbar-link" id="talkToUsLink">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
           <span>Talk to us</span>
         </a>
-        <a href="https://agmentic.com/sentra/" class="topbar-link">
+        <a href="https://agmentic.com/sentra/" class="topbar-link" id="backToSentraLink">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" x2="9" y1="12" y2="12"/></svg>
           <span>Back to Sentra</span>
         </a>
@@ -788,6 +796,10 @@
   const openDataset = async btn => {
     const file = btn.dataset.file;
     const title = btn.dataset.title || 'Dataset';
+    window.agmenticTrack("dataset_open", {
+      dataset_name: title,
+      dataset_file: file
+    });
     modalTitle.textContent = title;
     modalSub.textContent = 'Read-only preview';
     modalPath.textContent = file;
@@ -808,9 +820,13 @@
   document.querySelectorAll('.dataset-btn').forEach(b => b.addEventListener('click', () => openDataset(b)));
   datasetToggle.addEventListener('click', () => {
     const isExpanded = datasetToggle.getAttribute('aria-expanded') === 'true';
+    const nextState = isExpanded ? 'collapsed' : 'expanded';
     datasetToggle.setAttribute('aria-expanded', String(!isExpanded));
     datasetToggle.textContent = isExpanded ? 'Show 5 more raw datasets' : 'Hide extra raw datasets';
     moreDatasets.hidden = isExpanded;
+    window.agmenticTrack("dataset_toggle", {
+      toggle_state: nextState
+    });
   });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closeModal(); });
 
@@ -850,9 +866,30 @@
     sendBtn.style.transform = 'none';
   };
 
-  const send = async presetMessage => {
+  document.getElementById('talkToUsLink').addEventListener('click', () => {
+    window.agmenticTrack("mailto_click", {
+      cta_text: "talk_to_us",
+      cta_location: "topbar",
+      destination_url: document.getElementById('talkToUsLink').href
+    });
+  });
+
+  document.getElementById('backToSentraLink').addEventListener('click', () => {
+    window.agmenticTrack("navigation_click", {
+      link_text: "back_to_sentra",
+      destination_url: document.getElementById('backToSentraLink').href
+    });
+  });
+
+  const send = async (presetMessage, inputMethod = 'manual') => {
     const msg = (presetMessage ?? chatInput.value).trim();
     if (!msg) return;
+    const usedSuggestion = Boolean(presetMessage);
+    window.agmenticTrack("chat_submit", {
+      input_method: inputMethod,
+      question_length: msg.length,
+      used_suggestion: usedSuggestion
+    });
 
     appendMsg(msg, 'user');
     chatInput.value = '';
@@ -884,14 +921,20 @@
   };
 
   suggestionButtons.forEach(button => {
-    button.addEventListener('click', () => send(button.textContent || ''));
+    button.addEventListener('click', () => {
+      const suggestionText = button.textContent || '';
+      window.agmenticTrack("suggestion_click", {
+        suggestion_text: suggestionText
+      });
+      send(suggestionText, 'suggestion');
+    });
   });
 
-  sendBtn.addEventListener('click', () => send());
+  sendBtn.addEventListener('click', () => send(undefined, 'button'));
   chatInput.addEventListener('keydown', e => {
     if (e.key === 'Enter') {
       e.preventDefault();
-      send();
+      send(undefined, 'enter');
     }
   });
   window.addEventListener('resize', () => {

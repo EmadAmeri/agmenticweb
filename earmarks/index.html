@@ -39,6 +39,14 @@
         page_type: config.pageType
       });
     })(window.AGMENTIC_ANALYTICS);
+
+    window.agmenticTrack = function(eventName, params) {
+      if (!window.gtag) return;
+      window.gtag("event", eventName, Object.assign({
+        site_section: window.AGMENTIC_ANALYTICS.siteSection,
+        page_type: window.AGMENTIC_ANALYTICS.pageType
+      }, params || {}));
+    };
   </script>
   <style>
     :root {
@@ -452,8 +460,8 @@
         <h1>Find the strongest moments in your podcast</h1>
         <p>Earmarks skips to the good parts for you. Drop in an episode, tell us what you're after, and we'll pull out the moments actually worth your time.</p>
         <div class="hero-actions">
-          <a class="cta-btn" href="https://earmarks.agmentic.com">Get my highlights</a>
-          <a class="ghost" href="#how">How does this work?</a>
+          <a class="cta-btn" href="https://earmarks.agmentic.com" id="earmarksHeroCta">Get my highlights</a>
+          <a class="ghost" href="#how" id="earmarksHowLink">How does this work?</a>
         </div>
       </div>
       <div class="hero-card">
@@ -505,7 +513,7 @@
         <h2 style="margin:0 0 6px; font-size:26px;">Ready to hear the best moments?</h2>
         <p>Your first highlight reel takes about two minutes. Give it a shot.</p>
       </div>
-      <a class="cta-btn" href="https://earmarks.agmentic.com">Try Earmarks</a>
+      <a class="cta-btn" href="https://earmarks.agmentic.com" id="earmarksBottomCta">Try Earmarks</a>
     </section>
 
     <footer class="footer">
@@ -514,4 +522,27 @@
     </footer>
   </div>
 </body>
+<script>
+  document.getElementById("earmarksHeroCta").addEventListener("click", function() {
+    window.agmenticTrack("cta_click", {
+      cta_text: "get_my_highlights",
+      cta_location: "hero",
+      destination_url: this.href
+    });
+  });
+
+  document.getElementById("earmarksBottomCta").addEventListener("click", function() {
+    window.agmenticTrack("cta_click", {
+      cta_text: "try_earmarks",
+      cta_location: "bottom_cta",
+      destination_url: this.href
+    });
+  });
+
+  document.getElementById("earmarksHowLink").addEventListener("click", function() {
+    window.agmenticTrack("section_navigation_click", {
+      target_section: "how"
+    });
+  });
+</script>
 </html>
