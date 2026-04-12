@@ -4,6 +4,37 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>HORNBACH AI Orchestrator MVP</title>
+    <script>
+      window.AGMENTIC_ANALYTICS = {
+        measurementId: "G-6CRH1VN6D2",
+        siteSection: "hornbach",
+        pageType: "tool"
+      };
+
+      (function initAnalytics(config) {
+        if (!config.measurementId || config.measurementId === "G-6CRH1VN6D2-PLACEHOLDER") return;
+
+        const script = document.createElement("script");
+        script.async = true;
+        script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(config.measurementId);
+        document.head.appendChild(script);
+
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { window.dataLayer.push(arguments); }
+        window.gtag = window.gtag || gtag;
+
+        window.gtag("js", new Date());
+        window.gtag("config", config.measurementId, { send_page_view: false });
+        window.gtag("event", "page_view", {
+          page_title: document.title,
+          page_path: window.location.pathname,
+          page_location: window.location.href,
+          page_referrer: document.referrer,
+          site_section: config.siteSection,
+          page_type: config.pageType
+        });
+      })(window.AGMENTIC_ANALYTICS);
+    </script>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>

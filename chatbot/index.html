@@ -7,6 +7,37 @@
   <meta name="description" content="Sentra chat - ask questions about your business data and get real answers.">
   <link rel="icon" type="image/png" href="./favicon.png">
   <link rel="apple-touch-icon" href="./favicon.png">
+  <script>
+    window.AGMENTIC_ANALYTICS = {
+      measurementId: "G-6CRH1VN6D2",
+      siteSection: "chatbot",
+      pageType: "demo"
+    };
+
+    (function initAnalytics(config) {
+      if (!config.measurementId || config.measurementId === "G-6CRH1VN6D2-PLACEHOLDER") return;
+
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(config.measurementId);
+      document.head.appendChild(script);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = window.gtag || gtag;
+
+      window.gtag("js", new Date());
+      window.gtag("config", config.measurementId, { send_page_view: false });
+      window.gtag("event", "page_view", {
+        page_title: document.title,
+        page_path: window.location.pathname,
+        page_location: window.location.href,
+        page_referrer: document.referrer,
+        site_section: config.siteSection,
+        page_type: config.pageType
+      });
+    })(window.AGMENTIC_ANALYTICS);
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;1,9..144,400&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">

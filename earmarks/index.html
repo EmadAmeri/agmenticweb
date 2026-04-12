@@ -9,6 +9,37 @@
   <link rel="icon" href="./static/icons/icon-192.png" type="image/png" />
   <link rel="shortcut icon" href="./static/icons/icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="./static/icons/icon-192.png" />
+  <script>
+    window.AGMENTIC_ANALYTICS = {
+      measurementId: "G-6CRH1VN6D2",
+      siteSection: "earmarks",
+      pageType: "landing"
+    };
+
+    (function initAnalytics(config) {
+      if (!config.measurementId || config.measurementId === "G-6CRH1VN6D2-PLACEHOLDER") return;
+
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(config.measurementId);
+      document.head.appendChild(script);
+
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      window.gtag = window.gtag || gtag;
+
+      window.gtag("js", new Date());
+      window.gtag("config", config.measurementId, { send_page_view: false });
+      window.gtag("event", "page_view", {
+        page_title: document.title,
+        page_path: window.location.pathname,
+        page_location: window.location.href,
+        page_referrer: document.referrer,
+        site_section: config.siteSection,
+        page_type: config.pageType
+      });
+    })(window.AGMENTIC_ANALYTICS);
+  </script>
   <style>
     :root {
       --bg-1: #14030b;
