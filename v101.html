@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agmentic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #111118;
+  --fg:       #edeae3;
+  --fg-mid:   rgba(237,234,227,0.75);
+  --fg-dim:   rgba(237,234,227,0.52);
+  --fg-faint: rgba(237,234,227,0.09);
+
+  --brand:      #8fd42e;
+  --brand-glow: rgba(143,212,46,0.6);
+
+  --navy: #1d4ed8;
+  --red:  #dc2626;
+  --gold: #c98a3c;
+}
+
+html, body { width:100%; height:100%; overflow:hidden; color:var(--fg); }
+
+body {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto 1fr auto;
+  font-family: 'DM Sans', sans-serif;
+  background:
+    radial-gradient(ellipse 70% 50% at 100% 50%, rgba(143,212,46,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 60% at 0% 20%,   rgba(29,78,216,0.05)  0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 25% 90%,  rgba(220,38,38,0.04)  0%, transparent 55%),
+    #111118;
+}
+
+/* grain */
+body::before {
+  content:''; position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity:0.028; pointer-events:none; z-index:0;
+}
+
+/* green glow rising from bottom center — illuminates the question */
+.amb-bottom {
+  position: fixed;
+  bottom: -120px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 800px; height: 340px;
+  background: radial-gradient(ellipse at 50% 100%, rgba(143,212,46,0.18) 0%, rgba(143,212,46,0.06) 35%, transparent 70%);
+  pointer-events: none; z-index: 1;
+}
+
+.edge {
+  position: fixed; left:0; top:0; bottom:0; width:2px;
+  background: linear-gradient(to bottom,
+    var(--brand) 0%,    var(--brand) 33.3%,
+    var(--navy)  33.3%, var(--navy)  55%,
+    var(--red)   55%,   var(--red)   77%,
+    var(--gold)  77%,   var(--gold)  100%
+  );
+  z-index: 10;
+}
+
+/* TOP BAR */
+.topbar {
+  grid-column: 1/-1;
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 32px 60px 20px;
+  position: relative; z-index: 2;
+}
+
+.logo-wrap { display: flex; align-items: center; gap: 14px; }
+.logo-img {
+  width: 36px; height: 36px;
+  filter: drop-shadow(0 0 7px rgba(143,212,46,0.4));
+}
+.wordmark {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 500;
+  font-size: clamp(20px, 2.2vw, 34px);
+  letter-spacing: 7px;
+  text-transform: uppercase;
+  color: var(--fg);
+  line-height: 1;
+}
+
+.social-links { display:flex; gap:24px; align-items:center; }
+.social-link {
+  display:flex; align-items:center; gap:7px;
+  text-decoration:none;
+  color: rgba(143,212,46,0.55);
+  font-size:9px; font-weight:400;
+  letter-spacing:1.8px; text-transform:uppercase;
+  transition: color 0.35s;
+}
+.social-link:hover { color: rgba(143,212,46,0.9); }
+.social-link span { display: inline; }
+
+/* LEFT */
+.left {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 52px 32px 60px;
+  position: relative; z-index: 2;
+  gap: 40px;
+}
+
+.sentence {
+  font-family: 'Cormorant Garamond', serif;
+  font-weight: 400;
+  font-size: clamp(22px, 2.6vw, 40px);
+  line-height: 1.45;
+  color: var(--fg);
+}
+.sentence em { font-style: italic; color: var(--fg-mid); }
+
+.cursor {
+  display: inline-block; width: 2px; height: 0.78em;
+  background: var(--brand); vertical-align: middle; margin-left: 3px;
+  animation: blink 1.2s step-end infinite;
+}
+@keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+/* SHIFTS */
+.shifts {
+  display: flex; flex-direction: column;
+}
+
+.shift {
+  display: flex; align-items: center;
+  padding: 13px 0;
+}
+.shift + .shift { border-top: 1px solid var(--fg-faint); }
+
+.shift-from {
+  font-size: clamp(10px, 0.9vw, 12px);
+  font-weight: 400;
+  letter-spacing: 2.5px; text-transform: uppercase;
+  color: var(--fg-dim);
+  white-space: nowrap;
+  width: 90px; flex-shrink: 0;
+}
+
+.shift-track {
+  flex: 1;
+  position: relative; height: 1px;
+  margin: 0 20px;
+  background: linear-gradient(to right,
+    rgba(237,234,227,0.14) 0%,
+    rgba(237,234,227,0.04) 70%,
+    transparent 100%
+  );
+  overflow: visible;
+}
+
+.shift-to {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(14px, 1.3vw, 19px);
+  font-weight: 400; font-style: italic;
+  letter-spacing: 0.4px; white-space: nowrap;
+  color: var(--fg-mid);
+  width: 90px; flex-shrink: 0;
+  text-align: right;
+}
+
+
+.dot {
+  position: absolute; top: 50%;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  animation: travel 5.5s ease-in-out infinite;
+}
+.dot-1 { width:4px; height:4px; background:var(--brand); box-shadow:0 0 8px var(--brand-glow); }
+.dot-2 { width:3px; height:3px; background:rgba(143,212,46,0.52); box-shadow:0 0 4px rgba(143,212,46,0.35); animation-delay:-0.22s; }
+.dot-3 { width:2.5px; height:2.5px; background:rgba(143,212,46,0.22); animation-delay:-0.44s; }
+
+.shift:nth-child(2) .dot-1 { animation-delay: 1.8s; }
+.shift:nth-child(2) .dot-2 { animation-delay: calc(1.8s - 0.22s); }
+.shift:nth-child(2) .dot-3 { animation-delay: calc(1.8s - 0.44s); }
+.shift:nth-child(3) .dot-1 { animation-delay: 3.6s; }
+.shift:nth-child(3) .dot-2 { animation-delay: calc(3.6s - 0.22s); }
+.shift:nth-child(3) .dot-3 { animation-delay: calc(3.6s - 0.44s); }
+
+@keyframes travel {
+  0%   { left:0%;   opacity:0; }
+  5%   { opacity:1; }
+  95%  { opacity:1; }
+  100% { left:100%; opacity:0; }
+}
+
+.shift-to {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(14px, 1.3vw, 19px);
+  font-weight: 400; font-style: italic;
+  letter-spacing: 0.4px; white-space: nowrap;
+  color: var(--fg-mid);
+  text-align: right;
+}
+
+/* RIGHT */
+.right {
+  display: flex; flex-direction: column; justify-content: center;
+  padding: 0 60px 32px 52px;
+  position: relative; z-index: 2;
+}
+
+.pillars-wrap {
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.pillars-wrap::before {
+  content: '';
+  position: absolute;
+  left: 20px; top: 30px; bottom: 30px;
+  width: 1px;
+  background: linear-gradient(to bottom,
+    rgba(29,78,216,0.5),
+    rgba(220,38,38,0.5),
+    rgba(201,138,60,0.5)
+  );
+  z-index: 0;
+}
+
+.pillar {
+  display: flex; flex-direction: column; gap: 8px;
+  position: relative; z-index: 1;
+  padding: 18px 36px 18px 18px;
+  border-radius: 6px; overflow: hidden;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+.pillar:hover { background: rgba(237,234,227,0.03); }
+
+.pillar::before {
+  content: '';
+  position: absolute; inset: -50px;
+  border-radius: 50%; filter: blur(45px);
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.4s;
+}
+.pillar:hover::before { opacity: 0.22; }
+.pillar-forge::before   { background: var(--navy); }
+.pillar-lab::before     { background: var(--red);  }
+.pillar-product::before { background: var(--gold); }
+
+.pillar-header { display: flex; align-items: center; gap: 12px; position: relative; z-index: 1; }
+.pillar-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.pd-s { background: var(--navy); box-shadow: 0 0 9px rgba(29,78,216,0.55); }
+.pd-l { background: var(--red);  box-shadow: 0 0 9px rgba(220,38,38,0.55); }
+.pd-p { background: var(--gold); box-shadow: 0 0 9px rgba(201,138,60,0.55); }
+
+.pillar-name {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 500; letter-spacing: 0.3px;
+  color: var(--fg); position: relative; z-index: 1;
+}
+
+.pillar-desc {
+  font-family: 'DM Sans', sans-serif;
+  font-size: clamp(10px, 0.85vw, 12px);
+  font-weight: 300; color: var(--fg-dim);
+  line-height: 1.65; padding-left: 19px;
+  position: relative; z-index: 1;
+}
+
+.pillar-arrow {
+  position: absolute; right: 14px; top: 50%;
+  transform: translateY(-50%);
+  font-size: 11px; color: transparent;
+  transition: color 0.3s, transform 0.3s; z-index: 1;
+}
+.pillar:hover .pillar-arrow {
+  color: var(--fg-dim);
+  transform: translateY(-50%) translateX(3px);
+}
+
+/* BOTTOM — sits above the green glow */
+.bottombar {
+  grid-column: 1/-1;
+  display: flex; justify-content: center; align-items: center;
+  padding: 10px 60px 32px;
+  position: relative; z-index: 2;
+}
+
+.bottom-question {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(13px, 1.1vw, 17px);
+  font-style: italic; font-weight: 300;
+  /* brighter — the green glow from below lifts it */
+  color: rgba(237,234,227,0.72);
+  letter-spacing: 0.4px; cursor: default;
+  transition: color 0.5s; text-align: center;
+  border-top: 1px solid rgba(143,212,46,0.15);
+  padding-top: 16px; width: 100%;
+}
+.bottom-question:hover { color: #edeae3; }
+
+/* RESPONSIVE */
+@media (max-width: 768px) {
+  html, body { overflow: auto; height: auto; }
+  body { grid-template-columns: 1fr; min-height: 100vh; }
+  .topbar { padding: 24px 24px 14px; flex-wrap: wrap; gap: 14px; }
+  .social-links { gap: 16px; }
+  .social-link span { display: none; }
+  .social-link svg { opacity: 0.7; width: 18px; height: 18px; }
+  .logo-img { width: 30px; height: 30px; }
+  .left { padding: 20px 24px 8px; gap: 28px; }
+  .right { padding: 8px 24px 20px; }
+  .bottombar { padding: 8px 24px 28px; }
+  .shift { padding: 14px 0; }
+  .shift-from { font-size: 11px; width: 62px; }
+  .shift-track { margin: 0 12px; }
+  .shift-to { font-size: 15px; width: 70px; }
+  .sentence { padding-right: 0; }
+  .pillars-wrap::before { display: none; }
+  .pillar { padding: 14px 10px; }
+  .pillar-name { font-size: clamp(20px, 5.5vw, 28px); }
+  .pillar-desc { font-size: 11px; padding-left: 0; }
+  .amb-bottom { width: 100%; }
+}
+</style>
+</head>
+<body>
+
+<div class="amb-bottom"></div>
+<div class="edge"></div>
+
+<div class="topbar">
+  <div class="logo-wrap">
+    <img class="logo-img" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAAEsCAYAAAB5fY51AABI70lEQVR4nO29+ZctWXXf+d0n4g55M/Pm9OpVvaoSICRky93upT+goKCqAIEkkJEKKFCJAkNL0LIsbCNbbi13L/Va7mW73ZawrAlhRjFaSxaSGMRQFPBT9+rWcv8gtaHFIKqKN+ecd4o4u3/Y55w4ETduDu9l5rs3c3/Wui/z3Rs38g4RO/fe57v3BhRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFURRFUZTp4f8HV9bgs+9vOAIAAAAASUVORK5CYII=" alt="Agmentic">
+    <div class="wordmark">Agmentic</div>
+  </div>
+  <div class="social-links">
+    <a class="social-link" href="mailto:hello@agmentic.com">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="4" width="20" height="16" rx="2"/>
+        <path d="M2 7l10 7 10-7"/>
+      </svg>
+      <span>hello@agmentic.com</span>
+    </a>
+    <a class="social-link" href="https://linkedin.com" target="_blank" rel="noopener">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+        <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/>
+        <rect x="2" y="9" width="4" height="12"/>
+        <circle cx="4" cy="4" r="2"/>
+      </svg>
+      <span>LinkedIn</span>
+    </a>
+  </div>
+</div>
+
+<div class="left">
+  <p class="sentence">
+    We think about what's next.<br>
+    We build it.<br>
+    <em>Then we do it again.</em><span class="cursor"></span>
+  </p>
+
+  <div class="shifts">
+    <div class="shift">
+      <span class="shift-from">App</span>
+      <span class="shift-track">
+        <span class="dot dot-1"></span>
+        <span class="dot dot-2"></span>
+        <span class="dot dot-3"></span>
+      </span>
+      <span class="shift-to">Agent</span>
+    </div>
+    <div class="shift">
+      <span class="shift-from">Interface</span>
+      <span class="shift-track">
+        <span class="dot dot-1"></span>
+        <span class="dot dot-2"></span>
+        <span class="dot dot-3"></span>
+      </span>
+      <span class="shift-to">Browser</span>
+    </div>
+    <div class="shift">
+      <span class="shift-from">Data</span>
+      <span class="shift-track">
+        <span class="dot dot-1"></span>
+        <span class="dot dot-2"></span>
+        <span class="dot dot-3"></span>
+      </span>
+      <span class="shift-to">Brain</span>
+    </div>
+  </div>
+</div>
+
+<div class="right">
+  <div class="pillars-wrap">
+
+    <div class="pillar pillar-forge">
+      <div class="pillar-header">
+        <div class="pillar-dot pd-s"></div>
+        <div class="pillar-name">The Forge</div>
+      </div>
+      <div class="pillar-desc">
+        Where ideas first take shape — through conversations,
+        roundtables, and the people thinking hardest about what's next.
+        The factory floor of the future.
+      </div>
+      <span class="pillar-arrow">›</span>
+    </div>
+
+    <div class="pillar pillar-lab">
+      <div class="pillar-header">
+        <div class="pillar-dot pd-l"></div>
+        <div class="pillar-name">Lab</div>
+      </div>
+      <div class="pillar-desc">
+        Ideas become prototypes. We build, test, and learn —
+        then decide what's worth taking further.
+        Not everything survives. That's the point.
+      </div>
+      <span class="pillar-arrow">›</span>
+    </div>
+
+    <div class="pillar pillar-product">
+      <div class="pillar-header">
+        <div class="pillar-dot pd-p"></div>
+        <div class="pillar-name">Product</div>
+      </div>
+      <div class="pillar-desc">
+        What survives the lab becomes something real —
+        a product, a service, a solution that works in the wild.
+        Built to last. Designed to move.
+      </div>
+      <span class="pillar-arrow">›</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="bottombar">
+  <div class="bottom-question">What happens to companies that don't know what's coming?</div>
+</div>
+
+</body>
+</html>
