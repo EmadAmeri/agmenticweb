@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 300" width="300" height="300">
+  <defs>
+    <linearGradient id="brand-grad" x1="10%" y1="0%" x2="90%" y2="100%">
+      <stop offset="0%" stop-color="#b8eb52"/>
+      <stop offset="100%" stop-color="#5aaa10"/>
+    </linearGradient>
+  </defs>
+  <!-- Two dots on the left -->
+  <circle cx="78" cy="118" r="24" fill="url(#brand-grad)"/>
+  <circle cx="56" cy="180" r="15" fill="url(#brand-grad)"/>
+  <!-- Main bent-arm shape -->
+  <path d="M 108 48 L 168 168 L 258 218"
+        stroke="url(#brand-grad)" stroke-width="52" fill="none"
+        stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
