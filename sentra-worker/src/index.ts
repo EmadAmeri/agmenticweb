@@ -22,6 +22,7 @@ const DEFAULT_NOTIFY_EMAIL = "em.ameri94@gmail.com";
 const DEFAULT_GROQ_MODEL = "groq/compound-mini";
 const USAGE_LIMIT_MESSAGE =
   "The AI demo has currently reached its usage limit or is temporarily unavailable. Please try again shortly.";
+const DEFAULT_REPLY_TO = "hello@agmentic.com";
 
 function corsHeaders(origin: string) {
   return {
@@ -46,17 +47,28 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
 function requesterTemplate(email: string, demoLink?: string) {
+  const safeEmail = escapeHtml(email);
+  const safeDemoLink = demoLink ? escapeHtml(demoLink) : "";
   const accessSection = demoLink
     ? `
       <div style="margin: 24px 0 20px;">
-        <a href="${demoLink}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#D89A3D;color:#111827;text-decoration:none;font-size:14px;font-weight:600;">
+        <a href="${safeDemoLink}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#D89A3D;color:#111827;text-decoration:none;font-size:14px;font-weight:600;">
           See it work →
         </a>
       </div>
       <p style="font-size:12px;line-height:1.7;color:rgba(237,232,223,.62);margin:0;">
         If the button doesn't open, use this link:<br />
-        <a href="${demoLink}" style="color:#EDE8DF;text-decoration:none;">${demoLink}</a>
+        <a href="${safeDemoLink}" style="color:#EDE8DF;text-decoration:none;">${safeDemoLink}</a>
       </p>
     `
     : `
@@ -75,7 +87,7 @@ function requesterTemplate(email: string, demoLink?: string) {
           Open the link below, ask questions, and see real answers in about two minutes.
         </p>
         <p style="font-family:Inter,Segoe UI,Arial,sans-serif;font-size:13px;line-height:1.7;color:rgba(237,232,223,.58);margin:0 0 4px;">
-          Requested for <strong>${email}</strong>
+          Requested for <strong>${safeEmail}</strong>
         </p>
         ${accessSection}
         <div style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(237,232,223,.08);font-family:Inter,Segoe UI,Arial,sans-serif;font-size:12px;line-height:1.7;color:rgba(237,232,223,.52);">
@@ -87,12 +99,14 @@ function requesterTemplate(email: string, demoLink?: string) {
 }
 
 function notifyTemplate(email: string, demoLink?: string) {
+  const safeEmail = escapeHtml(email);
+  const safeDemoLink = demoLink ? escapeHtml(demoLink) : "";
   return `
     <div style="font-family:Inter,Segoe UI,Arial,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;background:#FFFFFF;color:#13203A;border-radius:16px;border:1px solid rgba(19,32,58,.08);">
       <p style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#842029;margin:0 0 12px;">New Request</p>
       <h1 style="font-size:22px;margin:0 0 16px;">Sentra demo access requested</h1>
-      <p style="font-size:14px;line-height:1.7;margin:0 0 8px;"><strong>Email:</strong> ${email}</p>
-      <p style="font-size:14px;line-height:1.7;margin:0;">${demoLink ? `<strong>Demo link:</strong> ${demoLink}` : "No demo link configured yet."}</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px;"><strong>Email:</strong> ${safeEmail}</p>
+      <p style="font-size:14px;line-height:1.7;margin:0;">${demoLink ? `<strong>Demo link:</strong> ${safeDemoLink}` : "No demo link configured yet."}</p>
     </div>
   `;
 }
@@ -107,9 +121,45 @@ async function sendEmail(apiKey: string, payload: Record<string, unknown>) {
     body: JSON.stringify(payload),
   });
 
+  const responseText = await response.text();
   if (!response.ok) {
-    throw new Error(await response.text());
+    throw new Error(responseText);
   }
+
+  try {
+    return JSON.parse(responseText) as { id?: string };
+  } catch {
+    return { id: undefined };
+  }
+}
+
+function requesterText(email: string, demoLink?: string) {
+  const lines = [
+    "Sentra by Agmentic",
+    "",
+    "See what Sentra knows.",
+    "Open the link below, ask questions, and see real answers in about two minutes.",
+    "",
+    `Requested for: ${email}`,
+  ];
+
+  if (demoLink) {
+    lines.push("", `Demo link: ${demoLink}`);
+  } else {
+    lines.push("", "We received your request and will send your Sentra demo link shortly.");
+  }
+
+  lines.push("", "If you didn't request this email, you can safely ignore it.");
+  return lines.join("\n");
+}
+
+function notifyText(email: string, demoLink?: string) {
+  return [
+    "New Sentra demo access request",
+    "",
+    `Email: ${email}`,
+    demoLink ? `Demo link: ${demoLink}` : "No demo link configured yet.",
+  ].join("\n");
 }
 
 function compactContext(text: string) {
@@ -369,23 +419,31 @@ async function handleDemoAccess(request: Request, env: Env, origin: string) {
   }
 
   const demoLink = env.SENTRA_DEMO_LINK?.trim() || DEFAULT_DEMO_LINK;
-  const from = env.SENTRA_FROM_EMAIL?.trim() || DEFAULT_FROM;
+  const fromAddress = env.SENTRA_FROM_EMAIL?.trim() || DEFAULT_FROM;
+  const from = fromAddress.includes("<") ? fromAddress : `Sentra by Agmentic <${fromAddress}>`;
   const notifyEmail = env.SENTRA_NOTIFY_EMAIL?.trim() || DEFAULT_NOTIFY_EMAIL;
+  const replyTo = DEFAULT_REPLY_TO;
 
-  await sendEmail(env.RESEND_API_KEY, {
+  const requesterResult = await sendEmail(env.RESEND_API_KEY, {
     from,
     to: [email],
+    reply_to: replyTo,
     subject: "Your Sentra demo link",
     html: requesterTemplate(email, demoLink),
+    text: requesterText(email, demoLink),
   });
+  console.log("sentra requester email accepted", { email, resendId: requesterResult.id ?? null });
 
   if (notifyEmail) {
-    await sendEmail(env.RESEND_API_KEY, {
+    const notifyResult = await sendEmail(env.RESEND_API_KEY, {
       from,
       to: [notifyEmail],
+      reply_to: replyTo,
       subject: `New Sentra demo access request: ${email}`,
       html: notifyTemplate(email, demoLink),
+      text: notifyText(email, demoLink),
     });
+    console.log("sentra notify email accepted", { email, notifyEmail, resendId: notifyResult.id ?? null });
   }
 
   return json({ success: true, message: "Demo access email sent" }, 200, origin);
