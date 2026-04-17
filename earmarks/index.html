@@ -5,7 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Earmarks - Podcast Highlights, Instantly</title>
   <meta name="description" content="Earmarks finds the strongest moments in your podcast and returns shareable audio highlights in minutes." />
-  <meta name="theme-color" content="#5b0916" />
+  <meta name="application-name" content="Earmarks" />
+  <meta name="theme-color" content="#0E0E0C" media="(prefers-color-scheme: dark)" />
+  <meta name="theme-color" content="#FDF6F0" media="(prefers-color-scheme: light)" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
   <link rel="icon" href="./static/icons/icon-192.png" type="image/png" />
   <link rel="shortcut icon" href="./static/icons/icon-192.png" type="image/png" />
   <link rel="apple-touch-icon" href="./static/icons/icon-192.png" />
@@ -50,17 +55,45 @@
   </script>
   <style>
     :root {
-      --bg-1: #14030b;
-      --bg-2: #4d0715;
-      --bg-3: #d6252e;
-      --panel: rgba(255, 255, 255, 0.08);
-      --panel-strong: rgba(0, 0, 0, 0.22);
-      --line: rgba(255, 255, 255, 0.16);
-      --text: #fff7f2;
-      --muted: rgba(255, 247, 242, 0.72);
-      --hot-1: #ff5a36;
-      --hot-2: #dc1237;
-      --shadow: 0 28px 70px rgba(12, 3, 6, 0.36);
+      color-scheme: dark light;
+      --font-display: "Inter", sans-serif;
+      --font-body: "Geist", "Inter", sans-serif;
+      --bg: #0E0E0C;
+      --bg-glow: rgba(224, 92, 30, 0.18);
+      --surface: #1C1410;
+      --surface-hover: #271C16;
+      --border: #3A2A20;
+      --text: #FFFFFF;
+      --heading: #FFFFFF;
+      --subheading: #F0A060;
+      --body: #8A7A6E;
+      --label: #6A5A50;
+      --link: #E05C1E;
+      --accent: #E05C1E;
+      --accent-2: #F0A060;
+      --button-text: #FFFFFF;
+      --ag-label: #8FD42E;
+      --shadow: 0 28px 70px rgba(0, 0, 0, 0.34);
+    }
+
+    @media (prefers-color-scheme: light) {
+      :root {
+        --bg: #FDF6F0;
+        --bg-glow: rgba(196, 76, 20, 0.12);
+        --surface: #FFFFFF;
+        --surface-hover: #F5ECE4;
+        --border: #E8DCD0;
+        --text: #4A3A30;
+        --heading: #1C1410;
+        --subheading: #D87830;
+        --body: #4A3A30;
+        --label: #7A6A5E;
+        --link: #C44C14;
+        --accent: #C44C14;
+        --accent-2: #D87830;
+        --ag-label: #5A8A1E;
+        --shadow: 0 24px 60px rgba(74, 58, 48, 0.12);
+      }
     }
 
     * { box-sizing: border-box; }
@@ -68,12 +101,12 @@
     html, body {
       margin: 0;
       min-height: 100%;
-      font-family: "Avenir Next", "Helvetica Neue", sans-serif;
+      font-family: var(--font-body);
       color: var(--text);
       background:
-        radial-gradient(circle at top left, rgba(255, 255, 255, 0.08), transparent 32%),
-        radial-gradient(circle at 20% 70%, rgba(255, 90, 54, 0.16), transparent 40%),
-        linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 50%, var(--bg-3) 100%);
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.06), transparent 28%),
+        radial-gradient(circle at 82% 12%, var(--bg-glow), transparent 26%),
+        linear-gradient(180deg, var(--bg) 0%, var(--bg) 100%);
     }
 
     body {
@@ -86,9 +119,9 @@
     }
 
     .shell {
-      width: min(1100px, 100%);
+      width: min(1120px, 100%);
       margin: 0 auto;
-      padding: 32px 18px 56px;
+      padding: 32px 18px 64px;
     }
 
     .topbar {
@@ -96,23 +129,21 @@
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding: 6px 2px 30px;
+      padding: 6px 2px 34px;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
     }
 
     .brand-mark {
       width: 96px;
       height: 52px;
-      border-radius: 0;
       display: grid;
       place-items: center;
       background: transparent;
-      box-shadow: none;
       overflow: hidden;
     }
 
@@ -125,52 +156,121 @@
 
     .brand-copy {
       display: grid;
-      gap: 2px;
+      gap: 4px;
+    }
+
+    .brand-copy strong,
+    h1,
+    h2,
+    h3,
+    h4 {
+      font-family: var(--font-display);
+      font-weight: 700;
     }
 
     .brand-copy strong {
       font-size: 20px;
-      letter-spacing: 0.02em;
+      letter-spacing: -0.02em;
+      color: var(--heading);
     }
 
     .brand-copy span {
       font-size: 12px;
-      color: var(--muted);
+      color: var(--label);
+    }
+
+    .by-label {
+      color: var(--ag-label);
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    .cta-btn,
+    .ghost {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      border-radius: 999px;
+      padding: 12px 20px;
+      font-family: var(--font-display);
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+      transition: transform 180ms ease, background 180ms ease, border-color 180ms ease;
     }
 
     .cta-btn {
       border: 0;
-      border-radius: 999px;
-      padding: 12px 20px;
-      font: inherit;
-      font-weight: 800;
-      background: linear-gradient(90deg, var(--hot-1) 0%, var(--hot-2) 100%);
-      color: white;
-      box-shadow: 0 18px 30px rgba(91, 9, 22, 0.3);
+      background: var(--accent);
+      color: var(--button-text);
+      box-shadow: 0 16px 28px rgba(224, 92, 30, 0.22);
       cursor: pointer;
+    }
+
+    .ghost {
+      border: 1px solid var(--border);
+      background: transparent;
+      color: var(--heading);
+    }
+
+    .cta-btn:hover,
+    .ghost:hover {
+      transform: translateY(-1px);
     }
 
     .hero {
       display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+      grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.92fr);
       gap: 28px;
       align-items: center;
     }
 
+    .eyebrow,
+    .chip,
+    .step span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-display);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--label);
+    }
+
+    .eyebrow {
+      margin-bottom: 14px;
+    }
+
     .hero h1 {
       margin: 0 0 18px;
-      font-size: clamp(44px, 7vw, 72px);
-      line-height: 0.95;
+      font-size: clamp(44px, 7vw, 76px);
+      line-height: 0.94;
       letter-spacing: -0.05em;
-      font-weight: 900;
+      color: var(--heading);
+      max-width: 9ch;
+    }
+
+    .accent {
+      color: var(--accent);
+    }
+
+    .hero p,
+    .card p,
+    .step p,
+    .cta p,
+    .hero-note {
+      color: var(--body);
+      font-size: 17px;
+      line-height: 1.65;
     }
 
     .hero p {
       margin: 0 0 22px;
-      color: var(--muted);
-      font-size: 18px;
-      line-height: 1.6;
-      max-width: 520px;
+      max-width: 540px;
     }
 
     .hero-actions {
@@ -180,45 +280,35 @@
       flex-wrap: wrap;
     }
 
-    .ghost {
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.08);
-      color: var(--text);
-      border-radius: 999px;
-      padding: 12px 18px;
-      font-weight: 700;
+    .hero-card,
+    .card,
+    .step,
+    .cta {
+      border: 1px solid var(--border);
+      background: var(--surface);
+      box-shadow: var(--shadow);
     }
 
     .hero-card {
-      background: var(--panel-strong);
-      border: 1px solid var(--line);
-      border-radius: 28px;
-      padding: 22px;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(18px);
+      border-radius: 30px;
+      padding: 24px;
       display: grid;
-      gap: 16px;
+      gap: 18px;
     }
 
-    .hero-card .chip {
+    .chip {
       align-self: start;
-      padding: 6px 12px;
-      border-radius: 999px;
-      background: rgba(255,255,255,0.12);
-      font-size: 12px;
-      font-weight: 700;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
     }
 
     .hero-mock {
-      background: linear-gradient(150deg, rgba(255,255,255,0.08), transparent 50%),
-        linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-      border: 1px solid rgba(255,255,255,0.12);
       border-radius: 24px;
-      padding: 18px;
+      padding: 20px;
       display: grid;
-      gap: 12px;
+      gap: 14px;
+      background:
+        linear-gradient(180deg, rgba(255, 255, 255, 0.04) 0%, transparent 100%),
+        var(--surface-hover);
+      border: 1px solid var(--border);
     }
 
     .hero-mock .row {
@@ -226,13 +316,17 @@
       align-items: center;
       justify-content: space-between;
       gap: 10px;
+      color: var(--heading);
+      font-family: var(--font-display);
+      font-weight: 600;
     }
 
     .pill {
       height: 10px;
       width: 62%;
       border-radius: 999px;
-      background: rgba(255,255,255,0.2);
+      background: color-mix(in srgb, var(--label) 55%, transparent);
+      opacity: 0.55;
     }
 
     .pill.small {
@@ -242,105 +336,100 @@
     .progress {
       height: 8px;
       border-radius: 999px;
-      background: linear-gradient(90deg, var(--hot-1) 0%, var(--hot-2) 100%);
+      background: linear-gradient(90deg, var(--accent) 0%, var(--accent-2) 100%);
       width: 58%;
-      box-shadow: 0 0 20px rgba(255, 90, 54, 0.4);
+      box-shadow: 0 0 18px rgba(224, 92, 30, 0.24);
+    }
+
+    .hero-note {
+      margin: 0;
+      font-size: 14px;
     }
 
     .section {
-      margin-top: 64px;
+      margin-top: 72px;
       display: grid;
       gap: 18px;
     }
 
     .section h2 {
       margin: 0;
-      font-size: clamp(28px, 4vw, 40px);
+      font-size: clamp(28px, 4vw, 42px);
       letter-spacing: -0.03em;
-      font-weight: 900;
+      color: var(--heading);
     }
 
-    .grid {
+    .section-intro {
+      max-width: 640px;
+    }
+
+    .section h3,
+    .step h4 {
+      margin: 0;
+      color: var(--subheading);
+      font-size: 18px;
+      line-height: 1.2;
+    }
+
+    .grid,
+    .steps {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
       gap: 18px;
     }
 
-    .card {
-      background: var(--panel);
-      border: 1px solid var(--line);
-      border-radius: 22px;
-      padding: 20px;
-      box-shadow: var(--shadow);
-    }
-
-    .card h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
-      letter-spacing: -0.02em;
-    }
-
-    .card p {
-      margin: 0;
-      color: var(--muted);
-      line-height: 1.5;
-      font-size: 14px;
-    }
-
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 16px;
-    }
-
+    .card,
     .step {
-      border-radius: 20px;
-      padding: 18px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 24px;
+      padding: 22px;
+    }
+
+    .card {
+      display: grid;
+      gap: 10px;
+    }
+
+    .card p,
+    .step p {
+      margin: 0;
+      font-size: 14px;
     }
 
     .step span {
-      font-weight: 900;
-      font-size: 14px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
+      margin-bottom: 12px;
     }
 
     .step h4 {
-      margin: 10px 0 6px;
-      font-size: 18px;
-    }
-
-    .step p {
-      margin: 0;
-      color: var(--muted);
-      font-size: 14px;
-      line-height: 1.5;
+      margin-bottom: 8px;
+      color: var(--heading);
+      font-size: 20px;
     }
 
     .cta {
-      margin-top: 64px;
-      border-radius: 28px;
-      padding: 24px;
-      background: linear-gradient(120deg, rgba(255,255,255,0.12), rgba(255,255,255,0.05));
-      border: 1px solid rgba(255,255,255,0.2);
+      margin-top: 72px;
+      border-radius: 30px;
+      padding: 28px;
       display: flex;
       flex-wrap: wrap;
-      gap: 16px;
+      gap: 18px;
       align-items: center;
       justify-content: space-between;
     }
 
+    .cta h2 {
+      margin: 0 0 8px;
+      font-size: clamp(28px, 4vw, 40px);
+      color: var(--heading);
+    }
+
     .cta p {
       margin: 0;
-      color: var(--muted);
+      max-width: 560px;
     }
 
     .footer {
       margin-top: 48px;
-      color: rgba(255,255,255,0.5);
+      color: var(--label);
       font-size: 12px;
       display: flex;
       justify-content: space-between;
@@ -349,10 +438,7 @@
     }
 
     @media (max-width: 980px) {
-      .hero {
-        grid-template-columns: 1fr;
-      }
-
+      .hero,
       .grid,
       .steps {
         grid-template-columns: 1fr;
@@ -380,13 +466,12 @@
 
     @media (max-width: 600px) {
       .shell {
-        padding: 20px 14px 36px;
+        padding: 20px 14px 40px;
       }
 
       .brand-mark {
         width: 76px;
         height: 40px;
-        border-radius: 0;
       }
 
       .brand-copy strong {
@@ -394,7 +479,7 @@
       }
 
       .hero h1 {
-        font-size: clamp(34px, 10vw, 48px);
+        font-size: clamp(34px, 10vw, 50px);
       }
 
       .hero p {
@@ -403,40 +488,26 @@
 
       .hero-card,
       .card,
-      .step {
-        border-radius: 18px;
+      .step,
+      .cta {
+        border-radius: 22px;
       }
 
-      .hero-card {
-        padding: 18px;
+      .hero-card,
+      .card,
+      .step,
+      .cta {
+        padding: 20px;
       }
 
       .hero-mock {
-        padding: 14px;
+        padding: 16px;
         border-radius: 18px;
       }
 
-      .section h2 {
-        font-size: 24px;
-      }
-
-      .cta {
-        border-radius: 20px;
-        padding: 20px;
-      }
-    }
-
-    @media (max-width: 420px) {
-      .shell {
-        padding: 18px 12px 32px;
-      }
-
-      .hero h1 {
-        font-size: clamp(30px, 11vw, 42px);
-      }
-
-      .hero p {
-        font-size: 15px;
+      .section h2,
+      .cta h2 {
+        font-size: 26px;
       }
     }
   </style>
@@ -450,22 +521,23 @@
         </div>
         <div class="brand-copy">
           <strong>Earmarks</strong>
-          <span>Podcast highlight engine</span>
+          <span>Podcast highlight engine <span class="by-label">by Agmentic</span></span>
         </div>
       </div>
     </header>
 
     <section class="hero">
       <div>
-        <h1>Find the strongest moments in your podcast</h1>
-        <p>Earmarks skips to the good parts for you. Drop in an episode, tell us what you're after, and we'll pull out the moments actually worth your time.</p>
+        <div class="eyebrow">Podcast highlight engine</div>
+        <h1>Find the <span class="accent">strongest moments</span> in your podcast.</h1>
+        <p>Earmarks skips straight to the memorable parts. Drop in an episode, point us toward a topic or leave it open, and we return the moments that are actually worth replaying.</p>
         <div class="hero-actions">
           <a class="cta-btn" href="https://earmarks.agmentic.com" id="earmarksHeroCta">Get my highlights</a>
           <a class="ghost" href="#how" id="earmarksHowLink">How does this work?</a>
         </div>
       </div>
       <div class="hero-card">
-        <span class="chip">Highlight engine</span>
+        <span class="chip">Warm discovery, not noise</span>
         <div class="hero-mock">
           <div class="row">
             <strong>Episode scan</strong>
@@ -483,66 +555,88 @@
             <span class="pill small"></span>
           </div>
         </div>
-        <p style="margin:0;color:var(--muted);font-size:14px;line-height:1.5;">Both topic highlights and top moments - ready to play in a few minutes.</p>
+        <p class="hero-note">Topic highlights and strongest moments, packaged into a short reel in a few minutes.</p>
       </div>
     </section>
 
     <section class="section" id="how">
-      <h2>Three steps</h2>
+      <div class="section-intro">
+        <h3>Three steps</h3>
+        <h2>A small workflow for big listening shortcuts.</h2>
+      </div>
       <div class="steps">
         <div class="step">
           <span>Step 1</span>
-          <h4>Throw in an episode</h4>
-          <p>Any audio file. We take it from there.</p>
+          <h4>Drop in an episode</h4>
+          <p>Any audio file works. Earmarks takes the full conversation and starts scanning for standout sections right away.</p>
         </div>
         <div class="step">
           <span>Step 2</span>
-          <h4>Tell us what you're looking for (or don't)</h4>
-          <p>Got a specific topic in mind? Great. No idea? Also fine - we'll find the best bits either way.</p>
+          <h4>Set a topic or leave it open</h4>
+          <p>Point us toward a theme if you have one, or let the engine surface the clips that feel most worth remembering.</p>
         </div>
         <div class="step">
           <span>Step 3</span>
-          <h4>Listen to what actually matters</h4>
-          <p>A short list of clips, ranked by how good they are. No padding, no filler, no sitting through the intro music again.</p>
+          <h4>Play the moments that matter</h4>
+          <p>Get a ranked set of short clips so you can skip the filler and land on the conversation beats with real energy.</p>
         </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="section-intro">
+        <h3>What you get</h3>
+        <h2>Built for quick discovery and easy replay.</h2>
+      </div>
+      <div class="grid">
+        <article class="card">
+          <h4>Fast first pass</h4>
+          <p>Most reels are ready in a couple of minutes, so you can decide what deserves a full listen without waiting around.</p>
+        </article>
+        <article class="card">
+          <h4>Topic-aware highlights</h4>
+          <p>Ask for a theme like AI agents or storytelling craft, then compare it against the strongest moments the episode already contains.</p>
+        </article>
+        <article class="card">
+          <h4>Shareable snippets</h4>
+          <p>Each highlight is short, focused, and easy to replay when you want the memorable part without the whole runtime.</p>
+        </article>
       </div>
     </section>
 
     <section class="cta">
       <div>
-        <h2 style="margin:0 0 6px; font-size:26px;">Ready to hear the best moments?</h2>
-        <p>Your first highlight reel takes about two minutes. Give it a shot.</p>
+        <h2>Ready to hear the best moments?</h2>
+        <p>Your first highlight reel takes about two minutes. Feed in one episode and let Earmarks surface the parts you will actually remember.</p>
       </div>
       <a class="cta-btn" href="https://earmarks.agmentic.com" id="earmarksBottomCta">Try Earmarks</a>
     </section>
 
     <footer class="footer">
-      <span>An Agmentic Lab product</span>
+      <span>Podcast highlight engine <span class="by-label">by Agmentic</span></span>
       <span>Private beta</span>
     </footer>
   </div>
+  <script>
+    document.getElementById("earmarksHeroCta").addEventListener("click", function() {
+      window.agmenticTrack("click_cta", {
+        cta_location: "hero",
+        cta_text: "get_my_highlights"
+      });
+    });
+
+    document.getElementById("earmarksBottomCta").addEventListener("click", function() {
+      window.agmenticTrack("click_cta", {
+        cta_location: "footer",
+        cta_text: "try_earmarks"
+      });
+    });
+
+    document.getElementById("earmarksHowLink").addEventListener("click", function() {
+      window.agmenticTrack("click_nav", {
+        nav_target: "how"
+      });
+    });
+  </script>
 </body>
-<script>
-  document.getElementById("earmarksHeroCta").addEventListener("click", function() {
-    window.agmenticTrack("cta_click", {
-      cta_text: "get_my_highlights",
-      cta_location: "hero",
-      destination_url: this.href
-    });
-  });
-
-  document.getElementById("earmarksBottomCta").addEventListener("click", function() {
-    window.agmenticTrack("cta_click", {
-      cta_text: "try_earmarks",
-      cta_location: "bottom_cta",
-      destination_url: this.href
-    });
-  });
-
-  document.getElementById("earmarksHowLink").addEventListener("click", function() {
-    window.agmenticTrack("section_navigation_click", {
-      target_section: "how"
-    });
-  });
-</script>
 </html>
