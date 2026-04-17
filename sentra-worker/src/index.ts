@@ -4,10 +4,13 @@ interface Env {
   RESEND_API_KEY: string;
   GROQ_API_KEY?: string;
   GROQ_MODEL?: string;
+  ABSTRACT_API_KEY?: string;
   SENTRA_DEMO_LINK?: string;
   SENTRA_NOTIFY_EMAIL?: string;
   SENTRA_FROM_EMAIL?: string;
   ALLOWED_ORIGIN?: string;
+  GOOGLE_SHEETS_WEBHOOK_URL?: string;
+  GOOGLE_SHEETS_WEBHOOK_TOKEN?: string;
 }
 
 type CompanyMetric = (typeof DEMO_DATA.companyMetrics)[number];
@@ -23,6 +26,7 @@ const DEFAULT_GROQ_MODEL = "groq/compound-mini";
 const USAGE_LIMIT_MESSAGE =
   "The AI demo has currently reached its usage limit or is temporarily unavailable. Please try again shortly.";
 const DEFAULT_REPLY_TO = "hello@agmentic.com";
+const ABSTRACT_ENDPOINT = "https://emailreputation.abstractapi.com/v1/";
 
 function corsHeaders(origin: string) {
   return {
@@ -47,6 +51,44 @@ function isValidEmail(email: string) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+function normalizeEmail(email: string) {
+  return email.trim().toLowerCase();
+}
+
+function isLikelyDeliverableEmail(email: string) {
+  if (!isValidEmail(email)) return false;
+  const [, domain = ""] = email.split("@");
+  if (!domain || domain.length < 4) return false;
+  if (!domain.includes(".")) return false;
+  if (domain.startsWith(".") || domain.endsWith(".")) return false;
+  if (domain.includes("..")) return false;
+  const tld = domain.split(".").pop() || "";
+  return tld.length >= 2;
+}
+
+async function hasMailExchange(email: string) {
+  const [, domain = ""] = email.split("@");
+  if (!domain) return false;
+
+  const response = await fetch(`https://cloudflare-dns.com/dns-query?name=${encodeURIComponent(domain)}&type=MX`, {
+    headers: {
+      Accept: "application/dns-json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`mx_lookup_failed_${response.status}`);
+  }
+
+  const data = (await response.json()) as {
+    Status?: number;
+    Answer?: Array<{ type?: number }>;
+  };
+
+  if (data.Status !== 0) return false;
+  return Boolean(data.Answer?.some((answer) => answer.type === 15));
+}
+
 function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")
@@ -56,59 +98,179 @@ function escapeHtml(value: string) {
     .replaceAll("'", "&#39;");
 }
 
-function requesterTemplate(email: string, demoLink?: string) {
-  const safeEmail = escapeHtml(email);
-  const safeDemoLink = demoLink ? escapeHtml(demoLink) : "";
-  const accessSection = demoLink
-    ? `
-      <div style="margin: 24px 0 20px;">
-        <a href="${safeDemoLink}" style="display:inline-block;padding:12px 18px;border-radius:10px;background:#D89A3D;color:#111827;text-decoration:none;font-size:14px;font-weight:600;">
-          See it work →
-        </a>
-      </div>
-      <p style="font-size:12px;line-height:1.7;color:rgba(237,232,223,.62);margin:0;">
-        If the button doesn't open, use this link:<br />
-        <a href="${safeDemoLink}" style="color:#EDE8DF;text-decoration:none;">${safeDemoLink}</a>
-      </p>
-    `
-    : `
-      <p style="font-size:14px;line-height:1.8;color:rgba(237,232,223,.72);margin:0;">
-        We received your request and will send your Sentra demo link shortly.
-      </p>
-    `;
-
-  return `
-    <div style="margin:0;padding:24px;background:#0B1020;">
-      <div style="font-family:Georgia,'Times New Roman',serif;max-width:520px;margin:0 auto;background:linear-gradient(180deg,#11192E 0%,#0E1527 100%);color:#EDE8DF;border:1px solid rgba(237,232,223,.12);border-radius:20px;padding:32px 24px;box-sizing:border-box;">
-        <p style="font-family:Inter,Segoe UI,Arial,sans-serif;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:#D89A3D;margin:0 0 14px;">By Agmentic</p>
-        <p style="font-family:Georgia,'Times New Roman',serif;font-size:26px;line-height:1.1;font-weight:700;color:#EDE8DF;margin:0 0 6px;">Sentra</p>
-        <h1 style="font-size:34px;line-height:1.02;font-weight:700;letter-spacing:-0.03em;margin:0 0 14px;color:#F3EEE6;">See what Sentra knows.</h1>
-        <p style="font-family:Inter,Segoe UI,Arial,sans-serif;font-size:15px;line-height:1.7;color:rgba(237,232,223,.72);margin:0 0 10px;">
-          Open the link below, ask questions, and see real answers in about two minutes.
-        </p>
-        <p style="font-family:Inter,Segoe UI,Arial,sans-serif;font-size:13px;line-height:1.7;color:rgba(237,232,223,.58);margin:0 0 4px;">
-          Requested for <strong>${safeEmail}</strong>
-        </p>
-        ${accessSection}
-        <div style="margin-top:24px;padding-top:16px;border-top:1px solid rgba(237,232,223,.08);font-family:Inter,Segoe UI,Arial,sans-serif;font-size:12px;line-height:1.7;color:rgba(237,232,223,.52);">
-          If you didn't request this email, you can safely ignore it.
-        </div>
-      </div>
-    </div>
-  `;
-}
-
-function notifyTemplate(email: string, demoLink?: string) {
-  const safeEmail = escapeHtml(email);
+function notifyTemplate(
+  details: {
+    email: string;
+    pageCategory: string;
+    industryLabel: string;
+    salesLane: string;
+    sheetStatus: string;
+    verificationSummary: string;
+  },
+  demoLink?: string,
+) {
+  const safeEmail = escapeHtml(details.email);
+  const safePageCategory = escapeHtml(details.pageCategory);
+  const safeIndustryLabel = escapeHtml(details.industryLabel);
+  const safeSalesLane = escapeHtml(details.salesLane);
+  const safeSheetStatus = escapeHtml(details.sheetStatus);
+  const safeVerificationSummary = escapeHtml(details.verificationSummary);
   const safeDemoLink = demoLink ? escapeHtml(demoLink) : "";
   return `
     <div style="font-family:Inter,Segoe UI,Arial,sans-serif;max-width:520px;margin:0 auto;padding:32px 24px;background:#FFFFFF;color:#13203A;border-radius:16px;border:1px solid rgba(19,32,58,.08);">
       <p style="font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:#842029;margin:0 0 12px;">New Request</p>
       <h1 style="font-size:22px;margin:0 0 16px;">Sentra demo access requested</h1>
       <p style="font-size:14px;line-height:1.7;margin:0 0 8px;"><strong>Email:</strong> ${safeEmail}</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px;"><strong>Page category:</strong> ${safePageCategory}</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px;"><strong>Industry:</strong> ${safeIndustryLabel}</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px;"><strong>Sales lane:</strong> ${safeSalesLane}</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px;"><strong>Verification:</strong> ${safeVerificationSummary}</p>
+      <p style="font-size:14px;line-height:1.7;margin:0 0 8px;"><strong>Google Sheet:</strong> ${safeSheetStatus}</p>
       <p style="font-size:14px;line-height:1.7;margin:0;">${demoLink ? `<strong>Demo link:</strong> ${safeDemoLink}` : "No demo link configured yet."}</p>
     </div>
   `;
+}
+
+type AbstractValidationResult = {
+  accepted: boolean;
+  status: string;
+  statusDetail: string;
+  qualityScore: number | null;
+  isSmtpValid: boolean;
+  isMxValid: boolean;
+  isFormatValid: boolean;
+  isDisposable: boolean;
+  isCatchall: boolean;
+  isFreeEmail: boolean;
+};
+
+async function validateWithAbstract(email: string, apiKey: string) {
+  const url = new URL(ABSTRACT_ENDPOINT);
+  url.searchParams.set("api_key", apiKey);
+  url.searchParams.set("email", email);
+
+  const response = await fetch(url.toString(), {
+    headers: {
+      Accept: "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`abstract_http_${response.status}`);
+  }
+
+  const data = (await response.json()) as {
+    email_deliverability?: {
+      status?: string;
+      status_detail?: string;
+      is_format_valid?: boolean;
+      is_smtp_valid?: boolean;
+      is_mx_valid?: boolean;
+    };
+    email_quality?: {
+      score?: number;
+      is_free_email?: boolean;
+      is_disposable?: boolean;
+      is_catchall?: boolean;
+    };
+  };
+
+  const deliverability = data.email_deliverability || {};
+  const quality = data.email_quality || {};
+  const status = deliverability.status || "unknown";
+  const isFormatValid = Boolean(deliverability.is_format_valid);
+  const isMxValid = Boolean(deliverability.is_mx_valid);
+  const isSmtpValid = Boolean(deliverability.is_smtp_valid);
+  const isDisposable = Boolean(quality.is_disposable);
+  const isCatchall = Boolean(quality.is_catchall);
+  const isFreeEmail = Boolean(quality.is_free_email);
+  const qualityScore = typeof quality.score === "number" ? quality.score : null;
+  const accepted =
+    isFormatValid &&
+    isMxValid &&
+    !isDisposable &&
+    (status === "deliverable" || isSmtpValid || (status === "unknown" && isCatchall));
+
+  return {
+    accepted,
+    status,
+    statusDetail: deliverability.status_detail || "",
+    qualityScore,
+    isSmtpValid,
+    isMxValid,
+    isFormatValid,
+    isDisposable,
+    isCatchall,
+    isFreeEmail,
+  } satisfies AbstractValidationResult;
+}
+
+function buildVerificationSummary(result: AbstractValidationResult) {
+  const parts = [
+    `status=${result.status}`,
+    `smtp=${result.isSmtpValid ? "yes" : "no"}`,
+    `mx=${result.isMxValid ? "yes" : "no"}`,
+  ];
+
+  if (result.isDisposable) parts.push("disposable=yes");
+  if (result.isCatchall) parts.push("catchall=yes");
+  if (result.qualityScore !== null) parts.push(`score=${result.qualityScore}`);
+
+  return parts.join(", ");
+}
+
+async function appendLeadToGoogleSheet(
+  env: Env,
+  payload: {
+    token: string;
+    requestedAt: string;
+    email: string;
+    pageCategory: string;
+    industry: string;
+    industryLabel: string;
+    salesLane: string;
+    origin: string;
+    userAgent: string;
+    mxCheckPassed: boolean;
+    abstractStatus: string;
+    abstractStatusDetail: string;
+    abstractIsSmtpValid: boolean;
+    abstractIsMxValid: boolean;
+    abstractIsDisposable: boolean;
+    abstractIsCatchall: boolean;
+    abstractIsFreeEmail: boolean;
+    abstractQualityScore: number | null;
+  },
+) {
+  if (!env.GOOGLE_SHEETS_WEBHOOK_URL) {
+    throw new Error("google_sheets_webhook_missing");
+  }
+
+  const response = await fetch(env.GOOGLE_SHEETS_WEBHOOK_URL, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  const body = (await response.text()).trim();
+  let parsed: { success?: boolean; error?: string } | null = null;
+  try {
+    parsed = body ? (JSON.parse(body) as { success?: boolean; error?: string }) : null;
+  } catch {
+    parsed = null;
+  }
+
+  if (!response.ok) {
+    throw new Error(`google_sheets_http_${response.status}:${body}`);
+  }
+
+  if (!parsed?.success) {
+    throw new Error(`google_sheets_rejected:${parsed?.error || body || "unknown_error"}`);
+  }
+
+  return "saved";
 }
 
 async function sendEmail(apiKey: string, payload: Record<string, unknown>) {
@@ -131,26 +293,6 @@ async function sendEmail(apiKey: string, payload: Record<string, unknown>) {
   } catch {
     return { id: undefined };
   }
-}
-
-function requesterText(email: string, demoLink?: string) {
-  const lines = [
-    "Sentra by Agmentic",
-    "",
-    "See what Sentra knows.",
-    "Open the link below, ask questions, and see real answers in about two minutes.",
-    "",
-    `Requested for: ${email}`,
-  ];
-
-  if (demoLink) {
-    lines.push("", `Demo link: ${demoLink}`);
-  } else {
-    lines.push("", "We received your request and will send your Sentra demo link shortly.");
-  }
-
-  lines.push("", "If you didn't request this email, you can safely ignore it.");
-  return lines.join("\n");
 }
 
 function notifyText(email: string, demoLink?: string) {
@@ -407,15 +549,45 @@ async function rewriteWithGroq(question: string, answer: string, sources: string
 }
 
 async function handleDemoAccess(request: Request, env: Env, origin: string) {
-  const body = (await request.json().catch(() => null)) as { email?: string } | null;
-  const email = body?.email?.trim().toLowerCase() || "";
+  const body = (await request.json().catch(() => null)) as {
+    email?: string;
+    pageCategory?: string;
+    industry?: string;
+    industryLabel?: string;
+    salesLane?: string;
+  } | null;
+  const email = normalizeEmail(body?.email || "");
+  const pageCategory = body?.pageCategory?.trim() || "generic";
+  const industry = body?.industry?.trim() || "generic";
+  const industryLabel = body?.industryLabel?.trim() || "Generic";
+  const salesLane = body?.salesLane?.trim() || "Shared qualification";
 
-  if (!isValidEmail(email)) {
+  if (!isLikelyDeliverableEmail(email)) {
     return json({ error: "Invalid email address" }, 400, origin);
+  }
+
+  let hasMx = false;
+  try {
+    hasMx = await hasMailExchange(email);
+  } catch (error) {
+    console.error("sentra mx lookup error", { email, error });
+    return json({ error: "We couldn't verify this email domain right now. Please try again." }, 502, origin);
+  }
+
+  if (!hasMx) {
+    return json({ error: "Please enter a reachable work email address." }, 400, origin);
   }
 
   if (!env.RESEND_API_KEY) {
     return json({ error: "Email service is not configured" }, 500, origin);
+  }
+
+  if (!env.ABSTRACT_API_KEY) {
+    return json({ error: "Email verification is not configured" }, 500, origin);
+  }
+
+  if (!env.GOOGLE_SHEETS_WEBHOOK_URL || !env.GOOGLE_SHEETS_WEBHOOK_TOKEN) {
+    return json({ error: "Google Sheet storage is not configured" }, 500, origin);
   }
 
   const demoLink = env.SENTRA_DEMO_LINK?.trim() || DEFAULT_DEMO_LINK;
@@ -423,30 +595,99 @@ async function handleDemoAccess(request: Request, env: Env, origin: string) {
   const from = fromAddress.includes("<") ? fromAddress : `Sentra by Agmentic <${fromAddress}>`;
   const notifyEmail = env.SENTRA_NOTIFY_EMAIL?.trim() || DEFAULT_NOTIFY_EMAIL;
   const replyTo = DEFAULT_REPLY_TO;
+  const requestedAt = new Date().toISOString();
 
-  const requesterResult = await sendEmail(env.RESEND_API_KEY, {
-    from,
-    to: [email],
-    reply_to: replyTo,
-    subject: "Your Sentra demo link",
-    html: requesterTemplate(email, demoLink),
-    text: requesterText(email, demoLink),
-  });
-  console.log("sentra requester email accepted", { email, resendId: requesterResult.id ?? null });
-
-  if (notifyEmail) {
-    const notifyResult = await sendEmail(env.RESEND_API_KEY, {
-      from,
-      to: [notifyEmail],
-      reply_to: replyTo,
-      subject: `New Sentra demo access request: ${email}`,
-      html: notifyTemplate(email, demoLink),
-      text: notifyText(email, demoLink),
-    });
-    console.log("sentra notify email accepted", { email, notifyEmail, resendId: notifyResult.id ?? null });
+  let abstractResult: AbstractValidationResult;
+  try {
+    abstractResult = await validateWithAbstract(email, env.ABSTRACT_API_KEY);
+  } catch (error) {
+    console.error("sentra abstract verification error", { email, error });
+    return json({ error: "We couldn't complete email verification right now. Please try again." }, 502, origin);
   }
 
-  return json({ success: true, message: "Demo access email sent" }, 200, origin);
+  if (!abstractResult.accepted) {
+    return json({ error: "Please enter a real, reachable email address." }, 400, origin);
+  }
+
+  let sheetStatus = "saved";
+  try {
+    sheetStatus = await appendLeadToGoogleSheet(env, {
+      token: env.GOOGLE_SHEETS_WEBHOOK_TOKEN,
+      requestedAt,
+      email,
+      pageCategory,
+      industry,
+      industryLabel,
+      salesLane,
+      origin,
+      userAgent: request.headers.get("User-Agent") || "",
+      mxCheckPassed: true,
+      abstractStatus: abstractResult.status,
+      abstractStatusDetail: abstractResult.statusDetail,
+      abstractIsSmtpValid: abstractResult.isSmtpValid,
+      abstractIsMxValid: abstractResult.isMxValid,
+      abstractIsDisposable: abstractResult.isDisposable,
+      abstractIsCatchall: abstractResult.isCatchall,
+      abstractIsFreeEmail: abstractResult.isFreeEmail,
+      abstractQualityScore: abstractResult.qualityScore,
+    });
+  } catch (error) {
+    console.error("sentra google sheet storage error", { email, error });
+    return json({ error: "We couldn't save your request right now. Please try again." }, 502, origin);
+  }
+
+  console.log("sentra demo request stored in google sheet", {
+    email,
+    requestedAt,
+    abstractStatus: abstractResult.status,
+  });
+
+  if (notifyEmail) {
+    try {
+      const notifyResult = await sendEmail(env.RESEND_API_KEY, {
+        from,
+        to: [notifyEmail],
+        reply_to: replyTo,
+        subject: `New Sentra demo access request: ${email}`,
+        html: notifyTemplate(
+          {
+            email,
+            pageCategory,
+            industryLabel,
+            salesLane,
+            sheetStatus,
+            verificationSummary: buildVerificationSummary(abstractResult),
+          },
+          demoLink,
+        ),
+        text: [
+          notifyText(email, demoLink),
+          `Page category: ${pageCategory}`,
+          `Industry: ${industryLabel}`,
+          `Sales lane: ${salesLane}`,
+          `Verification: ${buildVerificationSummary(abstractResult)}`,
+          `Google Sheet: ${sheetStatus}`,
+        ].join("\n"),
+      });
+      console.log("sentra notify email accepted", { email, notifyEmail, resendId: notifyResult.id ?? null });
+    } catch (error) {
+      sheetStatus = "saved, notify_failed";
+      console.error("sentra notify email failed", { email, error });
+    }
+  }
+
+  return json(
+    {
+      success: true,
+      message: "Demo access granted",
+      demoLink,
+      verified: true,
+      stored: true,
+      notifyStatus: sheetStatus,
+    },
+    200,
+    origin,
+  );
 }
 
 async function handleChat(request: Request, env: Env, origin: string) {

@@ -1,0 +1,1915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#0C1220">
+<title>Sentra — Your data, finally useful</title>
+<meta name="description" content="Sentra turns scattered business data into decisions. No analyst. No waiting.">
+<link rel="icon" type="image/png" href="../favicon.png">
+<link rel="apple-touch-icon" href="../favicon.png">
+<script>
+  window.AGMENTIC_ANALYTICS = {
+    measurementId: "G-6CRH1VN6D2",
+    siteSection: "sentra",
+    pageType: "landing"
+  };
+
+  (function initAnalytics(config) {
+    if (!config.measurementId || config.measurementId === "G-6CRH1VN6D2-PLACEHOLDER") return;
+
+    const script = document.createElement("script");
+    script.async = true;
+    script.src = "https://www.googletagmanager.com/gtag/js?id=" + encodeURIComponent(config.measurementId);
+    document.head.appendChild(script);
+
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { window.dataLayer.push(arguments); }
+    window.gtag = window.gtag || gtag;
+
+    window.gtag("js", new Date());
+    window.gtag("config", config.measurementId, { send_page_view: false });
+    window.gtag("event", "page_view", {
+      page_title: document.title,
+      page_path: window.location.pathname,
+      page_location: window.location.href,
+      page_referrer: document.referrer,
+      site_section: config.siteSection,
+      page_type: config.pageType
+    });
+  })(window.AGMENTIC_ANALYTICS);
+
+  window.agmenticTrack = function(eventName, params) {
+    if (!window.gtag) return;
+    window.gtag("event", eventName, Object.assign({
+      site_section: window.AGMENTIC_ANALYTICS.siteSection,
+      page_type: window.AGMENTIC_ANALYTICS.pageType
+    }, params || {}));
+  };
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,700;0,9..144,900;1,9..144,400;1,9..144,700&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --navy: #0C1220;
+  --navy-2: #111A2E;
+  --navy-3: #182038;
+  --navy-4: #0F1728;
+  --amber: #C98A3C;
+  --amber-2: #DFA048;
+  --cream: #EDE8DF;
+  --muted: rgba(237,232,223,0.50);
+  --muted-2: rgba(237,232,223,0.28);
+  --line: rgba(237,232,223,0.08);
+  --line-2: rgba(237,232,223,0.14);
+  --r: 14px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: "DM Sans", sans-serif;
+  background: var(--navy);
+  color: var(--cream);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+body.gateway-open {
+  overflow: hidden;
+}
+.shell {
+  width: min(1220px, calc(100vw - 128px));
+  margin: 0 auto;
+}
+a { color: inherit; text-decoration: none; }
+button, input { font: inherit; }
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0.025;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  height: 64px;
+  background: rgba(12,18,32,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--line);
+}
+.nav-shell {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.logo {
+  font-family: "Fraunces", serif;
+  font-size: 21px;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  display: flex;
+  align-items: center;
+  gap: 9px;
+}
+.brand-mark {
+  width: 30px;
+  height: auto;
+  display: block;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+.nav-cta {
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--amber);
+  color: var(--navy);
+  cursor: pointer;
+  transition: background .15s;
+}
+.nav-cta:hover { background: var(--amber-2); }
+
+.hero {
+  min-height: 100vh;
+  padding: 120px 0 96px;
+  position: relative;
+  overflow: hidden;
+}
+.site-shell {
+  transition: filter .35s ease, transform .35s ease;
+}
+body.gateway-open .site-shell {
+  filter: blur(18px) saturate(0.88);
+  transform: scale(1.01);
+  pointer-events: none;
+  user-select: none;
+}
+.hero-layout {
+  position: relative;
+  z-index: 1;
+  min-height: calc(100vh - 200px);
+  display: grid;
+  grid-template-columns: minmax(0, 680px) minmax(320px, 1fr);
+  align-items: center;
+  gap: 48px;
+}
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(ellipse 70% 60% at 15% 55%, rgba(201,138,60,0.11) 0%, transparent 65%),
+    radial-gradient(ellipse 40% 50% at 85% 15%, rgba(168,32,48,0.07) 0%, transparent 60%);
+}
+.hero-bg::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(237,232,223,0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 60% 80% at 10% 50%, black 0%, transparent 70%);
+}
+.hero-inner { position: relative; max-width: 680px; }
+.hero-visual {
+  position: relative;
+  min-height: 620px;
+  width: calc(100% + 140px);
+  margin-left: -140px;
+  border-radius: 40px;
+  overflow: hidden;
+  background:
+    radial-gradient(circle at 58% 52%, rgba(223,160,72,0.08) 0%, transparent 17%),
+    radial-gradient(circle at 78% 16%, rgba(153,169,224,0.08) 0%, transparent 14%),
+    radial-gradient(circle at 32% 34%, rgba(237,232,223,0.04) 0%, transparent 18%),
+    radial-gradient(circle at 78% 76%, rgba(223,160,72,0.06) 0%, transparent 14%);
+}
+.hero-visual::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(circle at 18% 18%, rgba(237,232,223,0.04) 0%, transparent 8%),
+    radial-gradient(circle at 82% 72%, rgba(237,232,223,0.03) 0%, transparent 10%);
+  mask-image: radial-gradient(circle at 58% 50%, black 0%, transparent 94%);
+  opacity: 0.4;
+}
+.hero-node-canvas {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+.hero-visual-copy {
+  position: absolute;
+  left: 28px;
+  right: 28px;
+  bottom: 24px;
+  z-index: 2;
+  display: none;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+.hero-visual-copy span:last-child {
+  color: rgba(237,232,223,0.44);
+}
+.hero-tag,
+.section-tag {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--amber);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.hero-tag { margin-bottom: 28px; opacity: 0; animation: fadeUp .6s .1s forwards; }
+.section-tag { margin-bottom: 20px; }
+.hero-tag::before,
+.section-tag::before {
+  content: "";
+  width: 22px;
+  height: 1px;
+  background: var(--amber);
+}
+.section-tag::before { width: 16px; opacity: .7; }
+.hero h1 {
+  font-family: "Fraunces", serif;
+  font-size: clamp(50px, 7vw, 84px);
+  line-height: 0.95;
+  letter-spacing: -0.04em;
+  font-weight: 900;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp .8s .2s forwards;
+}
+.hero h1 em { font-style: italic; font-weight: 400; color: var(--amber-2); }
+.hero-sub {
+  font-size: 18px;
+  line-height: 1.68;
+  color: var(--muted);
+  max-width: 42ch;
+  margin-bottom: 40px;
+  opacity: 0;
+  animation: fadeUp .75s .35s forwards;
+}
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  opacity: 0;
+  animation: fadeUp .7s .48s forwards;
+}
+.btn-main,
+.btn-main-lg {
+  border: 0;
+  border-radius: 9px;
+  font-weight: 600;
+  background: var(--amber);
+  color: var(--navy);
+  cursor: pointer;
+  transition: background .15s, transform .12s;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.btn-main {
+  padding: 14px 28px;
+  font-size: 15px;
+}
+.btn-main-lg {
+  padding: 15px 36px;
+  font-size: 16px;
+  gap: 9px;
+  white-space: nowrap;
+}
+.btn-main:hover,
+.btn-main-lg:hover {
+  background: var(--amber-2);
+  transform: translateY(-1px);
+}
+.btn-soft,
+.btn-talk {
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  background: transparent;
+  color: var(--muted);
+  cursor: pointer;
+  transition: color .15s, border-color .15s;
+}
+.btn-soft {
+  padding: 14px 22px;
+  font-size: 14px;
+}
+.btn-talk {
+  padding: 12px 26px;
+  font-size: 14px;
+}
+.btn-soft:hover,
+.btn-talk:hover {
+  color: var(--cream);
+  border-color: rgba(237,232,223,0.24);
+}
+
+.pain,
+.outcomes {
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  background: var(--navy-2);
+  padding: 72px 0;
+}
+.pain h2,
+.how h2,
+.outcomes h2,
+.cta-box h2 {
+  font-family: "Fraunces", serif;
+  letter-spacing: -0.035em;
+  font-weight: 700;
+}
+.pain h2 {
+  font-size: clamp(32px, 4vw, 48px);
+  line-height: 1.02;
+  margin-bottom: 12px;
+}
+.pain h2 em,
+.how h2 em,
+.outcomes h2 em { font-style: italic; font-weight: 400; color: var(--muted); }
+.pain-lead,
+.how-lead {
+  font-size: 18px;
+  line-height: 1.82;
+  color: var(--muted);
+  max-width: 68ch;
+}
+.pain-lead { margin-bottom: 48px; }
+.how-copy {
+  margin-bottom: 52px;
+}
+.how-lead { font-size: 16px; }
+.pain-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+.pc {
+  border-radius: var(--r);
+  padding: 28px 24px;
+  border: 1px solid var(--line);
+  transition: border-color .2s, transform .18s;
+}
+.pc:hover { border-color: var(--line-2); transform: translateY(-2px); }
+.pc-1, .pc-3 { background: var(--navy-3); }
+.pc-2 { background: var(--amber); color: var(--navy); }
+.pc h3 {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  margin-bottom: 8px;
+}
+.pc p {
+  font-size: 16px;
+  line-height: 1.78;
+  color: var(--muted);
+}
+.pc-2 p { color: rgba(12,18,32,0.6); }
+
+.how {
+  padding: 80px 0;
+  position: relative;
+}
+.how h2,
+.outcomes h2 {
+  font-size: clamp(30px, 3.5vw, 44px);
+  line-height: 1.04;
+}
+.how h2 { margin-bottom: 10px; }
+.outcomes h2 { margin-bottom: 40px; }
+
+.cycle {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--navy-2);
+  position: relative;
+}
+.cycle::before {
+  content: "";
+  position: absolute;
+  top: 48px;
+  left: calc(100% / 6);
+  right: calc(100% / 6);
+  height: 1px;
+  background: linear-gradient(90deg, transparent 0%, var(--amber) 12%, var(--amber) 88%, transparent 100%);
+  opacity: 0.25;
+  z-index: 0;
+  pointer-events: none;
+}
+.cycle-step {
+  padding: 28px 22px 26px;
+  border-right: 1px solid var(--line);
+  position: relative;
+  z-index: 1;
+  transition: background .18s;
+}
+.cycle-step:last-child { border-right: 0; }
+.cycle-step:hover { background: var(--navy-3); }
+.cycle-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(201,138,60,0.12);
+  border: 1px solid rgba(201,138,60,0.28);
+  display: grid;
+  place-items: center;
+  margin-bottom: 18px;
+  color: var(--amber);
+}
+.cycle-step h3 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  margin-bottom: 7px;
+}
+.cycle-step p {
+  font-size: 15px;
+  line-height: 1.82;
+  color: var(--muted);
+}
+.cycle-badge {
+  display: inline-block;
+  margin-bottom: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+
+.oc-list { display: grid; gap: 12px; }
+.oc {
+  display: grid;
+  grid-template-columns: 28px 1fr;
+  gap: 16px;
+  align-items: start;
+  padding: 20px 22px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--navy-3);
+  transition: border-color .18s;
+}
+.oc:hover { border-color: var(--line-2); }
+.oc-arrow { color: var(--amber); margin-top: 2px; }
+.oc h3 {
+  font-size: 16px;
+  font-weight: 600;
+  letter-spacing: -0.015em;
+  margin-bottom: 4px;
+}
+.oc p {
+  font-size: 13px;
+  line-height: 1.65;
+  color: var(--muted);
+}
+
+.cta-section { padding: 56px 0 104px; }
+.cta-box {
+  width: 100%;
+  margin: 0 auto;
+  border-radius: 18px;
+  padding: 42px 56px;
+  background: var(--navy-2);
+  border: 1px solid var(--line-2);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.cta-box::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 180px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+}
+.cta-box::after {
+  content: "";
+  position: absolute;
+  top: -15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  height: 180px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(201,138,60,0.11) 0%, transparent 70%);
+  pointer-events: none;
+}
+.cta-box h2 {
+  font-size: clamp(30px, 4vw, 50px);
+  line-height: 1.05;
+  margin-bottom: 12px;
+  position: relative;
+  z-index: 1;
+}
+.cta-box h2 em { font-style: italic; font-weight: 400; color: var(--amber-2); }
+.cta-box p {
+  font-size: 16px;
+  color: var(--muted);
+  margin-bottom: 20px;
+  position: relative;
+  z-index: 1;
+}
+.cta-actions {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  position: relative;
+  z-index: 1;
+}
+.cta-actions .btn-main-lg,
+.cta-actions .btn-talk {
+  width: 264px;
+  justify-content: center;
+}
+.cta-note { font-size: 12px; color: var(--muted-2); }
+.cta-or {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: var(--muted-2);
+  width: 200px;
+}
+.cta-or::before,
+.cta-or::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+footer {
+  border-top: 1px solid var(--line);
+  padding: 48px 0 34px;
+}
+.footer-top {
+  display: grid;
+  grid-template-columns: minmax(0, 420px) 1fr minmax(200px, 240px);
+  align-items: start;
+  gap: 32px;
+  margin-bottom: 24px;
+}
+.footer-brand {
+  max-width: 420px;
+}
+.footer-mark {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 14px;
+  font-family: "Fraunces", serif;
+  font-size: 20px;
+  color: var(--cream);
+}
+.footer-mark .brand-mark {
+  flex: 0 0 auto;
+}
+.footer-copy {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--muted);
+  margin-bottom: 18px;
+}
+.footer-spacer {
+  min-height: 1px;
+}
+.footer-meta {
+  font-size: 12px;
+  color: var(--muted-2);
+}
+.footer-connect {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+}
+.footer-links-title {
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.footer-links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+}
+.footer-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--cream);
+  font-size: 14px;
+  line-height: 1.2;
+  transition: color .15s, transform .12s;
+}
+.footer-link svg {
+  width: 16px;
+  height: 16px;
+  color: var(--amber);
+  flex: 0 0 auto;
+}
+.footer-link:hover {
+  color: var(--amber);
+  transform: translateY(-1px);
+}
+.industry-gateway {
+  position: fixed;
+  inset: 0;
+  z-index: 450;
+  background: rgba(8,12,20,0.75);
+  backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .28s ease;
+}
+.industry-gateway.open {
+  opacity: 1;
+  pointer-events: all;
+}
+.gateway-card {
+  width: min(760px, calc(100vw - 40px));
+  border-radius: 18px;
+  border: 1px solid var(--line-2);
+  background: var(--navy-2);
+  box-shadow: 0 24px 72px rgba(0,0,0,0.24);
+  position: relative;
+  padding: 36px 32px 30px;
+}
+.gateway-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--amber), transparent);
+  pointer-events: none;
+}
+.gateway-layout {
+  position: relative;
+  z-index: 1;
+}
+.gateway-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.gateway-kicker::before {
+  content: "";
+  width: 18px;
+  height: 1px;
+  background: currentColor;
+}
+.gateway-copy h2 {
+  font-family: "Fraunces", serif;
+  font-size: clamp(30px, 4vw, 40px);
+  line-height: 1.02;
+  letter-spacing: -0.04em;
+  margin-bottom: 10px;
+}
+.gateway-copy p {
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 52ch;
+}
+.gateway-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.gateway-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-top: 24px;
+}
+.gateway-skip {
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  border-radius: 999px;
+  padding: 12px 18px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: border-color .15s, color .15s, background .15s;
+}
+.gateway-skip:hover {
+  color: var(--cream);
+  border-color: var(--line-2);
+  background: rgba(237,232,223,0.04);
+}
+.industry-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 14px;
+}
+.industry-option {
+  text-align: left;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  background: rgba(237,232,223,0.03);
+  padding: 16px;
+  color: var(--cream);
+  cursor: pointer;
+  transition: transform .18s ease, border-color .18s ease, box-shadow .18s ease;
+}
+.industry-option:hover,
+.industry-option:focus-visible {
+  transform: translateY(-2px);
+  border-color: rgba(223,160,72,0.38);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.18);
+  outline: none;
+}
+.industry-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  padding: 6px 9px;
+  border-radius: 999px;
+  border: 1px solid rgba(223,160,72,0.18);
+  background: rgba(223,160,72,0.08);
+  color: var(--amber-2);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+.industry-option h4 {
+  font-size: 17px;
+  letter-spacing: -0.02em;
+  margin-bottom: 6px;
+}
+.industry-option p {
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+.industry-option strong {
+  display: block;
+  font-size: 12px;
+  color: var(--cream);
+  font-weight: 500;
+}
+.industry-badge-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+}
+.industry-current,
+.industry-route {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: rgba(237,232,223,0.04);
+  font-size: 12px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.industry-current strong,
+.industry-route strong {
+  color: var(--cream);
+  font-weight: 600;
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: none; }
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 500;
+  background: rgba(8,12,20,0.75);
+  backdrop-filter: blur(8px);
+  display: grid;
+  place-items: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .22s;
+}
+.modal-overlay.open { opacity: 1; pointer-events: all; }
+.modal {
+  background: var(--navy-2);
+  border: 1px solid var(--line-2);
+  border-radius: 18px;
+  padding: 44px 40px;
+  width: min(460px, calc(100vw - 40px));
+  position: relative;
+  transform: translateY(16px);
+  transition: transform .25s;
+}
+.modal-overlay.open .modal { transform: none; }
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--muted);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: background .15s;
+}
+.modal-close:hover { background: rgba(237,232,223,0.07); }
+.modal-top { margin-bottom: 6px; }
+.modal-top::before {
+  content: "";
+  display: block;
+  width: 32px;
+  height: 3px;
+  border-radius: 2px;
+  background: var(--amber);
+  margin-bottom: 18px;
+}
+.modal h3 {
+  font-family: "Fraunces", serif;
+  font-size: 26px;
+  font-weight: 700;
+  letter-spacing: -0.025em;
+  margin-bottom: 8px;
+}
+.modal-sub {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.6;
+  margin-bottom: 28px;
+}
+.modal-input-row {
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--line-2);
+  border-radius: 9px;
+  overflow: hidden;
+  background: rgba(237,232,223,0.04);
+  transition: border-color .2s;
+  margin-bottom: 10px;
+}
+.modal-input-row:focus-within {
+  border-color: rgba(201,138,60,0.45);
+  box-shadow: 0 0 0 3px rgba(201,138,60,0.07);
+}
+.modal-input {
+  flex: 1;
+  border: 0;
+  background: transparent;
+  padding: 13px 16px;
+  font-size: 15px;
+  color: var(--cream);
+  outline: none;
+}
+.modal-input::placeholder { color: var(--muted-2); }
+.modal-btn {
+  border: 0;
+  padding: 13px 22px;
+  font-size: 13px;
+  font-weight: 600;
+  background: var(--amber);
+  color: var(--navy);
+  cursor: pointer;
+  transition: background .15s;
+  white-space: nowrap;
+}
+.modal-btn:hover { background: var(--amber-2); }
+.modal-btn:disabled { opacity: 0.65; cursor: not-allowed; }
+.modal-note { font-size: 11px; color: var(--muted-2); }
+.modal-error { display: none; margin-top: 10px; font-size: 12px; color: #ff8f82; }
+.modal-success { display: none; text-align: center; padding: 16px 0; }
+.modal-success-mark {
+  color: var(--amber);
+  margin: 0 auto 14px;
+  display: block;
+  width: 36px;
+  height: 36px;
+}
+.modal-success h4 {
+  font-family: "Fraunces", serif;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+.modal-success p { font-size: 14px; color: var(--muted); line-height: 1.6; }
+
+@media (max-width: 860px) {
+  .shell { width: min(1220px, calc(100vw - 48px)); }
+  .hero-layout { grid-template-columns: 1fr; gap: 36px; min-height: auto; }
+  .hero-visual { min-height: 420px; width: 100%; margin-left: 0; }
+  .pain-cards { grid-template-columns: 1fr; }
+  .cycle { grid-template-columns: repeat(2, 1fr); }
+  .industry-grid { grid-template-columns: 1fr; }
+  .cycle-step:nth-child(2) { border-right: 0; }
+  .cycle-step:nth-child(3) { border-top: 1px solid var(--line); }
+  .cycle::before { display: none; }
+  .cta-box { padding: 40px 28px; }
+  .cta-actions { flex-direction: column; }
+  .cta-actions .btn-main-lg,
+  .cta-actions .btn-talk { width: 100%; }
+}
+
+@media (max-width: 560px) {
+  .shell { width: min(1220px, calc(100vw - 32px)); }
+  .hero { padding: 108px 0 60px; }
+  .pain, .how, .outcomes { padding: 56px 0; }
+  .cta-section { padding: 40px 0 72px; }
+  footer { padding: 34px 0 24px; }
+  .hero-actions { flex-direction: column; align-items: stretch; }
+  .hero-visual { min-height: 320px; border-radius: 18px; }
+  .hero-visual-copy { left: 18px; right: 18px; bottom: 16px; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .btn-main, .btn-soft { justify-content: center; }
+  .cycle { grid-template-columns: 1fr; }
+  .cycle-step {
+    border-right: 0;
+    border-bottom: 1px solid var(--line);
+    border-top: 0 !important;
+  }
+  .cycle-step:last-child { border-bottom: 0; }
+  .modal { padding: 32px 24px; }
+  .modal-input-row { flex-direction: column; }
+  .industry-gateway { padding: 16px; }
+  .gateway-card { width: min(760px, calc(100vw - 24px)); padding: 30px 20px 24px; }
+  .gateway-head { flex-direction: column; }
+  .industry-badge-bar { gap: 8px; }
+  .footer-top { grid-template-columns: 1fr; gap: 20px; margin-bottom: 20px; }
+  .footer-spacer { display: none; }
+  .footer-connect { width: 100%; }
+  .footer-copy { font-size: 14px; }
+}
+</style>
+</head>
+<body>
+
+<div class="industry-gateway" id="industry-gateway" aria-hidden="true">
+  <div class="gateway-card" role="dialog" aria-modal="true" aria-labelledby="gateway-title">
+    <div class="gateway-layout">
+      <div class="gateway-copy">
+        <div class="gateway-head">
+          <div>
+            <span class="gateway-kicker">Industry Gateway</span>
+            <h2 id="gateway-title">Choose the lane you want to sell into.</h2>
+            <p>We’ll tailor the landing, chatbot context, and sales routing around this choice.</p>
+          </div>
+          <button class="gateway-skip" type="button" onclick="dismissIndustryGateway()">Use generic Sentra</button>
+        </div>
+        <div class="industry-grid">
+          <button class="industry-option" type="button" data-industry="events" onclick="selectIndustry('events')">
+            <span class="industry-chip">Fast launch</span>
+            <h4>Conferences</h4>
+            <p>Attendees, sponsors, invites.</p>
+            <strong>VIP routing and sponsor signal.</strong>
+          </button>
+          <button class="industry-option" type="button" data-industry="real_estate" onclick="selectIndustry('real_estate')">
+            <span class="industry-chip">Sales-heavy</span>
+            <h4>Real Estate</h4>
+            <p>Leads, listings, brokers.</p>
+            <strong>Inventory visibility and follow-up.</strong>
+          </button>
+          <button class="industry-option" type="button" data-industry="b2b_services" onclick="selectIndustry('b2b_services')">
+            <span class="industry-chip">Flexible</span>
+            <h4>B2B Services</h4>
+            <p>Clients, delivery, renewals.</p>
+            <strong>Account growth and risk tracking.</strong>
+          </button>
+        </div>
+        <div class="gateway-actions">
+          <div class="industry-current">Current profile: <strong id="industry-current-label">Generic</strong></div>
+          <div class="industry-route">Routing lane: <strong id="industry-route-label">Shared pipeline</strong></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="site-shell">
+  <nav>
+    <div class="shell nav-shell">
+      <div class="logo"><img class="brand-mark" src="../without back.png" alt="Agmentic logo">Sentra</div>
+      <button class="nav-cta" onclick="openModal('nav')">See it work →</button>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-bg"></div>
+    <div class="shell hero-layout">
+      <div class="hero-inner">
+        <p class="hero-tag" id="hero-tag">By Agmentic</p>
+        <div class="industry-badge-bar">
+          <div class="industry-current">Industry: <strong id="hero-industry-label">Generic view</strong></div>
+          <div class="industry-route">Sales lane: <strong id="hero-route-label">Shared qualification</strong></div>
+        </div>
+        <h1 id="hero-title">Finally, someone<br>in the room<br>who knows.</h1>
+        <p class="hero-sub" id="hero-sub">
+          Ask who to call. Ask what's slipping. Ask why last month looked the way it did. Sentra reads your data, builds a picture of your business, and answers like someone who's been paying attention all along.
+        </p>
+        <div class="hero-actions">
+          <button class="btn-main" onclick="openModal('hero')">
+            See it work
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <a class="btn-soft" href="mailto:hello@agmentic.com" onclick="trackSentraMailto('talk_to_us','hero')">Talk to us</a>
+          <a class="gateway-skip" href="../">Change industry</a>
+        </div>
+      </div>
+      <div class="hero-visual" aria-hidden="true">
+        <canvas class="hero-node-canvas" id="hero-node-canvas"></canvas>
+        <div class="hero-visual-copy">
+          <span>Live Signal Map</span>
+          <span>Quiet background activity</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="pain">
+    <div class="shell">
+      <p class="section-tag" id="story-tag">Built from a single conversation. A real company. Ten years of data. One question nobody could answer.</p>
+      <h2 id="pain-title">You're not missing data.<br><em>You're missing someone to make sense of it.</em></h2>
+      <p class="pain-lead" id="pain-lead">A company came to us with 40,000 contacts and one question they couldn't answer: "who should we invite to dinner tonight?" The data was there. Across 12 spreadsheets, three tools, and nobody's inbox in particular. And while they were still looking, someone who should have been invited, wasn't. That's not a data problem. That's a connection problem. And every business we've talked to has it.</p>
+      <div class="pain-cards">
+        <div class="pc pc-1">
+          <h3 id="pain-card-1-title">Let me check and get back to you.</h3>
+          <p id="pain-card-1-copy">You've said this in a meeting. About your own business. More than once.</p>
+        </div>
+        <div class="pc pc-2">
+          <h3 id="pain-card-2-title">You bought something for this already.</h3>
+          <p id="pain-card-2-copy">It's open in a tab. Nobody uses it. Nobody trusts it.</p>
+        </div>
+        <div class="pc pc-3">
+          <h3 id="pain-card-3-title">The decision got made anyway.</h3>
+          <p id="pain-card-3-copy">You spent an hour pulling from three places. Half of it was outdated. Someone still had to make the call with whatever was in front of them.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="how">
+    <div class="shell">
+      <h2 id="how-title">Your business runs on data<br><em>that's never all in one place.</em></h2>
+      <div class="how-copy">
+        <p class="how-lead" id="how-lead">HubSpot knows your deals. Sheets knows your numbers. Your files know your history. But none of them talk to each other, so nobody has the full picture. Sentra connects everything, builds a live profile for every customer, contact, and deal, and keeps it updated automatically. So when you ask a question, the answer comes from your whole business, not just one corner of it.</p>
+      </div>
+      <div class="cycle">
+        <div class="cycle-step">
+          <span class="cycle-badge">01</span>
+          <div class="cycle-icon">1</div>
+          <h3 id="step-1-title">Wherever it lives, we read it.</h3>
+          <p id="step-1-copy">HubSpot, Sheets, files, emails. No migration. No manual work. Just connect and go.</p>
+        </div>
+        <div class="cycle-step">
+          <span class="cycle-badge">02</span>
+          <div class="cycle-icon">2</div>
+          <h3 id="step-2-title">We learn your business, not just your data.</h3>
+          <p id="step-2-copy">Every customer, contact, and deal gets a profile built from everything you have across every tool. Not just what's stored about them, but what they've actually done: how their behavior has shifted, what patterns say about where they stand right now. Attendance isn't a profile. What someone did with their time, that is. So when you ask about them, the answer comes from the full picture.</p>
+        </div>
+        <div class="cycle-step">
+          <span class="cycle-badge">03</span>
+          <div class="cycle-icon">3</div>
+          <h3 id="step-3-title">Then you just ask.</h3>
+          <p id="step-3-copy">Plain language. Real answers. And always the reason behind them, so when someone asks why, you're not guessing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <div class="shell">
+      <div class="cta-box">
+        <h2 id="cta-title">See Sentra answer a question<br><em>your data already knows.</em></h2>
+        <p id="cta-copy">Enter your email. We'll verify it in the background and open the live demo right away. No setup, no sales call.</p>
+        <div class="cta-actions">
+          <button class="btn-main-lg" onclick="openModal('cta_section')">
+            <span id="cta-button-label">Ask your first question</span>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </button>
+          <a class="btn-talk" href="mailto:hello@agmentic.com" onclick="trackSentraMailto('talk_to_us','cta_section')">Talk to us</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <div class="shell">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <div class="footer-mark">
+            <img class="brand-mark" src="../without back.png" alt="Agmentic logo">
+            <span>Sentra</span>
+          </div>
+          <p class="footer-copy" id="footer-copy">Built for the people who run things, and never have enough time to find the answers they need.</p>
+          <div class="footer-meta">An <strong>Agmentic</strong> product · © 2026</div>
+        </div>
+        <div class="footer-spacer" aria-hidden="true"></div>
+        <div class="footer-connect">
+          <span class="footer-links-title">Connect</span>
+          <div class="footer-links">
+            <a class="footer-link" href="https://www.linkedin.com/company/agmentic/" target="_blank" rel="noreferrer" onclick="trackSentraOutbound('linkedin','footer')">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M6.94 8.5H3.56V20h3.38V8.5ZM5.25 3A1.97 1.97 0 0 0 3.28 5c0 1.09.88 1.97 1.94 1.97h.03A1.98 1.98 0 0 0 7.22 5 1.98 1.98 0 0 0 5.25 3ZM20.44 13.07c0-3.47-1.85-5.08-4.33-5.08-2 0-2.9 1.1-3.4 1.87V8.5H9.33c.04.9 0 11.5 0 11.5h3.38v-6.42c0-.34.03-.68.12-.92.27-.68.88-1.38 1.9-1.38 1.34 0 1.88 1.03 1.88 2.54V20H20v-6.93Z"></path></svg>
+              <span>LinkedIn</span>
+            </a>
+            <a class="footer-link" href="mailto:hello@agmentic.com" onclick="trackSentraMailto('footer_email','footer')">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m4 7 8 6 8-6"></path></svg>
+              <span>hello@agmentic.com</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+</div>
+
+<div class="modal-overlay" id="modal" onclick="handleOverlayClick(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+
+    <div id="modal-form-view">
+      <div class="modal-top"></div>
+      <h3>See it for yourself.</h3>
+      <p class="modal-sub">Enter your email and we'll verify it instantly, then open the live demo right away.</p>
+      <div class="modal-input-row">
+        <input class="modal-input" type="email" id="modal-email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')submitModal()">
+        <button class="modal-btn" id="modal-submit" onclick="submitModal()">Open demo →</button>
+      </div>
+      <p class="modal-error" id="modal-error"></p>
+    </div>
+
+    <div class="modal-success" id="modal-success-view">
+      <svg class="modal-success-mark" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+      <h4>Opening your demo.</h4>
+      <p id="modal-success-text">Your email was verified. Redirecting you to the Sentra demo now.</p>
+    </div>
+  </div>
+</div>
+
+<script>
+  const endpoint = "/api/sentra-demo-access";
+  const leadPageCategory = "recruitment";
+  const industryStorageKey = "sentraIndustryProfile";
+  const defaultIndustry = "generic";
+  const defaultTitle = "Sentra — Your data, finally useful";
+  const defaultDescription = "Sentra turns scattered business data into decisions. No analyst. No waiting.";
+  const defaultPageType = window.AGMENTIC_ANALYTICS.pageType;
+  const industryProfiles = {
+    generic: {
+      label: "Generic",
+      heroLabel: "Generic view",
+      routeLabel: "Shared qualification",
+      trackLabel: "generic",
+      pageType: defaultPageType,
+      title: defaultTitle,
+      description: defaultDescription,
+      heroTag: "By Agmentic",
+      heroTitle: "Finally, someone<br>in the room<br>who knows.",
+      heroSub: "Ask who to call. Ask what's slipping. Ask why last month looked the way it did. Sentra reads your data, builds a picture of your business, and answers like someone who's been paying attention all along.",
+      storyTag: "Built from a single conversation. A real company. Ten years of data. One question nobody could answer.",
+      painTitle: "You're not missing data.<br><em>You're missing someone to make sense of it.</em>",
+      painLead: "A company came to us with 40,000 contacts and one question they couldn't answer: \"who should we invite to dinner tonight?\" The data was there. Across 12 spreadsheets, three tools, and nobody's inbox in particular. And while they were still looking, someone who should have been invited, wasn't. That's not a data problem. That's a connection problem. And every business we've talked to has it.",
+      painCards: [
+        ["Let me check and get back to you.", "You've said this in a meeting. About your own business. More than once."],
+        ["You bought something for this already.", "It's open in a tab. Nobody uses it. Nobody trusts it."],
+        ["The decision got made anyway.", "You spent an hour pulling from three places. Half of it was outdated. Someone still had to make the call with whatever was in front of them."]
+      ],
+      howTitle: "Your business runs on data<br><em>that's never all in one place.</em>",
+      howLead: "HubSpot knows your deals. Sheets knows your numbers. Your files know your history. But none of them talk to each other, so nobody has the full picture. Sentra connects everything, builds a live profile for every customer, contact, and deal, and keeps it updated automatically. So when you ask a question, the answer comes from your whole business, not just one corner of it.",
+      steps: [
+        ["Wherever it lives, we read it.", "HubSpot, Sheets, files, emails. No migration. No manual work. Just connect and go."],
+        ["We learn your business, not just your data.", "Every customer, contact, and deal gets a profile built from everything you have across every tool. Not just what's stored about them, but what they've actually done: how their behavior has shifted, what patterns say about where they stand right now. Attendance isn't a profile. What someone did with their time, that is. So when you ask about them, the answer comes from the full picture."],
+        ["Then you just ask.", "Plain language. Real answers. And always the reason behind them, so when someone asks why, you're not guessing."]
+      ],
+      ctaTitle: "See Sentra answer a question<br><em>your data already knows.</em>",
+      ctaCopy: "Enter your email. We'll verify it in the background and open the live demo right away. No setup, no sales call.",
+      ctaButton: "Ask your first question",
+      footerCopy: "Built for the people who run things, and never have enough time to find the answers they need.",
+      modalTitle: "See it for yourself.",
+      modalSub: "Enter your email and we'll verify it instantly, then open the live demo right away.",
+      successPrefix: "Your email was verified for "
+    },
+    events: {
+      label: "Conferences & Events",
+      heroLabel: "Events",
+      routeLabel: "Event revenue desk",
+      trackLabel: "events",
+      pageType: "landing_events",
+      title: "Sentra for Events — Know who belongs in the room",
+      description: "Sentra helps event teams spot the right attendees, sponsors, and revenue opportunities across scattered data.",
+      heroTag: "By Agmentic · Event Intelligence",
+      heroTitle: "Know who should be<br>in the room<br>before the room fills up.",
+      heroSub: "Ask who deserves a VIP invite. Ask which sponsors are warming up. Ask which accounts went quiet after last year's event. Sentra reads your CRM, attendee lists, meeting notes, and revenue history so your event team stops guessing.",
+      storyTag: "Built for teams selling rooms, sponsors, tables, and moments that cannot miss.",
+      painTitle: "Event teams do not lose deals because of effort.<br><em>They lose them because the signal is scattered.</em>",
+      painLead: "Registration data lives in one tool. Sponsors live in another. Relationship history sits in inboxes, spreadsheets, and someone's memory. So the same question keeps coming back: who do we prioritize right now? Sentra turns that answer into something you can ask for instantly.",
+      painCards: [
+        ["The invite list is still a debate.", "Your highest-value guests are spread across event history, sponsorship notes, and relationship context."],
+        ["Sponsor follow-up slips between cycles.", "The handoff from meeting to proposal to close lives in too many places to trust."],
+        ["You know attendance. Not intent.", "The hard part is not who showed up. It's who is likely to buy, renew, or introduce the next deal."]
+      ],
+      howTitle: "Your event revenue engine runs across tools<br><em>that were never built to think together.</em>",
+      howLead: "Sentra combines attendee history, sponsor activity, partner notes, and commercial data into one operating memory. That means the team can ask who to call, where to seat them, and what offer makes sense before the window closes.",
+      steps: [
+        ["We read every attendee and sponsor signal.", "Registrations, CRM records, past meetings, spreadsheets, decks, and event notes all land in one view."],
+        ["We score the people behind the records.", "Sentra builds a live picture of interest, influence, budget, and timing so event teams know who matters now."],
+        ["Your team gets recommendation-grade answers.", "Ask for VIP candidates, sponsor renewal risk, or warm intros and get the reason with the answer."]
+      ],
+      ctaTitle: "See Sentra answer an event question<br><em>before your next guest list locks.</em>",
+      ctaCopy: "Enter your email and we'll verify it in the background, then open the event-focused demo immediately.",
+      ctaButton: "Open the event demo",
+      footerCopy: "Built for event teams balancing guests, sponsors, pipeline, and timing all at once.",
+      modalTitle: "See the events workflow.",
+      modalSub: "Enter your email and we'll verify it instantly, then open the event-focused demo right away.",
+      successPrefix: "Your events demo is opening for "
+    },
+    real_estate: {
+      label: "Real Estate",
+      heroLabel: "Real estate",
+      routeLabel: "Property sales desk",
+      trackLabel: "real_estate",
+      pageType: "landing_real_estate",
+      title: "Sentra for Real Estate — Turn lead noise into live priorities",
+      description: "Sentra helps real estate teams unify leads, listings, inventory, and broker activity to see what needs attention first.",
+      heroTag: "By Agmentic · Real Estate Intelligence",
+      heroTitle: "See which leads,<br>projects, and brokers<br>need attention now.",
+      heroSub: "Ask which inventory is slowing down. Ask which brokers need support. Ask where developer demand is actually moving. Sentra reads your CRM, listing data, spreadsheets, and team activity so your pipeline becomes readable again.",
+      storyTag: "Built for developers, broker networks, and sales teams managing inventory in motion.",
+      painTitle: "You do not have a lead shortage.<br><em>You have a visibility shortage.</em>",
+      painLead: "Real estate teams often know they have activity, but not where the real momentum lives. Lead sources, broker updates, inventory changes, and payment signals all move at different speeds. Sentra makes them answer the same question together.",
+      painCards: [
+        ["The best leads wait too long.", "When signals live in separate tools, urgency is discovered after the window to convert has already narrowed."],
+        ["Inventory updates stay operational.", "The commercial team needs to know what changed, not just that something changed."],
+        ["Broker follow-up is uneven.", "Top partners and slow-moving channels look the same until someone manually checks the details."]
+      ],
+      howTitle: "Listings, leads, broker notes, and payments<br><em>should behave like one system.</em>",
+      howLead: "Sentra unifies property, customer, and channel data into one live layer. Instead of chasing updates across teams, your sales desk can ask which projects need a push, which brokers are outperforming, and what should happen next.",
+      steps: [
+        ["We connect sales and inventory data.", "CRMs, spreadsheets, listing exports, call notes, and payment snapshots become one operating surface."],
+        ["We profile each lead and channel.", "Sentra tracks momentum, intent, velocity, and relationship quality so teams see the difference between noise and urgency."],
+        ["You act faster with fewer handoffs.", "Ask what inventory needs rescue, which brokers to activate, or where follow-up is stalling and get a direct answer."]
+      ],
+      ctaTitle: "See Sentra answer a real estate question<br><em>your pipeline is already hinting at.</em>",
+      ctaCopy: "Enter your email and we'll verify it in the background, then open the real-estate demo immediately.",
+      ctaButton: "Open the property demo",
+      footerCopy: "Built for teams moving inventory, partners, and buyer demand at the same time.",
+      modalTitle: "See the real estate workflow.",
+      modalSub: "Enter your email and we'll verify it instantly, then open the property-focused demo right away.",
+      successPrefix: "Your real estate demo is opening for "
+    },
+    healthcare: {
+      label: "Healthcare Services",
+      heroLabel: "Healthcare",
+      routeLabel: "Service growth desk",
+      trackLabel: "healthcare",
+      pageType: "landing_healthcare",
+      title: "Sentra for Healthcare Services — See demand before it bottlenecks",
+      description: "Sentra helps healthcare operators connect referrals, accounts, service demand, and outreach activity into one answer layer.",
+      heroTag: "By Agmentic · Healthcare Intelligence",
+      heroTitle: "Know where demand,<br>referrals, and follow-up<br>are starting to slip.",
+      heroSub: "Ask which referrers are cooling down. Ask which service lines are under pressure. Ask which accounts need attention before volume drops. Sentra turns operational and commercial data into one readable picture.",
+      storyTag: "Built for healthcare teams balancing referrals, accounts, operations, and growth.",
+      painTitle: "Healthcare growth problems rarely start with a dashboard.<br><em>They start with disconnected context.</em>",
+      painLead: "Referral patterns, account activity, patient demand, and service performance are all meaningful on their own. The real problem is that nobody sees them together at the moment a decision needs to be made. Sentra closes that gap.",
+      painCards: [
+        ["Referral drift shows up late.", "Teams often notice volume changes only after a relationship has already weakened."],
+        ["Operational pressure hides commercial risk.", "A busy service line can look healthy while key account activity is quietly changing underneath."],
+        ["Account follow-up depends on memory.", "When context lives across inboxes and spreadsheets, the next best move becomes person-dependent."]
+      ],
+      howTitle: "Referrals, accounts, service lines, and activity<br><em>should answer the same question together.</em>",
+      howLead: "Sentra reads the systems healthcare operators already use, builds live account and service profiles, and lets leadership ask for the reason behind performance shifts without waiting for manual reporting.",
+      steps: [
+        ["We gather the operational and commercial picture.", "Referral logs, account notes, spreadsheets, service data, and outreach activity are pulled into one layer."],
+        ["We model the relationships that drive demand.", "Sentra maps each account, referrer, and service line based on momentum, risk, and current activity."],
+        ["You get direction, not just reporting.", "Ask which relationships need attention, where demand is moving, or what changed and get an answer you can act on."]
+      ],
+      ctaTitle: "See Sentra answer a healthcare question<br><em>before the pressure reaches the team.</em>",
+      ctaCopy: "Enter your email and we'll verify it in the background, then open the healthcare-focused demo immediately.",
+      ctaButton: "Open the healthcare demo",
+      footerCopy: "Built for teams that need to connect service delivery, growth, and relationship context without extra reporting work.",
+      modalTitle: "See the healthcare workflow.",
+      modalSub: "Enter your email and we'll verify it instantly, then open the healthcare-focused demo right away.",
+      successPrefix: "Your healthcare demo is opening for "
+    },
+    b2b_services: {
+      label: "B2B Services",
+      heroLabel: "B2B services",
+      routeLabel: "Client growth desk",
+      trackLabel: "b2b_services",
+      pageType: "landing_b2b_services",
+      title: "Sentra for B2B Services — Keep client context operational",
+      description: "Sentra helps B2B service teams unify client delivery, revenue signals, and relationship risk into one live decision layer.",
+      heroTag: "By Agmentic · Client Intelligence",
+      heroTitle: "See which clients,<br>projects, and renewals<br>need a move now.",
+      heroSub: "Ask which accounts are drifting. Ask where delivery friction is becoming commercial risk. Ask which relationships have expansion potential right now. Sentra reads across your systems so account teams stop working from fragments.",
+      storyTag: "Built for service businesses managing delivery quality, account growth, and renewal timing together.",
+      painTitle: "Client teams do not need more dashboards.<br><em>They need context they can act on in the moment.</em>",
+      painLead: "Delivery notes, ticket trends, revenue data, and account history all say something important. The trouble is that they rarely speak at the same time. Sentra makes the commercial signal readable before an account slips or an upsell gets missed.",
+      painCards: [
+        ["Account risk hides in delivery detail.", "By the time leadership notices the pattern, the client has already felt it."],
+        ["Expansion chances arrive quietly.", "The strongest growth signals often sit in usage, meetings, and service behavior rather than pipeline reports."],
+        ["Renewal prep starts too late.", "Teams end up gathering context manually instead of entering the conversation ready."]
+      ],
+      howTitle: "Delivery, relationship, and revenue data<br><em>should work like one client memory.</em>",
+      howLead: "Sentra unifies the systems B2B teams already use, keeps account context fresh, and gives sales and delivery leaders one place to ask what matters now across clients, projects, and renewals.",
+      steps: [
+        ["We read the client story across tools.", "CRM history, delivery notes, spreadsheets, finance signals, and meeting records are pulled into one operating layer."],
+        ["We build live account intelligence.", "Sentra tracks momentum, risk, team activity, and commercial opportunity so each account reads like a full picture."],
+        ["Your teams know the next move faster.", "Ask which renewals are at risk, where to expand, or which accounts need intervention and get a usable answer."]
+      ],
+      ctaTitle: "See Sentra answer a client-growth question<br><em>with context your team already has.</em>",
+      ctaCopy: "Enter your email and we'll verify it in the background, then open the B2B-services demo immediately.",
+      ctaButton: "Open the client demo",
+      footerCopy: "Built for specialist teams balancing delivery quality, account growth, and renewal pressure at the same time.",
+      modalTitle: "See the client workflow.",
+      modalSub: "Enter your email and we'll verify it instantly, then open the B2B-services demo right away.",
+      successPrefix: "Your B2B services demo is opening for "
+    }
+  };
+  let activeIndustryKey = defaultIndustry;
+
+  function getIndustryProfile(industryKey) {
+    return industryProfiles[industryKey] || industryProfiles[defaultIndustry];
+  }
+
+  function setHtml(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.innerHTML = value;
+  }
+
+  function setText(id, value) {
+    const element = document.getElementById(id);
+    if (element) element.textContent = value;
+  }
+
+  function applyIndustryProfile(industryKey, options) {
+    const profile = getIndustryProfile(industryKey);
+    const shouldTrack = options && options.track;
+    activeIndustryKey = industryKey in industryProfiles ? industryKey : defaultIndustry;
+
+    document.title = profile.title;
+    const descriptionEl = document.querySelector('meta[name="description"]');
+    if (descriptionEl) descriptionEl.setAttribute("content", profile.description);
+    window.AGMENTIC_ANALYTICS.pageType = profile.pageType;
+
+    setText("industry-current-label", profile.label);
+    setText("industry-route-label", profile.routeLabel);
+    setText("hero-industry-label", profile.heroLabel);
+    setText("hero-route-label", profile.routeLabel);
+    setText("hero-tag", profile.heroTag);
+    setHtml("hero-title", profile.heroTitle);
+    setText("hero-sub", profile.heroSub);
+    setText("story-tag", profile.storyTag);
+    setHtml("pain-title", profile.painTitle);
+    setText("pain-lead", profile.painLead);
+    setText("pain-card-1-title", profile.painCards[0][0]);
+    setText("pain-card-1-copy", profile.painCards[0][1]);
+    setText("pain-card-2-title", profile.painCards[1][0]);
+    setText("pain-card-2-copy", profile.painCards[1][1]);
+    setText("pain-card-3-title", profile.painCards[2][0]);
+    setText("pain-card-3-copy", profile.painCards[2][1]);
+    setHtml("how-title", profile.howTitle);
+    setText("how-lead", profile.howLead);
+    setText("step-1-title", profile.steps[0][0]);
+    setText("step-1-copy", profile.steps[0][1]);
+    setText("step-2-title", profile.steps[1][0]);
+    setText("step-2-copy", profile.steps[1][1]);
+    setText("step-3-title", profile.steps[2][0]);
+    setText("step-3-copy", profile.steps[2][1]);
+    setHtml("cta-title", profile.ctaTitle);
+    setText("cta-copy", profile.ctaCopy);
+    setText("cta-button-label", profile.ctaButton);
+    setText("footer-copy", profile.footerCopy);
+    const modalTitle = document.querySelector("#modal-form-view h3");
+    if (modalTitle) modalTitle.textContent = profile.modalTitle;
+    const modalSub = document.querySelector("#modal-form-view .modal-sub");
+    if (modalSub) modalSub.textContent = profile.modalSub;
+
+    document.querySelectorAll(".industry-option").forEach(option => {
+      option.setAttribute("aria-pressed", String(option.dataset.industry === activeIndustryKey));
+    });
+
+    if (shouldTrack) {
+      window.agmenticTrack("industry_selected", {
+        industry: profile.trackLabel,
+        sales_lane: profile.routeLabel
+      });
+    }
+  }
+
+  function openIndustryGateway() {
+    const gateway = document.getElementById("industry-gateway");
+    if (!gateway) return;
+    gateway.classList.add("open");
+    gateway.setAttribute("aria-hidden", "false");
+    document.body.classList.add("gateway-open");
+  }
+
+  function closeIndustryGateway() {
+    const gateway = document.getElementById("industry-gateway");
+    if (!gateway) return;
+    gateway.classList.remove("open");
+    gateway.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("gateway-open");
+  }
+
+  function dismissIndustryGateway() {
+    try {
+      localStorage.setItem(industryStorageKey, defaultIndustry);
+    } catch (error) {
+      // Ignore storage write issues in restricted browser contexts.
+    }
+    applyIndustryProfile(defaultIndustry, { track: true });
+    closeIndustryGateway();
+  }
+
+  function reopenIndustryGateway() {
+    openIndustryGateway();
+  }
+
+  function selectIndustry(industryKey) {
+    try {
+      localStorage.setItem(industryStorageKey, industryKey);
+    } catch (error) {
+      // Ignore storage write issues in restricted browser contexts.
+    }
+    applyIndustryProfile(industryKey, { track: true });
+    closeIndustryGateway();
+  }
+
+  function openModal(triggerSource) {
+    const source = triggerSource || "unknown";
+    const profile = getIndustryProfile(activeIndustryKey);
+    window.agmenticTrack("cta_click", {
+      cta_text: "see_it_work",
+      cta_location: source,
+      industry: profile.trackLabel
+    });
+    window.agmenticTrack("demo_modal_open", {
+      trigger_source: source,
+      industry: profile.trackLabel
+    });
+    document.getElementById("modal").classList.add("open");
+    document.getElementById("modal-form-view").style.display = "block";
+    document.getElementById("modal-success-view").style.display = "none";
+    document.getElementById("modal-error").style.display = "none";
+    setTimeout(() => document.getElementById("modal-email")?.focus(), 100);
+  }
+
+  function closeModal() {
+    document.getElementById("modal").classList.remove("open");
+  }
+
+  function handleOverlayClick(e) {
+    if (e.target === document.getElementById("modal")) closeModal();
+  }
+
+  async function submitModal() {
+    const emailInput = document.getElementById("modal-email");
+    const errorEl = document.getElementById("modal-error");
+    const button = document.getElementById("modal-submit");
+    const email = emailInput.value.trim();
+    const profile = getIndustryProfile(activeIndustryKey);
+
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      errorEl.textContent = "Please enter a valid email address.";
+      errorEl.style.display = "block";
+      emailInput.focus();
+      return;
+    }
+
+    errorEl.style.display = "none";
+    button.disabled = true;
+    button.textContent = "Verifying...";
+
+    try {
+      const response = await fetch(endpoint, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          pageCategory: leadPageCategory,
+          industry: activeIndustryKey,
+          industryLabel: profile.label,
+          salesLane: profile.routeLabel
+        })
+      });
+
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok || !data.success) {
+        throw new Error(data.error || "We couldn't verify this email right now. Please try again.");
+      }
+
+      window.agmenticTrack("demo_email_submit", {
+        form_name: "demo_access",
+        industry: profile.trackLabel
+      });
+      document.getElementById("modal-form-view").style.display = "none";
+      document.getElementById("modal-success-view").style.display = "block";
+      document.getElementById("modal-success-text").textContent = profile.successPrefix + email + ". Redirecting to the demo now.";
+      if (data.demoLink) {
+        setTimeout(() => {
+          window.location.href = data.demoLink;
+        }, 450);
+      }
+    } catch (error) {
+      errorEl.textContent = error.message || "Something went wrong.";
+      errorEl.style.display = "block";
+    } finally {
+      button.disabled = false;
+      button.textContent = "Open demo →";
+    }
+  }
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      closeModal();
+      closeIndustryGateway();
+    }
+  });
+
+  function trackSentraMailto(ctaText, ctaLocation) {
+    const profile = getIndustryProfile(activeIndustryKey);
+    window.agmenticTrack("mailto_click", {
+      cta_text: ctaText,
+      cta_location: ctaLocation,
+      industry: profile.trackLabel,
+      destination_url: "mailto:hello@agmentic.com"
+    });
+  }
+
+  function trackSentraOutbound(linkText, ctaLocation) {
+    const profile = getIndustryProfile(activeIndustryKey);
+    window.agmenticTrack("outbound_click", {
+      link_text: linkText,
+      cta_location: ctaLocation,
+      industry: profile.trackLabel,
+      destination_url: "https://www.linkedin.com/company/agmentic/"
+    });
+  }
+
+  (function initIndustryExperience() {
+    applyIndustryProfile(defaultIndustry, { track: false });
+    closeIndustryGateway();
+  })();
+
+  (function initHeroNodes() {
+    const canvas = document.getElementById("hero-node-canvas");
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const clusterConfig = [
+      { label: "Strategy", x: 0.10, y: 0.42, color: "170, 140, 228", spread: 0.255, points: 28, labelOffset: 22, dot: 6.2 },
+      { label: "Sales", x: 0.48, y: 0.07, color: "145, 172, 232", spread: 0.215, points: 22, labelOffset: 20, dot: 5.8 },
+      { label: "Marketing", x: 0.84, y: 0.44, color: "223, 160, 72", spread: 0.245, points: 28, labelOffset: 22, dot: 6.4 },
+      { label: "Finance", x: 0.28, y: 0.90, color: "214, 182, 108", spread: 0.235, points: 25, labelOffset: 22, dot: 5.8 },
+      { label: "Product", x: 0.76, y: 0.90, color: "168, 196, 215", spread: 0.235, points: 25, labelOffset: 22, dot: 5.8 }
+    ];
+    const coreColor = "223, 160, 72";
+    const coreSupportColor = "237, 232, 223";
+    const governanceColor = "223, 160, 72";
+    const starColor = "237, 232, 223";
+
+    let width = 0;
+    let height = 0;
+    let dpr = 1;
+    let raf = 0;
+    let tick = 0;
+    let reducedMotion = false;
+    let clusters = [];
+    let coreParticles = [];
+    let stars = [];
+
+    function createCluster(config) {
+      const nodes = Array.from({ length: config.points }, (_, index) => ({
+        baseAngle: (index / config.points) * Math.PI * 2 + (Math.random() - 0.5) * 0.9,
+        orbitRadius: 0.1 + Math.random() * 0.95,
+        drift: 0.25 + Math.random() * 0.9,
+        size: 0.8 + Math.random() * 1.2,
+        phase: Math.random() * Math.PI * 2
+      }));
+      const edges = [];
+      for (let index = 0; index < nodes.length; index += 1) {
+        for (let step = 1; step <= 3; step += 1) {
+          edges.push([index, (index + step) % nodes.length]);
+        }
+        if (index % 4 === 0) {
+          edges.push([index, Math.floor(Math.random() * nodes.length)]);
+        }
+      }
+      return {
+        ...config,
+        nodes,
+        edges,
+        pulses: [],
+        nextPulseAt: 0.18 + Math.random() * 0.8
+      };
+    }
+
+    function createCoreParticle() {
+      const clusterIndex = Math.floor(Math.random() * clusters.length);
+      return {
+        clusterIndex,
+        progress: Math.random(),
+        speed: 0.003 + Math.random() * 0.003,
+        size: 1.4 + Math.random() * 1.4,
+        opacity: 0.25 + Math.random() * 0.25
+      };
+    }
+
+    function buildScene() {
+      clusters = clusterConfig.map(createCluster);
+      coreParticles = Array.from({ length: 22 }, () => createCoreParticle());
+      stars = Array.from({ length: 92 }, () => ({
+        x: 0.08 + Math.random() * 0.82,
+        y: 0.1 + Math.random() * 0.78,
+        size: 0.4 + Math.random() * 1.2,
+        opacity: 0.06 + Math.random() * 0.14,
+        phase: Math.random() * Math.PI * 2
+      }));
+    }
+
+    function resize() {
+      const rect = canvas.getBoundingClientRect();
+      dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = Math.round(width * dpr);
+      canvas.height = Math.round(height * dpr);
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      buildScene();
+    }
+
+    function clusterCenter(cluster) {
+      return [width * cluster.x, height * cluster.y];
+    }
+
+    function clusterPoint(cluster, node, time) {
+      const [cx, cy] = clusterCenter(cluster);
+      const spreadX = width * cluster.spread;
+      const spreadY = height * cluster.spread * 0.72;
+      const angle = node.baseAngle + Math.sin(time * 0.15 + node.phase) * 0.18;
+      const radiusScale = node.orbitRadius + Math.sin(time * 0.4 + node.phase) * 0.04;
+      return [
+        cx + Math.cos(angle) * spreadX * radiusScale + Math.sin(time * 0.45 + node.phase) * node.drift * 5,
+        cy + Math.sin(angle) * spreadY * radiusScale + Math.cos(time * 0.35 + node.phase) * node.drift * 4
+      ];
+    }
+
+    function drawCluster(cluster, time, motion) {
+      const points = cluster.nodes.map(node => clusterPoint(cluster, node, time));
+
+      cluster.edges.forEach(([fromIndex, toIndex]) => {
+        const [fromX, fromY] = points[fromIndex];
+        const [toX, toY] = points[toIndex];
+        ctx.beginPath();
+        ctx.moveTo(fromX, fromY);
+        ctx.lineTo(toX, toY);
+        ctx.strokeStyle = `rgba(${cluster.color}, 0.06)`;
+        ctx.lineWidth = 0.55;
+        ctx.stroke();
+      });
+
+      cluster.nextPulseAt -= 0.016 * motion;
+      if (cluster.nextPulseAt <= 0) {
+        const edge = cluster.edges[Math.floor(Math.random() * cluster.edges.length)];
+        cluster.pulses.push({
+          from: edge[0],
+          to: edge[1],
+          progress: 0,
+          speed: 0.014 + Math.random() * 0.018
+        });
+        cluster.nextPulseAt = 0.22 + Math.random() * 0.9;
+      }
+
+      for (let index = cluster.pulses.length - 1; index >= 0; index -= 1) {
+        const pulse = cluster.pulses[index];
+        pulse.progress += pulse.speed * motion;
+        if (pulse.progress >= 1) {
+          cluster.pulses.splice(index, 1);
+          continue;
+        }
+        const [fromX, fromY] = points[pulse.from];
+        const [toX, toY] = points[pulse.to];
+        const pulseX = fromX + (toX - fromX) * pulse.progress;
+        const pulseY = fromY + (toY - fromY) * pulse.progress;
+        const glow = ctx.createRadialGradient(pulseX, pulseY, 0, pulseX, pulseY, 7);
+        glow.addColorStop(0, `rgba(${cluster.color}, 0.42)`);
+        glow.addColorStop(1, `rgba(${cluster.color}, 0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(pulseX, pulseY, 7, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      points.forEach(([nodeX, nodeY], index) => {
+        const node = cluster.nodes[index];
+        const glow = ctx.createRadialGradient(nodeX, nodeY, 0, nodeX, nodeY, 5 + node.size * 2.2);
+        glow.addColorStop(0, `rgba(${cluster.color}, 0.18)`);
+        glow.addColorStop(1, `rgba(${cluster.color}, 0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(nodeX, nodeY, 5 + node.size * 2.2, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(nodeX, nodeY, node.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${cluster.color}, ${0.18 + node.size * 0.08})`;
+        ctx.fill();
+      });
+
+      const [cx, cy] = clusterCenter(cluster);
+      const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, cluster.dot * 10);
+      glow.addColorStop(0, `rgba(${cluster.color}, 0.16)`);
+      glow.addColorStop(1, `rgba(${cluster.color}, 0)`);
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(cx, cy, cluster.dot * 10, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(cx, cy, cluster.dot, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${cluster.color}, 0.92)`;
+      ctx.fill();
+
+      ctx.font = "500 12px 'DM Sans', sans-serif";
+      ctx.fillStyle = `rgba(${cluster.color}, 0.72)`;
+      ctx.textAlign = "center";
+      ctx.fillText(cluster.label, cx, cy + cluster.labelOffset);
+    }
+
+    function drawCore(time, motion) {
+      const centerX = width * 0.40;
+      const centerY = height * 0.58;
+      const coreRadius = Math.min(width, height) * 0.03;
+
+      clusters.forEach(cluster => {
+        const [clusterX, clusterY] = clusterCenter(cluster);
+        ctx.beginPath();
+        ctx.moveTo(clusterX, clusterY);
+        ctx.lineTo(centerX, centerY);
+        ctx.strokeStyle = `rgba(${coreSupportColor}, 0.06)`;
+        ctx.lineWidth = 0.8;
+        ctx.stroke();
+      });
+
+      coreParticles.forEach(particle => {
+        particle.progress += particle.speed * motion;
+        if (particle.progress >= 1) {
+          Object.assign(particle, createCoreParticle());
+          particle.progress = 0;
+        }
+        const cluster = clusters[particle.clusterIndex];
+        const [clusterX, clusterY] = clusterCenter(cluster);
+        const eased = particle.progress < 0.5
+          ? 2 * particle.progress * particle.progress
+          : 1 - Math.pow(-2 * particle.progress + 2, 2) / 2;
+        const x = clusterX + (centerX - clusterX) * eased;
+        const y = clusterY + (centerY - clusterY) * eased;
+        const glow = ctx.createRadialGradient(x, y, 0, x, y, particle.size * 4);
+        glow.addColorStop(0, `rgba(${coreColor}, ${particle.opacity})`);
+        glow.addColorStop(1, `rgba(${coreColor}, 0)`);
+        ctx.fillStyle = glow;
+        ctx.beginPath();
+        ctx.arc(x, y, particle.size * 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        ctx.beginPath();
+        ctx.arc(x, y, particle.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${coreColor}, ${Math.min(0.9, particle.opacity + 0.24)})`;
+        ctx.fill();
+      });
+
+      const field = ctx.createRadialGradient(centerX, centerY, coreRadius * 0.8, centerX, centerY, coreRadius * 10);
+      field.addColorStop(0, `rgba(${coreColor}, 0.12)`);
+      field.addColorStop(0.55, `rgba(${governanceColor}, 0.09)`);
+      field.addColorStop(1, `rgba(${governanceColor}, 0)`);
+      ctx.fillStyle = field;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, coreRadius * 10, 0, Math.PI * 2);
+      ctx.fill();
+
+      const ringAlpha = 0.12 + Math.sin(time * 0.6) * 0.04;
+      [coreRadius * 2.8, coreRadius * 4.1, coreRadius * 5.4].forEach((radius, index) => {
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
+        ctx.strokeStyle = `rgba(${governanceColor}, ${ringAlpha * (index === 1 ? 1 : 0.68)})`;
+        ctx.lineWidth = index === 1 ? 1.8 : 1;
+        ctx.stroke();
+      });
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, coreRadius * 1.55, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(${coreSupportColor}, 0.24)`;
+      ctx.lineWidth = 1;
+      ctx.stroke();
+
+      const glow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, coreRadius * 5);
+      glow.addColorStop(0, `rgba(${coreColor}, 0.42)`);
+      glow.addColorStop(1, `rgba(${coreColor}, 0)`);
+      ctx.fillStyle = glow;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, coreRadius * 5, 0, Math.PI * 2);
+      ctx.fill();
+
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, coreRadius * 0.95, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(${coreColor}, 0.92)`;
+      ctx.fill();
+
+      ctx.font = "500 12px 'DM Sans', sans-serif";
+      ctx.fillStyle = `rgba(${coreSupportColor}, 0.68)`;
+      ctx.textAlign = "center";
+      ctx.fillText("Decision Core", centerX, centerY + coreRadius * 3.2);
+      ctx.fillStyle = `rgba(${governanceColor}, 0.58)`;
+      ctx.fillText("Governance", centerX, centerY + coreRadius * 7.1);
+    }
+
+    function drawStars(time) {
+      stars.forEach(star => {
+        const alpha = star.opacity + Math.sin(time * 0.45 + star.phase) * 0.04;
+        ctx.beginPath();
+        ctx.arc(width * star.x, height * star.y, star.size, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${starColor}, ${Math.max(0.04, alpha)})`;
+        ctx.fill();
+      });
+    }
+
+    function frame() {
+      ctx.clearRect(0, 0, width, height);
+      const motion = reducedMotion ? 0.35 : 1;
+      tick += 0.016 * motion;
+
+      drawStars(tick);
+      clusters.forEach(cluster => drawCluster(cluster, tick, motion));
+      drawCore(tick, motion);
+
+      raf = requestAnimationFrame(frame);
+    }
+
+    reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    resize();
+    raf = requestAnimationFrame(frame);
+    window.addEventListener("resize", resize);
+  })();
+</script>
+</body>
+</html>
