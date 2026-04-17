@@ -217,7 +217,9 @@ body.gateway-open .site-shell {
   right: 28px;
   bottom: 24px;
   z-index: 2;
-  display: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   color: var(--muted);
   font-size: 12px;
   letter-spacing: 0.06em;
@@ -1874,8 +1876,8 @@ footer {
         ctx.beginPath();
         ctx.moveTo(fromX, fromY);
         ctx.lineTo(toX, toY);
-        ctx.strokeStyle = `rgba(${cluster.color}, 0.06)`;
-        ctx.lineWidth = 0.55;
+        ctx.strokeStyle = `rgba(${cluster.color}, 0.12)`;
+        ctx.lineWidth = 0.7;
         ctx.stroke();
       });
 
@@ -1903,7 +1905,7 @@ footer {
         const pulseX = fromX + (toX - fromX) * pulse.progress;
         const pulseY = fromY + (toY - fromY) * pulse.progress;
         const glow = ctx.createRadialGradient(pulseX, pulseY, 0, pulseX, pulseY, 7);
-        glow.addColorStop(0, `rgba(${cluster.color}, 0.42)`);
+        glow.addColorStop(0, `rgba(${cluster.color}, 0.62)`);
         glow.addColorStop(1, `rgba(${cluster.color}, 0)`);
         ctx.fillStyle = glow;
         ctx.beginPath();
@@ -1914,7 +1916,7 @@ footer {
       points.forEach(([nodeX, nodeY], index) => {
         const node = cluster.nodes[index];
         const glow = ctx.createRadialGradient(nodeX, nodeY, 0, nodeX, nodeY, 5 + node.size * 2.2);
-        glow.addColorStop(0, `rgba(${cluster.color}, 0.18)`);
+        glow.addColorStop(0, `rgba(${cluster.color}, 0.28)`);
         glow.addColorStop(1, `rgba(${cluster.color}, 0)`);
         ctx.fillStyle = glow;
         ctx.beginPath();
@@ -1923,13 +1925,13 @@ footer {
 
         ctx.beginPath();
         ctx.arc(nodeX, nodeY, node.size, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(${cluster.color}, ${0.18 + node.size * 0.08})`;
+        ctx.fillStyle = `rgba(${cluster.color}, ${0.32 + node.size * 0.10})`;
         ctx.fill();
       });
 
       const [cx, cy] = clusterCenter(cluster);
       const glow = ctx.createRadialGradient(cx, cy, 0, cx, cy, cluster.dot * 10);
-      glow.addColorStop(0, `rgba(${cluster.color}, 0.16)`);
+      glow.addColorStop(0, `rgba(${cluster.color}, 0.24)`);
       glow.addColorStop(1, `rgba(${cluster.color}, 0)`);
       ctx.fillStyle = glow;
       ctx.beginPath();
@@ -1942,7 +1944,7 @@ footer {
       ctx.fill();
 
       ctx.font = "500 12px 'DM Sans', sans-serif";
-      ctx.fillStyle = `rgba(${cluster.color}, 0.72)`;
+      ctx.fillStyle = `rgba(${cluster.color}, 0.9)`;
       ctx.textAlign = "center";
       ctx.fillText(cluster.label, cx, cy + cluster.labelOffset);
     }
@@ -1957,7 +1959,7 @@ footer {
         ctx.beginPath();
         ctx.moveTo(clusterX, clusterY);
         ctx.lineTo(centerX, centerY);
-        ctx.strokeStyle = `rgba(${coreSupportColor}, 0.06)`;
+        ctx.strokeStyle = `rgba(${coreSupportColor}, 0.12)`;
         ctx.lineWidth = 0.8;
         ctx.stroke();
       });
@@ -1976,7 +1978,7 @@ footer {
         const x = clusterX + (centerX - clusterX) * eased;
         const y = clusterY + (centerY - clusterY) * eased;
         const glow = ctx.createRadialGradient(x, y, 0, x, y, particle.size * 4);
-        glow.addColorStop(0, `rgba(${coreColor}, ${particle.opacity})`);
+        glow.addColorStop(0, `rgba(${coreColor}, ${Math.min(0.8, particle.opacity + 0.2)})`);
         glow.addColorStop(1, `rgba(${coreColor}, 0)`);
         ctx.fillStyle = glow;
         ctx.beginPath();
@@ -1990,15 +1992,15 @@ footer {
       });
 
       const field = ctx.createRadialGradient(centerX, centerY, coreRadius * 0.8, centerX, centerY, coreRadius * 10);
-      field.addColorStop(0, `rgba(${coreColor}, 0.12)`);
-      field.addColorStop(0.55, `rgba(${governanceColor}, 0.09)`);
+      field.addColorStop(0, `rgba(${coreColor}, 0.18)`);
+      field.addColorStop(0.55, `rgba(${governanceColor}, 0.13)`);
       field.addColorStop(1, `rgba(${governanceColor}, 0)`);
       ctx.fillStyle = field;
       ctx.beginPath();
       ctx.arc(centerX, centerY, coreRadius * 10, 0, Math.PI * 2);
       ctx.fill();
 
-      const ringAlpha = 0.12 + Math.sin(time * 0.6) * 0.04;
+      const ringAlpha = 0.18 + Math.sin(time * 0.6) * 0.05;
       [coreRadius * 2.8, coreRadius * 4.1, coreRadius * 5.4].forEach((radius, index) => {
         ctx.beginPath();
         ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
@@ -2009,12 +2011,12 @@ footer {
 
       ctx.beginPath();
       ctx.arc(centerX, centerY, coreRadius * 1.55, 0, Math.PI * 2);
-      ctx.strokeStyle = `rgba(${coreSupportColor}, 0.24)`;
+      ctx.strokeStyle = `rgba(${coreSupportColor}, 0.34)`;
       ctx.lineWidth = 1;
       ctx.stroke();
 
       const glow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, coreRadius * 5);
-      glow.addColorStop(0, `rgba(${coreColor}, 0.42)`);
+      glow.addColorStop(0, `rgba(${coreColor}, 0.56)`);
       glow.addColorStop(1, `rgba(${coreColor}, 0)`);
       ctx.fillStyle = glow;
       ctx.beginPath();
