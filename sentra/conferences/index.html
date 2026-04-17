@@ -357,6 +357,15 @@ body.gateway-open .site-shell {
   max-width: 68ch;
 }
 .pain-lead { margin-bottom: 48px; }
+.pain-pullquote {
+  display: block;
+  margin-top: 18px;
+  font-family: "Fraunces", serif;
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--cream);
+}
 .how-copy {
   margin-bottom: 52px;
 }
@@ -518,6 +527,14 @@ body.gateway-open .site-shell {
   line-height: 1.7;
   color: var(--muted);
   margin-top: 4px;
+}
+.step-question {
+  display: block;
+  margin-bottom: 12px;
+  font-size: 19px;
+  line-height: 1.45;
+  letter-spacing: -0.02em;
+  color: var(--cream);
 }
 .cycle-badge {
   display: inline-block;
@@ -1162,7 +1179,7 @@ footer {
         <p class="hero-tag" id="hero-tag">Built for conference teams</p>
         <h1 id="hero-title">Finally, someone who's been to every edition of your conference.</h1>
         <p class="hero-sub" id="hero-sub">
-          Ask who came three years in a row and stopped. Ask which sponsors are at risk this year. Ask why ticket sales slowed down last month. Sentra reads your data, builds a complete picture of every attendee, sponsor, and speaker, and answers like someone who's been running this conference alongside you from day one.
+          Ask who came three years in a row and stopped. Ask which sponsors are at risk this year. Sentra reads your data, builds a complete picture of every attendee, sponsor, and speaker, and answers like someone who's been running this conference alongside you from day one.
         </p>
         <div class="hero-actions">
           <button class="btn-main" onclick="openModal('hero')">
@@ -1186,7 +1203,7 @@ footer {
     <div class="shell">
       <p class="section-tag" id="story-tag"></p>
       <h2 id="pain-title">You're not missing data.<br><em>You're missing the full picture of who's in your world.</em></h2>
-      <p class="pain-lead" id="pain-lead">An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: "which of our top attendees from last year haven't bought a ticket yet?" While they were looking, the early bird deadline passed.<br><br>That's not a data problem. That's a connection problem.</p>
+      <p class="pain-lead" id="pain-lead">An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: "which of our top attendees from last year haven't bought a ticket yet?" While they were looking, the early bird deadline passed.<span class="pain-pullquote">That's not a data problem. That's a connection problem.</span></p>
       <div class="pain-cards">
         <div class="pc pc-1">
           <h3 id="pain-card-1-title">Let me check and get back to you.</h3>
@@ -1250,7 +1267,7 @@ footer {
           <span class="cycle-badge">03</span>
           <div class="cycle-icon">3</div>
           <h3 id="step-3-title">Then you just ask.</h3>
-          <p id="step-3-copy">Plain language. Real answers. And always the reason behind them.</p>
+          <p id="step-3-copy"><span class="step-question">"Which VIP attendees from last year haven't registered yet?"</span>Plain language. Real answers. And always the reason behind them.</p>
         </div>
       </div>
     </div>
@@ -1353,10 +1370,10 @@ footer {
       description: defaultDescription,
       heroTag: "Built for conference teams",
       heroTitle: "Finally, someone who's been to every edition of your conference.",
-      heroSub: "Ask who came three years in a row and stopped. Ask which sponsors are at risk this year. Ask why ticket sales slowed down last month. Sentra reads your data, builds a complete picture of every attendee, sponsor, and speaker, and answers like someone who's been running this conference alongside you from day one.",
+      heroSub: "Ask who came three years in a row and stopped. Ask which sponsors are at risk this year. Sentra reads your data, builds a complete picture of every attendee, sponsor, and speaker, and answers like someone who's been running this conference alongside you from day one.",
       storyTag: "",
       painTitle: "You're not missing data.<br><em>You're missing the full picture of who's in your world.</em>",
-      painLead: "An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: \"which of our top attendees from last year haven't bought a ticket yet?\" While they were looking, the early bird deadline passed.<br><br>That's not a data problem. That's a connection problem.",
+      painLead: "An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: \"which of our top attendees from last year haven't bought a ticket yet?\" While they were looking, the early bird deadline passed.<span class=\"pain-pullquote\">That's not a data problem. That's a connection problem.</span>",
       painCards: [
         ["Let me check and get back to you.", "You've said this about your own conference. More than once."],
         ["You have an event platform for this.", "It tracks registrations. It doesn't know a sponsor has been with you four years, skipped last edition, and just opened your renewal email twice."],
@@ -1367,7 +1384,7 @@ footer {
       steps: [
         ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email, spreadsheets. No migration. Just connect and go."],
         ["Every person gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
-        ["Then you just ask.", "Plain language. Real answers. And always the reason behind them."]
+        ["Then you just ask.", "<span class=\"step-question\">\"Which VIP attendees from last year haven't registered yet?\"</span>Plain language. Real answers. And always the reason behind them."]
       ],
       ctaTitle: "See Sentra answer a question<br><em>your data already knows.</em>",
       ctaCopy: "Enter your email. We'll show you with data that looks like yours, in two minutes. No setup, no sales call.",
@@ -1387,10 +1404,10 @@ footer {
       description: defaultDescription,
       heroTag: "Built for conference teams",
       heroTitle: "Finally, someone who's been to every edition of your conference.",
-      heroSub: "Ask who came three years in a row and stopped. Ask which sponsors are at risk this year. Ask why ticket sales slowed down last month. Sentra reads your data, builds a complete picture of every attendee, sponsor, and speaker, and answers like someone who's been running this conference alongside you from day one.",
+      heroSub: "Ask who came three years in a row and stopped. Ask which sponsors are at risk this year. Sentra reads your data, builds a complete picture of every attendee, sponsor, and speaker, and answers like someone who's been running this conference alongside you from day one.",
       storyTag: "",
       painTitle: "You're not missing data.<br><em>You're missing the full picture of who's in your world.</em>",
-      painLead: "An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: \"which of our top attendees from last year haven't bought a ticket yet?\" While they were looking, the early bird deadline passed.<br><br>That's not a data problem. That's a connection problem.",
+      painLead: "An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: \"which of our top attendees from last year haven't bought a ticket yet?\" While they were looking, the early bird deadline passed.<span class=\"pain-pullquote\">That's not a data problem. That's a connection problem.</span>",
       painCards: [
         ["Let me check and get back to you.", "You've said this about your own conference. More than once."],
         ["You have an event platform for this.", "It tracks registrations. It doesn't know a sponsor has been with you four years, skipped last edition, and just opened your renewal email twice."],
@@ -1401,7 +1418,7 @@ footer {
       steps: [
         ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email, spreadsheets. No migration. Just connect and go."],
         ["Every person gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
-        ["Then you just ask.", "Plain language. Real answers. And always the reason behind them."]
+        ["Then you just ask.", "<span class=\"step-question\">\"Which VIP attendees from last year haven't registered yet?\"</span>Plain language. Real answers. And always the reason behind them."]
       ],
       ctaTitle: "See Sentra answer a question<br><em>your data already knows.</em>",
       ctaCopy: "Enter your email. We'll show you with data that looks like yours, in two minutes. No setup, no sales call.",
