@@ -402,11 +402,6 @@ body.gateway-open .site-shell {
   font-size: 16px;
   line-height: 1.7;
 }
-.question-note {
-  margin-top: 18px;
-  font-size: 13px;
-  color: var(--muted-2);
-}
 .pc {
   border-radius: var(--r);
   padding: 28px 24px;
@@ -494,6 +489,39 @@ body.gateway-open .site-shell {
 .cycle-step p {
   font-size: 15px;
   line-height: 1.82;
+  color: var(--muted);
+}
+.profile-callout {
+  margin-top: 2px;
+  padding: 18px 18px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: rgba(237,232,223,0.04);
+}
+.profile-callout-row {
+  margin-bottom: 12px;
+}
+.profile-callout-row:last-of-type {
+  margin-bottom: 14px;
+}
+.profile-callout-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.profile-callout-value {
+  display: block;
+  font-size: 15px;
+  line-height: 1.72;
+  color: var(--cream);
+}
+.profile-callout-note {
+  font-size: 14px;
+  line-height: 1.7;
   color: var(--muted);
 }
 .cycle-badge {
@@ -1137,10 +1165,6 @@ footer {
     <div class="shell hero-layout">
       <div class="hero-inner">
         <p class="hero-tag" id="hero-tag">Built for conference teams</p>
-        <div class="industry-badge-bar">
-          <div class="industry-current">Industry: <strong id="hero-industry-label">Events</strong></div>
-          <div class="industry-route">Sales lane: <strong id="hero-route-label">Event revenue desk</strong></div>
-        </div>
         <h1 id="hero-title">Finally, someone who's been to every edition of your conference.</h1>
         <p class="hero-sub" id="hero-sub">
           Ask who came three years in a row and stopped. Ask which sponsors are at risk this year. Ask why ticket sales slowed down last month. Sentra reads your data, builds a complete picture of every attendee, sponsor, and speaker, and answers like someone who's been running this conference alongside you from day one.
@@ -1151,7 +1175,6 @@ footer {
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
           </button>
           <a class="btn-soft" href="mailto:hello@agmentic.com" onclick="trackSentraMailto('talk_to_us','hero')">Talk to us</a>
-          <a class="gateway-skip" href="../">Change industry</a>
         </div>
       </div>
       <div class="hero-visual" aria-hidden="true">
@@ -1168,19 +1191,19 @@ footer {
     <div class="shell">
       <p class="section-tag" id="story-tag"></p>
       <h2 id="pain-title">You're not missing data.<br><em>You're missing the full picture of who's in your world.</em></h2>
-      <p class="pain-lead" id="pain-lead">An event team came to us with 5,000 registered attendees, 200 sponsors, and one question nobody could answer fast: "which of our top attendees from last year haven't bought a ticket yet?" The data was there. In the ticketing platform, in HubSpot, in the email tool, and in a spreadsheet someone kept updating by hand. And while they were still looking, the early bird deadline passed. That's not a data problem. That's a connection problem. And every conference team we've talked to has it.</p>
+      <p class="pain-lead" id="pain-lead">An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: "which of our top attendees from last year haven't bought a ticket yet?" While they were looking, the early bird deadline passed.<br><br>That's not a data problem. That's a connection problem.</p>
       <div class="pain-cards">
         <div class="pc pc-1">
           <h3 id="pain-card-1-title">Let me check and get back to you.</h3>
-          <p id="pain-card-1-copy">Someone asked which sponsors from last edition haven't committed yet. You knew the answer was in there somewhere. Just not where.</p>
+          <p id="pain-card-1-copy">You've said this about your own conference. More than once.</p>
         </div>
         <div class="pc pc-2">
           <h3 id="pain-card-2-title">You have an event platform for this.</h3>
-          <p id="pain-card-2-copy">It tracks registrations. It doesn't know that this sponsor has been with you for four years, skipped last edition, and just opened your renewal email twice.</p>
+          <p id="pain-card-2-copy">It tracks registrations. It doesn't know a sponsor has been with you four years, skipped last edition, and just opened your renewal email twice.</p>
         </div>
         <div class="pc pc-3">
           <h3 id="pain-card-3-title">The decision got made anyway.</h3>
-          <p id="pain-card-3-copy">The VIP invitation list got finalized. Someone who attended five editions and always brought three colleagues wasn't on it. Nobody had pulled that together in time.</p>
+          <p id="pain-card-3-copy">The VIP list was finalized. Someone who came five years in a row wasn't on it. Nobody had the full picture in time.</p>
         </div>
       </div>
     </div>
@@ -1191,12 +1214,11 @@ footer {
       <h2>The questions your team asks every week.</h2>
       <p class="question-sub">Sentra answers them in seconds.</p>
       <div class="quote-grid">
-        <div class="quote-box">"Which sponsors from last year haven't replied to the renewal email?"</div>
-        <div class="quote-box">"Who are our top 30 attendees by engagement across all editions?"</div>
-        <div class="quote-box">"Which speakers had the highest ratings and haven't been invited back?"</div>
+        <div class="quote-box">"Which sponsors haven't replied to the renewal email?"</div>
+        <div class="quote-box">"Which top attendees from last year haven't registered?"</div>
+        <div class="quote-box">"Which speakers had the best ratings and aren't invited back?"</div>
         <div class="quote-box">"Who opened the VIP invitation but still hasn't registered?"</div>
       </div>
-      <p class="question-note">These answers exist in your data. Sentra finds them.</p>
     </div>
   </section>
 
@@ -1204,26 +1226,36 @@ footer {
     <div class="shell">
       <h2 id="how-title">Your conference runs on data<br><em>that's never all in one place.</em></h2>
       <div class="how-copy">
-        <p class="how-lead" id="how-lead">Your ticketing platform knows who registered. Your CRM knows who you pitched. Your email tool knows who clicked. Your spreadsheets know the rest. But none of them talk to each other, so nobody has the full picture of a single attendee, sponsor, or speaker. Sentra connects all of it, builds a live profile for everyone in your world, and keeps it updated automatically. So when you ask a question, the answer comes from the whole story, not just one tab.</p>
+        <p class="how-lead" id="how-lead">Your ticketing platform, CRM, email tool, and spreadsheets each know one part of the story. None of them talk to each other. Sentra connects everything and builds one complete picture — updated automatically.</p>
       </div>
       <div class="cycle">
         <div class="cycle-step">
           <span class="cycle-badge">01</span>
           <div class="cycle-icon">1</div>
           <h3 id="step-1-title">Wherever it lives, we read it.</h3>
-          <p id="step-1-copy">Ticketing platform, HubSpot, email campaigns, spreadsheets, shared files. No migration. No manual work. Just connect and go.</p>
+          <p id="step-1-copy">Ticketing platform, HubSpot, email, spreadsheets. No migration. Just connect and go.</p>
         </div>
         <div class="cycle-step">
           <span class="cycle-badge">02</span>
           <div class="cycle-icon">2</div>
-          <h3 id="step-2-title">We build a profile for every person in your world.</h3>
-          <p id="step-2-copy">Every attendee, sponsor, and speaker gets a profile built from everything you have across every tool. Not just their registration record. Their full story: which editions they came to, which sessions they chose, whether they brought colleagues, how their engagement has shifted over time.<br><br>Data says this sponsor has been with you for three years. Profile says: year one they brought five people and booked a follow-up before leaving. Year two, two people, half-empty booth. Year three, one person and they haven't answered the renewal email.<br><br>Data tells you history. Profile tells you what's about to happen.</p>
+          <h3 id="step-2-title">Every person gets a full profile.</h3>
+          <div id="step-2-copy" class="profile-callout">
+            <div class="profile-callout-row">
+              <span class="profile-callout-label">Data says</span>
+              <span class="profile-callout-value">This sponsor has been with you for three years.</span>
+            </div>
+            <div class="profile-callout-row">
+              <span class="profile-callout-label">Profile says</span>
+              <span class="profile-callout-value">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span>
+            </div>
+            <div class="profile-callout-note">Data tells you history. Profile tells you what's about to happen.</div>
+          </div>
         </div>
         <div class="cycle-step">
           <span class="cycle-badge">03</span>
           <div class="cycle-icon">3</div>
           <h3 id="step-3-title">Then you just ask.</h3>
-          <p id="step-3-copy">Which VIP attendees from last year haven't registered yet? Which sponsors opened the renewal email but haven't replied? Who should be on the speaker dinner list? Plain language. Real answers. And always the reason behind them, so when your team asks why, you're not guessing.</p>
+          <p id="step-3-copy">Plain language. Real answers. And always the reason behind them.</p>
         </div>
       </div>
     </div>
@@ -1233,7 +1265,7 @@ footer {
     <div class="shell">
       <div class="privacy-box">
         <h2>Your data stays yours. Completely.</h2>
-        <p>Sentra is deployed as a dedicated instance for your organization. Your attendee data, your sponsor relationships, your speaker information — hosted on your own infrastructure or in a private environment under your full control. No shared databases. No data leaving your environment. Fully GDPR compliant. Built for teams that take data responsibility seriously.</p>
+        <p>Sentra runs as a dedicated instance for your team. Your data stays on your infrastructure, under your control. No shared databases. Fully GDPR compliant.</p>
       </div>
     </div>
   </section>
@@ -1262,7 +1294,7 @@ footer {
             <img class="brand-mark" src="../without back.png" alt="Agmentic logo">
             <span>Sentra</span>
           </div>
-          <p class="footer-copy" id="footer-copy">Built for the people who run things, and never have enough time to find the answers they need.</p>
+          <p class="footer-copy" id="footer-copy">Built for event teams balancing guests, sponsors, pipeline, and timing all at once.</p>
           <div class="footer-meta">An <strong>Agmentic</strong> product · © 2026</div>
         </div>
         <div class="footer-spacer" aria-hidden="true"></div>
@@ -1329,23 +1361,23 @@ footer {
       heroSub: "Ask who came three years in a row and stopped. Ask which sponsors are at risk this year. Ask why ticket sales slowed down last month. Sentra reads your data, builds a complete picture of every attendee, sponsor, and speaker, and answers like someone who's been running this conference alongside you from day one.",
       storyTag: "",
       painTitle: "You're not missing data.<br><em>You're missing the full picture of who's in your world.</em>",
-      painLead: "An event team came to us with 5,000 registered attendees, 200 sponsors, and one question nobody could answer fast: \"which of our top attendees from last year haven't bought a ticket yet?\" The data was there. In the ticketing platform, in HubSpot, in the email tool, and in a spreadsheet someone kept updating by hand. And while they were still looking, the early bird deadline passed. That's not a data problem. That's a connection problem. And every conference team we've talked to has it.",
+      painLead: "An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: \"which of our top attendees from last year haven't bought a ticket yet?\" While they were looking, the early bird deadline passed.<br><br>That's not a data problem. That's a connection problem.",
       painCards: [
-        ["Let me check and get back to you.", "Someone asked which sponsors from last edition haven't committed yet. You knew the answer was in there somewhere. Just not where."],
-        ["You have an event platform for this.", "It tracks registrations. It doesn't know that this sponsor has been with you for four years, skipped last edition, and just opened your renewal email twice."],
-        ["The decision got made anyway.", "The VIP invitation list got finalized. Someone who attended five editions and always brought three colleagues wasn't on it. Nobody had pulled that together in time."]
+        ["Let me check and get back to you.", "You've said this about your own conference. More than once."],
+        ["You have an event platform for this.", "It tracks registrations. It doesn't know a sponsor has been with you four years, skipped last edition, and just opened your renewal email twice."],
+        ["The decision got made anyway.", "The VIP list was finalized. Someone who came five years in a row wasn't on it. Nobody had the full picture in time."]
       ],
       howTitle: "Your conference runs on data<br><em>that's never all in one place.</em>",
-      howLead: "Your ticketing platform knows who registered. Your CRM knows who you pitched. Your email tool knows who clicked. Your spreadsheets know the rest. But none of them talk to each other, so nobody has the full picture of a single attendee, sponsor, or speaker. Sentra connects all of it, builds a live profile for everyone in your world, and keeps it updated automatically. So when you ask a question, the answer comes from the whole story, not just one tab.",
+      howLead: "Your ticketing platform, CRM, email tool, and spreadsheets each know one part of the story. None of them talk to each other. Sentra connects everything and builds one complete picture — updated automatically.",
       steps: [
-        ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email campaigns, spreadsheets, shared files. No migration. No manual work. Just connect and go."],
-        ["We build a profile for every person in your world.", "Every attendee, sponsor, and speaker gets a profile built from everything you have across every tool. Not just their registration record. Their full story: which editions they came to, which sessions they chose, whether they brought colleagues, how their engagement has shifted over time.<br><br>Data says this sponsor has been with you for three years. Profile says: year one they brought five people and booked a follow-up before leaving. Year two, two people, half-empty booth. Year three, one person and they haven't answered the renewal email.<br><br>Data tells you history. Profile tells you what's about to happen."],
-        ["Then you just ask.", "Which VIP attendees from last year haven't registered yet? Which sponsors opened the renewal email but haven't replied? Who should be on the speaker dinner list? Plain language. Real answers. And always the reason behind them, so when your team asks why, you're not guessing."]
+        ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email, spreadsheets. No migration. Just connect and go."],
+        ["Every person gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
+        ["Then you just ask.", "Plain language. Real answers. And always the reason behind them."]
       ],
       ctaTitle: "See Sentra answer a question<br><em>your data already knows.</em>",
       ctaCopy: "Enter your email. We'll show you with data that looks like yours, in two minutes. No setup, no sales call.",
       ctaButton: "See it for your conference",
-      footerCopy: "Built for the people who run things, and never have enough time to find the answers they need.",
+      footerCopy: "Built for event teams balancing guests, sponsors, pipeline, and timing all at once.",
       modalTitle: "See it for yourself.",
       modalSub: "Enter your email and we'll verify it instantly, then open the live demo right away.",
       successPrefix: "Your email was verified for "
@@ -1363,18 +1395,18 @@ footer {
       heroSub: "Ask who came three years in a row and stopped. Ask which sponsors are at risk this year. Ask why ticket sales slowed down last month. Sentra reads your data, builds a complete picture of every attendee, sponsor, and speaker, and answers like someone who's been running this conference alongside you from day one.",
       storyTag: "",
       painTitle: "You're not missing data.<br><em>You're missing the full picture of who's in your world.</em>",
-      painLead: "An event team came to us with 5,000 registered attendees, 200 sponsors, and one question nobody could answer fast: \"which of our top attendees from last year haven't bought a ticket yet?\" The data was there. In the ticketing platform, in HubSpot, in the email tool, and in a spreadsheet someone kept updating by hand. And while they were still looking, the early bird deadline passed. That's not a data problem. That's a connection problem. And every conference team we've talked to has it.",
+      painLead: "An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: \"which of our top attendees from last year haven't bought a ticket yet?\" While they were looking, the early bird deadline passed.<br><br>That's not a data problem. That's a connection problem.",
       painCards: [
-        ["Let me check and get back to you.", "Someone asked which sponsors from last edition haven't committed yet. You knew the answer was in there somewhere. Just not where."],
-        ["You have an event platform for this.", "It tracks registrations. It doesn't know that this sponsor has been with you for four years, skipped last edition, and just opened your renewal email twice."],
-        ["The decision got made anyway.", "The VIP invitation list got finalized. Someone who attended five editions and always brought three colleagues wasn't on it. Nobody had pulled that together in time."]
+        ["Let me check and get back to you.", "You've said this about your own conference. More than once."],
+        ["You have an event platform for this.", "It tracks registrations. It doesn't know a sponsor has been with you four years, skipped last edition, and just opened your renewal email twice."],
+        ["The decision got made anyway.", "The VIP list was finalized. Someone who came five years in a row wasn't on it. Nobody had the full picture in time."]
       ],
       howTitle: "Your conference runs on data<br><em>that's never all in one place.</em>",
-      howLead: "Your ticketing platform knows who registered. Your CRM knows who you pitched. Your email tool knows who clicked. Your spreadsheets know the rest. But none of them talk to each other, so nobody has the full picture of a single attendee, sponsor, or speaker. Sentra connects all of it, builds a live profile for everyone in your world, and keeps it updated automatically. So when you ask a question, the answer comes from the whole story, not just one tab.",
+      howLead: "Your ticketing platform, CRM, email tool, and spreadsheets each know one part of the story. None of them talk to each other. Sentra connects everything and builds one complete picture — updated automatically.",
       steps: [
-        ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email campaigns, spreadsheets, shared files. No migration. No manual work. Just connect and go."],
-        ["We build a profile for every person in your world.", "Every attendee, sponsor, and speaker gets a profile built from everything you have across every tool. Not just their registration record. Their full story: which editions they came to, which sessions they chose, whether they brought colleagues, how their engagement has shifted over time.<br><br>Data says this sponsor has been with you for three years. Profile says: year one they brought five people and booked a follow-up before leaving. Year two, two people, half-empty booth. Year three, one person and they haven't answered the renewal email.<br><br>Data tells you history. Profile tells you what's about to happen."],
-        ["Then you just ask.", "Which VIP attendees from last year haven't registered yet? Which sponsors opened the renewal email but haven't replied? Who should be on the speaker dinner list? Plain language. Real answers. And always the reason behind them, so when your team asks why, you're not guessing."]
+        ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email, spreadsheets. No migration. Just connect and go."],
+        ["Every person gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
+        ["Then you just ask.", "Plain language. Real answers. And always the reason behind them."]
       ],
       ctaTitle: "See Sentra answer a question<br><em>your data already knows.</em>",
       ctaCopy: "Enter your email. We'll show you with data that looks like yours, in two minutes. No setup, no sales call.",
@@ -1522,7 +1554,7 @@ footer {
     setText("hero-sub", profile.heroSub);
     setText("story-tag", profile.storyTag);
     setHtml("pain-title", profile.painTitle);
-    setText("pain-lead", profile.painLead);
+    setHtml("pain-lead", profile.painLead);
     setText("pain-card-1-title", profile.painCards[0][0]);
     setText("pain-card-1-copy", profile.painCards[0][1]);
     setText("pain-card-2-title", profile.painCards[1][0]);
