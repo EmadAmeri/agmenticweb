@@ -18,7 +18,7 @@ Set these in Cloudflare Workers:
 - `GROQ_MODEL`: optional, defaults to `groq/compound-mini`
 - `ABSTRACT_API_KEY`: Abstract Email Validation / Email Reputation API key
 - `SENTRA_FROM_EMAIL`: recommended `sentra@agmentic.com`
-- `SENTRA_DEMO_LINK`: direct demo link to open after a successful verification, currently `https://agmentic.com/chatbot/`
+- `SENTRA_DEMO_LINK`: direct demo link to open after a successful verification, currently `https://agmentic.com/sentra/events/demo/`
 - `SENTRA_NOTIFY_EMAIL`: internal notification inbox, currently `em.ameri94@gmail.com`
 - `ALLOWED_ORIGIN`: optional, defaults to `https://agmentic.com`
 - `GOOGLE_SHEETS_WEBHOOK_URL`: deployed Google Apps Script web app URL

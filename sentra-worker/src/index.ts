@@ -20,7 +20,7 @@ type KnowledgeRow = (typeof DEMO_DATA.knowledgeBase)[number];
 
 const DEFAULT_FROM = "sentra@agmentic.com";
 const DEFAULT_ALLOWED_ORIGIN = "https://agmentic.com";
-const DEFAULT_DEMO_LINK = "https://agmentic.com/chatbot/";
+const DEFAULT_DEMO_LINK = "https://agmentic.com/sentra/events/demo/";
 const DEFAULT_NOTIFY_EMAIL = "em.ameri94@gmail.com";
 const DEFAULT_GROQ_MODEL = "groq/compound-mini";
 const USAGE_LIMIT_MESSAGE =

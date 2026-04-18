@@ -1,0 +1,45 @@
+search_id,cycle_id,title,function,status,opened_at,duration_days,client_id
+SR2024-01,CY-2024,CFO Search — Logistics: What’s Next?,CFO Search,Active,2024-06-25T9:00:00,45,CL011
+SR2024-02,CY-2024,CEO Search — CRM & CDP: What’s Next?,CEO Search,Shortlist Built,2024-06-25T10:00:00,30,CL018
+SR2024-03,CY-2024,COO Search — CRM & CDP: What’s Next?,COO Search,On Hold,2024-06-25T11:00:00,45,CL080
+SR2024-04,CY-2024,CTO Search — CRM & CDP: What’s Next?,CTO Search,Placed,2024-06-25T12:00:00,30,CL040
+SR2024-05,CY-2024,CMO Search — CRM & CDP: What’s Next?,CMO Search,Withdrawn,2024-06-25T13:00:00,45,CL009
+SR2024-06,CY-2024,CHRO Search — Payments: What’s Next?,CHRO Search,Active,2024-06-25T14:00:00,40,CL008
+SR2024-07,CY-2024,VP Engineering — AI in Commerce: What’s Next?,VP Engineering,Shortlist Built,2024-06-25T15:00:00,30,CL035
+SR2024-08,CY-2024,VP Sales — Sustainability: What’s Next?,VP Sales,On Hold,2024-06-25T9:00:00,45,CL014
+SR2024-09,CY-2024,GM EMEA — Marketplaces: What’s Next?,GM EMEA,Placed,2024-06-25T10:00:00,30,CL071
+SR2024-10,CY-2024,Head of Product — AI in Commerce: What’s Next?,Head of Product,Withdrawn,2024-06-25T11:00:00,40,CL025
+SR2024-11,CY-2024,Board Director — Live Commerce: What’s Next?,Board Director,Active,2024-06-25T12:00:00,45,CL031
+SR2024-12,CY-2024,Non-Exec Director — CRM & CDP: What’s Next?,Non-Exec Director,Shortlist Built,2024-06-25T13:00:00,30,CL036
+SR2024-13,CY-2024,CFO Search — Retail Media: What’s Next?,CFO Search,On Hold,2024-06-25T14:00:00,45,CL072
+SR2024-14,CY-2024,CEO Search — Pricing: What’s Next?,CEO Search,Placed,2024-06-25T15:00:00,30,CL049
+SR2024-15,CY-2024,COO Search — International Expansion: What’s Next?,COO Search,Withdrawn,2024-06-25T9:00:00,60,CL054
+SR2024-16,CY-2024,CTO Search — International Expansion: What’s Next?,CTO Search,Active,2024-06-25T10:00:00,30,CL071
+SR2024-17,CY-2024,CMO Search — CRM & CDP: What’s Next?,CMO Search,Shortlist Built,2024-06-25T11:00:00,30,CL055
+SR2024-18,CY-2024,CHRO Search — Payments: What’s Next?,CHRO Search,On Hold,2024-06-25T12:00:00,30,CL031
+SR2024-19,CY-2024,VP Engineering — CRM & CDP: What’s Next?,VP Engineering,Placed,2024-06-25T13:00:00,30,CL065
+SR2024-20,CY-2024,VP Sales — Marketplaces: What’s Next?,VP Sales,Withdrawn,2024-06-25T14:00:00,60,CL045
+SR2024-21,CY-2024,GM EMEA — Retail Media: What’s Next?,GM EMEA,Active,2024-06-25T15:00:00,45,CL066
+SR2024-22,CY-2024,Head of Product — Retail Media: What’s Next?,Head of Product,Shortlist Built,2024-06-25T9:00:00,45,CL042
+SR2025-01,CY-2025,Board Director — CRM & CDP: What’s Next?,Board Director,On Hold,2025-06-25T9:00:00,40,CL028
+SR2025-02,CY-2025,Non-Exec Director — Retail Media: What’s Next?,Non-Exec Director,Placed,2025-06-25T10:00:00,60,CL041
+SR2025-03,CY-2025,CFO Search — Marketplaces: What’s Next?,CFO Search,Withdrawn,2025-06-25T11:00:00,45,CL019
+SR2025-04,CY-2025,CEO Search — Pricing: What’s Next?,CEO Search,Active,2025-06-25T12:00:00,60,CL025
+SR2025-05,CY-2025,COO Search — Payments: What’s Next?,COO Search,Shortlist Built,2025-06-25T13:00:00,40,CL040
+SR2025-06,CY-2025,CTO Search — Retail Media: What’s Next?,CTO Search,On Hold,2025-06-25T14:00:00,30,CL057
+SR2025-07,CY-2025,CMO Search — Logistics: What’s Next?,CMO Search,Placed,2025-06-25T15:00:00,45,CL023
+SR2025-08,CY-2025,CHRO Search — Logistics: What’s Next?,CHRO Search,Withdrawn,2025-06-25T9:00:00,60,CL073
+SR2025-09,CY-2025,VP Engineering — International Expansion: What’s Next?,VP Engineering,Active,2025-06-25T10:00:00,60,CL036
+SR2025-10,CY-2025,VP Sales — Marketplaces: What’s Next?,VP Sales,Shortlist Built,2025-06-25T11:00:00,30,CL006
+SR2025-11,CY-2025,GM EMEA — Pricing: What’s Next?,GM EMEA,On Hold,2025-06-25T12:00:00,40,CL067
+SR2025-12,CY-2025,Head of Product — Payments: What’s Next?,Head of Product,Placed,2025-06-25T13:00:00,40,CL032
+SR2025-13,CY-2025,Board Director — AI in Commerce: What’s Next?,Board Director,Withdrawn,2025-06-25T14:00:00,45,CL034
+SR2025-14,CY-2025,Non-Exec Director — CRM & CDP: What’s Next?,Non-Exec Director,Active,2025-06-25T15:00:00,30,CL003
+SR2025-15,CY-2025,CFO Search — Live Commerce: What’s Next?,CFO Search,Shortlist Built,2025-06-25T9:00:00,40,CL007
+SR2025-16,CY-2025,CEO Search — Marketplaces: What’s Next?,CEO Search,On Hold,2025-06-25T10:00:00,30,CL069
+SR2025-17,CY-2025,COO Search — Sustainability: What’s Next?,COO Search,Placed,2025-06-25T11:00:00,30,CL038
+SR2025-18,CY-2025,CTO Search — Marketplaces: What’s Next?,CTO Search,Withdrawn,2025-06-25T12:00:00,40,CL006
+SR2025-19,CY-2025,CMO Search — Marketplaces: What’s Next?,CMO Search,Active,2025-06-25T13:00:00,60,CL052
+SR2025-20,CY-2025,CHRO Search — International Expansion: What’s Next?,CHRO Search,Shortlist Built,2025-06-25T14:00:00,45,CL066
+SR2025-21,CY-2025,VP Engineering — Live Commerce: What’s Next?,VP Engineering,On Hold,2025-06-25T15:00:00,60,CL062
+SR2025-22,CY-2025,VP Sales — Logistics: What’s Next?,VP Sales,Placed,2025-06-25T9:00:00,60,CL064

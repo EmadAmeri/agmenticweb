@@ -1,0 +1,19 @@
+committee_id,committee_name,type,lead_member_id,annual_budget_eur,meeting_room
+COM001,Standards Committee,Steering,M040,35000,B19
+COM002,Membership Engagement WG,Working Group,M046,18000,B18
+COM003,Future of Industry Task Force,Advisory,M053,35000,B04
+COM004,DEI Council,Task Force,M026,18000,B09
+COM005,Education Committee,Steering,M030,60000,B28
+COM006,Policy & Advocacy WG,Working Group,M048,60000,B12
+COM007,Awards Committee,Advisory,M051,0,B20
+COM008,Annual Convention Planning,Task Force,M049,18000,B18
+COM009,Chapter Leadership Council,Steering,M019,35000,B16
+COM010,Standards Committee,Working Group,M007,35000,B33
+COM011,Membership Engagement WG,Advisory,M074,35000,B02
+COM012,Future of Industry Task Force,Task Force,M023,18000,B33
+COM013,DEI Council,Steering,M059,35000,B35
+COM014,Education Committee,Working Group,M028,18000,B36
+COM015,Policy & Advocacy WG,Advisory,M077,35000,B07
+COM016,Awards Committee,Task Force,M055,0,B14
+COM017,Annual Convention Planning,Steering,M063,35000,B27
+COM018,Chapter Leadership Council,Working Group,M033,60000,B17

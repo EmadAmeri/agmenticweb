@@ -1,0 +1,421 @@
+candidate_id,first_name,last_name,email,current_title,seniority,current_employer_id,country,willing_to_relocate,added_to_db
+CD00001,Marie,Fischer,marie.fischer@omnisolutions.de,Chief Executive Officer,Executive,CL078,FR,True,2023-05-05
+CD00002,Sarah,Schwarz,sarah.schwarz@cloudlabs.de,Chief Financial Officer,C-suite,CL055,IT,False,2023-03-16
+CD00003,Ben,Neumann,ben.neumann@bluebrands.de,Chief Operating Officer,VP,CL061,PL,False,2023-08-06
+CD00004,Paul,Wagner,paul.wagner@novagroup.de,Chief Technology Officer,Director,CL034,ES,True,2024-10-20
+CD00005,Felix,Fischer,felix.fischer@brightsolutions.de,Chief Marketing Officer,Executive,CL053,UK,False,2023-05-21
+CD00006,Marie,Schäfer,marie.schäfer@cloudmarkets.de,Chief People Officer,C-suite,CL079,NL,True,2024-02-12
+CD00007,Tim,Becker,tim.becker@vistamarkets.de,VP Finance,VP,CL070,CH,True,2023-06-15
+CD00008,Leon,Wolf,leon.wolf@cloudlogistics.de,VP Operations,Director,CL027,SE,True,2024-03-07
+CD00009,Mia,Klein,mia.klein@cloudgroup.de,VP Engineering,Executive,CL036,NL,False,2023-04-05
+CD00010,Felix,Schmidt,felix.schmidt@cloudsolutions.de,VP Sales,C-suite,CL073,DE,True,2024-07-21
+CD00011,Marie,Schwarz,marie.schwarz@brightmarkets.de,General Manager EMEA,VP,CL080,NL,True,2024-01-29
+CD00012,Nina,Bauer,nina.bauer@pulselabs.de,Managing Director,Director,CL049,NL,False,2023-03-07
+CD00013,Tom,Schäfer,tom.schäfer@vistabrands.de,SVP Strategy,Executive,CL008,CH,True,2023-03-28
+CD00014,Laura,Koch,laura.koch@greencapital.de,Head of Product,C-suite,CL042,IT,False,2023-07-05
+CD00015,Laura,Fischer,laura.fischer@greengroup.de,Head of People,VP,CL029,CH,True,2024-11-23
+CD00016,Laura,Wolf,laura.wolf@novacommerce.de,Chief Executive Officer,Director,CL072,CH,False,2024-07-03
+CD00017,Julia,Zimmermann,julia.zimmermann@hyperlogistics.de,Chief Financial Officer,Executive,CL026,CH,False,2023-04-02
+CD00018,Laura,Müller,laura.müller@nordicsystems.de,Chief Operating Officer,C-suite,CL052,NL,False,2024-03-11
+CD00019,Lena,Koch,lena.koch@cloudpartners.de,Chief Technology Officer,VP,CL045,DE,False,2024-10-11
+CD00020,Lena,Koch,lena.koch@cloudgroup.de,Chief Marketing Officer,Director,CL063,ES,True,2024-09-14
+CD00021,Ben,Weber,ben.weber@summitpartners.de,Chief People Officer,Executive,CL069,PL,False,2023-05-05
+CD00022,Marie,Schmidt,marie.schmidt@greensolutions.de,VP Finance,C-suite,CL038,DE,False,2024-07-20
+CD00023,Leon,Koch,leon.koch@cloudgroup.de,VP Operations,VP,CL036,NL,False,2023-05-13
+CD00024,Max,Schäfer,max.schäfer@cloudmarkets.de,VP Engineering,Director,CL079,NL,True,2023-06-15
+CD00025,Laura,Müller,laura.müller@omnipartners.de,VP Sales,Executive,CL011,DE,True,2023-07-26
+CD00026,Paul,Bauer,paul.bauer@vistabrands.de,General Manager EMEA,C-suite,CL008,CH,False,2023-07-30
+CD00027,Paul,Schwarz,paul.schwarz@cloudgroup.de,Managing Director,VP,CL036,NL,True,2024-11-19
+CD00028,Jonas,Koch,jonas.koch@greengroup.de,SVP Strategy,Director,CL074,ES,False,2023-01-19
+CD00029,Laura,Müller,laura.müller@novabrands.de,Head of Product,Executive,CL039,PL,False,2023-01-19
+CD00030,Julia,Hoffmann,julia.hoffmann@cloudlogistics.de,Head of People,C-suite,CL027,SE,False,2024-05-01
+CD00031,Ben,Schwarz,ben.schwarz@nextsystems.de,Chief Executive Officer,VP,CL025,NL,False,2024-11-05
+CD00032,Leon,Zimmermann,leon.zimmermann@vistalabs.de,Chief Financial Officer,Director,CL066,NL,True,2024-02-07
+CD00033,Julia,Bauer,julia.bauer@greengroup.de,Chief Operating Officer,Executive,CL074,ES,True,2023-08-24
+CD00034,Nina,Hoffmann,nina.hoffmann@novacommerce.de,Chief Technology Officer,C-suite,CL072,CH,False,2024-02-19
+CD00035,Felix,Müller,felix.müller@cloudcapital.de,Chief Marketing Officer,VP,CL043,AT,False,2023-01-15
+CD00036,Lena,Koch,lena.koch@omnilogistics.de,Chief People Officer,Director,CL005,AT,True,2023-06-17
+CD00037,Max,Weber,max.weber@nextgroup.de,VP Finance,Executive,CL006,PL,False,2024-06-02
+CD00038,Paul,Schäfer,paul.schäfer@cloudlabs.de,VP Operations,C-suite,CL055,IT,False,2023-02-16
+CD00039,Marie,Becker,marie.becker@nextmarkets.de,VP Engineering,VP,CL051,DE,False,2023-10-03
+CD00040,Marie,Schmidt,marie.schmidt@greencapital.de,VP Sales,Director,CL042,IT,False,2024-01-08
+CD00041,Nina,Richter,nina.richter@nextmarkets.de,General Manager EMEA,Executive,CL051,DE,False,2023-02-05
+CD00042,Paul,Hoffmann,paul.hoffmann@primecapital.de,Managing Director,C-suite,CL021,FR,True,2023-07-07
+CD00043,Anna,Richter,anna.richter@nordicretail.de,SVP Strategy,VP,CL040,SE,False,2023-03-27
+CD00044,Tim,Koch,tim.koch@nextmarkets.de,Head of Product,Director,CL046,ES,False,2024-11-02
+CD00045,Mia,Schäfer,mia.schäfer@nordicretail.de,Head of People,Executive,CL040,SE,True,2023-01-06
+CD00046,Lena,Koch,lena.koch@nordicsystems.de,Chief Executive Officer,C-suite,CL052,NL,True,2023-05-28
+CD00047,Sarah,Müller,sarah.müller@greensolutions.de,Chief Financial Officer,VP,CL038,DE,True,2023-01-24
+CD00048,Paul,Bauer,paul.bauer@omnipartners.de,Chief Operating Officer,Director,CL011,DE,True,2023-03-28
+CD00049,Emil,Fischer,emil.fischer@urbansolutions.de,Chief Technology Officer,Executive,CL010,AT,False,2024-02-03
+CD00050,Nina,Zimmermann,nina.zimmermann@cloudcapital.de,Chief Marketing Officer,C-suite,CL043,AT,False,2023-10-18
+CD00051,Lisa,Fischer,lisa.fischer@brightsystems.de,Chief People Officer,VP,CL048,UK,False,2024-06-09
+CD00052,Leon,Fischer,leon.fischer@cloudgroup.de,VP Finance,Director,CL036,NL,False,2024-05-31
+CD00053,Emil,Schmidt,emil.schmidt@primecapital.de,VP Operations,Executive,CL021,FR,True,2024-11-30
+CD00054,Ben,Weber,ben.weber@nextsystems.de,VP Engineering,C-suite,CL025,NL,False,2023-02-12
+CD00055,Sofia,Klein,sofia.klein@hypergroup.de,VP Sales,VP,CL059,SE,True,2024-01-21
+CD00056,Marie,Müller,marie.müller@summitmedia.de,General Manager EMEA,Director,CL016,PL,True,2024-10-03
+CD00057,David,Schäfer,david.schäfer@cloudlogistics.de,Managing Director,Executive,CL027,SE,False,2023-09-28
+CD00058,Anna,Schwarz,anna.schwarz@summitmedia.de,SVP Strategy,C-suite,CL016,PL,False,2024-05-30
+CD00059,David,Weber,david.weber@nordicretail.de,Head of Product,VP,CL040,SE,True,2023-03-09
+CD00060,Tim,Koch,tim.koch@hypermedia.de,Head of People,Director,CL013,IT,True,2023-09-29
+CD00061,Ben,Hoffmann,ben.hoffmann@hypermedia.de,Chief Executive Officer,Executive,CL013,IT,True,2024-10-27
+CD00062,Marie,Zimmermann,marie.zimmermann@urbansolutions.de,Chief Financial Officer,C-suite,CL010,AT,False,2023-03-20
+CD00063,Tim,Bauer,tim.bauer@summitlogistics.de,Chief Operating Officer,VP,CL058,CH,False,2024-09-23
+CD00064,Mia,Weber,mia.weber@omniretail.de,Chief Technology Officer,Director,CL009,CH,False,2023-05-31
+CD00065,Nina,Koch,nina.koch@nordiclabs.de,Chief Marketing Officer,Executive,CL075,DE,True,2024-09-28
+CD00066,Emil,Fischer,emil.fischer@omnipartners.de,Chief People Officer,C-suite,CL011,DE,False,2024-05-08
+CD00067,Max,Zimmermann,max.zimmermann@nordiccapital.de,VP Finance,VP,CL031,FR,False,2024-11-19
+CD00068,Tom,Hoffmann,tom.hoffmann@bluebrands.de,VP Operations,Director,CL061,PL,False,2023-10-25
+CD00069,Julia,Bauer,julia.bauer@vistamarkets.de,VP Engineering,Executive,CL070,CH,False,2024-04-22
+CD00070,Marie,Wagner,marie.wagner@summitcommerce.de,VP Sales,C-suite,CL047,AT,False,2023-07-24
+CD00071,Paul,Weber,paul.weber@hyperlogistics.de,General Manager EMEA,VP,CL004,AT,False,2023-01-18
+CD00072,Paul,Schwarz,paul.schwarz@nextsystems.de,Managing Director,Director,CL025,NL,False,2024-06-02
+CD00073,Marie,Koch,marie.koch@nordicretail.de,SVP Strategy,Executive,CL040,SE,True,2023-08-03
+CD00074,Mia,Weber,mia.weber@urbanmarkets.de,Head of Product,C-suite,CL002,PL,False,2023-04-03
+CD00075,Sofia,Koch,sofia.koch@nextmarkets.de,Head of People,VP,CL051,DE,False,2023-05-16
+CD00076,Lisa,Koch,lisa.koch@hyperlogistics.de,Chief Executive Officer,Director,CL004,AT,False,2024-01-09
+CD00077,Ben,Zimmermann,ben.zimmermann@cloudlogistics.de,Chief Financial Officer,Executive,CL027,SE,True,2024-02-08
+CD00078,Anna,Becker,anna.becker@novasolutions.de,Chief Operating Officer,C-suite,CL033,ES,True,2024-05-18
+CD00079,Marie,Wolf,marie.wolf@bluebrands.de,Chief Technology Officer,VP,CL061,PL,False,2023-05-25
+CD00080,Leon,Klein,leon.klein@cloudmarkets.de,Chief Marketing Officer,Director,CL079,NL,True,2023-11-20
+CD00081,Tom,Richter,tom.richter@urbanbrands.de,Chief People Officer,Executive,CL030,NL,False,2023-11-29
+CD00082,Nina,Wolf,nina.wolf@cloudmarkets.de,VP Finance,C-suite,CL079,NL,True,2023-07-20
+CD00083,Anna,Bauer,anna.bauer@omnilogistics.de,VP Operations,VP,CL005,AT,False,2024-01-17
+CD00084,Lena,Wolf,lena.wolf@nextmarkets.de,VP Engineering,Director,CL046,ES,True,2024-08-26
+CD00085,Lena,Klein,lena.klein@cloudlabs.de,VP Sales,Executive,CL055,IT,True,2023-10-09
+CD00086,Max,Koch,max.koch@novabrands.de,General Manager EMEA,C-suite,CL039,PL,False,2023-02-22
+CD00087,Paul,Fischer,paul.fischer@bluecapital.de,Managing Director,VP,CL018,AT,True,2023-09-30
+CD00088,Leon,Richter,leon.richter@pulseretail.de,SVP Strategy,Director,CL076,DE,False,2024-01-18
+CD00089,Leon,Schmidt,leon.schmidt@summitlogistics.de,Head of Product,Executive,CL058,CH,True,2024-07-21
+CD00090,David,Hoffmann,david.hoffmann@hyperlogistics.de,Head of People,C-suite,CL035,AT,False,2023-02-20
+CD00091,Leon,Schwarz,leon.schwarz@cloudmarkets.de,Chief Executive Officer,VP,CL079,NL,False,2023-05-22
+CD00092,Paul,Zimmermann,paul.zimmermann@summitgroup.de,Chief Financial Officer,Director,CL023,IT,True,2024-07-17
+CD00093,Sofia,Becker,sofia.becker@urbanbrands.de,Chief Operating Officer,Executive,CL030,NL,False,2024-02-29
+CD00094,Nina,Bauer,nina.bauer@cloudlabs.de,Chief Technology Officer,C-suite,CL055,IT,True,2023-09-19
+CD00095,Laura,Wolf,laura.wolf@hyperlogistics.de,Chief Marketing Officer,VP,CL035,AT,False,2023-11-05
+CD00096,Tim,Wolf,tim.wolf@greengroup.de,Chief People Officer,Director,CL074,ES,False,2023-06-21
+CD00097,Jonas,Weber,jonas.weber@pulsegroup.de,VP Finance,Executive,CL057,AT,False,2024-05-27
+CD00098,Tim,Schäfer,tim.schäfer@pulsemarkets.de,VP Operations,C-suite,CL019,UK,True,2023-12-07
+CD00099,Marie,Neumann,marie.neumann@hyperlogistics.de,VP Engineering,VP,CL004,AT,False,2024-07-14
+CD00100,Mia,Schäfer,mia.schäfer@pulseretail.de,VP Sales,Director,CL077,PL,False,2023-06-28
+CD00101,Nina,Weber,nina.weber@pulsemarkets.de,General Manager EMEA,Executive,CL019,UK,True,2023-09-02
+CD00102,Felix,Koch,felix.koch@greengroup.de,Managing Director,C-suite,CL029,CH,True,2023-07-26
+CD00103,Anna,Neumann,anna.neumann@primemarkets.de,SVP Strategy,VP,CL067,UK,False,2024-02-28
+CD00104,Julia,Hoffmann,julia.hoffmann@cloudgroup.de,Head of Product,Director,CL036,NL,True,2023-10-04
+CD00105,Nina,Müller,nina.müller@nextgroup.de,Head of People,Executive,CL006,PL,True,2023-10-12
+CD00106,Emil,Klein,emil.klein@nordiclabs.de,Chief Executive Officer,C-suite,CL075,DE,False,2024-05-30
+CD00107,Julia,Hoffmann,julia.hoffmann@cloudlogistics.de,Chief Financial Officer,VP,CL027,SE,False,2023-10-05
+CD00108,Ben,Wolf,ben.wolf@primecapital.de,Chief Operating Officer,Director,CL021,FR,False,2024-10-23
+CD00109,Marie,Neumann,marie.neumann@novasolutions.de,Chief Technology Officer,Executive,CL033,ES,False,2023-01-23
+CD00110,Sofia,Müller,sofia.müller@greengroup.de,Chief Marketing Officer,C-suite,CL074,ES,True,2024-04-29
+CD00111,Emil,Zimmermann,emil.zimmermann@novabrands.de,Chief People Officer,VP,CL039,PL,False,2023-03-16
+CD00112,Sarah,Schwarz,sarah.schwarz@pulsegroup.de,VP Finance,Director,CL057,AT,False,2023-09-12
+CD00113,Tom,Schäfer,tom.schäfer@urbanmarkets.de,VP Operations,Executive,CL002,PL,False,2023-06-05
+CD00114,Julia,Wagner,julia.wagner@greensystems.de,VP Engineering,C-suite,CL014,NL,True,2023-03-29
+CD00115,David,Müller,david.müller@blueretail.de,VP Sales,VP,CL044,FR,False,2023-05-09
+CD00116,Ben,Müller,ben.müller@bluecapital.de,General Manager EMEA,Director,CL018,AT,True,2023-05-12
+CD00117,Laura,Neumann,laura.neumann@greenbrands.de,Managing Director,Executive,CL001,DE,True,2023-04-12
+CD00118,Lena,Bauer,lena.bauer@brightsystems.de,SVP Strategy,C-suite,CL048,UK,False,2024-08-19
+CD00119,Mia,Wolf,mia.wolf@bluecapital.de,Head of Product,VP,CL018,AT,False,2023-08-17
+CD00120,Lisa,Schmidt,lisa.schmidt@nextmarkets.de,Head of People,Director,CL046,ES,True,2024-07-04
+CD00121,Paul,Schwarz,paul.schwarz@summitgroup.de,Chief Executive Officer,Executive,CL023,IT,False,2023-11-20
+CD00122,Ben,Zimmermann,ben.zimmermann@vistamarkets.de,Chief Financial Officer,C-suite,CL028,SE,True,2023-08-29
+CD00123,David,Schäfer,david.schäfer@novasolutions.de,Chief Operating Officer,VP,CL033,ES,True,2024-02-26
+CD00124,Paul,Müller,paul.müller@vistamarkets.de,Chief Technology Officer,Director,CL070,CH,True,2023-07-18
+CD00125,Tim,Neumann,tim.neumann@nordicbrands.de,Chief Marketing Officer,Executive,CL032,UK,False,2023-09-21
+CD00126,Ben,Neumann,ben.neumann@brightsolutions.de,Chief People Officer,C-suite,CL053,UK,True,2023-08-21
+CD00127,Tim,Müller,tim.müller@primecapital.de,VP Finance,VP,CL021,FR,False,2024-03-06
+CD00128,Felix,Wolf,felix.wolf@omnisolutions.de,VP Operations,Director,CL078,FR,False,2023-01-07
+CD00129,Paul,Weber,paul.weber@atlassolutions.de,VP Engineering,Executive,CL022,SE,True,2024-05-22
+CD00130,Mia,Bauer,mia.bauer@pulsegroup.de,VP Sales,C-suite,CL057,AT,False,2023-08-25
+CD00131,Marie,Schäfer,marie.schäfer@nextmarkets.de,General Manager EMEA,VP,CL051,DE,False,2023-10-30
+CD00132,Tom,Zimmermann,tom.zimmermann@greensystems.de,Managing Director,Director,CL014,NL,False,2023-07-11
+CD00133,Ben,Zimmermann,ben.zimmermann@hypergroup.de,SVP Strategy,Executive,CL059,SE,True,2024-11-12
+CD00134,Max,Fischer,max.fischer@cloudmarkets.de,Head of Product,C-suite,CL079,NL,True,2023-02-25
+CD00135,Mia,Schmidt,mia.schmidt@pulsemarkets.de,Head of People,VP,CL019,UK,False,2023-05-26
+CD00136,Leon,Müller,leon.müller@omnipartners.de,Chief Executive Officer,Director,CL011,DE,False,2023-07-08
+CD00137,Sarah,Schwarz,sarah.schwarz@novacommerce.de,Chief Financial Officer,Executive,CL072,CH,True,2023-04-26
+CD00138,Lena,Becker,lena.becker@cloudmarkets.de,Chief Operating Officer,C-suite,CL079,NL,True,2023-07-15
+CD00139,Jonas,Schwarz,jonas.schwarz@vistalabs.de,Chief Technology Officer,VP,CL066,NL,True,2023-11-16
+CD00140,Sarah,Klein,sarah.klein@urbanretail.de,Chief Marketing Officer,Director,CL017,UK,False,2024-03-29
+CD00141,Jonas,Wagner,jonas.wagner@brightsystems.de,Chief People Officer,Executive,CL048,UK,False,2023-03-22
+CD00142,Laura,Weber,laura.weber@nextmarkets.de,VP Finance,C-suite,CL051,DE,False,2024-03-06
+CD00143,Tom,Hoffmann,tom.hoffmann@nordicsystems.de,VP Operations,VP,CL052,NL,False,2024-01-01
+CD00144,Paul,Neumann,paul.neumann@hyperlogistics.de,VP Engineering,Director,CL004,AT,False,2023-02-20
+CD00145,Tim,Hoffmann,tim.hoffmann@nextgroup.de,VP Sales,Executive,CL006,PL,False,2024-07-08
+CD00146,Marie,Hoffmann,marie.hoffmann@vistamarkets.de,General Manager EMEA,C-suite,CL028,SE,False,2024-01-08
+CD00147,Tim,Schmidt,tim.schmidt@omnipartners.de,Managing Director,VP,CL011,DE,False,2023-09-11
+CD00148,Sarah,Müller,sarah.müller@urbanmarkets.de,SVP Strategy,Director,CL002,PL,True,2023-02-05
+CD00149,Marie,Weber,marie.weber@blueretail.de,Head of Product,Executive,CL044,FR,True,2023-09-21
+CD00150,Mia,Weber,mia.weber@omnilogistics.de,Head of People,C-suite,CL005,AT,True,2023-12-14
+CD00151,Felix,Koch,felix.koch@cloudlabs.de,Chief Executive Officer,VP,CL055,IT,False,2024-09-23
+CD00152,Max,Koch,max.koch@greencapital.de,Chief Financial Officer,Director,CL042,IT,True,2023-10-10
+CD00153,Paul,Schmidt,paul.schmidt@hyperlogistics.de,Chief Operating Officer,Executive,CL026,CH,False,2024-10-11
+CD00154,Lena,Schmidt,lena.schmidt@atlassolutions.de,Chief Technology Officer,C-suite,CL022,SE,True,2023-04-20
+CD00155,Tim,Schwarz,tim.schwarz@vistabrands.de,Chief Marketing Officer,VP,CL008,CH,False,2023-09-15
+CD00156,Leon,Zimmermann,leon.zimmermann@cloudmarkets.de,Chief People Officer,Director,CL079,NL,False,2024-05-23
+CD00157,Jonas,Schmidt,jonas.schmidt@novagroup.de,VP Finance,Executive,CL034,ES,False,2023-06-04
+CD00158,Lisa,Schäfer,lisa.schäfer@pulseretail.de,VP Operations,C-suite,CL076,DE,True,2023-11-24
+CD00159,Marie,Klein,marie.klein@brightsolutions.de,VP Engineering,VP,CL053,UK,True,2023-03-22
+CD00160,Julia,Hoffmann,julia.hoffmann@vistamarkets.de,VP Sales,Director,CL070,CH,False,2023-06-13
+CD00161,Ben,Neumann,ben.neumann@omnisolutions.de,General Manager EMEA,Executive,CL078,FR,False,2024-10-27
+CD00162,Max,Zimmermann,max.zimmermann@summitcommerce.de,Managing Director,C-suite,CL047,AT,False,2024-07-11
+CD00163,Nina,Becker,nina.becker@novasolutions.de,SVP Strategy,VP,CL056,UK,False,2023-04-18
+CD00164,Lena,Koch,lena.koch@pulselabs.de,Head of Product,Director,CL049,NL,False,2023-03-28
+CD00165,Mia,Wagner,mia.wagner@greenbrands.de,Head of People,Executive,CL024,DE,True,2024-05-25
+CD00166,Marie,Becker,marie.becker@novacapital.de,Chief Executive Officer,C-suite,CL020,AT,False,2023-05-17
+CD00167,Leon,Schwarz,leon.schwarz@nextmarkets.de,Chief Financial Officer,VP,CL046,ES,False,2024-11-21
+CD00168,Ben,Wagner,ben.wagner@bluecapital.de,Chief Operating Officer,Director,CL018,AT,True,2023-10-28
+CD00169,Laura,Koch,laura.koch@cloudlogistics.de,Chief Technology Officer,Executive,CL027,SE,False,2023-09-18
+CD00170,Laura,Hoffmann,laura.hoffmann@summitmedia.de,Chief Marketing Officer,C-suite,CL016,PL,True,2023-09-11
+CD00171,Jonas,Schäfer,jonas.schäfer@hyperlogistics.de,Chief People Officer,VP,CL026,CH,False,2023-06-07
+CD00172,Paul,Hoffmann,paul.hoffmann@atlassolutions.de,VP Finance,Director,CL022,SE,False,2023-03-08
+CD00173,Sarah,Koch,sarah.koch@cloudgroup.de,VP Operations,Executive,CL063,ES,False,2024-06-03
+CD00174,Julia,Schäfer,julia.schäfer@primecapital.de,VP Engineering,C-suite,CL021,FR,True,2024-10-31
+CD00175,Marie,Müller,marie.müller@nordicsystems.de,VP Sales,VP,CL052,NL,False,2023-01-05
+CD00176,Tim,Schäfer,tim.schäfer@bluegroup.de,General Manager EMEA,Director,CL041,PL,True,2024-01-18
+CD00177,Max,Bauer,max.bauer@cloudpartners.de,Managing Director,Executive,CL045,DE,False,2023-05-03
+CD00178,Max,Hoffmann,max.hoffmann@nextmarkets.de,SVP Strategy,C-suite,CL051,DE,True,2024-08-20
+CD00179,Mia,Weber,mia.weber@bluecapital.de,Head of Product,VP,CL018,AT,True,2024-06-08
+CD00180,Jonas,Schwarz,jonas.schwarz@novabrands.de,Head of People,Director,CL039,PL,True,2023-09-24
+CD00181,Anna,Wagner,anna.wagner@brightsolutions.de,Chief Executive Officer,Executive,CL053,UK,True,2024-09-26
+CD00182,Felix,Hoffmann,felix.hoffmann@brightmarkets.de,Chief Financial Officer,C-suite,CL080,NL,True,2024-01-13
+CD00183,Nina,Fischer,nina.fischer@nextmarkets.de,Chief Operating Officer,VP,CL046,ES,False,2023-07-28
+CD00184,Laura,Müller,laura.müller@pulseretail.de,Chief Technology Officer,Director,CL077,PL,True,2024-10-29
+CD00185,Mia,Schmidt,mia.schmidt@novabrands.de,Chief Marketing Officer,Executive,CL039,PL,False,2024-02-23
+CD00186,Felix,Becker,felix.becker@vistamarkets.de,Chief People Officer,C-suite,CL028,SE,False,2023-11-16
+CD00187,Lena,Hoffmann,lena.hoffmann@greengroup.de,VP Finance,VP,CL029,CH,False,2024-05-22
+CD00188,David,Zimmermann,david.zimmermann@brightsolutions.de,VP Operations,Director,CL053,UK,True,2024-02-22
+CD00189,Tom,Wolf,tom.wolf@cloudsolutions.de,VP Engineering,Executive,CL073,DE,False,2023-06-08
+CD00190,David,Weber,david.weber@summitlogistics.de,VP Sales,C-suite,CL058,CH,False,2024-02-12
+CD00191,Laura,Neumann,laura.neumann@greensolutions.de,General Manager EMEA,VP,CL038,DE,True,2024-11-14
+CD00192,Paul,Neumann,paul.neumann@urbansolutions.de,Managing Director,Director,CL015,IT,True,2023-11-16
+CD00193,Emil,Klein,emil.klein@novasolutions.de,SVP Strategy,Executive,CL033,ES,False,2024-03-02
+CD00194,Anna,Klein,anna.klein@pulseretail.de,Head of Product,C-suite,CL076,DE,False,2024-02-05
+CD00195,Sarah,Hoffmann,sarah.hoffmann@novacapital.de,Head of People,VP,CL020,AT,True,2024-03-20
+CD00196,Jonas,Neumann,jonas.neumann@novagroup.de,Chief Executive Officer,Director,CL034,ES,False,2023-04-03
+CD00197,Sarah,Klein,sarah.klein@hypercommerce.de,Chief Financial Officer,Executive,CL007,ES,True,2023-06-16
+CD00198,Sofia,Schmidt,sofia.schmidt@greensystems.de,Chief Operating Officer,C-suite,CL014,NL,False,2024-07-18
+CD00199,Sofia,Wolf,sofia.wolf@cloudmarkets.de,Chief Technology Officer,VP,CL079,NL,False,2024-08-09
+CD00200,Lisa,Klein,lisa.klein@nextgroup.de,Chief Marketing Officer,Director,CL006,PL,False,2023-06-25
+CD00201,Sofia,Klein,sofia.klein@vistamarkets.de,Chief People Officer,Executive,CL028,SE,False,2023-06-15
+CD00202,Julia,Becker,julia.becker@greengroup.de,VP Finance,C-suite,CL029,CH,False,2023-04-22
+CD00203,Sarah,Zimmermann,sarah.zimmermann@cloudgroup.de,VP Operations,VP,CL063,ES,False,2023-11-05
+CD00204,Sofia,Müller,sofia.müller@novabrands.de,VP Engineering,Director,CL039,PL,True,2023-11-19
+CD00205,Max,Wolf,max.wolf@hypermedia.de,VP Sales,Executive,CL013,IT,True,2024-09-27
+CD00206,Jonas,Schäfer,jonas.schäfer@omnipartners.de,General Manager EMEA,C-suite,CL065,NL,False,2024-02-19
+CD00207,Lisa,Hoffmann,lisa.hoffmann@novagroup.de,Managing Director,VP,CL034,ES,False,2023-07-07
+CD00208,Emil,Hoffmann,emil.hoffmann@greenretail.de,SVP Strategy,Director,CL054,NL,False,2024-02-14
+CD00209,Julia,Becker,julia.becker@greensolutions.de,Head of Product,Executive,CL038,DE,False,2024-01-03
+CD00210,Tom,Fischer,tom.fischer@summitgroup.de,Head of People,C-suite,CL023,IT,True,2023-07-17
+CD00211,Max,Müller,max.müller@nextsystems.de,Chief Executive Officer,VP,CL025,NL,False,2023-05-01
+CD00212,Sarah,Schwarz,sarah.schwarz@omnisolutions.de,Chief Financial Officer,Director,CL078,FR,False,2024-10-04
+CD00213,Paul,Neumann,paul.neumann@greencapital.de,Chief Operating Officer,Executive,CL042,IT,False,2024-08-19
+CD00214,Ben,Neumann,ben.neumann@cloudlabs.de,Chief Technology Officer,C-suite,CL055,IT,True,2024-11-05
+CD00215,Felix,Schwarz,felix.schwarz@nordiclabs.de,Chief Marketing Officer,VP,CL075,DE,False,2024-03-24
+CD00216,Jonas,Schmidt,jonas.schmidt@bluecapital.de,Chief People Officer,Director,CL018,AT,False,2024-09-25
+CD00217,Tim,Schwarz,tim.schwarz@urbansolutions.de,VP Finance,Executive,CL015,IT,False,2024-04-02
+CD00218,Lisa,Schwarz,lisa.schwarz@summitpartners.de,VP Operations,C-suite,CL069,PL,False,2024-04-29
+CD00219,Sarah,Wagner,sarah.wagner@hyperlogistics.de,VP Engineering,VP,CL026,CH,True,2023-05-12
+CD00220,Felix,Neumann,felix.neumann@pulseretail.de,VP Sales,Director,CL076,DE,True,2023-04-04
+CD00221,Marie,Müller,marie.müller@urbansolutions.de,General Manager EMEA,Executive,CL010,AT,True,2024-10-13
+CD00222,Sofia,Weber,sofia.weber@hyperlogistics.de,Managing Director,C-suite,CL035,AT,True,2024-06-07
+CD00223,Lena,Müller,lena.müller@brightsolutions.de,SVP Strategy,VP,CL053,UK,False,2024-01-22
+CD00224,Sofia,Schmidt,sofia.schmidt@nordicbrands.de,Head of Product,Director,CL032,UK,True,2024-09-20
+CD00225,Tom,Hoffmann,tom.hoffmann@nordicbrands.de,Head of People,Executive,CL032,UK,False,2024-05-18
+CD00226,Paul,Becker,paul.becker@greensystems.de,Chief Executive Officer,C-suite,CL014,NL,True,2023-03-09
+CD00227,Felix,Koch,felix.koch@bluegroup.de,Chief Financial Officer,VP,CL041,PL,False,2023-11-28
+CD00228,Lisa,Koch,lisa.koch@hypergroup.de,Chief Operating Officer,Director,CL059,SE,False,2023-05-28
+CD00229,Laura,Zimmermann,laura.zimmermann@hypercommerce.de,Chief Technology Officer,Executive,CL007,ES,False,2024-08-29
+CD00230,Laura,Schäfer,laura.schäfer@vistabrands.de,Chief Marketing Officer,C-suite,CL008,CH,False,2024-01-17
+CD00231,Max,Hoffmann,max.hoffmann@omnibrands.de,Chief People Officer,VP,CL071,CH,True,2024-02-18
+CD00232,Jonas,Koch,jonas.koch@nordicretail.de,VP Finance,Director,CL040,SE,True,2024-01-21
+CD00233,Jonas,Koch,jonas.koch@bluebrands.de,VP Operations,Executive,CL061,PL,False,2024-06-27
+CD00234,Max,Klein,max.klein@omnipartners.de,VP Engineering,C-suite,CL011,DE,True,2024-07-22
+CD00235,Julia,Wagner,julia.wagner@hypergroup.de,VP Sales,VP,CL059,SE,False,2024-07-02
+CD00236,Sarah,Klein,sarah.klein@brightmarkets.de,General Manager EMEA,Director,CL080,NL,True,2024-01-20
+CD00237,Felix,Fischer,felix.fischer@brightsystems.de,Managing Director,Executive,CL048,UK,True,2023-12-05
+CD00238,Lena,Schwarz,lena.schwarz@cloudmarkets.de,SVP Strategy,C-suite,CL079,NL,True,2023-06-30
+CD00239,Lisa,Müller,lisa.müller@brightsystems.de,Head of Product,VP,CL048,UK,True,2024-06-12
+CD00240,Laura,Bauer,laura.bauer@summitmedia.de,Head of People,Director,CL016,PL,True,2024-11-10
+CD00241,Nina,Schmidt,nina.schmidt@urbanretail.de,Chief Executive Officer,Executive,CL017,UK,False,2023-08-15
+CD00242,Sofia,Bauer,sofia.bauer@novabrands.de,Chief Financial Officer,C-suite,CL039,PL,True,2024-10-02
+CD00243,Leon,Neumann,leon.neumann@greensystems.de,Chief Operating Officer,VP,CL014,NL,False,2024-01-08
+CD00244,Max,Fischer,max.fischer@urbansolutions.de,Chief Technology Officer,Director,CL015,IT,True,2023-08-21
+CD00245,Lisa,Müller,lisa.müller@novagroup.de,Chief Marketing Officer,Executive,CL034,ES,True,2023-02-25
+CD00246,Anna,Klein,anna.klein@bluegroup.de,Chief People Officer,C-suite,CL041,PL,False,2023-04-19
+CD00247,Julia,Klein,julia.klein@summitmedia.de,VP Finance,VP,CL016,PL,True,2023-08-18
+CD00248,Leon,Bauer,leon.bauer@cloudpartners.de,VP Operations,Director,CL045,DE,False,2023-05-17
+CD00249,Mia,Klein,mia.klein@cloudlabs.de,VP Engineering,Executive,CL055,IT,False,2024-05-01
+CD00250,Jonas,Fischer,jonas.fischer@hyperlogistics.de,VP Sales,C-suite,CL004,AT,False,2023-09-07
+CD00251,Sofia,Schwarz,sofia.schwarz@novabrands.de,General Manager EMEA,VP,CL039,PL,False,2023-03-07
+CD00252,Sofia,Koch,sofia.koch@novabrands.de,Managing Director,Director,CL039,PL,True,2023-09-28
+CD00253,Anna,Müller,anna.müller@omniretail.de,SVP Strategy,Executive,CL009,CH,True,2023-12-25
+CD00254,Lisa,Schwarz,lisa.schwarz@pulselabs.de,Head of Product,C-suite,CL049,NL,False,2024-06-14
+CD00255,Tim,Schäfer,tim.schäfer@nordicretail.de,Head of People,VP,CL040,SE,False,2023-01-01
+CD00256,Max,Müller,max.müller@bluebrands.de,Chief Executive Officer,Director,CL061,PL,False,2023-01-26
+CD00257,Sarah,Becker,sarah.becker@cloudmarkets.de,Chief Financial Officer,Executive,CL079,NL,True,2023-06-13
+CD00258,Max,Wagner,max.wagner@nextgroup.de,Chief Operating Officer,C-suite,CL006,PL,True,2024-09-19
+CD00259,David,Hoffmann,david.hoffmann@summitlogistics.de,Chief Technology Officer,VP,CL058,CH,True,2024-02-28
+CD00260,Mia,Neumann,mia.neumann@vistamarkets.de,Chief Marketing Officer,Director,CL070,CH,False,2023-06-28
+CD00261,Julia,Bauer,julia.bauer@greenretail.de,Chief People Officer,Executive,CL054,NL,False,2023-11-04
+CD00262,Max,Zimmermann,max.zimmermann@nordiccapital.de,VP Finance,C-suite,CL031,FR,False,2023-01-07
+CD00263,Sarah,Neumann,sarah.neumann@hyperlogistics.de,VP Operations,VP,CL004,AT,False,2023-03-24
+CD00264,Marie,Becker,marie.becker@omnipartners.de,VP Engineering,Director,CL011,DE,False,2023-04-18
+CD00265,Laura,Schäfer,laura.schäfer@summitlogistics.de,VP Sales,Executive,CL058,CH,False,2023-05-07
+CD00266,Nina,Koch,nina.koch@hypermedia.de,General Manager EMEA,C-suite,CL013,IT,True,2023-09-30
+CD00267,David,Neumann,david.neumann@primemarkets.de,Managing Director,VP,CL068,DE,False,2023-09-29
+CD00268,Paul,Hoffmann,paul.hoffmann@nextmarkets.de,SVP Strategy,Director,CL046,ES,False,2024-06-03
+CD00269,Anna,Becker,anna.becker@pulsegroup.de,Head of Product,Executive,CL057,AT,False,2023-08-30
+CD00270,Mia,Becker,mia.becker@brightsystems.de,Head of People,C-suite,CL048,UK,True,2023-07-16
+CD00271,Sarah,Richter,sarah.richter@novasolutions.de,Chief Executive Officer,VP,CL056,UK,True,2023-09-02
+CD00272,Sarah,Zimmermann,sarah.zimmermann@hyperlogistics.de,Chief Financial Officer,Director,CL035,AT,False,2024-06-27
+CD00273,Anna,Schmidt,anna.schmidt@summitcapital.de,Chief Operating Officer,Executive,CL062,PL,True,2023-08-28
+CD00274,Emil,Bauer,emil.bauer@pulseretail.de,Chief Technology Officer,C-suite,CL076,DE,False,2024-02-05
+CD00275,Lisa,Weber,lisa.weber@brightsolutions.de,Chief Marketing Officer,VP,CL053,UK,True,2023-06-25
+CD00276,Sofia,Müller,sofia.müller@nextmarkets.de,Chief People Officer,Director,CL046,ES,False,2023-04-25
+CD00277,Tom,Becker,tom.becker@bluecapital.de,VP Finance,Executive,CL018,AT,False,2023-05-26
+CD00278,Anna,Schmidt,anna.schmidt@novasolutions.de,VP Operations,C-suite,CL033,ES,True,2023-05-22
+CD00279,Max,Weber,max.weber@urbanbrands.de,VP Engineering,VP,CL030,NL,False,2023-03-09
+CD00280,Emil,Klein,emil.klein@cloudgroup.de,VP Sales,Director,CL036,NL,False,2024-06-30
+CD00281,Lena,Wolf,lena.wolf@cloudsolutions.de,General Manager EMEA,Executive,CL073,DE,True,2023-09-10
+CD00282,Mia,Hoffmann,mia.hoffmann@hyperlogistics.de,Managing Director,C-suite,CL026,CH,False,2023-02-04
+CD00283,Max,Weber,max.weber@cloudmarkets.de,SVP Strategy,VP,CL079,NL,True,2024-05-03
+CD00284,Tom,Fischer,tom.fischer@brightsolutions.de,Head of Product,Director,CL053,UK,False,2024-10-23
+CD00285,Mia,Bauer,mia.bauer@pulseretail.de,Head of People,Executive,CL077,PL,True,2023-12-11
+CD00286,Leon,Koch,leon.koch@bluecapital.de,Chief Executive Officer,C-suite,CL018,AT,False,2023-12-26
+CD00287,Laura,Bauer,laura.bauer@novasolutions.de,Chief Financial Officer,VP,CL056,UK,False,2024-01-12
+CD00288,Nina,Zimmermann,nina.zimmermann@brightmarkets.de,Chief Operating Officer,Director,CL080,NL,True,2024-09-25
+CD00289,Anna,Neumann,anna.neumann@brightsystems.de,Chief Technology Officer,Executive,CL048,UK,False,2024-03-22
+CD00290,Julia,Wagner,julia.wagner@nordicbrands.de,Chief Marketing Officer,C-suite,CL032,UK,False,2024-04-25
+CD00291,Max,Hoffmann,max.hoffmann@hypermedia.de,Chief People Officer,VP,CL013,IT,True,2024-08-11
+CD00292,Paul,Becker,paul.becker@vistamarkets.de,VP Finance,Director,CL070,CH,True,2023-01-02
+CD00293,Julia,Hoffmann,julia.hoffmann@pulsegroup.de,VP Operations,Executive,CL057,AT,True,2023-02-25
+CD00294,Anna,Klein,anna.klein@summitmedia.de,VP Engineering,C-suite,CL016,PL,False,2023-04-08
+CD00295,Tim,Becker,tim.becker@hyperlogistics.de,VP Sales,VP,CL004,AT,False,2024-08-29
+CD00296,Felix,Koch,felix.koch@nordicmarkets.de,General Manager EMEA,Director,CL003,AT,False,2023-06-12
+CD00297,Paul,Hoffmann,paul.hoffmann@omnibrands.de,Managing Director,Executive,CL064,AT,False,2024-05-25
+CD00298,Jonas,Wagner,jonas.wagner@nordicbrands.de,SVP Strategy,C-suite,CL032,UK,True,2024-05-17
+CD00299,David,Wagner,david.wagner@novacommerce.de,Head of Product,VP,CL072,CH,False,2023-12-31
+CD00300,Tom,Wolf,tom.wolf@urbansolutions.de,Head of People,Director,CL010,AT,True,2023-03-30
+CD00301,Leon,Schmidt,leon.schmidt@brightmarkets.de,Chief Executive Officer,Executive,CL080,NL,False,2023-07-31
+CD00302,Paul,Koch,paul.koch@hyperlogistics.de,Chief Financial Officer,C-suite,CL026,CH,False,2024-07-12
+CD00303,Julia,Becker,julia.becker@urbanmarkets.de,Chief Operating Officer,VP,CL002,PL,True,2024-10-07
+CD00304,Ben,Schwarz,ben.schwarz@nordicretail.de,Chief Technology Officer,Director,CL040,SE,True,2024-06-28
+CD00305,Lisa,Müller,lisa.müller@novalabs.de,Chief Marketing Officer,Executive,CL050,NL,False,2024-08-18
+CD00306,Nina,Fischer,nina.fischer@primemarkets.de,Chief People Officer,C-suite,CL068,DE,False,2024-11-08
+CD00307,David,Richter,david.richter@greengroup.de,VP Finance,VP,CL074,ES,False,2024-04-19
+CD00308,Marie,Koch,marie.koch@blueretail.de,VP Operations,Director,CL044,FR,True,2023-08-25
+CD00309,Sofia,Richter,sofia.richter@greenbrands.de,VP Engineering,Executive,CL024,DE,False,2024-10-20
+CD00310,Ben,Hoffmann,ben.hoffmann@pulselabs.de,VP Sales,C-suite,CL049,NL,True,2023-11-05
+CD00311,Lisa,Fischer,lisa.fischer@novasolutions.de,General Manager EMEA,VP,CL033,ES,False,2023-09-11
+CD00312,Nina,Klein,nina.klein@brightmarkets.de,Managing Director,Director,CL080,NL,False,2023-08-30
+CD00313,Nina,Hoffmann,nina.hoffmann@bluecapital.de,SVP Strategy,Executive,CL018,AT,False,2023-04-15
+CD00314,Jonas,Wagner,jonas.wagner@omnipartners.de,Head of Product,C-suite,CL011,DE,False,2024-01-29
+CD00315,Sofia,Fischer,sofia.fischer@summitmedia.de,Head of People,VP,CL016,PL,False,2023-11-01
+CD00316,Leon,Koch,leon.koch@urbanmarkets.de,Chief Executive Officer,Director,CL002,PL,False,2023-04-22
+CD00317,Tom,Koch,tom.koch@greengroup.de,Chief Financial Officer,Executive,CL074,ES,True,2024-02-02
+CD00318,Marie,Müller,marie.müller@summitcapital.de,Chief Operating Officer,C-suite,CL062,PL,False,2024-02-13
+CD00319,Leon,Schäfer,leon.schäfer@nextgroup.de,Chief Technology Officer,VP,CL006,PL,False,2024-10-09
+CD00320,Paul,Schwarz,paul.schwarz@brightsystems.de,Chief Marketing Officer,Director,CL048,UK,False,2023-05-26
+CD00321,Laura,Wolf,laura.wolf@omnipartners.de,Chief People Officer,Executive,CL065,NL,False,2023-09-06
+CD00322,Leon,Neumann,leon.neumann@omnipartners.de,VP Finance,C-suite,CL065,NL,False,2024-11-14
+CD00323,Emil,Schäfer,emil.schäfer@hypergroup.de,VP Operations,VP,CL059,SE,False,2024-10-18
+CD00324,Tom,Schwarz,tom.schwarz@novacommerce.de,VP Engineering,Director,CL072,CH,False,2023-11-17
+CD00325,Laura,Wagner,laura.wagner@omniretail.de,VP Sales,Executive,CL009,CH,True,2023-09-06
+CD00326,Sarah,Becker,sarah.becker@greencapital.de,General Manager EMEA,C-suite,CL042,IT,False,2024-03-09
+CD00327,Tim,Schwarz,tim.schwarz@blueretail.de,Managing Director,VP,CL044,FR,False,2024-09-28
+CD00328,Leon,Becker,leon.becker@nordicretail.de,SVP Strategy,Director,CL040,SE,False,2023-01-11
+CD00329,Sarah,Zimmermann,sarah.zimmermann@summitgroup.de,Head of Product,Executive,CL023,IT,True,2023-02-09
+CD00330,Laura,Hoffmann,laura.hoffmann@brightsystems.de,Head of People,C-suite,CL048,UK,False,2023-07-24
+CD00331,Julia,Klein,julia.klein@atlassolutions.de,Chief Executive Officer,VP,CL022,SE,True,2024-08-11
+CD00332,Marie,Hoffmann,marie.hoffmann@nextsystems.de,Chief Financial Officer,Director,CL025,NL,False,2024-06-08
+CD00333,Anna,Klein,anna.klein@omnisolutions.de,Chief Operating Officer,Executive,CL078,FR,True,2023-12-18
+CD00334,Leon,Schwarz,leon.schwarz@novalabs.de,Chief Technology Officer,C-suite,CL012,ES,True,2024-12-01
+CD00335,Jonas,Wolf,jonas.wolf@novacapital.de,Chief Marketing Officer,VP,CL020,AT,True,2023-05-06
+CD00336,Lisa,Klein,lisa.klein@pulseretail.de,Chief People Officer,Director,CL077,PL,True,2023-09-16
+CD00337,Laura,Wolf,laura.wolf@omnipartners.de,VP Finance,Executive,CL011,DE,False,2023-03-04
+CD00338,Anna,Weber,anna.weber@novalabs.de,VP Operations,C-suite,CL050,NL,True,2024-03-06
+CD00339,Felix,Koch,felix.koch@hyperlogistics.de,VP Engineering,VP,CL004,AT,False,2023-08-18
+CD00340,Paul,Wolf,paul.wolf@nordicsystems.de,VP Sales,Director,CL052,NL,False,2023-08-13
+CD00341,Sarah,Schwarz,sarah.schwarz@greenbrands.de,General Manager EMEA,Executive,CL024,DE,False,2023-06-18
+CD00342,Sofia,Weber,sofia.weber@vistabrands.de,Managing Director,C-suite,CL008,CH,False,2024-04-25
+CD00343,David,Schäfer,david.schäfer@vistabrands.de,SVP Strategy,VP,CL008,CH,True,2023-12-28
+CD00344,Leon,Schwarz,leon.schwarz@hyperlogistics.de,Head of Product,Director,CL026,CH,True,2024-07-15
+CD00345,Sofia,Zimmermann,sofia.zimmermann@cloudlogistics.de,Head of People,Executive,CL027,SE,True,2023-08-24
+CD00346,Laura,Wolf,laura.wolf@omnisolutions.de,Chief Executive Officer,C-suite,CL078,FR,True,2024-03-12
+CD00347,Jonas,Zimmermann,jonas.zimmermann@cloudpartners.de,Chief Financial Officer,VP,CL045,DE,False,2023-10-15
+CD00348,Felix,Schäfer,felix.schäfer@cloudgroup.de,Chief Operating Officer,Director,CL036,NL,False,2023-11-25
+CD00349,Tim,Zimmermann,tim.zimmermann@cloudgroup.de,Chief Technology Officer,Executive,CL063,ES,True,2024-09-30
+CD00350,Lena,Klein,lena.klein@greengroup.de,Chief Marketing Officer,C-suite,CL074,ES,True,2023-11-07
+CD00351,Sarah,Müller,sarah.müller@omniretail.de,Chief People Officer,VP,CL009,CH,False,2024-08-01
+CD00352,Nina,Fischer,nina.fischer@cloudcapital.de,VP Finance,Director,CL043,AT,True,2023-12-20
+CD00353,Emil,Schmidt,emil.schmidt@cloudcapital.de,VP Operations,Executive,CL043,AT,True,2023-08-03
+CD00354,Lena,Bauer,lena.bauer@summitlogistics.de,VP Engineering,C-suite,CL058,CH,False,2024-09-14
+CD00355,Tom,Fischer,tom.fischer@nordiclabs.de,VP Sales,VP,CL075,DE,False,2023-07-10
+CD00356,Marie,Klein,marie.klein@vistamarkets.de,General Manager EMEA,Director,CL028,SE,False,2023-08-02
+CD00357,Sarah,Becker,sarah.becker@nordicmarkets.de,Managing Director,Executive,CL003,AT,False,2024-09-14
+CD00358,Lena,Bauer,lena.bauer@pulsegroup.de,SVP Strategy,C-suite,CL057,AT,False,2024-05-21
+CD00359,Mia,Weber,mia.weber@hypercommerce.de,Head of Product,VP,CL007,ES,True,2024-11-18
+CD00360,Tom,Wagner,tom.wagner@cloudgroup.de,Head of People,Director,CL036,NL,True,2024-03-05
+CD00361,Ben,Fischer,ben.fischer@bluecapital.de,Chief Executive Officer,Executive,CL018,AT,False,2024-05-19
+CD00362,David,Müller,david.müller@pulselabs.de,Chief Financial Officer,C-suite,CL049,NL,True,2024-04-23
+CD00363,Sofia,Zimmermann,sofia.zimmermann@omnipartners.de,Chief Operating Officer,VP,CL065,NL,False,2024-05-25
+CD00364,Jonas,Schmidt,jonas.schmidt@nordiclabs.de,Chief Technology Officer,Director,CL075,DE,True,2023-11-25
+CD00365,Marie,Zimmermann,marie.zimmermann@nextgroup.de,Chief Marketing Officer,Executive,CL006,PL,True,2024-04-21
+CD00366,Felix,Neumann,felix.neumann@novacommerce.de,Chief People Officer,C-suite,CL072,CH,True,2024-11-23
+CD00367,Lena,Becker,lena.becker@summitcapital.de,VP Finance,VP,CL062,PL,False,2024-10-13
+CD00368,Anna,Schmidt,anna.schmidt@cloudlabs.de,VP Operations,Director,CL055,IT,True,2023-02-16
+CD00369,Nina,Wagner,nina.wagner@novagroup.de,VP Engineering,Executive,CL034,ES,True,2024-05-10
+CD00370,Tim,Fischer,tim.fischer@greensystems.de,VP Sales,C-suite,CL014,NL,False,2023-08-07
+CD00371,Leon,Fischer,leon.fischer@pulsegroup.de,General Manager EMEA,VP,CL057,AT,False,2023-04-07
+CD00372,Felix,Richter,felix.richter@vistamarkets.de,Managing Director,Director,CL070,CH,True,2024-06-22
+CD00373,David,Hoffmann,david.hoffmann@novasolutions.de,SVP Strategy,Executive,CL033,ES,True,2024-03-21
+CD00374,Nina,Neumann,nina.neumann@greenretail.de,Head of Product,C-suite,CL054,NL,False,2024-07-21
+CD00375,Max,Bauer,max.bauer@greengroup.de,Head of People,VP,CL074,ES,True,2023-12-30
+CD00376,Tim,Wolf,tim.wolf@greenretail.de,Chief Executive Officer,Director,CL054,NL,False,2024-05-30
+CD00377,Laura,Klein,laura.klein@omnisolutions.de,Chief Financial Officer,Executive,CL078,FR,False,2024-11-01
+CD00378,Tim,Wagner,tim.wagner@pulsegroup.de,Chief Operating Officer,C-suite,CL057,AT,False,2023-07-16
+CD00379,Nina,Bauer,nina.bauer@nordicmarkets.de,Chief Technology Officer,VP,CL003,AT,False,2024-08-23
+CD00380,Lena,Müller,lena.müller@cloudgroup.de,Chief Marketing Officer,Director,CL036,NL,True,2024-07-21
+CD00381,Sarah,Müller,sarah.müller@urbanlabs.de,Chief People Officer,Executive,CL037,AT,True,2023-11-04
+CD00382,Tom,Schmidt,tom.schmidt@omnibrands.de,VP Finance,C-suite,CL071,CH,False,2023-07-14
+CD00383,Tim,Müller,tim.müller@omnipartners.de,VP Operations,VP,CL011,DE,True,2024-07-10
+CD00384,Lisa,Wolf,lisa.wolf@summitmedia.de,VP Engineering,Director,CL016,PL,True,2023-05-31
+CD00385,Lisa,Weber,lisa.weber@omnibrands.de,VP Sales,Executive,CL071,CH,True,2023-02-10
+CD00386,Marie,Becker,marie.becker@brightmarkets.de,General Manager EMEA,C-suite,CL080,NL,False,2024-11-10
+CD00387,Jonas,Müller,jonas.müller@cloudlogistics.de,Managing Director,VP,CL027,SE,True,2023-04-14
+CD00388,Anna,Klein,anna.klein@omnipartners.de,SVP Strategy,Director,CL065,NL,False,2023-11-13
+CD00389,David,Koch,david.koch@hyperlogistics.de,Head of Product,Executive,CL004,AT,False,2023-07-09
+CD00390,Leon,Müller,leon.müller@cloudmarkets.de,Head of People,C-suite,CL079,NL,False,2023-01-21
+CD00391,Leon,Müller,leon.müller@nordicbrands.de,Chief Executive Officer,VP,CL032,UK,True,2024-08-04
+CD00392,Julia,Müller,julia.müller@cloudlogistics.de,Chief Financial Officer,Director,CL027,SE,False,2024-03-07
+CD00393,Emil,Wolf,emil.wolf@cloudgroup.de,Chief Operating Officer,Executive,CL063,ES,False,2023-03-10
+CD00394,Anna,Wolf,anna.wolf@greencapital.de,Chief Technology Officer,C-suite,CL042,IT,True,2024-08-29
+CD00395,Sofia,Zimmermann,sofia.zimmermann@novalabs.de,Chief Marketing Officer,VP,CL012,ES,False,2024-07-15
+CD00396,Tom,Weber,tom.weber@summitmedia.de,Chief People Officer,Director,CL016,PL,False,2023-08-06
+CD00397,Sofia,Schmidt,sofia.schmidt@summitcommerce.de,VP Finance,Executive,CL047,AT,False,2023-01-05
+CD00398,Anna,Wagner,anna.wagner@greensystems.de,VP Operations,C-suite,CL014,NL,True,2023-08-12
+CD00399,Tom,Fischer,tom.fischer@cloudlogistics.de,VP Engineering,VP,CL027,SE,True,2023-01-19
+CD00400,Laura,Schäfer,laura.schäfer@primemarkets.de,VP Sales,Director,CL068,DE,False,2023-07-11
+CD00401,Max,Klein,max.klein@hypergroup.de,General Manager EMEA,Executive,CL059,SE,True,2023-03-28
+CD00402,Paul,Zimmermann,paul.zimmermann@novalabs.de,Managing Director,C-suite,CL012,ES,False,2024-11-16
+CD00403,Laura,Müller,laura.müller@greengroup.de,SVP Strategy,VP,CL029,CH,True,2023-01-12
+CD00404,Max,Schmidt,max.schmidt@novalabs.de,Head of Product,Director,CL012,ES,False,2023-03-23
+CD00405,Sarah,Bauer,sarah.bauer@omnibrands.de,Head of People,Executive,CL071,CH,False,2024-09-06
+CD00406,Jonas,Zimmermann,jonas.zimmermann@summitpartners.de,Chief Executive Officer,C-suite,CL069,PL,True,2023-03-03
+CD00407,Nina,Klein,nina.klein@nextmarkets.de,Chief Financial Officer,VP,CL051,DE,False,2024-03-25
+CD00408,Tim,Becker,tim.becker@vistalabs.de,Chief Operating Officer,Director,CL066,NL,False,2023-04-30
+CD00409,Felix,Becker,felix.becker@cloudlabs.de,Chief Technology Officer,Executive,CL055,IT,False,2024-05-03
+CD00410,Sarah,Schwarz,sarah.schwarz@novasolutions.de,Chief Marketing Officer,C-suite,CL056,UK,True,2024-08-03
+CD00411,Nina,Bauer,nina.bauer@pulsemarkets.de,Chief People Officer,VP,CL019,UK,False,2023-03-04
+CD00412,Lisa,Richter,lisa.richter@brightmarkets.de,VP Finance,Director,CL080,NL,True,2023-01-16
+CD00413,Sofia,Bauer,sofia.bauer@vistabrands.de,VP Operations,Executive,CL008,CH,False,2024-03-14
+CD00414,Ben,Wolf,ben.wolf@nordicbrands.de,VP Engineering,C-suite,CL032,UK,False,2024-01-21
+CD00415,Lisa,Schäfer,lisa.schäfer@urbanmarkets.de,VP Sales,VP,CL002,PL,True,2023-10-18
+CD00416,Anna,Richter,anna.richter@omnibrands.de,General Manager EMEA,Director,CL064,AT,False,2023-10-02
+CD00417,Leon,Becker,leon.becker@nordiclabs.de,Managing Director,Executive,CL075,DE,False,2023-02-13
+CD00418,Paul,Fischer,paul.fischer@bluegroup.de,SVP Strategy,C-suite,CL041,PL,False,2023-05-31
+CD00419,Laura,Zimmermann,laura.zimmermann@greensystems.de,Head of Product,VP,CL014,NL,False,2024-07-01
+CD00420,Lena,Zimmermann,lena.zimmermann@urbansolutions.de,Head of People,Director,CL010,AT,False,2023-07-25

@@ -1,0 +1,155 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sentra Email Preview</title>
+    <style>
+      body {
+        margin: 0;
+        padding: 24px;
+        background: #0b1020;
+        font-family: Inter, "Segoe UI", Arial, sans-serif;
+      }
+
+      .frame {
+        max-width: 760px;
+        margin: 0 auto;
+      }
+
+      .label {
+        font-size: 12px;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(237, 232, 223, 0.56);
+        margin: 0 0 12px;
+      }
+
+      .mail-bg {
+        background: #0b1020;
+        padding: 24px;
+        border-radius: 24px;
+      }
+
+      .card {
+        max-width: 520px;
+        margin: 0 auto;
+        background: linear-gradient(180deg, #11192e 0%, #0e1527 100%);
+        color: #ede8df;
+        border: 1px solid rgba(237, 232, 223, 0.12);
+        border-radius: 20px;
+        padding: 32px 24px;
+        box-sizing: border-box;
+      }
+
+      .eyebrow {
+        font-size: 11px;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: #d89a3d;
+        margin: 0 0 14px;
+      }
+
+      .brand {
+        margin: 0 0 6px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 26px;
+        line-height: 1.1;
+        font-weight: 700;
+        color: #ede8df;
+      }
+
+      h1 {
+        margin: 0 0 14px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 34px;
+        line-height: 1.02;
+        letter-spacing: -0.03em;
+        color: #f3eee6;
+      }
+
+      .lead {
+        font-size: 15px;
+        line-height: 1.7;
+        color: rgba(237, 232, 223, 0.72);
+        margin: 0 0 10px;
+      }
+
+      .meta {
+        font-size: 13px;
+        line-height: 1.7;
+        color: rgba(237, 232, 223, 0.58);
+        margin: 0 0 4px;
+      }
+
+      .cta-wrap {
+        margin: 24px 0 20px;
+      }
+
+      .cta {
+        display: inline-block;
+        padding: 12px 18px;
+        border-radius: 10px;
+        background: #d89a3d;
+        color: #111827;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 600;
+      }
+
+      .fallback {
+        font-size: 12px;
+        line-height: 1.7;
+        color: rgba(237, 232, 223, 0.62);
+        margin: 0;
+        word-break: break-word;
+      }
+
+      .fallback a {
+        color: #ede8df;
+        text-decoration: none;
+      }
+
+      .footer {
+        margin-top: 24px;
+        padding-top: 16px;
+        border-top: 1px solid rgba(237, 232, 223, 0.08);
+        font-size: 12px;
+        line-height: 1.7;
+        color: rgba(237, 232, 223, 0.52);
+      }
+    </style>
+  </head>
+  <body>
+    <div class="frame">
+      <p class="label">Preview</p>
+      <div class="mail-bg">
+        <div class="card">
+          <p class="eyebrow">By Agmentic</p>
+          <p class="brand">Sentra</p>
+          <h1>See what Sentra knows.</h1>
+          <p class="lead">
+            Open the link below, ask questions, and see real answers in about
+            two minutes.
+          </p>
+          <p class="meta">Requested for <strong>your@email.com</strong></p>
+
+          <div class="cta-wrap">
+            <a class="cta" href="https://agmentic.com/sentra/events/demo/">See it work →</a>
+          </div>
+
+          <p class="fallback">
+            If the button doesn't open, use this link:<br />
+            <a href="https://agmentic.com/sentra/events/demo/">
+              https://agmentic.com/sentra/events/demo/
+            </a>
+          </p>
+
+          <div class="footer">
+            If you didn't request this email, you can safely ignore it.
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

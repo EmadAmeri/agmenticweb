@@ -1,0 +1,81 @@
+client_id,client_name,client_type,segment,country,employees,first_engaged
+CL001,Green Brands,PE-backed,SMB,DE,183,2017
+CL002,Urban Markets,Public Co.,Mid-market,PL,50,2018
+CL003,Nordic Markets,Family-owned,Enterprise,AT,68,2019
+CL004,Hyper Logistics,Scale-up,Enterprise,AT,85,2020
+CL005,Omni Logistics,Sovereign,SMB,AT,41,2021
+CL006,Next Group,Non-profit,SMB,PL,66,2022
+CL007,Hyper Commerce,PE-backed,Enterprise,ES,66,2023
+CL008,Vista Brands,Public Co.,Mid-market,CH,23,2024
+CL009,Omni Retail,Family-owned,SMB,CH,122,2025
+CL010,Urban Solutions,Scale-up,Mid-market,AT,95,2017
+CL011,Omni Partners,Sovereign,SMB,DE,45,2018
+CL012,Nova Labs,Non-profit,SMB,ES,60,2019
+CL013,Hyper Media,PE-backed,SMB,IT,90,2020
+CL014,Green Systems,Public Co.,Enterprise,NL,57,2021
+CL015,Urban Solutions,Family-owned,SMB,IT,57,2022
+CL016,Summit Media,Scale-up,Mid-market,PL,27,2023
+CL017,Urban Retail,Sovereign,Enterprise,UK,93,2024
+CL018,Blue Capital,Non-profit,Enterprise,AT,71,2025
+CL019,Pulse Markets,PE-backed,Mid-market,UK,78,2017
+CL020,Nova Capital,Public Co.,Enterprise,AT,26,2018
+CL021,Prime Capital,Family-owned,Enterprise,FR,179,2019
+CL022,Atlas Solutions,Scale-up,Mid-market,SE,73,2020
+CL023,Summit Group,Sovereign,Enterprise,IT,52,2021
+CL024,Green Brands,Non-profit,Mid-market,DE,225,2022
+CL025,Next Systems,PE-backed,SMB,NL,64,2023
+CL026,Hyper Logistics,Public Co.,Enterprise,CH,27,2024
+CL027,Cloud Logistics,Family-owned,Enterprise,SE,52,2025
+CL028,Vista Markets,Scale-up,SMB,SE,20,2017
+CL029,Green Group,Sovereign,Enterprise,CH,125,2018
+CL030,Urban Brands,Non-profit,Enterprise,NL,51,2019
+CL031,Nordic Capital,PE-backed,Mid-market,FR,42,2020
+CL032,Nordic Brands,Public Co.,SMB,UK,126,2021
+CL033,Nova Solutions,Family-owned,Enterprise,ES,24,2022
+CL034,Nova Group,Scale-up,Mid-market,ES,91,2023
+CL035,Hyper Logistics,Sovereign,Mid-market,AT,20,2024
+CL036,Cloud Group,Non-profit,Enterprise,NL,44,2025
+CL037,Urban Labs,PE-backed,Enterprise,AT,32,2017
+CL038,Green Solutions,Public Co.,Enterprise,DE,160,2018
+CL039,Nova Brands,Family-owned,Mid-market,PL,192,2019
+CL040,Nordic Retail,Scale-up,SMB,SE,54,2020
+CL041,Blue Group,Sovereign,Mid-market,PL,110,2021
+CL042,Green Capital,Non-profit,Enterprise,IT,59,2022
+CL043,Cloud Capital,PE-backed,Mid-market,AT,93,2023
+CL044,Blue Retail,Public Co.,SMB,FR,42,2024
+CL045,Cloud Partners,Family-owned,SMB,DE,23,2025
+CL046,Next Markets,Scale-up,Enterprise,ES,22,2017
+CL047,Summit Commerce,Sovereign,SMB,AT,83,2018
+CL048,Bright Systems,Non-profit,Enterprise,UK,256,2019
+CL049,Pulse Labs,PE-backed,SMB,NL,78,2020
+CL050,Nova Labs,Public Co.,Mid-market,NL,48,2021
+CL051,Next Markets,Family-owned,Mid-market,DE,210,2022
+CL052,Nordic Systems,Scale-up,Mid-market,NL,76,2023
+CL053,Bright Solutions,Sovereign,Mid-market,UK,70,2024
+CL054,Green Retail,Non-profit,Enterprise,NL,77,2025
+CL055,Cloud Labs,PE-backed,Enterprise,IT,61,2017
+CL056,Nova Solutions,Public Co.,Mid-market,UK,55,2018
+CL057,Pulse Group,Family-owned,SMB,AT,28,2019
+CL058,Summit Logistics,Scale-up,Mid-market,CH,90,2020
+CL059,Hyper Group,Sovereign,Enterprise,SE,63,2021
+CL060,Cloud Logistics,Non-profit,SMB,CH,136,2022
+CL061,Blue Brands,PE-backed,Enterprise,PL,53,2023
+CL062,Summit Capital,Public Co.,SMB,PL,21,2024
+CL063,Cloud Group,Family-owned,Enterprise,ES,62,2025
+CL064,Omni Brands,Scale-up,Enterprise,AT,184,2017
+CL065,Omni Partners,Sovereign,Mid-market,NL,52,2018
+CL066,Vista Labs,Non-profit,Mid-market,NL,39,2019
+CL067,Prime Markets,PE-backed,SMB,UK,32,2020
+CL068,Prime Markets,Public Co.,Enterprise,DE,35,2021
+CL069,Summit Partners,Family-owned,Mid-market,PL,55,2022
+CL070,Vista Markets,Scale-up,SMB,CH,32,2023
+CL071,Omni Brands,Sovereign,Mid-market,CH,163,2024
+CL072,Nova Commerce,Non-profit,Enterprise,CH,56,2025
+CL073,Cloud Solutions,PE-backed,SMB,DE,71,2017
+CL074,Green Group,Public Co.,Enterprise,ES,158,2018
+CL075,Nordic Labs,Family-owned,Mid-market,DE,164,2019
+CL076,Pulse Retail,Scale-up,SMB,DE,58,2020
+CL077,Pulse Retail,Sovereign,Mid-market,PL,81,2021
+CL078,Omni Solutions,Non-profit,SMB,FR,103,2022
+CL079,Cloud Markets,PE-backed,SMB,NL,59,2023
+CL080,Bright Markets,Public Co.,SMB,NL,22,2024

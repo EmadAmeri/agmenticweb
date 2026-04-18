@@ -1,0 +1,19 @@
+partner_id,name,practice,lead_client_id,annual_billings_eur,office
+PT001,Eleanor Ashby,Industrial,CL040,35000,B19
+PT002,Marcus Reinhardt,Consumer & Retail,CL046,18000,B18
+PT003,Priya Venkat,Technology,CL053,35000,B04
+PT004,Liam O'Connor,Financial Services,CL026,18000,B09
+PT005,Sofia Kaprio,Life Sciences,CL030,60000,B28
+PT006,Henrik Lindberg,Energy & Sustainability,CL048,60000,B12
+PT007,Amelia Costa,Public Sector,CL051,0,B20
+PT008,Daniel Aaronson,Private Equity,CL049,18000,B18
+PT009,Yuki Tanaka,Industrial,CL019,35000,B16
+PT010,Olivia Bauer,Consumer & Retail,CL007,35000,B33
+PT011,Mateo Diaz,Technology,CL074,35000,B02
+PT012,Anya Petrov,Financial Services,CL023,18000,B33
+PT013,Rasmus Holm,Life Sciences,CL059,35000,B35
+PT014,Nadia Rahman,Energy & Sustainability,CL028,18000,B36
+PT015,Felix Schreiber,Public Sector,CL077,35000,B07
+PT016,Camille Laurent,Private Equity,CL055,0,B14
+PT017,Bjorn Eriksson,Industrial,CL063,35000,B27
+PT018,Helena Vogel,Consumer & Retail,CL033,60000,B17
