@@ -8,6 +8,11 @@
   <link rel="icon" type="image/png" href="./favicon.png">
   <link rel="apple-touch-icon" href="./favicon.png">
   <script>
+    if (window.location.pathname.endsWith("/index.html")) {
+      const cleanPath = window.location.pathname.slice(0, -10) || "/";
+      window.history.replaceState({}, "", cleanPath + window.location.search + window.location.hash);
+    }
+
     window.AGMENTIC_ANALYTICS = {
       measurementId: "G-6CRH1VN6D2",
       siteSection: "sentra-members-demo",
