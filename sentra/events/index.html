@@ -264,11 +264,11 @@ body.gateway-open .site-shell {
 }
 .hero h1 em { font-style: italic; font-weight: 400; color: var(--amber-2); }
 .hero-sub {
-  font-size: 18px;
-  line-height: 1.68;
+  font-size: 17px;
+  line-height: 1.75;
   color: var(--muted);
-  max-width: 42ch;
-  margin-bottom: 40px;
+  max-width: 500px;
+  margin-bottom: 36px;
   opacity: 0;
   animation: fadeUp .75s .35s forwards;
 }
@@ -336,7 +336,7 @@ body.gateway-open .site-shell {
   border-top: 1px solid var(--line);
   border-bottom: 1px solid var(--line);
   background: var(--navy-2);
-  padding: 72px 0;
+  padding: 100px 0;
 }
 .pain h2,
 .how h2,
@@ -350,6 +350,7 @@ body.gateway-open .site-shell {
   font-size: clamp(32px, 4vw, 48px);
   line-height: 1.02;
   margin-bottom: 12px;
+  max-width: 700px;
 }
 .pain h2 em,
 .how h2 em,
@@ -363,28 +364,29 @@ body.gateway-open .site-shell {
 }
 .pain-lead { margin-bottom: 48px; }
 .pain-lead p {
-  margin-bottom: 16px;
+  margin-bottom: 24px;
 }
 .pain-lead p:last-of-type { margin-bottom: 0; }
 .pain-pullquote {
   display: block;
-  margin-top: 18px;
-  font-family: "Fraunces", serif;
-  font-size: clamp(14px, 2.4vw, 38px);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  margin-top: 32px;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 1.4;
   color: var(--cream);
-  white-space: nowrap;
+  white-space: normal;
   max-width: none;
 }
 .how-copy {
   margin-bottom: 52px;
 }
-.how-lead { font-size: 16px; }
+.how-lead { font-size: 16px; max-width: 580px; }
 .pain-cards {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 14px;
+  margin-top: 48px;
+  align-items: stretch;
 }
 .section-tag:empty { display: none; }
 .privacy-box h2 {
@@ -397,6 +399,9 @@ body.gateway-open .site-shell {
   padding: 28px 24px;
   border: 1px solid var(--line);
   transition: border-color .2s, transform .18s;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 .pc:hover { border-color: var(--line-2); transform: translateY(-2px); }
 .pc-1, .pc-3 { background: var(--navy-3); }
@@ -416,7 +421,7 @@ body.gateway-open .site-shell {
 .pc-2 p { color: rgba(12,18,32,0.6); }
 
 .how {
-  padding: 80px 0;
+  padding: 100px 0 0;
   position: relative;
 }
 .how h2,
@@ -481,12 +486,18 @@ body.gateway-open .site-shell {
   line-height: 1.82;
   color: var(--muted);
 }
+.profile-callout-box {
+  background: rgba(237,232,223,0.04);
+  border: 1px solid var(--line);
+  border-radius: 10px;
+  padding: 20px 24px;
+  margin-bottom: 0;
+}
 .profile-callout-row {
-  margin-top: 14px;
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .profile-callout-row:last-of-type {
-  margin-bottom: 14px;
+  margin-bottom: 0;
 }
 .profile-callout-label {
   display: block;
@@ -497,6 +508,9 @@ body.gateway-open .site-shell {
   text-transform: uppercase;
   color: var(--amber);
 }
+.profile-callout-label--muted {
+  color: var(--muted);
+}
 .profile-callout-value {
   display: block;
   font-size: 15px;
@@ -504,18 +518,21 @@ body.gateway-open .site-shell {
   color: var(--cream);
 }
 .profile-callout-note {
-  font-size: 14px;
+  font-size: 13px;
   line-height: 1.7;
   color: var(--muted);
-  margin-top: 4px;
+  margin-top: 16px;
+  font-style: italic;
 }
 .step-question {
   display: block;
   margin-bottom: 12px;
-  font-size: 19px;
-  line-height: 1.45;
-  letter-spacing: -0.02em;
+  font-size: 15px;
+  line-height: 1.55;
   color: var(--cream);
+  background: rgba(237,232,223,0.06);
+  padding: 14px 18px;
+  border-radius: 8px;
 }
 .cycle-badge {
   display: inline-block;
@@ -553,7 +570,15 @@ body.gateway-open .site-shell {
   color: var(--muted);
 }
 
-.cta-section { padding: 56px 0 104px; }
+.cta-section { padding: 80px 0 0; }
+.privacy-note {
+  font-size: 13px;
+  color: var(--muted-2);
+  text-align: center;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
 .cta-box {
   width: 100%;
   margin: 0 auto;
@@ -1112,7 +1137,7 @@ footer {
   line-height: 1.15;
   color: var(--cream);
   margin-bottom: 20px;
-  max-width: 640px;
+  max-width: 520px;
   letter-spacing: -0.035em;
 }
 .why-sentra h2 em {
@@ -1121,7 +1146,7 @@ footer {
   color: var(--muted);
 }
 .why-copy {
-  max-width: 600px;
+  max-width: 560px;
   font-size: 17px;
   line-height: 1.75;
   color: var(--muted);
@@ -1247,13 +1272,15 @@ footer {
           <div class="cycle-icon">2</div>
           <h3 id="step-2-title">Every attendee, sponsor, and speaker gets a full profile.</h3>
           <div id="step-2-copy">
-            <div class="profile-callout-row">
-              <span class="profile-callout-label">Data says</span>
-              <span class="profile-callout-value">This sponsor has been with you for three years.</span>
-            </div>
-            <div class="profile-callout-row">
-              <span class="profile-callout-label">Profile says</span>
-              <span class="profile-callout-value">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span>
+            <div class="profile-callout-box">
+              <div class="profile-callout-row">
+                <span class="profile-callout-label">Data says</span>
+                <span class="profile-callout-value">This sponsor has been with you for three years.</span>
+              </div>
+              <div class="profile-callout-row">
+                <span class="profile-callout-label profile-callout-label--muted">Profile says</span>
+                <span class="profile-callout-value">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span>
+              </div>
             </div>
             <div class="profile-callout-note">Data tells you history. Profile tells you what's about to happen.</div>
           </div>
@@ -1275,15 +1302,6 @@ footer {
     </div>
   </section>
 
-  <section class="privacy-section">
-    <div class="shell">
-      <div class="privacy-box">
-        <h2>Your data stays yours.</h2>
-        <p>Dedicated instance. Your infrastructure. No shared databases. Fully GDPR compliant.</p>
-      </div>
-    </div>
-  </section>
-
   <div class="cta-section">
     <div class="shell">
       <div class="cta-box">
@@ -1296,6 +1314,7 @@ footer {
           </button>
           <a class="btn-talk" href="mailto:hello@agmentic.com" onclick="trackSentraMailto('talk_to_us','cta_section')">Talk to us</a>
         </div>
+        <p class="privacy-note">Dedicated instance · Your infrastructure · GDPR compliant</p>
       </div>
     </div>
   </div>
@@ -1385,7 +1404,7 @@ footer {
       howLead: "Your ticketing platform, CRM, and email tool each know one piece. None of them talk to each other. Sentra puts it all in one place — and keeps it there.",
       steps: [
         ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email, spreadsheets. No migration. Just connect and go."],
-        ["Every attendee, sponsor, and speaker gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
+        ["Every attendee, sponsor, and speaker gets a full profile.", "<div class=\"profile-callout-box\"><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label profile-callout-label--muted\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
         ["Then you just ask.", "<span class=\"step-question\">\"Which VIP attendees from last year haven't registered yet?\"</span>Plain language. Real answers. With the reason behind every one."]
       ],
       ctaTitle: "See Sentra answer a question<br><em>about your conference.</em>",
@@ -1419,7 +1438,7 @@ footer {
       howLead: "Your ticketing platform, CRM, and email tool each know one piece. None of them talk to each other. Sentra puts it all in one place — and keeps it there.",
       steps: [
         ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email, spreadsheets. No migration. Just connect and go."],
-        ["Every attendee, sponsor, and speaker gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
+        ["Every attendee, sponsor, and speaker gets a full profile.", "<div class=\"profile-callout-box\"><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label profile-callout-label--muted\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
         ["Then you just ask.", "<span class=\"step-question\">\"Which VIP attendees from last year haven't registered yet?\"</span>Plain language. Real answers. With the reason behind every one."]
       ],
       ctaTitle: "See Sentra answer a question<br><em>about your conference.</em>",
