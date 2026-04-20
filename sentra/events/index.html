@@ -383,40 +383,10 @@ body.gateway-open .site-shell {
   gap: 14px;
 }
 .section-tag:empty { display: none; }
-.question-strip {
-  padding: 72px 0;
-  background: var(--navy);
-}
-.question-strip h2,
 .privacy-box h2 {
   font-family: "Fraunces", serif;
   letter-spacing: -0.035em;
   font-weight: 700;
-}
-.question-strip h2 {
-  font-size: clamp(30px, 3.6vw, 44px);
-  line-height: 1.05;
-  margin-bottom: 10px;
-}
-.question-sub {
-  font-size: 16px;
-  line-height: 1.75;
-  color: var(--muted);
-  margin-bottom: 34px;
-}
-.quote-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-}
-.quote-box {
-  padding: 22px 20px;
-  border-radius: var(--r);
-  border: 1px solid var(--line);
-  background: var(--navy-2);
-  color: var(--cream);
-  font-size: 16px;
-  line-height: 1.7;
 }
 .pc {
   border-radius: var(--r);
@@ -1099,7 +1069,7 @@ footer {
 @media (max-width: 560px) {
   .shell { width: min(1220px, calc(100vw - 32px)); }
   .hero { padding: 108px 0 60px; }
-  .pain, .how, .outcomes, .question-strip { padding: 56px 0; }
+  .pain, .how, .outcomes { padding: 56px 0; }
   .cta-section { padding: 40px 0 72px; }
   footer { padding: 34px 0 24px; }
   .hero-actions { flex-direction: column; align-items: stretch; }
@@ -1125,6 +1095,32 @@ footer {
   .footer-spacer { display: none; }
   .footer-connect { width: 100%; }
   .footer-copy { font-size: 14px; }
+}
+
+.why-sentra {
+  padding: 80px 0;
+  border-top: 1px solid var(--line);
+}
+.why-sentra h2 {
+  font-family: "Fraunces", serif;
+  font-size: clamp(26px, 3.5vw, 40px);
+  font-weight: 700;
+  line-height: 1.15;
+  color: var(--cream);
+  margin-bottom: 20px;
+  max-width: 640px;
+  letter-spacing: -0.035em;
+}
+.why-sentra h2 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--muted);
+}
+.why-copy {
+  max-width: 600px;
+  font-size: 17px;
+  line-height: 1.75;
+  color: var(--muted);
 }
 </style>
 </head>
@@ -1186,7 +1182,7 @@ footer {
         <p class="hero-tag" id="hero-tag">Built for conference teams</p>
         <h1 id="hero-title">Finally, someone who's been to every edition of your conference.</h1>
         <p class="hero-sub" id="hero-sub">
-          Ask who came three years running and disappeared. Which sponsors are drifting. Which relationships are closer to gone than you think.
+          You know who to invite. Finding them is the problem. They're somewhere across your CRM, your inbox, and last year's spreadsheet. And by the time you pull the list together, half the moment is already gone.
         </p>
         <div class="hero-actions">
           <button class="btn-main" onclick="openModal('hero')">
@@ -1209,8 +1205,8 @@ footer {
   <section class="pain">
     <div class="shell">
       <p class="section-tag" id="story-tag"></p>
-      <h2 id="pain-title">You're not missing data.<br><em>You're missing the full picture of everyone who matters.</em></h2>
-      <p class="pain-lead" id="pain-lead">An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: "which of our top attendees from last year haven't bought a ticket yet?" While they were looking, the early bird deadline passed.<span class="pain-pullquote">That's not a data problem. That's a connection problem.</span></p>
+      <h2 id="pain-title">You're not missing data.<br><em>You're missing what the data is trying to tell you.</em></h2>
+      <p class="pain-lead" id="pain-lead">A conference director was preparing for sponsor renewal season. Forty sponsors. She knew which ones had been quiet. She just didn't know exactly how quiet.<br><br>The data was there, in her ticketing platform, her inbox, her CRM. Three different places. She spent a morning pulling it together.<br><br>By the time she had the full picture, the early bird deadline had passed. Three of her top sponsors still hadn't confirmed.<br><br>She had the relationship. She just didn't see the signal in time.<span class="pain-pullquote">That's not a data problem. That's a connection problem.</span></p>
       <div class="pain-cards">
         <div class="pc pc-1">
           <h3 id="pain-card-1-title">Let me check and get back to you.</h3>
@@ -1228,23 +1224,12 @@ footer {
     </div>
   </section>
 
-  <section class="question-strip">
-    <div class="shell">
-      <h2>The questions your team asks every week.</h2>
-      <p class="question-sub">Sentra answers them in seconds.</p>
-      <div class="quote-grid">
-        <div class="quote-box">"Which sponsors haven't replied to the renewal email?"</div>
-        <div class="quote-box">"Which attendees from last year still haven't registered?"</div>
-        <div class="quote-box">"Who opened the VIP invitation but still hasn't registered?"</div>
-      </div>
-    </div>
-  </section>
 
   <section class="how">
     <div class="shell">
       <h2 id="how-title">Your conference runs on data<br><em>that's never all in one place.</em></h2>
       <div class="how-copy">
-        <p class="how-lead" id="how-lead">Your ticketing platform, CRM, email tool, and spreadsheets each know one part of the story. None of them talk to each other. Sentra puts it all in one place — and keeps it there.</p>
+        <p class="how-lead" id="how-lead">Your ticketing platform, CRM, and email tool each know one piece. None of them talk to each other. Sentra puts it all in one place — and keeps it there.</p>
       </div>
       <div class="cycle">
         <div class="cycle-step">
@@ -1276,6 +1261,13 @@ footer {
           <p id="step-3-copy"><span class="step-question">"Which VIP attendees from last year haven't registered yet?"</span>Plain language. Real answers. With the reason behind every one.</p>
         </div>
       </div>
+    </div>
+  </section>
+
+  <section class="why-sentra">
+    <div class="shell">
+      <h2>Every tool you have knows one piece.<br><em>None of them know what it means.</em></h2>
+      <p class="why-copy">Your ticketing platform isn't broken. Your CRM isn't broken. But between them, nobody knows which sponsor is three weeks from deciding not to come back. Sentra does.</p>
     </div>
   </section>
 
@@ -1376,17 +1368,17 @@ footer {
       description: defaultDescription,
       heroTag: "Built for conference teams",
       heroTitle: "Finally, someone who's been to every edition of your conference.",
-      heroSub: "Ask who came three years running and disappeared. Which sponsors are drifting. Which relationships are closer to gone than you think.",
+      heroSub: "You know who to invite. Finding them is the problem. They're somewhere across your CRM, your inbox, and last year's spreadsheet. And by the time you pull the list together, half the moment is already gone.",
       storyTag: "",
-      painTitle: "You're not missing data.<br><em>You're missing the full picture of everyone who matters.</em>",
-      painLead: "An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: \"which of our top attendees from last year haven't bought a ticket yet?\" While they were looking, the early bird deadline passed.<span class=\"pain-pullquote\">That's not a data problem. That's a connection problem.</span>",
+      painTitle: "You're not missing data.<br><em>You're missing what the data is trying to tell you.</em>",
+      painLead: "A conference director was preparing for sponsor renewal season. Forty sponsors. She knew which ones had been quiet. She just didn't know exactly how quiet.<br><br>The data was there, in her ticketing platform, her inbox, her CRM. Three different places. She spent a morning pulling it together.<br><br>By the time she had the full picture, the early bird deadline had passed. Three of her top sponsors still hadn't confirmed.<br><br>She had the relationship. She just didn't see the signal in time.<span class=\"pain-pullquote\">That's not a data problem. That's a connection problem.</span>",
       painCards: [
         ["Let me check and get back to you.", "You've said this about your own conference. More than once."],
         ["You have an event platform for this.", "It tracks registrations. It doesn't know a sponsor has been with you four years, skipped last edition, and just opened your renewal email twice."],
         ["The decision got made anyway.", "The VIP list went out. Someone who'd come five years straight wasn't on it. Nobody knew."]
       ],
       howTitle: "Your conference runs on data<br><em>that's never all in one place.</em>",
-      howLead: "Your ticketing platform, CRM, email tool, and spreadsheets each know one part of the story. None of them talk to each other. Sentra puts it all in one place — and keeps it there.",
+      howLead: "Your ticketing platform, CRM, and email tool each know one piece. None of them talk to each other. Sentra puts it all in one place — and keeps it there.",
       steps: [
         ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email, spreadsheets. No migration. Just connect and go."],
         ["Every attendee, sponsor, and speaker gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
@@ -1410,17 +1402,17 @@ footer {
       description: defaultDescription,
       heroTag: "Built for conference teams",
       heroTitle: "Finally, someone who's been to every edition of your conference.",
-      heroSub: "Ask who came three years running and disappeared. Which sponsors are drifting. Which relationships are closer to gone than you think.",
+      heroSub: "You know who to invite. Finding them is the problem. They're somewhere across your CRM, your inbox, and last year's spreadsheet. And by the time you pull the list together, half the moment is already gone.",
       storyTag: "",
-      painTitle: "You're not missing data.<br><em>You're missing the full picture of everyone who matters.</em>",
-      painLead: "An event team had 5,000 attendees, 200 sponsors, and one question nobody could answer: \"which of our top attendees from last year haven't bought a ticket yet?\" While they were looking, the early bird deadline passed.<span class=\"pain-pullquote\">That's not a data problem. That's a connection problem.</span>",
+      painTitle: "You're not missing data.<br><em>You're missing what the data is trying to tell you.</em>",
+      painLead: "A conference director was preparing for sponsor renewal season. Forty sponsors. She knew which ones had been quiet. She just didn't know exactly how quiet.<br><br>The data was there, in her ticketing platform, her inbox, her CRM. Three different places. She spent a morning pulling it together.<br><br>By the time she had the full picture, the early bird deadline had passed. Three of her top sponsors still hadn't confirmed.<br><br>She had the relationship. She just didn't see the signal in time.<span class=\"pain-pullquote\">That's not a data problem. That's a connection problem.</span>",
       painCards: [
         ["Let me check and get back to you.", "You've said this about your own conference. More than once."],
         ["You have an event platform for this.", "It tracks registrations. It doesn't know a sponsor has been with you four years, skipped last edition, and just opened your renewal email twice."],
         ["The decision got made anyway.", "The VIP list went out. Someone who'd come five years straight wasn't on it. Nobody knew."]
       ],
       howTitle: "Your conference runs on data<br><em>that's never all in one place.</em>",
-      howLead: "Your ticketing platform, CRM, email tool, and spreadsheets each know one part of the story. None of them talk to each other. Sentra puts it all in one place — and keeps it there.",
+      howLead: "Your ticketing platform, CRM, and email tool each know one piece. None of them talk to each other. Sentra puts it all in one place — and keeps it there.",
       steps: [
         ["Wherever it lives, we read it.", "Ticketing platform, HubSpot, email, spreadsheets. No migration. Just connect and go."],
         ["Every attendee, sponsor, and speaker gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This sponsor has been with you for three years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Year one — 5 people, full booth, booked a follow-up. Year two — 2 people, half-empty booth. Year three — 1 person. Renewal email: opened. Not answered.</span></div><div class=\"profile-callout-note\">Data tells you history. Profile tells you what's about to happen.</div>"],
