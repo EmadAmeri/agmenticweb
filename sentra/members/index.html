@@ -356,67 +356,66 @@ body.gateway-open .site-shell {
 .outcomes h2 em { font-style: italic; font-weight: 400; color: var(--muted); }
 .pain-lead,
 .how-lead {
-  font-size: 18px;
-  line-height: 1.82;
+  font-size: 17px;
+  line-height: 1.78;
   color: var(--muted);
-  max-width: 68ch;
 }
-.pain-lead { margin-bottom: 48px; }
+.pain-lead {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-bottom: 0;
+}
+.pain-lead p:first-child {
+  font-size: 18px;
+  line-height: 1.72;
+  color: rgba(237,232,223,0.72);
+  padding-left: 20px;
+  border-left: 2px solid rgba(201,138,60,0.4);
+}
 .pain-pullquote {
   display: block;
-  margin-top: 18px;
-  font-family: "Fraunces", serif;
-  font-size: clamp(14px, 2.4vw, 38px);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
+  padding-top: 28px;
+  border-top: 1px solid var(--line-2);
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.4;
   color: var(--cream);
-  white-space: nowrap;
+  letter-spacing: -0.01em;
+  white-space: normal;
   max-width: none;
 }
 .how-copy {
   margin-bottom: 52px;
 }
-.how-lead { font-size: 16px; }
-.pain-cards {
+.how-lead { font-size: 16px; max-width: 580px; }
+.pain-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
+  grid-template-columns: minmax(0, 560px) minmax(0, 1fr);
+  gap: 80px;
+  align-items: start;
 }
+.pain-right {
+  padding-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.pc-num {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--amber);
+  margin-bottom: 12px;
+  display: block;
+}
+.pc-2 .pc-num { color: rgba(12,18,32,0.5); }
 .section-tag:empty { display: none; }
-.question-strip {
-  padding: 72px 0;
-  background: var(--navy);
-}
-.question-strip h2,
 .privacy-box h2 {
   font-family: "Fraunces", serif;
   letter-spacing: -0.035em;
   font-weight: 700;
-}
-.question-strip h2 {
-  font-size: clamp(30px, 3.6vw, 44px);
-  line-height: 1.05;
-  margin-bottom: 10px;
-}
-.question-sub {
-  font-size: 16px;
-  line-height: 1.75;
-  color: var(--muted);
-  margin-bottom: 34px;
-}
-.quote-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 14px;
-}
-.quote-box {
-  padding: 22px 20px;
-  border-radius: var(--r);
-  border: 1px solid var(--line);
-  background: var(--navy-2);
-  color: var(--cream);
-  font-size: 16px;
-  line-height: 1.7;
 }
 .pc {
   border-radius: var(--r);
@@ -507,41 +506,68 @@ body.gateway-open .site-shell {
   line-height: 1.82;
   color: var(--muted);
 }
-.profile-callout-row {
-  margin-top: 14px;
-  margin-bottom: 14px;
+.step-panel {
+  background: rgba(12,18,32,0.7);
+  border: 1px solid var(--line-2);
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 4px;
 }
-.profile-callout-row:last-of-type {
-  margin-bottom: 14px;
+.step-panel-bar {
+  background: rgba(237,232,223,0.04);
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.profile-callout-label {
+.step-panel-dot {
+  width: 7px; height: 7px; border-radius: 50%;
+}
+.step-panel-dot:nth-child(1) { background: rgba(237,100,80,0.5); }
+.step-panel-dot:nth-child(2) { background: rgba(237,190,60,0.5); }
+.step-panel-dot:nth-child(3) { background: rgba(80,200,120,0.5); }
+.step-panel-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.callout-label {
   display: block;
-  margin-bottom: 6px;
-  font-size: 11px;
+  margin-bottom: 4px;
+  font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--amber);
 }
-.profile-callout-value {
-  display: block;
-  font-size: 15px;
-  line-height: 1.72;
+.callout-label--dim { color: var(--muted); }
+.callout-value {
+  font-size: 13px;
+  line-height: 1.65;
   color: var(--cream);
 }
-.profile-callout-note {
-  font-size: 14px;
-  line-height: 1.7;
+.callout-divider {
+  height: 1px;
+  background: var(--line);
+}
+.callout-note {
+  font-size: 12px;
+  line-height: 1.6;
   color: var(--muted);
-  margin-top: 4px;
+  font-style: italic;
 }
 .step-question {
   display: block;
   margin-bottom: 12px;
-  font-size: 19px;
-  line-height: 1.45;
-  letter-spacing: -0.02em;
+  font-size: 14px;
+  line-height: 1.55;
   color: var(--cream);
+  background: rgba(237,232,223,0.06);
+  padding: 13px 16px;
+  border-radius: 8px;
+  font-style: italic;
 }
 .cycle-badge {
   display: inline-block;
@@ -579,7 +605,15 @@ body.gateway-open .site-shell {
   color: var(--muted);
 }
 
-.cta-section { padding: 56px 0 104px; }
+.cta-section { padding: 80px 0 0; }
+.privacy-note {
+  font-size: 13px;
+  color: var(--muted-2);
+  text-align: center;
+  margin-top: 16px;
+  position: relative;
+  z-index: 1;
+}
 .cta-box {
   width: 100%;
   margin: 0 auto;
@@ -1082,7 +1116,7 @@ footer {
   .shell { width: min(1220px, calc(100vw - 48px)); }
   .hero-layout { grid-template-columns: 1fr; gap: 36px; min-height: auto; }
   .hero-visual { min-height: 420px; width: 100%; margin-left: 0; }
-  .pain-cards { grid-template-columns: 1fr; }
+  .pain-grid { grid-template-columns: 1fr; gap: 48px; }
   .quote-grid { grid-template-columns: repeat(2, 1fr); }
   .cycle { grid-template-columns: repeat(2, 1fr); }
   .industry-grid { grid-template-columns: 1fr; }
@@ -1125,6 +1159,74 @@ footer {
   .footer-spacer { display: none; }
   .footer-connect { width: 100%; }
   .footer-copy { font-size: 14px; }
+}
+
+.why-sentra {
+  padding: 120px 0;
+  border-top: 1px solid var(--line);
+  position: relative;
+  overflow: hidden;
+}
+.why-sentra::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 50%;
+  transform: translateX(-50%);
+  width: 600px; height: 400px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse, rgba(201,138,60,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+.why-inner {
+  max-width: 760px;
+  margin: 0 auto;
+  text-align: center;
+  position: relative;
+  z-index: 1;
+}
+.why-mark {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 36px;
+}
+.why-mark::before {
+  content: "";
+  flex: 0 0 40px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,138,60,0.4));
+}
+.why-mark::after {
+  content: "";
+  flex: 0 0 40px; height: 1px;
+  background: linear-gradient(270deg, transparent, rgba(201,138,60,0.4));
+}
+.why-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  opacity: 0.6;
+}
+.why-sentra h2 {
+  font-family: "Fraunces", serif;
+  font-size: clamp(32px, 4.5vw, 54px);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+  font-weight: 700;
+  margin-bottom: 28px;
+  color: var(--cream);
+}
+.why-sentra h2 em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--amber-2);
+}
+.why-copy {
+  max-width: 600px;
+  font-size: 18px;
+  line-height: 1.78;
+  color: var(--muted);
+  margin: 0 auto;
 }
 </style>
 </head>
@@ -1186,7 +1288,7 @@ footer {
         <p class="hero-tag" id="hero-tag">Built for membership teams</p>
         <h1 id="hero-title">Finally, someone who remembers every member. Every year.</h1>
         <p class="hero-sub" id="hero-sub">
-          Ask which members have gone quiet, who changed their main contact and never heard from you again, and which companies are 90 days from renewal without opening a single email.
+          Ask which member is 90 days from renewal and hasn't opened a single email this year.
         </p>
         <div class="hero-actions">
           <button class="btn-main" onclick="openModal('hero')">
@@ -1208,43 +1310,39 @@ footer {
 
   <section class="pain">
     <div class="shell">
-      <p class="section-tag" id="story-tag"></p>
-      <h2 id="pain-title">You're not missing members.<br><em>You're missing the early signs that they're leaving.</em></h2>
-      <p class="pain-lead" id="pain-lead">A membership team had 2,000 member companies and one question nobody could answer: "which of our most active members have gone quiet?" Their main contact had changed jobs six months earlier. Nobody knew. By the time they found out, the renewal conversation had already started badly.<span class="pain-pullquote">That's not a data problem. That's a connection problem.</span></p>
-      <div class="pain-cards">
-        <div class="pc pc-1">
-          <h3 id="pain-card-1-title">Let me check and get back to you.</h3>
-          <p id="pain-card-1-copy">You've said this about your own association. More than once.</p>
+      <div class="pain-grid">
+        <div class="pain-left">
+          <p class="section-tag" id="story-tag"></p>
+          <h2 id="pain-title">You're not missing members.<br><em>You're missing the early signs that they're leaving.</em></h2>
+          <div class="pain-lead" id="pain-lead">A membership team had 2,000 member companies and one question nobody could answer: "which of our most active members have gone quiet?" Their main contact had changed jobs six months earlier. Nobody knew. By the time they found out, the renewal conversation had already started badly.<span class="pain-pullquote">That's not a data problem. That's a connection problem.</span></div>
         </div>
-        <div class="pc pc-2">
-          <h3 id="pain-card-2-title">You have a membership system for this.</h3>
-          <p id="pain-card-2-copy">It tracks dues. It doesn't know their main contact left six months ago and the renewal is in 60 days.</p>
-        </div>
-        <div class="pc pc-3">
-          <h3 id="pain-card-3-title">The decision got made anyway.</h3>
-          <p id="pain-card-3-copy">The roundtable invitations went out. Three of your most important members weren't on the list. Nobody knew.</p>
+        <div class="pain-right">
+          <div class="pc pc-1">
+            <span class="pc-num">01</span>
+            <h3 id="pain-card-1-title">Let me check and get back to you.</h3>
+            <p id="pain-card-1-copy">You've said this about your own association. More than once.</p>
+          </div>
+          <div class="pc pc-2">
+            <span class="pc-num">02</span>
+            <h3 id="pain-card-2-title">You have a membership system for this.</h3>
+            <p id="pain-card-2-copy">It tracks dues. It doesn't know their main contact left six months ago and the renewal is in 60 days.</p>
+          </div>
+          <div class="pc pc-3">
+            <span class="pc-num">03</span>
+            <h3 id="pain-card-3-title">The decision got made anyway.</h3>
+            <p id="pain-card-3-copy">The roundtable invitations went out. Three of your most important members weren't on the list. Nobody knew.</p>
+          </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="question-strip">
-    <div class="shell">
-      <h2>The questions your team asks every week.</h2>
-      <p class="question-sub">Sentra answers them in seconds.</p>
-      <div class="quote-grid">
-        <div class="quote-box">"Which members are up for renewal and showing low engagement?"</div>
-        <div class="quote-box">"Who changed their contact person and hasn't been followed up with?"</div>
-        <div class="quote-box">"Who are your 20 most engaged members right now?"</div>
-      </div>
-    </div>
-  </section>
 
   <section class="how">
     <div class="shell">
       <h2 id="how-title">Your membership runs on data<br><em>that's never all in one place.</em></h2>
       <div class="how-copy">
-        <p class="how-lead" id="how-lead">Your AMS, event platform, email tool, and spreadsheets each know one part of the story. Sentra puts it all in one place — and keeps it there.</p>
+        <p class="how-lead" id="how-lead">Your AMS, event platform, and email tool each know one piece. None of them talk to each other. Sentra puts it all in one place — and keeps it there.</p>
       </div>
       <div class="cycle">
         <div class="cycle-step">
@@ -1258,15 +1356,25 @@ footer {
           <div class="cycle-icon">2</div>
           <h3 id="step-2-title">Every member company gets a full profile.</h3>
           <div id="step-2-copy">
-            <div class="profile-callout-row">
-              <span class="profile-callout-label">Data says</span>
-              <span class="profile-callout-value">This company has been a member for six years.</span>
+            <div class="step-panel">
+              <div class="step-panel-bar">
+                <span class="step-panel-dot"></span>
+                <span class="step-panel-dot"></span>
+                <span class="step-panel-dot"></span>
+              </div>
+              <div class="step-panel-body">
+                <div class="callout-row">
+                  <span class="callout-label">Data says</span>
+                  <span class="callout-value">This company has been a member for six years.</span>
+                </div>
+                <div class="callout-divider"></div>
+                <div class="callout-row">
+                  <span class="callout-label callout-label--dim">Profile says</span>
+                  <span class="callout-value">Years one to three — led a working group, referred two new members, sent three people to every event. Years four and five — once a year. This year their main contact left. Nobody has spoken to the new person.</span>
+                </div>
+                <div class="callout-note">Data tells you they're still paying. Profile tells you they're about to leave.</div>
+              </div>
             </div>
-            <div class="profile-callout-row">
-              <span class="profile-callout-label">Profile says</span>
-              <span class="profile-callout-value">Years one to three — led a working group, referred two new members, sent three people to every event. Years four and five — once a year. This year their main contact left. Nobody has spoken to the new person.</span>
-            </div>
-            <div class="profile-callout-note">Data tells you they're still paying. Profile tells you they're about to leave.</div>
           </div>
         </div>
         <div class="cycle-step">
@@ -1279,11 +1387,14 @@ footer {
     </div>
   </section>
 
-  <section class="privacy-section">
+  <section class="why-sentra">
     <div class="shell">
-      <div class="privacy-box">
-        <h2>Your member data stays yours.</h2>
-        <p>Dedicated instance. Your infrastructure. No shared databases. Fully GDPR compliant.</p>
+      <div class="why-inner">
+        <div class="why-mark">
+          <span class="why-dot"></span>
+        </div>
+        <h2>Every tool you have knows one piece.<br><em>None of them know what it means.</em></h2>
+        <p class="why-copy">Your AMS isn't broken. Your email tool isn't broken. But between them, nobody knows that a member hasn't engaged in eight months, changed their main contact, and has a renewal in 60 days. Sentra does.</p>
       </div>
     </div>
   </section>
@@ -1300,6 +1411,7 @@ footer {
           </button>
           <a class="btn-talk" href="mailto:hello@agmentic.com" onclick="trackSentraMailto('talk_to_us','cta_section')">Talk to us</a>
         </div>
+        <p class="privacy-note">Dedicated instance · Your infrastructure · GDPR compliant</p>
       </div>
     </div>
   </div>
@@ -1376,7 +1488,7 @@ footer {
       description: defaultDescription,
       heroTag: "Built for membership teams",
       heroTitle: "Finally, someone who remembers every member. Every year.",
-      heroSub: "Ask which members have gone quiet, who changed their main contact and never heard from you again, and which companies are 90 days from renewal without opening a single email.",
+      heroSub: "Ask which member is 90 days from renewal and hasn't opened a single email this year.",
       storyTag: "",
       painTitle: "You're not missing members.<br><em>You're missing the early signs that they're leaving.</em>",
       painLead: "A membership team had 2,000 member companies and one question nobody could answer: \"which of our most active members have gone quiet?\" Their main contact had changed jobs six months earlier. Nobody knew. By the time they found out, the renewal conversation had already started badly.<span class=\"pain-pullquote\">That's not a data problem. That's a connection problem.</span>",
@@ -1386,10 +1498,10 @@ footer {
         ["The decision got made anyway.", "The roundtable invitations went out. Three of your most important members weren't on the list. Nobody knew."]
       ],
       howTitle: "Your membership runs on data<br><em>that's never all in one place.</em>",
-      howLead: "Your AMS, event platform, email tool, and spreadsheets each know one part of the story. Sentra puts it all in one place — and keeps it there.",
+      howLead: "Your AMS, event platform, and email tool each know one piece. None of them talk to each other. Sentra puts it all in one place — and keeps it there.",
       steps: [
         ["Wherever it lives, we read it.", "AMS, event platform, email, spreadsheets. No migration. Just connect and go."],
-        ["Every member company gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This company has been a member for six years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Years one to three — led a working group, referred two new members, sent three people to every event. Years four and five — once a year. This year their main contact left. Nobody has spoken to the new person.</span></div><div class=\"profile-callout-note\">Data tells you they're still paying. Profile tells you they're about to leave.</div>"],
+        ["Every member company gets a full profile.", "<div class=\"step-panel\"><div class=\"step-panel-bar\"><span class=\"step-panel-dot\"></span><span class=\"step-panel-dot\"></span><span class=\"step-panel-dot\"></span></div><div class=\"step-panel-body\"><div class=\"callout-row\"><span class=\"callout-label\">Data says</span><span class=\"callout-value\">This company has been a member for six years.</span></div><div class=\"callout-divider\"></div><div class=\"callout-row\"><span class=\"callout-label callout-label--dim\">Profile says</span><span class=\"callout-value\">Years one to three — led a working group, referred two new members, sent three people to every event. Years four and five — once a year. This year their main contact left. Nobody has spoken to the new person.</span></div><div class=\"callout-note\">Data tells you they're still paying. Profile tells you they're about to leave.</div></div></div>"],
         ["Then you just ask.", "<span class=\"step-question\">\"Which members are at risk of not renewing?\"</span>Plain language. Real answers. With the reason behind every one."]
       ],
       ctaTitle: "See Sentra answer a question<br><em>about your membership.</em>",
@@ -1410,7 +1522,7 @@ footer {
       description: defaultDescription,
       heroTag: "Built for membership teams",
       heroTitle: "Finally, someone who remembers every member. Every year.",
-      heroSub: "Ask which members have gone quiet, who changed their main contact and never heard from you again, and which companies are 90 days from renewal without opening a single email.",
+      heroSub: "Ask which member is 90 days from renewal and hasn't opened a single email this year.",
       storyTag: "",
       painTitle: "You're not missing members.<br><em>You're missing the early signs that they're leaving.</em>",
       painLead: "A membership team had 2,000 member companies and one question nobody could answer: \"which of our most active members have gone quiet?\" Their main contact had changed jobs six months earlier. Nobody knew. By the time they found out, the renewal conversation had already started badly.<span class=\"pain-pullquote\">That's not a data problem. That's a connection problem.</span>",
@@ -1420,10 +1532,10 @@ footer {
         ["The decision got made anyway.", "The roundtable invitations went out. Three of your most important members weren't on the list. Nobody knew."]
       ],
       howTitle: "Your membership runs on data<br><em>that's never all in one place.</em>",
-      howLead: "Your AMS, event platform, email tool, and spreadsheets each know one part of the story. Sentra puts it all in one place — and keeps it there.",
+      howLead: "Your AMS, event platform, and email tool each know one piece. None of them talk to each other. Sentra puts it all in one place — and keeps it there.",
       steps: [
         ["Wherever it lives, we read it.", "AMS, event platform, email, spreadsheets. No migration. Just connect and go."],
-        ["Every member company gets a full profile.", "<div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Data says</span><span class=\"profile-callout-value\">This company has been a member for six years.</span></div><div class=\"profile-callout-row\"><span class=\"profile-callout-label\">Profile says</span><span class=\"profile-callout-value\">Years one to three — led a working group, referred two new members, sent three people to every event. Years four and five — once a year. This year their main contact left. Nobody has spoken to the new person.</span></div><div class=\"profile-callout-note\">Data tells you they're still paying. Profile tells you they're about to leave.</div>"],
+        ["Every member company gets a full profile.", "<div class=\"step-panel\"><div class=\"step-panel-bar\"><span class=\"step-panel-dot\"></span><span class=\"step-panel-dot\"></span><span class=\"step-panel-dot\"></span></div><div class=\"step-panel-body\"><div class=\"callout-row\"><span class=\"callout-label\">Data says</span><span class=\"callout-value\">This company has been a member for six years.</span></div><div class=\"callout-divider\"></div><div class=\"callout-row\"><span class=\"callout-label callout-label--dim\">Profile says</span><span class=\"callout-value\">Years one to three — led a working group, referred two new members, sent three people to every event. Years four and five — once a year. This year their main contact left. Nobody has spoken to the new person.</span></div><div class=\"callout-note\">Data tells you they're still paying. Profile tells you they're about to leave.</div></div></div>"],
         ["Then you just ask.", "<span class=\"step-question\">\"Which members are at risk of not renewing?\"</span>Plain language. Real answers. With the reason behind every one."]
       ],
       ctaTitle: "See Sentra answer a question<br><em>about your membership.</em>",
