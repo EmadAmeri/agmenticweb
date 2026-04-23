@@ -532,6 +532,10 @@ body.gateway-open .site-shell {
   font-size: clamp(34px, 5vw, 60px);
   line-height: 1.06; letter-spacing: -0.04em;
   font-weight: 700; margin-bottom: 24px;
+  white-space: nowrap;
+}
+@media (max-width: 860px) {
+  .close-h2 { white-space: normal; font-size: clamp(28px, 5vw, 44px); }
 }
 .close-h2 em { font-style: italic; font-weight: 400; color: var(--amber-2); }
 .close-body {
