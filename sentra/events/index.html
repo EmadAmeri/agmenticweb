@@ -459,9 +459,9 @@ body.gateway-open .site-shell {
   margin-top: 20px;
 }
 .ask-bar {
-  background: rgba(12,18,32,0.7);
-  border: 1px solid var(--line-2);
-  border-radius: 12px;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
   padding: 20px 28px;
   display: flex; align-items: center;
   justify-content: space-between;
@@ -489,20 +489,23 @@ body.gateway-open .site-shell {
   align-items: center;
   text-align: center;
   position: relative; overflow: hidden;
-  border-top: 1px solid var(--line);
-  padding: 80px 0;
+  border-top: 1px solid rgba(223,160,72,0.38);
+  background:
+    linear-gradient(180deg, rgba(223,160,72,0.055) 0%, rgba(7,13,27,0) 24%),
+    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,138,60,0.08) 0%, transparent 58%);
+  padding: 140px 0 96px;
 }
 .close::before {
   content: "";
   position: absolute; top: 0; left: 50%;
   transform: translateX(-50%);
   width: 700px; height: 500px; border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(201,138,60,0.07) 0%, transparent 65%);
+  background: radial-gradient(ellipse, rgba(201,138,60,0.11) 0%, transparent 65%);
   pointer-events: none;
 }
 .close-inner {
   position: relative; z-index: 1;
-  max-width: 760px; margin: 0 auto;
+  max-width: 920px; margin: 0 auto;
 }
 .close-rule {
   display: flex;
@@ -532,11 +535,12 @@ body.gateway-open .site-shell {
 }
 .close-h2 {
   font-family: "Fraunces", serif;
-  font-size: clamp(32px, 4.5vw, 54px);
+  font-size: clamp(32px, 4vw, 48px);
   line-height: 1.08; letter-spacing: -0.04em;
   font-weight: 700; margin: 0 auto 28px;
   text-align: center;
   color: var(--cream);
+  white-space: nowrap;
 }
 @media (max-width: 860px) {
   .close-h2 { white-space: normal; font-size: clamp(28px, 5vw, 44px); }
@@ -1036,7 +1040,7 @@ footer {
         <p class="hero-tag" id="hero-tag">Built for conference teams</p>
         <h1 id="hero-title">Finally, someone who's been to every edition of your conference.</h1>
         <p class="hero-sub" id="hero-sub">
-          You know who to invite. Finding them is the problem. They're somewhere across your CRM, your inbox, and last year's spreadsheet. And by the time you pull the list together, half the moment is already gone.
+          They're somewhere across your CRM, your inbox, and last year's spreadsheet — and by the time you find them, half the moment is gone.
         </p>
         <div class="hero-actions">
           <button class="btn-main" onclick="openModal('hero')">
@@ -1084,7 +1088,7 @@ footer {
     <div class="shell">
       <div class="solution-intro">
         <p class="solution-kicker">How Sentra works</p>
-        <h2 class="solution-h2">Connect your tools. Every person<br><em>gets a full picture, not just a record.</em></h2>
+        <h2 class="solution-h2">Sentra knows who's about to go quiet —<br><em>before you have to find out the hard way.</em></h2>
         <p class="solution-lead">Ticketing platform, CRM, inbox. Sentra builds one complete profile on every sponsor, attendee, and speaker — and keeps it alive.</p>
       </div>
       <div class="product-window">
@@ -1218,7 +1222,7 @@ footer {
       description: defaultDescription,
       heroTag: "Built for conference teams",
       heroTitle: "Finally, someone who's been to every edition of your conference.",
-      heroSub: "You know who to invite. Finding them is the problem. They're somewhere across your CRM, your inbox, and last year's spreadsheet. And by the time you pull the list together, half the moment is already gone.",
+      heroSub: "They're somewhere across your CRM, your inbox, and last year's spreadsheet — and by the time you find them, half the moment is gone.",
       storyTag: "",
       painTitle: "You're not missing data.<br><em>You're missing what the data is trying to tell you.</em>",
       painLead: "<p>A conference director was preparing for sponsor renewal season. Forty sponsors. She knew which ones had been quiet. She just didn't know exactly how quiet.</p><p>The data was there — in her ticketing platform, her inbox, her CRM. Three different places. She spent a morning pulling it together.</p><p>By the time she had the full picture, the early bird deadline had passed. Three of her top sponsors still hadn't confirmed.</p><p class=\"story-end\">She had the relationship. She just didn't see the signal in time.</p>",
@@ -1252,7 +1256,7 @@ footer {
       description: defaultDescription,
       heroTag: "Built for conference teams",
       heroTitle: "Finally, someone who's been to every edition of your conference.",
-      heroSub: "You know who to invite. Finding them is the problem. They're somewhere across your CRM, your inbox, and last year's spreadsheet. And by the time you pull the list together, half the moment is already gone.",
+      heroSub: "They're somewhere across your CRM, your inbox, and last year's spreadsheet — and by the time you find them, half the moment is gone.",
       storyTag: "",
       painTitle: "You're not missing data.<br><em>You're missing what the data is trying to tell you.</em>",
       painLead: "<p>A conference director was preparing for sponsor renewal season. Forty sponsors. She knew which ones had been quiet. She just didn't know exactly how quiet.</p><p>The data was there — in her ticketing platform, her inbox, her CRM. Three different places. She spent a morning pulling it together.</p><p>By the time she had the full picture, the early bird deadline had passed. Three of her top sponsors still hadn't confirmed.</p><p class=\"story-end\">She had the relationship. She just didn't see the signal in time.</p>",
