@@ -1,4 +1,5 @@
 import { DEMO_DATA } from "./demo-data";
+import { MEMBER_DATA } from "./member-data";
 
 interface Env {
   RESEND_API_KEY: string;
@@ -17,6 +18,8 @@ type CompanyMetric = (typeof DEMO_DATA.companyMetrics)[number];
 type AttendeeMetric = (typeof DEMO_DATA.attendeeMetrics)[number];
 type TopicMetric = (typeof DEMO_DATA.topicMetrics)[number];
 type KnowledgeRow = (typeof DEMO_DATA.knowledgeBase)[number];
+type MemberMetric = (typeof MEMBER_DATA.accountMetrics)[number];
+type DemoKind = "events" | "members";
 
 const DEFAULT_FROM = "sentra@agmentic.com";
 const DEFAULT_ALLOWED_ORIGIN = "https://agmentic.com";
@@ -308,7 +311,7 @@ function compactContext(text: string) {
   const lines = text.split("\n").map((line) => line.trim()).filter(Boolean);
   const compact: string[] = [];
   let used = 0;
-  const budget = 1800;
+  const budget = 3200;
   for (const line of lines) {
     const snippet = line.slice(0, 220);
     const size = snippet.length + 1;
@@ -317,6 +320,192 @@ function compactContext(text: string) {
     used += size;
   }
   return compact.join("\n");
+}
+
+function formatUsd(value: number) {
+  return `$${Math.round(value).toLocaleString("en-US")}`;
+}
+
+function memberRiskReason(member: MemberMetric) {
+  const reasons: string[] = [];
+  if (member.status === "churned") reasons.push(`churn already recorded${member.churn_reason ? ` (${member.churn_reason})` : ""}`);
+  if (member.urgent_high_tickets >= 2) reasons.push(`${member.urgent_high_tickets} urgent/high support tickets`);
+  else if (member.urgent_high_tickets === 1) reasons.push("one urgent/high support ticket");
+  if (member.escalations > 0) reasons.push(`${member.escalations} escalation${member.escalations === 1 ? "" : "s"}`);
+  if (member.avg_satisfaction !== null && member.avg_satisfaction < 3.5) reasons.push(`low satisfaction (${member.avg_satisfaction})`);
+  if (member.total_usage < 80) reasons.push("very low product usage");
+  else if (member.total_usage < 200) reasons.push("soft product usage");
+  if (member.error_count > 30) reasons.push(`${member.error_count} usage errors`);
+  if (!member.auto_renew) reasons.push("auto-renew is off");
+  if (member.is_trial) reasons.push("still in trial");
+  return reasons.length ? reasons.join(", ") : "healthy usage and support signals";
+}
+
+function memberAction(member: MemberMetric) {
+  if (member.status === "churned") return "Run a win-back or loss-analysis conversation before spending expansion effort.";
+  if (member.risk_score >= 45) return "Prioritize a retention call this week with support context and usage recovery steps.";
+  if (member.urgent_high_tickets || member.escalations) return "Have customer success review the open support pattern before renewal outreach.";
+  if (member.total_usage < 200) return "Send targeted enablement around the features they already use, then check adoption again.";
+  if (member.mrr >= 3000) return "Protect the relationship with executive check-in and expansion discovery.";
+  return "Keep in nurture and monitor usage, tickets, and renewal signals.";
+}
+
+function findMembers(question: string) {
+  const q = question.toLowerCase();
+  return MEMBER_DATA.accountMetrics
+    .map((member) => {
+      const haystack = `${member.account_name} ${member.account_id} ${member.industry} ${member.country} ${member.plan_tier} ${member.status}`.toLowerCase();
+      let score = 0;
+      if (q.includes(member.account_name.toLowerCase())) score += 10;
+      if (q.includes(member.account_id.toLowerCase())) score += 12;
+      for (const token of q.split(/\s+/)) {
+        if (token && haystack.includes(token)) score += 1;
+      }
+      return { member, score };
+    })
+    .filter((item) => item.score > 0)
+    .sort((a, b) => b.score - a.score || b.member.risk_score - a.member.risk_score)
+    .slice(0, 5)
+    .map((item) => item.member);
+}
+
+function isMemberDatasetQuestion(lowered: string) {
+  return ["dataset", "data files", "what data", "available data", "loaded data", "csv"].some((term) => lowered.includes(term));
+}
+
+function isMemberRiskQuestion(lowered: string) {
+  return ["risk", "at risk", "churn", "cancel", "renewal", "drifting", "low engagement", "save", "retain"].some((term) => lowered.includes(term));
+}
+
+function isMemberValueQuestion(lowered: string) {
+  return ["mrr", "arr", "revenue", "highest value", "top value", "enterprise", "valuable"].some((term) => lowered.includes(term));
+}
+
+function isMemberUsageQuestion(lowered: string) {
+  return ["usage", "feature", "adoption", "engaged", "most engaged", "errors"].some((term) => lowered.includes(term));
+}
+
+function isMemberSupportQuestion(lowered: string) {
+  return ["support", "ticket", "urgent", "escalation", "satisfaction"].some((term) => lowered.includes(term));
+}
+
+function describeMember(member: MemberMetric, index?: number) {
+  const prefix = typeof index === "number" ? `${index + 1}. ` : "";
+  const features = member.top_features.length ? member.top_features.join(", ") : "no clear feature concentration";
+  return [
+    `${prefix}${member.account_name} (${member.account_id}) | ${member.plan_tier} | ${member.country} | MRR ${formatUsd(member.mrr)} | risk ${member.risk_score}`,
+    `   Signals: ${memberRiskReason(member)}.`,
+    `   Usage/support: ${member.total_usage} usage actions, ${member.error_count} errors, ${member.support_tickets} tickets, satisfaction ${member.avg_satisfaction ?? "n/a"}, top features: ${features}.`,
+    `   Action: ${memberAction(member)}`,
+  ].join("\n");
+}
+
+function groundedMemberAnswer(question: string) {
+  const lowered = question.trim().toLowerCase();
+  if (!lowered) {
+    return {
+      answer: "Ask me about member churn risk, renewals, usage, support tickets, revenue, plan tiers, countries, industries, or the loaded datasets.",
+      sources: [] as string[],
+    };
+  }
+
+  if (isMemberDatasetQuestion(lowered)) {
+    const lines = [
+      "The membership demo is grounded in these Ravenstack datasets:",
+      "",
+      ...Object.entries(MEMBER_DATA.datasetCounts).map(([name, count]) => `- ${name}: ${count} rows`),
+      "",
+      `Across those files I can see ${MEMBER_DATA.summary.account_count} accounts, ${MEMBER_DATA.summary.subscription_count} subscriptions, ${MEMBER_DATA.summary.usage_event_count} feature-usage events, ${MEMBER_DATA.summary.support_ticket_count} support tickets, and ${MEMBER_DATA.summary.churn_event_count} churn events.`,
+    ];
+    return { answer: lines.join("\n"), sources: Object.keys(MEMBER_DATA.datasetCounts) };
+  }
+
+  if (isMemberRiskQuestion(lowered)) {
+    const requested = lowered.includes("10") || lowered.includes("ten") ? 10 : 5;
+    const top = MEMBER_DATA.topRiskAccounts.slice(0, requested);
+    const lines = [
+      `These are the ${top.length} member accounts I would treat as highest retention risk from the Ravenstack data:`,
+      "",
+      ...top.map((member, index) => describeMember(member, index)),
+    ];
+    return {
+      answer: lines.join("\n"),
+      sources: ["ravenstack_accounts.csv", "ravenstack_subscriptions.csv", "ravenstack_feature_usage.csv", "ravenstack_support_tickets.csv", "ravenstack_churn_events.csv"],
+    };
+  }
+
+  if (isMemberValueQuestion(lowered)) {
+    const top = MEMBER_DATA.topValueAccounts.slice(0, 5);
+    const lines = [
+      "These are the highest-value member accounts by current MRR in the loaded data:",
+      "",
+      ...top.map((member, index) => describeMember(member, index)),
+    ];
+    return { answer: lines.join("\n"), sources: ["ravenstack_accounts.csv", "ravenstack_subscriptions.csv"] };
+  }
+
+  if (isMemberUsageQuestion(lowered)) {
+    const lines = [
+      "Usage signals from the membership dataset:",
+      "",
+      "Most-used features:",
+      ...MEMBER_DATA.topFeatures.slice(0, 7).map((feature, index) => `${index + 1}. ${feature.feature_name} | usage ${feature.usage_count} | errors ${feature.error_count}`),
+      "",
+      "Most engaged accounts:",
+      ...MEMBER_DATA.topUsageAccounts.slice(0, 5).map((member, index) => `${index + 1}. ${member.account_name} | ${member.total_usage} usage actions | ${member.usage_events} events | MRR ${formatUsd(member.mrr)}`),
+    ];
+    return { answer: lines.join("\n"), sources: ["ravenstack_feature_usage.csv", "ravenstack_subscriptions.csv", "ravenstack_accounts.csv"] };
+  }
+
+  if (isMemberSupportQuestion(lowered)) {
+    const supportHeavy = MEMBER_DATA.accountMetrics
+      .filter((member) => member.support_tickets > 0)
+      .sort((a, b) => b.urgent_high_tickets - a.urgent_high_tickets || b.escalations - a.escalations || b.support_tickets - a.support_tickets)
+      .slice(0, 5);
+    const lines = [
+      "Support pressure is concentrated in these accounts:",
+      "",
+      ...supportHeavy.map((member, index) => describeMember(member, index)),
+      "",
+      "Ticket mix:",
+      ...MEMBER_DATA.supportPriorities.map((item) => `- ${item.priority}: ${item.count}`),
+    ];
+    return { answer: lines.join("\n"), sources: ["ravenstack_support_tickets.csv", "ravenstack_accounts.csv"] };
+  }
+
+  if (lowered.includes("summary") || lowered.includes("overview") || lowered.includes("health")) {
+    const lines = [
+      "Here is the current membership health snapshot from the loaded data:",
+      "",
+      `- Accounts: ${MEMBER_DATA.summary.account_count}`,
+      `- Active accounts: ${MEMBER_DATA.summary.active_accounts}`,
+      `- Churned accounts: ${MEMBER_DATA.summary.churned_accounts}`,
+      `- At-risk active accounts: ${MEMBER_DATA.summary.at_risk_accounts}`,
+      `- Total MRR: ${formatUsd(MEMBER_DATA.summary.total_mrr)}`,
+      `- Total ARR: ${formatUsd(MEMBER_DATA.summary.total_arr)}`,
+      `- Average risk score: ${MEMBER_DATA.summary.avg_risk_score}`,
+      `- Average support satisfaction: ${MEMBER_DATA.summary.avg_satisfaction}`,
+      "",
+      "Top churn reasons:",
+      ...MEMBER_DATA.churnReasons.map((item) => `- ${item.reason_code}: ${item.count}`),
+    ];
+    return { answer: lines.join("\n"), sources: Object.keys(MEMBER_DATA.datasetCounts) };
+  }
+
+  const memberMatches = findMembers(question);
+  if (memberMatches.length) {
+    const member = memberMatches[0];
+    return {
+      answer: [`Here is the current member profile I found in the Ravenstack data:`, "", describeMember(member)].join("\n"),
+      sources: ["ravenstack_accounts.csv", "ravenstack_subscriptions.csv", "ravenstack_feature_usage.csv", "ravenstack_support_tickets.csv", "ravenstack_churn_events.csv"],
+    };
+  }
+
+  return {
+    answer:
+      "I could not find enough evidence in the current membership dataset to answer that confidently.\n\nTry asking about churn risk, renewals, highest-value members, support tickets, feature usage, plan tiers, countries, industries, or a specific account name such as Company_0.",
+    sources: [],
+  };
 }
 
 function scoreCompany(company: CompanyMetric) {
@@ -507,10 +696,14 @@ function groundedAnswer(question: string) {
   };
 }
 
-async function rewriteWithGroq(question: string, answer: string, sources: string[], env: Env) {
+async function rewriteWithGroq(question: string, answer: string, sources: string[], env: Env, demoKind: DemoKind) {
   if (!env.GROQ_API_KEY) {
     return { answer: null as string | null, error: "missing_api_key" };
   }
+  const systemPrompt =
+    demoKind === "members"
+      ? "You are Sentra for membership and subscription teams. Answer only from the grounded Ravenstack membership context provided. Do not invent accounts, metrics, churn reasons, usage, support tickets, or recommendations. Write clean plain text for a simple chat bubble UI. Do not use markdown tables, pipes, bold markers, code fences, or source lists. Prefer one short intro sentence followed by compact numbered items or hyphen bullets. Keep the language focused on retention, renewals, member health, product usage, support pressure, and next best actions."
+      : "You are Sentra, a decision-intelligence assistant for conference teams. Answer only from the grounded event context provided. Do not invent companies, people, metrics, or recommendations. Write clean plain text for a simple chat bubble UI. Do not use markdown tables, pipes, bold markers, code fences, or source lists. Prefer one short intro sentence followed by compact numbered items or hyphen bullets.";
 
   const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
     method: "POST",
@@ -526,8 +719,7 @@ async function rewriteWithGroq(question: string, answer: string, sources: string
       messages: [
         {
           role: "system",
-          content:
-            "You are Sentra, a decision-intelligence assistant. Answer only from the grounded context provided. Do not invent companies, people, metrics, or recommendations. Write clean plain text for a simple chat bubble UI. Do not use markdown tables, pipes, bold markers, code fences, or source lists. Prefer one short intro sentence followed by compact numbered items or hyphen bullets.",
+          content: systemPrompt,
         },
         {
           role: "user",
@@ -691,16 +883,18 @@ async function handleDemoAccess(request: Request, env: Env, origin: string) {
 }
 
 async function handleChat(request: Request, env: Env, origin: string) {
-  const body = (await request.json().catch(() => null)) as { question?: string } | null;
+  const body = (await request.json().catch(() => null)) as { question?: string; demoType?: string } | null;
   const question = body?.question?.trim() || "";
-  const grounded = groundedAnswer(question);
+  const demoKind: DemoKind = body?.demoType === "members" ? "members" : "events";
+  const grounded = demoKind === "members" ? groundedMemberAnswer(question) : groundedAnswer(question);
 
-  const groqResult = await rewriteWithGroq(question, grounded.answer, grounded.sources, env);
+  const groqResult = await rewriteWithGroq(question, grounded.answer, grounded.sources, env, demoKind);
   if (groqResult.answer) {
     return json(
       {
         answer: groqResult.answer,
         sources: grounded.sources,
+        demo_type: demoKind,
         llm_provider: "groq",
         llm_model: env.GROQ_MODEL || DEFAULT_GROQ_MODEL,
       },
