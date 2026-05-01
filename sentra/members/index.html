@@ -462,7 +462,7 @@ body.gateway-open .site-shell {
 .pc-2 p { color: rgba(12,18,32,0.6); }
 
 .how {
-  padding: 120px 0 0;
+  padding: 120px 0 96px;
   position: relative;
 }
 .how h2,
@@ -1246,6 +1246,7 @@ footer {
   .pw-body { grid-template-columns: 1fr; }
   .pw-col:first-child { border-right: 0; border-bottom: 1px solid var(--line); }
   .ask-bar { flex-direction: column; align-items: flex-start; }
+  .why-sentra h2 { white-space: normal; font-size: clamp(28px, 5vw, 44px); }
   .ask-answer { text-align: left; max-width: none; }
   .cycle-step:nth-child(2) { border-right: 0; }
   .cycle-step:nth-child(3) { border-top: 1px solid var(--line); }
@@ -1291,8 +1292,15 @@ footer {
 }
 
 .why-sentra {
-  padding: 120px 0;
-  border-top: 1px solid var(--line);
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  padding: 140px 0 96px;
+  border-top: 1px solid rgba(223,160,72,0.38);
+  background:
+    linear-gradient(180deg, rgba(223,160,72,0.055) 0%, rgba(7,13,27,0) 24%),
+    radial-gradient(ellipse 70% 60% at 50% 0%, rgba(201,138,60,0.08) 0%, transparent 58%);
   position: relative;
   overflow: hidden;
 }
@@ -1301,13 +1309,13 @@ footer {
   position: absolute;
   top: 0; left: 50%;
   transform: translateX(-50%);
-  width: 600px; height: 400px;
+  width: 700px; height: 500px;
   border-radius: 50%;
-  background: radial-gradient(ellipse, rgba(201,138,60,0.07) 0%, transparent 70%);
+  background: radial-gradient(ellipse, rgba(201,138,60,0.11) 0%, transparent 65%);
   pointer-events: none;
 }
 .why-inner {
-  max-width: 760px;
+  max-width: 920px;
   margin: 0 auto;
   text-align: center;
   position: relative;
@@ -1317,33 +1325,37 @@ footer {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  margin-bottom: 36px;
+  gap: 0;
+  margin: 0 auto 48px;
+  width: 200px;
 }
 .why-mark::before {
   content: "";
-  flex: 0 0 40px; height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(201,138,60,0.4));
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,138,60,0.5));
 }
 .why-mark::after {
   content: "";
-  flex: 0 0 40px; height: 1px;
-  background: linear-gradient(270deg, transparent, rgba(201,138,60,0.4));
+  flex: 1; height: 1px;
+  background: linear-gradient(270deg, transparent, rgba(201,138,60,0.5));
 }
 .why-dot {
-  width: 6px; height: 6px;
+  width: 7px; height: 7px;
   border-radius: 50%;
   background: var(--amber);
-  opacity: 0.6;
+  opacity: 0.7;
+  flex-shrink: 0;
+  margin: 0 10px;
 }
 .why-sentra h2 {
   font-family: "Fraunces", serif;
-  font-size: clamp(32px, 4.5vw, 54px);
+  font-size: clamp(32px, 4vw, 48px);
   line-height: 1.08;
   letter-spacing: -0.04em;
   font-weight: 700;
-  margin-bottom: 28px;
+  margin: 0 auto 28px;
   color: var(--cream);
+  white-space: nowrap;
 }
 .why-sentra h2 em {
   font-style: italic;
@@ -1355,7 +1367,7 @@ footer {
   font-size: 18px;
   line-height: 1.78;
   color: var(--muted);
-  margin: 0 auto 44px;
+  margin: 0 auto 52px;
 }
 .why-actions {
   display: flex;
