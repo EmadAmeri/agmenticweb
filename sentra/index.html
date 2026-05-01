@@ -1613,6 +1613,8 @@ footer {
     }
   };
   let activeIndustryKey = defaultIndustry;
+  let activeDemoCategory = leadPageCategory;
+  const demoCategoryMap = { events: "conferences", members: "membership" };
 
   function getIndustryProfile(industryKey) {
     return industryProfiles[industryKey] || industryProfiles[defaultIndustry];
@@ -1742,6 +1744,7 @@ footer {
   }
 
   function chooseModalIndustry(industryKey) {
+    activeDemoCategory = demoCategoryMap[industryKey] || leadPageCategory;
     selectIndustry(industryKey);
     const profile = getIndustryProfile(industryKey);
     document.getElementById("modal-form-title").textContent = profile.modalTitle || "See it for yourself.";
@@ -1789,7 +1792,7 @@ footer {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          pageCategory: leadPageCategory,
+          pageCategory: activeDemoCategory,
           industry: activeIndustryKey,
           industryLabel: profile.label,
           salesLane: profile.routeLabel
