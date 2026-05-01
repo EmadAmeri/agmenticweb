@@ -926,6 +926,27 @@ footer {
 .modal-btn:disabled { opacity: 0.65; cursor: not-allowed; }
 .modal-note { font-size: 11px; color: var(--muted-2); }
 .modal-error { display: none; margin-top: 10px; font-size: 12px; color: #ff8f82; }
+.modal-industry-cards { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
+.modal-industry-card {
+  display: flex; flex-direction: column; align-items: flex-start; gap: 4px;
+  width: 100%; padding: 16px 18px; border-radius: 12px;
+  border: 1px solid var(--line-2); background: rgba(237,232,223,0.04);
+  color: var(--cream); text-align: left; cursor: pointer;
+  transition: border-color .15s, background .15s;
+}
+.modal-industry-card:hover { border-color: rgba(201,138,60,0.45); background: rgba(201,138,60,0.06); }
+.modal-industry-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--amber); margin-bottom: 2px;
+}
+.modal-industry-card strong { font-size: 15px; font-weight: 600; }
+.modal-industry-card span { font-size: 13px; color: var(--muted); line-height: 1.5; }
+.modal-back {
+  margin-top: 14px; background: none; border: none; padding: 0;
+  font-size: 12px; color: var(--muted); cursor: pointer;
+  transition: color .15s;
+}
+.modal-back:hover { color: var(--cream); }
 .modal-success { display: none; text-align: center; padding: 16px 0; }
 .modal-success-mark {
   color: var(--amber);
@@ -1373,15 +1394,34 @@ footer {
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
 
-    <div id="modal-form-view">
+    <div id="modal-industry-view">
       <div class="modal-top"></div>
-      <h3>See it for yourself.</h3>
-      <p class="modal-sub">Enter your email and we'll verify it instantly, then open the live demo right away.</p>
+      <h3>Which demo would you like to see?</h3>
+      <p class="modal-sub">Choose the version that matches your business and we'll open the right demo for you.</p>
+      <div class="modal-industry-cards">
+        <button class="modal-industry-card" onclick="chooseModalIndustry('events')">
+          <span class="modal-industry-tag">Conferences & Events</span>
+          <strong>For conference teams</strong>
+          <span>Sponsors, attendees, speakers — one live profile per person.</span>
+        </button>
+        <button class="modal-industry-card" onclick="chooseModalIndustry('members')">
+          <span class="modal-industry-tag">Membership Associations</span>
+          <strong>For membership teams</strong>
+          <span>AMS, email, event records — one profile per member organisation.</span>
+        </button>
+      </div>
+    </div>
+
+    <div id="modal-form-view" style="display:none">
+      <div class="modal-top"></div>
+      <h3 id="modal-form-title">See it for yourself.</h3>
+      <p class="modal-sub" id="modal-form-sub">Enter your email and we'll verify it instantly, then open the live demo right away.</p>
       <div class="modal-input-row">
         <input class="modal-input" type="email" id="modal-email" placeholder="your@email.com" onkeydown="if(event.key==='Enter')submitModal()">
         <button class="modal-btn" id="modal-submit" onclick="submitModal()">Open demo →</button>
       </div>
       <p class="modal-error" id="modal-error"></p>
+      <button class="modal-back" onclick="backToIndustryPicker()">← Change selection</button>
     </div>
 
     <div class="modal-success" id="modal-success-view">
@@ -1394,9 +1434,9 @@ footer {
 
 <script>
   const endpoint = "/api/sentra-demo-access";
-  const leadPageCategory = "conferences";
+  const leadPageCategory = "sentra";
   const industryStorageKey = "sentraIndustryProfile";
-  const defaultIndustry = "events";
+  const defaultIndustry = "generic";
   const defaultTitle = "Sentra for Conferences — Your data, finally useful";
   const defaultDescription = "Sentra helps conference teams connect attendee, sponsor, and speaker data into fast answers.";
   const defaultPageType = window.AGMENTIC_ANALYTICS.pageType;
@@ -1696,10 +1736,25 @@ footer {
       industry: profile.trackLabel
     });
     document.getElementById("modal").classList.add("open");
-    document.getElementById("modal-form-view").style.display = "block";
+    document.getElementById("modal-industry-view").style.display = "block";
+    document.getElementById("modal-form-view").style.display = "none";
     document.getElementById("modal-success-view").style.display = "none";
+  }
+
+  function chooseModalIndustry(industryKey) {
+    selectIndustry(industryKey);
+    const profile = getIndustryProfile(industryKey);
+    document.getElementById("modal-form-title").textContent = profile.modalTitle || "See it for yourself.";
+    document.getElementById("modal-form-sub").textContent = profile.modalSub || "Enter your email and we'll verify it instantly, then open the live demo right away.";
+    document.getElementById("modal-industry-view").style.display = "none";
+    document.getElementById("modal-form-view").style.display = "block";
     document.getElementById("modal-error").style.display = "none";
     setTimeout(() => document.getElementById("modal-email")?.focus(), 100);
+  }
+
+  function backToIndustryPicker() {
+    document.getElementById("modal-form-view").style.display = "none";
+    document.getElementById("modal-industry-view").style.display = "block";
   }
 
   function closeModal() {
