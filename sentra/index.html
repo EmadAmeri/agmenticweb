@@ -1616,8 +1616,8 @@ footer {
   let activeDemoCategory = leadPageCategory;
   const demoCategoryMap = { events: "conferences", members: "membership" };
   const demoParamsMap = {
-    events:  { pageCategory: "conferences", industry: "events",  industryLabel: "Conferences & Events",  salesLane: "Event revenue desk" },
-    members: { pageCategory: "membership",  industry: "events",  industryLabel: "Membership",             salesLane: "Membership growth desk" }
+    events:  { pageCategory: "conferences", industry: "events", industryLabel: "Conferences & Events", salesLane: "Event revenue desk",      demoBase: "/sentra/events/demo/" },
+    members: { pageCategory: "membership",  industry: "events", industryLabel: "Membership",            salesLane: "Membership growth desk",  demoBase: "/sentra/members/demo/" }
   };
   let selectedDemoParams = null;
 
@@ -1828,7 +1828,12 @@ footer {
       document.getElementById("modal-success-text").textContent = profile.successPrefix + email + ". Redirecting to the demo now.";
       if (data.demoLink) {
         setTimeout(() => {
-          window.location.href = data.demoLink;
+          if (selectedDemoParams && selectedDemoParams.demoBase) {
+            const qs = new URL(data.demoLink, window.location.origin).search;
+            window.location.href = selectedDemoParams.demoBase + qs;
+          } else {
+            window.location.href = data.demoLink;
+          }
         }, 450);
       }
     } catch (error) {
