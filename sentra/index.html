@@ -1615,6 +1615,11 @@ footer {
   let activeIndustryKey = defaultIndustry;
   let activeDemoCategory = leadPageCategory;
   const demoCategoryMap = { events: "conferences", members: "membership" };
+  const demoParamsMap = {
+    events:  { pageCategory: "conferences", industry: "events",  industryLabel: "Conferences & Events",  salesLane: "Event revenue desk" },
+    members: { pageCategory: "membership",  industry: "events",  industryLabel: "Membership",             salesLane: "Membership growth desk" }
+  };
+  let selectedDemoParams = null;
 
   function getIndustryProfile(industryKey) {
     return industryProfiles[industryKey] || industryProfiles[defaultIndustry];
@@ -1744,11 +1749,14 @@ footer {
   }
 
   function chooseModalIndustry(industryKey) {
-    activeDemoCategory = demoCategoryMap[industryKey] || leadPageCategory;
-    selectIndustry(industryKey);
-    const profile = getIndustryProfile(industryKey);
-    document.getElementById("modal-form-title").textContent = profile.modalTitle || "See it for yourself.";
-    document.getElementById("modal-form-sub").textContent = profile.modalSub || "Enter your email and we'll verify it instantly, then open the live demo right away.";
+    selectedDemoParams = demoParamsMap[industryKey] || null;
+    const titles = {
+      events:  { title: "See the conference demo.", sub: "Enter your email and we'll verify it instantly, then open the events demo right away." },
+      members: { title: "See the membership demo.", sub: "Enter your email and we'll verify it instantly, then open the membership demo right away." }
+    };
+    const t = titles[industryKey] || { title: "See it for yourself.", sub: "Enter your email and we'll verify it instantly, then open the live demo right away." };
+    document.getElementById("modal-form-title").textContent = t.title;
+    document.getElementById("modal-form-sub").textContent = t.sub;
     document.getElementById("modal-industry-view").style.display = "none";
     document.getElementById("modal-form-view").style.display = "block";
     document.getElementById("modal-error").style.display = "none";
@@ -1790,7 +1798,13 @@ footer {
       const response = await fetch(endpoint, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
+        body: JSON.stringify(selectedDemoParams ? {
+          email,
+          pageCategory: selectedDemoParams.pageCategory,
+          industry: selectedDemoParams.industry,
+          industryLabel: selectedDemoParams.industryLabel,
+          salesLane: selectedDemoParams.salesLane
+        } : {
           email,
           pageCategory: activeDemoCategory,
           industry: activeIndustryKey,
