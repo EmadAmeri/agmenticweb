@@ -975,6 +975,11 @@ footer {
   .pw-col:first-child { border-right: 0; border-bottom: 1px solid var(--line); }
   .ask-bar { flex-direction: column; align-items: flex-start; }
   .ask-answer { text-align: left; max-width: none; }
+  .shift-h2 { white-space: normal; font-size: clamp(22px, 4vw, 28px); }
+  .shift-diagram { grid-template-columns: 1fr; }
+  .shift-arrow { display: none; }
+  .shift-layer { border-right: 0; border-bottom: 1px solid var(--line); }
+  .v-grid { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 560px) {
@@ -1019,9 +1024,10 @@ footer {
 }
 .shift-h2 {
   font-family: "Fraunces", serif;
-  font-size: clamp(28px, 3.5vw, 44px);
-  line-height: 1.05; letter-spacing: -0.04em;
-  font-weight: 700; max-width: 680px; margin: 0 auto;
+  font-size: clamp(20px, 2.2vw, 30px);
+  line-height: 1.15; letter-spacing: -0.03em;
+  font-weight: 700; max-width: 100%; margin: 0 auto;
+  white-space: nowrap;
 }
 .shift-h2 em { font-style: italic; font-weight: 400; color: var(--muted); }
 .shift-diagram {
