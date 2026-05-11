@@ -16,11 +16,37 @@
 
   window.AGMENTIC_ANALYTICS = {
     measurementId: "G-6CRH1VN6D2",
-    siteSection: "sentra",
-    pageType: "landing_events"
+    siteSection: "sentra_events_linkedin",
+    pageType: "linkedin_outreach_landing",
+    landingName: "sentra_events_outreach"
   };
 
   (function initAnalytics(config) {
+    const searchParams = new URLSearchParams(window.location.search);
+    const campaignContext = {
+      campaign_source: searchParams.get("utm_source") || "",
+      campaign_medium: searchParams.get("utm_medium") || "",
+      campaign_name: searchParams.get("utm_campaign") || "",
+      campaign_content: searchParams.get("utm_content") || "",
+      campaign_term: searchParams.get("utm_term") || "",
+      sender_id: searchParams.get("sender_id") || searchParams.get("sender") || "",
+      audience_persona: searchParams.get("persona") || "",
+      message_variant: searchParams.get("message_variant") || searchParams.get("variant") || "",
+      li_fat_id: searchParams.get("li_fat_id") || "",
+      referrer_host: document.referrer ? new URL(document.referrer).hostname : "",
+      visit_origin: ""
+    };
+
+    if (campaignContext.campaign_source === "linkedin" || campaignContext.li_fat_id) {
+      campaignContext.visit_origin = "linkedin";
+    } else if (!document.referrer) {
+      campaignContext.visit_origin = "direct";
+    } else {
+      campaignContext.visit_origin = "referral";
+    }
+
+    window.AGMENTIC_CAMPAIGN_CONTEXT = campaignContext;
+
     if (!config.measurementId || config.measurementId === "G-6CRH1VN6D2-PLACEHOLDER") return;
 
     const script = document.createElement("script");
@@ -32,25 +58,30 @@
     function gtag() { window.dataLayer.push(arguments); }
     window.gtag = window.gtag || gtag;
 
+    function baseEventParams() {
+      return Object.assign({
+        site_section: config.siteSection,
+        page_type: config.pageType,
+        landing_name: config.landingName
+      }, window.AGMENTIC_CAMPAIGN_CONTEXT || {});
+    }
+
     window.gtag("js", new Date());
     window.gtag("config", config.measurementId, { send_page_view: false });
-    window.gtag("event", "page_view", {
+    window.gtag("event", "page_view", Object.assign(baseEventParams(), {
       page_title: document.title,
       page_path: window.location.pathname,
       page_location: window.location.href,
-      page_referrer: document.referrer,
-      site_section: config.siteSection,
-      page_type: config.pageType
-    });
+      page_referrer: document.referrer
+    }));
+    window.gtag("event", "landing_view", baseEventParams());
+
+    window.agmenticTrack = function(eventName, params) {
+      window.gtag("event", eventName, Object.assign(baseEventParams(), params || {}));
+    };
   })(window.AGMENTIC_ANALYTICS);
 
-  window.agmenticTrack = function(eventName, params) {
-    if (!window.gtag) return;
-    window.gtag("event", eventName, Object.assign({
-      site_section: window.AGMENTIC_ANALYTICS.siteSection,
-      page_type: window.AGMENTIC_ANALYTICS.pageType
-    }, params || {}));
-  };
+  window.agmenticTrack = window.agmenticTrack || function() {};
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1101,7 +1132,7 @@ footer {
     <div class="logo"><img class="brand-mark" src="../without back.png" alt="Sentra logo">Sentra</div>
     <div class="nav-links">
       <a class="nav-link" href="#product">See it in action</a>
-      <button class="btn-nav" onclick="scrollToCTA()">See the demo →</button>
+      <button class="btn-nav" onclick="scrollToCTA('nav_demo_button')">See the demo →</button>
     </div>
   </div>
 </nav>
@@ -1118,7 +1149,7 @@ footer {
         Attendees, sponsors, tickets, sessions, emails — spread across tools that don't talk to each other. Sentra reads all of it, builds a single intelligence layer, and lets every person on your team ask questions in plain language. No exports. No manual search. No guessing.
       </p>
       <div class="hero-actions">
-        <button class="btn-main" onclick="scrollToCTA()">
+        <button class="btn-main" onclick="scrollToCTA('hero_demo_button')">
           See the demo with sample data
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
         </button>
@@ -1340,12 +1371,59 @@ footer {
   /* ─── CONFIG ─── */
   const endpoint = "/api/sentra-demo-access";
   const leadPageCategory = "conferences";
+  const trackedScrollMilestones = new Set();
+  let hasTrackedFormStart = false;
+  let hasTrackedCtaSectionView = false;
+
+  function trackScrollMilestone() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    if (scrollable <= 0) return;
+
+    const progress = Math.round((window.scrollY / scrollable) * 100);
+    [25, 50, 75, 90].forEach(function(milestone) {
+      if (progress >= milestone && !trackedScrollMilestones.has(milestone)) {
+        trackedScrollMilestones.add(milestone);
+        window.agmenticTrack("scroll_depth_reached", {
+          scroll_percent: milestone
+        });
+      }
+    });
+  }
+
+  function trackCtaSectionView(entries) {
+    entries.forEach(function(entry) {
+      if (entry.isIntersecting && !hasTrackedCtaSectionView) {
+        hasTrackedCtaSectionView = true;
+        window.agmenticTrack("cta_section_view", {
+          section_id: "cta"
+        });
+      }
+    });
+  }
+
+  function trackFormStart(triggerSource) {
+    if (hasTrackedFormStart) return;
+    hasTrackedFormStart = true;
+    window.agmenticTrack("form_start", {
+      form_name: "demo_access",
+      trigger_source: triggerSource || "unknown"
+    });
+  }
+
+  function trackLandingEngaged() {
+    window.agmenticTrack("landing_engaged", {
+      engaged_seconds: 15
+    });
+  }
 
   /* ─── SCROLL TO CTA ─── */
-  function scrollToCTA() {
+  function scrollToCTA(triggerSource) {
     document.getElementById("cta").scrollIntoView({ behavior: "smooth" });
     setTimeout(() => document.getElementById("cta-email").focus(), 600);
-    window.agmenticTrack("cta_click", { cta_text: "request_pilot", cta_location: "nav" });
+    window.agmenticTrack("cta_click", {
+      cta_text: "see_demo",
+      cta_location: triggerSource || "unknown"
+    });
   }
 
   /* ─── SUBMIT (real API + redirect) ─── */
@@ -1360,6 +1438,10 @@ footer {
       row.style.borderColor = "rgba(255,100,80,0.5)";
       setTimeout(() => row.style.borderColor = "", 1400);
       emailInput.focus();
+      window.agmenticTrack("form_submit_invalid", {
+        form_name: "demo_access",
+        validation_error: "invalid_email"
+      });
       return;
     }
 
@@ -1367,7 +1449,9 @@ footer {
     btn.disabled = true;
     btn.textContent = "Verifying...";
 
-    window.agmenticTrack("demo_modal_open", { trigger_source: "inline_cta", industry: "events" });
+    window.agmenticTrack("form_submit_attempt", {
+      form_name: "demo_access"
+    });
 
     try {
       const response = await fetch(endpoint, {
@@ -1378,7 +1462,8 @@ footer {
           pageCategory: leadPageCategory,
           industry: "events",
           industryLabel: "Conferences & Events",
-          salesLane: "Event revenue desk"
+          salesLane: "Event revenue desk",
+          campaignContext: window.AGMENTIC_CAMPAIGN_CONTEXT || {}
         })
       });
 
@@ -1388,12 +1473,17 @@ footer {
         throw new Error(data.error || "We couldn't verify this email right now. Please try again.");
       }
 
-      window.agmenticTrack("demo_email_submit", { form_name: "demo_access", industry: "events" });
+      window.agmenticTrack("form_submit_success", {
+        form_name: "demo_access"
+      });
 
       document.getElementById("cta-input-row").innerHTML =
         '<p style="padding:14px 18px; font-size:14px; color:var(--amber); font-weight:500;">✓ Your email was verified. Opening your demo now…</p>';
 
       if (data.demoLink) {
+        window.agmenticTrack("demo_redirect", {
+          destination_type: "demo_link"
+        });
         setTimeout(() => { window.location.href = data.demoLink; }, 450);
       }
 
@@ -1402,27 +1492,53 @@ footer {
       btn.textContent = "Get demo access →";
       errorEl.textContent = error.message || "Something went wrong. Please try again.";
       errorEl.style.display = "block";
+      window.agmenticTrack("form_submit_error", {
+        form_name: "demo_access",
+        error_type: "api_error"
+      });
     }
   }
 
   /* ─── TRACKING HELPERS ─── */
   function trackSentraMailto(ctaText, ctaLocation) {
-    window.agmenticTrack("mailto_click", {
+    window.agmenticTrack("contact_click", {
       cta_text: ctaText,
       cta_location: ctaLocation,
-      industry: "events",
+      contact_method: "email",
       destination_url: "mailto:hello@agmentic.com"
     });
   }
 
   function trackSentraOutbound(linkText, ctaLocation) {
-    window.agmenticTrack("outbound_click", {
+    window.agmenticTrack("social_click", {
       link_text: linkText,
       cta_location: ctaLocation,
-      industry: "events",
+      social_network: "linkedin",
       destination_url: "https://www.linkedin.com/company/agmentic/"
     });
   }
+
+  document.addEventListener("DOMContentLoaded", function() {
+    const emailInput = document.getElementById("cta-email");
+    const ctaSection = document.getElementById("cta");
+
+    if (emailInput) {
+      emailInput.addEventListener("focus", function() {
+        trackFormStart("email_focus");
+      }, { once: true });
+    }
+
+    if (ctaSection && "IntersectionObserver" in window) {
+      const observer = new IntersectionObserver(trackCtaSectionView, {
+        threshold: 0.45
+      });
+      observer.observe(ctaSection);
+    }
+
+    window.addEventListener("scroll", trackScrollMilestone, { passive: true });
+    trackScrollMilestone();
+    window.setTimeout(trackLandingEngaged, 15000);
+  });
 
   /* ─── TYPING ANIMATION ─── */
   (function() {
