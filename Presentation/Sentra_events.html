@@ -207,14 +207,14 @@ html, body {
 #s3-canvas { width: 100%; height: 100%; }
 .s3-questions {
   position: absolute;
-  top: 62%; left: 9%; right: 53%; z-index: 3;
-  display: flex; flex-direction: column; gap: 2%;
+  top: 54%; left: 9%; right: 53%; z-index: 3;
+  display: flex; flex-direction: column; gap: 1.6%;
 }
 .s3-ask {
   display: flex; align-items: center;
   background: #0A1220; border: 1px solid var(--line);
   border-radius: 6px;
-  padding: 2.2% 3%; gap: 2%;
+  padding: 1.8% 3%; gap: 2%;
   position: relative;
 }
 .ask-bar {
@@ -222,12 +222,12 @@ html, body {
   width: 3px; background: var(--amber);
 }
 .s3-ask-lbl {
-  font-size: 0.6em; font-weight: 700;
-  color: var(--amber); letter-spacing: 0.15em;
-  white-space: nowrap;
+  font-size: 0.56em; font-weight: 700;
+  color: var(--amber); letter-spacing: 0.12em;
+  white-space: nowrap; min-width: 7em;
 }
-.s3-ask-q { font-size: 0.9em; color: var(--cream); font-style: italic; flex: 1; }
-.s3-ask-a { font-size: 0.85em; font-weight: 700; color: var(--amber); white-space: nowrap; }
+.s3-ask-q { font-size: 0.82em; color: var(--cream); font-style: italic; flex: 1; }
+.s3-ask-a { font-size: 0.78em; font-weight: 700; color: var(--amber); white-space: nowrap; }
 
 /* ══════════════════════════════════
    SLIDE 4 — PILOT
@@ -312,11 +312,11 @@ html, body {
         <span>Sentra</span>
       </div>
       <div class="s1-rule"></div>
-      <h1 class="s1-h1">Your conference data, finally connected.</h1>
-      <p class="s1-sub">CRM · Ticketing · Email · Social — unified into one intelligent layer.<br>Ask questions in plain language. Get answers in seconds.</p>
+      <h1 class="s1-h1">Your conference data.<br>Finally answerable.</h1>
+      <p class="s1-sub">Attendees, sponsors, tickets, sessions, emails — spread across tools that don't talk to each other. Sentra builds a single intelligence layer every team can query in plain language.</p>
       <div class="s1-tags">
-        <span class="s1-tag">Unified profiles</span>
-        <span class="s1-tag">AI chatbot</span>
+        <span class="s1-tag">Sponsors · Tickets · Attendees</span>
+        <span class="s1-tag">Every team</span>
         <span class="s1-tag">Self-hosted · GDPR</span>
       </div>
     </div>
@@ -331,17 +331,17 @@ html, body {
         <div class="s2-card">
           <span class="s2-icon">🧠</span>
           <div class="s2-title">A brain, not a database</div>
-          <div class="s2-desc">Sentra connects companies, people and events — and understands what those connections mean. Any team can ask a question and get an answer grounded in real data.</div>
+          <div class="s2-desc">Sentra connects sponsors, attendees, sessions, tickets, and emails — and understands what those connections mean across editions. Every team gets answers, not just the one who built the CRM.</div>
         </div>
         <div class="s2-card">
           <span class="s2-icon">🖥</span>
           <div class="s2-title">Self-hosted — your data stays yours</div>
-          <div class="s2-desc">Runs on your server or your own infrastructure. No data leaves your environment. Built for GDPR from day one — not as an afterthought.</div>
+          <div class="s2-desc">Runs on your own servers or cloud. No data leaves your environment. Built for GDPR from day one — not as an afterthought.</div>
         </div>
         <div class="s2-card">
           <span class="s2-icon">🔍</span>
-          <div class="s2-title">Plain language, not dashboards</div>
-          <div class="s2-desc">No training, no filters, no exports. Ask in natural language — Sentra retrieves the answer from your connected data in seconds.</div>
+          <div class="s2-title">Every team. Any question.</div>
+          <div class="s2-desc">Sponsorship, ticket sales, community, programming, executive — each team asks what they need in plain language. Sentra retrieves the answer from your connected data in seconds.</div>
         </div>
       </div>
     </div>
@@ -351,22 +351,28 @@ html, body {
   <div class="slide" id="s3">
     <div class="s3-left">
       <div class="tag-row"><div class="tag-bar"></div><span class="tag-txt">How It Works</span></div>
-      <h2 class="s3-h1">The mnemonic of<br>your conference.</h2>
-      <p class="s3-desc">Sentra creates relationships between companies, people and events — enriched with business knowledge. Every team member can ask a question in plain language and get an answer based on their connected data.</p>
+      <h2 class="s3-h1">Your company brain.<br>All your data, unified.</h2>
+      <p class="s3-desc">Sentra connects every data source your conference runs on — CRM, ticketing, email, sessions, attendees — and builds a single queryable intelligence layer any team can use. No exports. No manual search.</p>
     </div>
     <div class="s3-canvas-wrap"><canvas id="s3-canvas"></canvas></div>
     <div class="s3-questions">
       <div class="s3-ask">
         <div class="ask-bar"></div>
-        <span class="s3-ask-lbl">ASK</span>
-        <span class="s3-ask-q">"Which sponsors are going quiet?"</span>
-        <span class="s3-ask-a">3 at risk — signals detected</span>
+        <span class="s3-ask-lbl">SPONSORS</span>
+        <span class="s3-ask-q">"Which sponsors are going quiet before renewal?"</span>
+        <span class="s3-ask-a">6 at risk — signals detected</span>
       </div>
       <div class="s3-ask">
         <div class="ask-bar"></div>
-        <span class="s3-ask-lbl">ASK</span>
-        <span class="s3-ask-q">"Who should we invite to the next edition?"</span>
-        <span class="s3-ask-a">12 high-fit profiles found</span>
+        <span class="s3-ask-lbl">TICKETS</span>
+        <span class="s3-ask-q">"Who bought 3 years running but hasn't registered yet?"</span>
+        <span class="s3-ask-a">47 people — early-bird closes in 4 days</span>
+      </div>
+      <div class="s3-ask">
+        <div class="ask-bar"></div>
+        <span class="s3-ask-lbl">COMMUNITY</span>
+        <span class="s3-ask-q">"Find senior women in fintech for the March dinner."</span>
+        <span class="s3-ask-a">31 matches — sorted by engagement</span>
       </div>
     </div>
   </div>
@@ -375,20 +381,20 @@ html, body {
   <div class="slide" id="s4">
     <div class="s4-inner">
       <div class="tag-row"><div class="tag-bar"></div><span class="tag-txt">Pilot Program</span></div>
-      <h2 class="s4-h1">We're looking for<br>3 pilot partners.</h2>
+      <h2 class="s4-h1">See it with your<br>own data. 3 spots left.</h2>
       <div class="s4-boxes">
         <div class="s4-box gold">
           <div class="s4-box-lbl">What you get</div>
-          <div class="s4-item">Full platform, set up on your infrastructure</div>
           <div class="s4-item">Demo built on a sample of your real data</div>
-          <div class="s4-item">Direct access to the team building it</div>
+          <div class="s4-item">Full platform on your own infrastructure</div>
+          <div class="s4-item">Your data never leaves your servers</div>
           <div class="s4-item">Free for the duration of the pilot</div>
         </div>
         <div class="s4-box">
           <div class="s4-box-lbl">What we ask</div>
           <div class="s4-item">Connect your real data sources</div>
           <div class="s4-item">30-min call every two weeks</div>
-          <div class="s4-item">Tell us honestly where it breaks</div>
+          <div class="s4-item">Tell us where it breaks</div>
         </div>
       </div>
       <div class="s4-cta">
