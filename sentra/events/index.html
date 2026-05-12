@@ -24,7 +24,7 @@
   (function initAnalytics(config) {
     const searchParams = new URLSearchParams(window.location.search);
     const campaignContext = {
-      lead_id: searchParams.get("lead_id") || "",
+      ref: searchParams.get("ref") || searchParams.get("lead_id") || "",
       campaign_source: searchParams.get("utm_source") || "",
       campaign_medium: searchParams.get("utm_medium") || "",
       campaign_name: searchParams.get("utm_campaign") || "",
