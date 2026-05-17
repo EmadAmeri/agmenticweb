@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#B8420F">
+    <title>Dining Agent</title>
+    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="/style.css?v=3">
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div>
+          <h1>Dining</h1>
+          <p>your dinner companion</p>
+        </div>
+        <button class="icon-button" id="openProfile" aria-label="Open profile">☰</button>
+      </header>
+
+      <main>
+        <section class="camera-card">
+          <input id="menuImage" type="file" accept="image/*" capture="environment" hidden>
+          <button class="camera-button" id="cameraButton">Photograph the menu</button>
+          <img class="menu-preview" id="menuPreview" alt="Uploaded menu preview" hidden>
+          <p class="status-text" id="menuStatus">Start by adding the menu in front of you.</p>
+        </section>
+
+        <section class="chat-card">
+          <div class="conversation" id="conversation" aria-live="polite"></div>
+          <form class="chat-form" id="chatForm">
+            <input id="chatInput" type="text" placeholder="Ask about the menu..." autocomplete="off">
+            <button type="submit">Send</button>
+          </form>
+        </section>
+      </main>
+
+      <button class="suggest-button" id="openSuggest">Suggest a meal</button>
+    </div>
+
+    <aside class="side-panel" id="profilePanel" aria-hidden="true">
+      <div class="panel-header">
+        <div>
+          <h2>Profile</h2>
+          <p>what I remember</p>
+        </div>
+        <button class="icon-button" id="closeProfile" aria-label="Close profile">×</button>
+      </div>
+      <div class="profile-content" id="profileContent"></div>
+      <button class="secondary-button" id="clearMemory">Clear memory</button>
+      <button class="secondary-button" id="newSession">New session</button>
+    </aside>
+
+    <div class="modal-backdrop" id="suggestModal" hidden>
+      <form class="modal" id="suggestForm">
+        <h2>Plan the meal</h2>
+        <label>
+          Occasion
+          <input id="occasionInput" type="text" value="casual dinner">
+        </label>
+        <label>
+          Courses
+          <input id="coursesInput" type="number" min="1" max="8" value="3">
+        </label>
+        <div class="modal-actions">
+          <button type="button" class="secondary-button" id="closeSuggest">Cancel</button>
+          <button type="submit">Suggest</button>
+        </div>
+      </form>
+    </div>
+
+    <div class="loader" id="loader" hidden>
+      <span></span>
+    </div>
+
+    <script src="/app.js?v=3"></script>
+    <script>
+      if ("serviceWorker" in navigator) {
+        navigator.serviceWorker.register("/service-worker.js");
+      }
+    </script>
+  </body>
+</html>
