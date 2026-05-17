@@ -1,12 +1,12 @@
 const CACHE_NAME = "dining-agent-shell-v3";
 const SHELL_ASSETS = [
-  "/",
-  "/index.html",
-  "/style.css?v=3",
-  "/app.js?v=3",
-  "/manifest.json",
-  "/icons/icon-192.png",
-  "/icons/icon-512.png",
+  "./",
+  "./index.html",
+  "./style.css?v=3",
+  "./app.js?v=3",
+  "./manifest.json",
+  "./icons/icon-192.png",
+  "./icons/icon-512.png",
 ];
 
 self.addEventListener("install", (event) => {
