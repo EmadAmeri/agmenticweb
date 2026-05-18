@@ -6,7 +6,8 @@
     <meta name="theme-color" content="#B8420F">
     <title>Dining Agent</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css?v=3">
+    <link rel="stylesheet" href="./style.css?v=6">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   </head>
   <body>
     <div class="app-shell">
@@ -23,6 +24,9 @@
           <input id="menuImage" type="file" accept="image/*" capture="environment" hidden>
           <button class="camera-button" id="cameraButton">Photograph the menu</button>
           <img class="menu-preview" id="menuPreview" alt="Uploaded menu preview" hidden>
+          <div class="ocr-progress" id="ocrProgress" hidden>
+            <div class="ocr-progress-bar" id="ocrProgressBar"></div>
+          </div>
           <p class="status-text" id="menuStatus">Start by adding the menu in front of you.</p>
         </section>
 
@@ -73,7 +77,7 @@
       <span></span>
     </div>
 
-    <script src="./app.js?v=3"></script>
+    <script src="./app.js?v=6"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");

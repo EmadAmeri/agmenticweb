@@ -1,4 +1,6 @@
-const API_BASE = "https://api-dining.agmentic.com";
+const API_BASE = ["localhost", "127.0.0.1"].includes(window.location.hostname)
+  ? window.location.origin
+  : "https://api-dining.agmentic.com";
 
 const sessionId = getSessionId();
 const conversation = document.querySelector("#conversation");
@@ -13,6 +15,9 @@ const profilePanel = document.querySelector("#profilePanel");
 const profileContent = document.querySelector("#profileContent");
 const suggestModal = document.querySelector("#suggestModal");
 const suggestForm = document.querySelector("#suggestForm");
+const ocrProgress = document.querySelector("#ocrProgress");
+const ocrProgressBar = document.querySelector("#ocrProgressBar");
+const USE_LOCAL_OCR = true;
 let lastErrorMessage = "";
 
 function getSessionId() {
@@ -70,7 +75,8 @@ async function request(path, options = {}) {
   const response = await fetch(`${API_BASE}${path}`, options);
 
   if (!response.ok) {
-    const error = new Error(response.statusText);
+    const details = await response.text().catch(() => response.statusText);
+    const error = new Error(details || response.statusText);
     error.status = response.status;
     throw error;
   }
@@ -97,26 +103,185 @@ async function sendMessage(text) {
 }
 
 async function uploadMenu(file) {
+  menuPreview.src = URL.createObjectURL(file);
+  menuPreview.hidden = false;
+  menuStatus.textContent = "Reading menu...";
+  setOcrProgress(0);
+  setLoading(true);
+
+  try {
+    if (!USE_LOCAL_OCR) {
+      await uploadMenuViaServer(file);
+      return;
+    }
+
+    const tesseract = await loadTesseract();
+    if (!tesseract) {
+      await uploadMenuViaServer(file);
+      return;
+    }
+
+    const { text, confidence } = await extractMenuText(file, tesseract);
+    console.debug("OCR text extracted", {
+      confidence,
+      lines: text.split("\n").filter(Boolean).length,
+      text,
+    });
+
+    if (confidence < 30) {
+      menuStatus.textContent = "The photo was hard to read, but I found some text. Loading it now...";
+    } else {
+      menuStatus.textContent = "Menu text found. Structuring it...";
+    }
+
+    const data = await request("/menu/text", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_id: sessionId, text }),
+    });
+    menuStatus.textContent = `Loaded ${data.items_count} items from this menu.`;
+  } catch (error) {
+    console.error("Menu upload failed", error);
+    menuStatus.textContent = `${friendlyError(error)} (${error.status || "network"}: ${error.message})`;
+  } finally {
+    hideOcrProgress();
+    setLoading(false);
+  }
+}
+
+async function loadTesseract() {
+  if (window.Tesseract) {
+    return window.Tesseract;
+  }
+
+  await new Promise((resolve, reject) => {
+    const script = document.createElement("script");
+    script.src = "https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js";
+    script.onload = resolve;
+    script.onerror = reject;
+    document.head.appendChild(script);
+  }).catch(() => {});
+
+  return window.Tesseract || null;
+}
+
+async function extractMenuText(file, tesseract) {
+  const variants = await buildOcrVariants(file);
+  const texts = [];
+  const confidences = [];
+
+  for (const [index, variant] of variants.entries()) {
+    const result = await tesseract.recognize(variant.canvas, "eng+fra", {
+      logger: (message) => {
+        if (message.status === "recognizing text") {
+          const base = index / variants.length;
+          const progress = base + ((message.progress || 0) / variants.length);
+          const percent = Math.round(progress * 100);
+          menuStatus.textContent = `Reading menu... ${percent}%`;
+          setOcrProgress(percent);
+        }
+      },
+      preserve_interword_spaces: "1",
+      tessedit_pageseg_mode: variant.psm,
+    });
+    texts.push(result.data.text);
+    confidences.push(result.data.confidence || 0);
+  }
+
+  return {
+    text: mergeOcrText(texts),
+    confidence: confidences.reduce((sum, value) => sum + value, 0) / Math.max(confidences.length, 1),
+  };
+}
+
+async function buildOcrVariants(file) {
+  const image = await loadImage(file);
+  const midpoint = Math.floor(image.width / 2);
+
+  return [
+    { canvas: renderOcrCanvas(image, 0, 0, image.width, image.height), psm: "11" },
+    { canvas: renderOcrCanvas(image, 0, 0, midpoint + 24, image.height), psm: "6" },
+    { canvas: renderOcrCanvas(image, Math.max(0, midpoint - 24), 0, image.width - midpoint + 24, image.height), psm: "6" },
+  ];
+}
+
+function loadImage(file) {
+  return new Promise((resolve, reject) => {
+    const image = new Image();
+    image.onload = () => resolve(image);
+    image.onerror = reject;
+    image.src = URL.createObjectURL(file);
+  });
+}
+
+function renderOcrCanvas(image, sourceX, sourceY, sourceWidth, sourceHeight) {
+  const scale = Math.max(2, Math.min(4, 2200 / Math.max(sourceWidth, sourceHeight)));
+  const canvas = document.createElement("canvas");
+  canvas.width = Math.round(sourceWidth * scale);
+  canvas.height = Math.round(sourceHeight * scale);
+
+  const context = canvas.getContext("2d", { willReadFrequently: true });
+  context.fillStyle = "#ffffff";
+  context.fillRect(0, 0, canvas.width, canvas.height);
+  context.imageSmoothingEnabled = true;
+  context.imageSmoothingQuality = "high";
+  context.drawImage(image, sourceX, sourceY, sourceWidth, sourceHeight, 0, 0, canvas.width, canvas.height);
+
+  const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imageData.data;
+
+  for (let index = 0; index < data.length; index += 4) {
+    const gray = (data[index] * 0.299) + (data[index + 1] * 0.587) + (data[index + 2] * 0.114);
+    const contrasted = Math.max(0, Math.min(255, ((gray - 128) * 1.45) + 128));
+    const value = contrasted > 205 ? 255 : contrasted < 115 ? 0 : contrasted;
+    data[index] = value;
+    data[index + 1] = value;
+    data[index + 2] = value;
+  }
+
+  context.putImageData(imageData, 0, 0);
+  return canvas;
+}
+
+function mergeOcrText(texts) {
+  const seen = new Set();
+  const lines = [];
+
+  for (const text of texts) {
+    for (const line of text.split("\n")) {
+      const cleaned = line.replace(/\s+/g, " ").trim();
+      const key = cleaned.toLowerCase().replace(/[^a-z0-9$€£.]+/g, "");
+      if (!cleaned || seen.has(key)) {
+        continue;
+      }
+      seen.add(key);
+      lines.push(cleaned);
+    }
+  }
+
+  return lines.join("\n");
+}
+
+async function uploadMenuViaServer(file) {
   const formData = new FormData();
   formData.append("session_id", sessionId);
   formData.append("image", file);
 
-  menuPreview.src = URL.createObjectURL(file);
-  menuPreview.hidden = false;
-  menuStatus.textContent = "Reading the menu...";
-  setLoading(true);
+  const data = await request("/menu", {
+    method: "POST",
+    body: formData,
+  });
+  menuStatus.textContent = `Loaded ${data.items_count} items from this ${data.restaurant_type} menu.`;
+}
 
-  try {
-    const data = await request("/menu", {
-      method: "POST",
-      body: formData,
-    });
-    menuStatus.textContent = `Loaded ${data.items_count} items from this ${data.restaurant_type} menu.`;
-  } catch (error) {
-    menuStatus.textContent = friendlyError(error);
-  } finally {
-    setLoading(false);
-  }
+function setOcrProgress(percent) {
+  ocrProgress.hidden = false;
+  ocrProgressBar.style.width = `${Math.max(0, Math.min(100, percent))}%`;
+}
+
+function hideOcrProgress() {
+  ocrProgress.hidden = true;
+  ocrProgressBar.style.width = "0%";
 }
 
 async function suggestMeal(occasion, numCourses) {
