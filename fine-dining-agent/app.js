@@ -138,6 +138,12 @@ async function uploadMenu(file) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session_id: sessionId, text }),
+    }).catch(async (error) => {
+      if (error.status === 404 || error.status === 405) {
+        menuStatus.textContent = "Text parser is not live yet. Using image fallback...";
+        return uploadMenuViaServer(file);
+      }
+      throw error;
     });
     menuStatus.textContent = `Loaded ${data.items_count} items from this menu.`;
   } catch (error) {
@@ -271,7 +277,7 @@ async function uploadMenuViaServer(file) {
     method: "POST",
     body: formData,
   });
-  menuStatus.textContent = `Loaded ${data.items_count} items from this ${data.restaurant_type} menu.`;
+  return data;
 }
 
 function setOcrProgress(percent) {
