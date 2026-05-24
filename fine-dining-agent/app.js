@@ -20,14 +20,27 @@ const ocrProgressBar = document.querySelector("#ocrProgressBar");
 const callScreen = document.querySelector("#callScreen");
 const callTranscript = document.querySelector("#callTranscript");
 const callStatus = document.querySelector("#callStatus");
+const callContactName = document.querySelector("#callContactName");
+const callAvatar = document.querySelector("#callAvatar");
+const callTimer = document.querySelector("#callTimer");
 const startCallTalk = document.querySelector("#startCallTalk");
 const callTextInput = document.querySelector("#callTextInput");
 const sendCallText = document.querySelector("#sendCallText");
+const agentContactNameInput = document.querySelector("#agentContactName");
+const saveContactName = document.querySelector("#saveContactName");
 const USE_LOCAL_OCR = true;
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const CONTACT_NAME_KEY = "dining_agent_contact_name";
 let lastErrorMessage = "";
 let recognition = null;
 let callActive = false;
+let callConnected = false;
+let callMuted = false;
+let ringInterval = null;
+let ringContext = null;
+let connectTimeout = null;
+let callTimerInterval = null;
+let callStartedAt = null;
 
 function getSessionId() {
   let id = localStorage.getItem("dining_session_id");
@@ -114,7 +127,7 @@ async function sendMessage(text) {
 async function sendCallMessage(text) {
   const trimmed = text.trim();
 
-  if (!trimmed) {
+  if (!trimmed || !callConnected) {
     return;
   }
 
@@ -145,25 +158,53 @@ async function sendCallMessage(text) {
 
 function openFakeCall() {
   callActive = true;
+  callConnected = false;
+  callMuted = false;
   callScreen.hidden = false;
+  callScreen.classList.add("calling");
+  callScreen.classList.remove("connected");
   callScreen.setAttribute("aria-hidden", "false");
-  callStatus.textContent = SpeechRecognition ? "Connected" : "Type or use keyboard dictation";
+  callTranscript.textContent = "";
+  callTextInput.value = "";
+  callContactName.textContent = getContactName();
+  callAvatar.textContent = initials(getContactName());
+  callStatus.textContent = "Calling...";
+  callTimer.textContent = "00:00";
+  startCallTalk.textContent = "Talk";
+  setupRecognition();
+  startRinging();
+  connectTimeout = window.setTimeout(connectFakeCall, 3800);
+}
 
-  if (!callTranscript.children.length) {
-    const greeting = "I'm here. Ask me about the menu, or tell me what kind of dinner you want.";
-    appendCallLine("agent", greeting);
-    speak(greeting);
+function connectFakeCall() {
+  if (!callActive) {
+    return;
   }
 
-  setupRecognition();
-  callTextInput.focus();
+  callConnected = true;
+  callStartedAt = Date.now();
+  stopRinging();
+  callScreen.classList.remove("calling");
+  callScreen.classList.add("connected");
+  callStatus.textContent = SpeechRecognition ? "Connected" : "Connected - type or use keyboard dictation";
+  startCallTimer();
+
+  const greeting = `Hi, it's ${getContactName()}. I'm here with you. Ask me about the menu or tell me what kind of dinner you want.`;
+  appendCallLine("agent", greeting);
+  speak(greeting);
 }
 
 function endFakeCall() {
   callActive = false;
+  callConnected = false;
   callScreen.hidden = true;
+  callScreen.classList.remove("calling", "connected");
   callScreen.setAttribute("aria-hidden", "true");
-  callStatus.textContent = "Connected";
+  callStatus.textContent = "Calling...";
+  callTimer.textContent = "00:00";
+  clearTimeout(connectTimeout);
+  clearInterval(callTimerInterval);
+  stopRinging();
   window.speechSynthesis?.cancel();
 
   if (recognition) {
@@ -212,7 +253,7 @@ function setupRecognition() {
 }
 
 function startListening() {
-  if (!SpeechRecognition || !recognition) {
+  if (!callConnected || !SpeechRecognition || !recognition) {
     callTextInput.focus();
     return;
   }
@@ -230,7 +271,7 @@ function appendCallLine(role, text) {
 }
 
 function speak(text) {
-  if (!("speechSynthesis" in window)) {
+  if (callMuted || !("speechSynthesis" in window)) {
     return;
   }
 
@@ -239,6 +280,74 @@ function speak(text) {
   utterance.lang = "en-US";
   utterance.rate = 0.95;
   window.speechSynthesis.speak(utterance);
+}
+
+function getContactName() {
+  return localStorage.getItem(CONTACT_NAME_KEY) || "Dining Agent";
+}
+
+function saveContact() {
+  const name = agentContactNameInput.value.trim() || "Dining Agent";
+  localStorage.setItem(CONTACT_NAME_KEY, name);
+  callContactName.textContent = name;
+  callAvatar.textContent = initials(name);
+}
+
+function initials(name) {
+  return name
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((part) => part[0]?.toUpperCase())
+    .join("") || "D";
+}
+
+function startCallTimer() {
+  clearInterval(callTimerInterval);
+  callTimerInterval = window.setInterval(() => {
+    const seconds = Math.floor((Date.now() - callStartedAt) / 1000);
+    const minutes = Math.floor(seconds / 60);
+    const remaining = seconds % 60;
+    callTimer.textContent = `${String(minutes).padStart(2, "0")}:${String(remaining).padStart(2, "0")}`;
+  }, 500);
+}
+
+function startRinging() {
+  stopRinging();
+  navigator.vibrate?.([300, 180, 300]);
+  playRingTone();
+  ringInterval = window.setInterval(playRingTone, 1450);
+}
+
+function stopRinging() {
+  clearInterval(ringInterval);
+  ringInterval = null;
+}
+
+function playRingTone() {
+  try {
+    ringContext = ringContext || new (window.AudioContext || window.webkitAudioContext)();
+    ringContext.resume?.();
+    playTone(440, 0.16, 0);
+    playTone(554, 0.16, 0.2);
+  } catch (error) {
+    // Some iOS modes block Web Audio; the visual ringing state still works.
+  }
+}
+
+function playTone(frequency, duration, delay) {
+  const oscillator = ringContext.createOscillator();
+  const gain = ringContext.createGain();
+  const start = ringContext.currentTime + delay;
+  oscillator.frequency.value = frequency;
+  oscillator.type = "sine";
+  gain.gain.setValueAtTime(0.0001, start);
+  gain.gain.exponentialRampToValueAtTime(0.12, start + 0.03);
+  gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+  oscillator.connect(gain);
+  gain.connect(ringContext.destination);
+  oscillator.start(start);
+  oscillator.stop(start + duration + 0.02);
 }
 
 async function uploadMenu(file) {
@@ -541,6 +650,7 @@ menuImage.addEventListener("change", () => {
 });
 
 document.querySelector("#openProfile").addEventListener("click", () => {
+  agentContactNameInput.value = getContactName();
   profilePanel.classList.add("open");
   profilePanel.setAttribute("aria-hidden", "false");
   loadProfile();
@@ -552,6 +662,7 @@ document.querySelector("#closeProfile").addEventListener("click", () => {
 });
 
 document.querySelector("#clearMemory").addEventListener("click", clearMemory);
+saveContactName.addEventListener("click", saveContact);
 
 document.querySelector("#newSession").addEventListener("click", () => {
   localStorage.removeItem("dining_session_id");
@@ -577,6 +688,16 @@ suggestForm.addEventListener("submit", (event) => {
 
 document.querySelector("#openCall").addEventListener("click", openFakeCall);
 document.querySelector("#endCall").addEventListener("click", endFakeCall);
+document.querySelector("#muteCall").addEventListener("click", () => {
+  callMuted = !callMuted;
+  document.querySelector("#muteCall").classList.toggle("active", callMuted);
+  if (callMuted) {
+    window.speechSynthesis?.cancel();
+  }
+});
+document.querySelector("#speakerCall").addEventListener("click", () => {
+  document.querySelector("#speakerCall").classList.toggle("active");
+});
 startCallTalk.addEventListener("click", startListening);
 sendCallText.addEventListener("click", () => {
   const text = callTextInput.value;
@@ -592,4 +713,7 @@ callTextInput.addEventListener("keydown", (event) => {
   }
 });
 
+agentContactNameInput.value = getContactName();
+callContactName.textContent = getContactName();
+callAvatar.textContent = initials(getContactName());
 menuStatus.textContent = "Send me the menu when you're ready.";
