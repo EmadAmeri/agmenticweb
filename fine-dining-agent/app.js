@@ -22,6 +22,8 @@ const callStatus = document.querySelector("#callStatus");
 const callContactName = document.querySelector("#callContactName");
 const callAvatar = document.querySelector("#callAvatar");
 const callTimer = document.querySelector("#callTimer");
+const callRouteLabel = document.querySelector("#callRouteLabel");
+const incomingShortcuts = document.querySelector("#incomingShortcuts");
 const incomingControls = document.querySelector("#incomingControls");
 const activeCallControls = document.querySelector("#activeCallControls");
 const agentContactNameInput = document.querySelector("#agentContactName");
@@ -34,6 +36,7 @@ let recognition = null;
 let callActive = false;
 let callConnected = false;
 let callMuted = false;
+let speakerEnabled = false;
 let pendingIncomingCall = false;
 let ringInterval = null;
 let ringContext = null;
@@ -168,6 +171,7 @@ function showIncomingCall() {
   callActive = true;
   callConnected = false;
   callMuted = false;
+  speakerEnabled = false;
   pendingIncomingCall = false;
   callScreen.hidden = false;
   callScreen.classList.add("incoming");
@@ -177,6 +181,8 @@ function showIncomingCall() {
   callAvatar.textContent = initials(getContactName());
   callStatus.textContent = "Incoming call";
   callTimer.textContent = "00:00";
+  callRouteLabel.textContent = "mobile";
+  incomingShortcuts.hidden = false;
   incomingControls.hidden = false;
   activeCallControls.hidden = true;
   setupRecognition();
@@ -193,8 +199,11 @@ function connectFakeCall() {
   stopRinging();
   callScreen.classList.remove("incoming", "calling");
   callScreen.classList.add("connected");
+  incomingShortcuts.hidden = true;
   incomingControls.hidden = true;
   activeCallControls.hidden = false;
+  document.querySelector("#speakerCall").classList.remove("active");
+  callRouteLabel.textContent = "iPhone";
   callStatus.textContent = SpeechRecognition ? "Connected" : "Connected - use keyboard dictation";
   startCallTimer();
 
@@ -211,6 +220,8 @@ function endFakeCall() {
   callScreen.setAttribute("aria-hidden", "true");
   callStatus.textContent = "Incoming call";
   callTimer.textContent = "00:00";
+  callRouteLabel.textContent = "mobile";
+  incomingShortcuts.hidden = false;
   incomingControls.hidden = false;
   activeCallControls.hidden = true;
   clearTimeout(incomingTimeout);
@@ -722,7 +733,9 @@ document.querySelector("#muteCall").addEventListener("click", () => {
   }
 });
 document.querySelector("#speakerCall").addEventListener("click", () => {
-  document.querySelector("#speakerCall").classList.toggle("active");
+  speakerEnabled = !speakerEnabled;
+  document.querySelector("#speakerCall").classList.toggle("active", speakerEnabled);
+  callRouteLabel.textContent = speakerEnabled ? "speaker" : "iPhone";
 });
 document.querySelector("#keypadCall").addEventListener("click", () => {
   document.querySelector("#keypadCall").classList.toggle("active");
