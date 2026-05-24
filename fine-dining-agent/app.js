@@ -17,8 +17,17 @@ const suggestModal = document.querySelector("#suggestModal");
 const suggestForm = document.querySelector("#suggestForm");
 const ocrProgress = document.querySelector("#ocrProgress");
 const ocrProgressBar = document.querySelector("#ocrProgressBar");
+const callScreen = document.querySelector("#callScreen");
+const callTranscript = document.querySelector("#callTranscript");
+const callStatus = document.querySelector("#callStatus");
+const startCallTalk = document.querySelector("#startCallTalk");
+const callTextInput = document.querySelector("#callTextInput");
+const sendCallText = document.querySelector("#sendCallText");
 const USE_LOCAL_OCR = true;
+const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 let lastErrorMessage = "";
+let recognition = null;
+let callActive = false;
 
 function getSessionId() {
   let id = localStorage.getItem("dining_session_id");
@@ -100,6 +109,136 @@ async function sendMessage(text) {
   } finally {
     setLoading(false);
   }
+}
+
+async function sendCallMessage(text) {
+  const trimmed = text.trim();
+
+  if (!trimmed) {
+    return;
+  }
+
+  appendCallLine("user", trimmed);
+  appendMessage("user", trimmed);
+  callStatus.textContent = "Thinking...";
+  setLoading(true);
+
+  try {
+    const data = await request("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_id: sessionId, message: trimmed }),
+    });
+    appendCallLine("agent", data.response);
+    appendMessage("agent", data.response);
+    speak(data.response);
+    callStatus.textContent = "Connected";
+  } catch (error) {
+    const message = friendlyError(error);
+    appendCallLine("agent", message);
+    speak(message);
+    callStatus.textContent = "Connection issue";
+  } finally {
+    setLoading(false);
+  }
+}
+
+function openFakeCall() {
+  callActive = true;
+  callScreen.hidden = false;
+  callScreen.setAttribute("aria-hidden", "false");
+  callStatus.textContent = SpeechRecognition ? "Connected" : "Type or use keyboard dictation";
+
+  if (!callTranscript.children.length) {
+    const greeting = "I'm here. Ask me about the menu, or tell me what kind of dinner you want.";
+    appendCallLine("agent", greeting);
+    speak(greeting);
+  }
+
+  setupRecognition();
+  callTextInput.focus();
+}
+
+function endFakeCall() {
+  callActive = false;
+  callScreen.hidden = true;
+  callScreen.setAttribute("aria-hidden", "true");
+  callStatus.textContent = "Connected";
+  window.speechSynthesis?.cancel();
+
+  if (recognition) {
+    recognition.onend = null;
+    recognition.abort();
+  }
+}
+
+function setupRecognition() {
+  if (!SpeechRecognition || recognition) {
+    startCallTalk.textContent = SpeechRecognition ? "Talk" : "Type";
+    return;
+  }
+
+  recognition = new SpeechRecognition();
+  recognition.lang = "en-US";
+  recognition.interimResults = false;
+  recognition.continuous = false;
+
+  recognition.onstart = () => {
+    callStatus.textContent = "Listening...";
+    startCallTalk.textContent = "Listening";
+  };
+
+  recognition.onresult = (event) => {
+    const text = Array.from(event.results)
+      .map((result) => result[0]?.transcript || "")
+      .join(" ")
+      .trim();
+    sendCallMessage(text);
+  };
+
+  recognition.onerror = () => {
+    callStatus.textContent = "Use the text box if the mic is quiet";
+    startCallTalk.textContent = "Talk";
+  };
+
+  recognition.onend = () => {
+    if (callActive) {
+      startCallTalk.textContent = "Talk";
+      if (callStatus.textContent === "Listening...") {
+        callStatus.textContent = "Connected";
+      }
+    }
+  };
+}
+
+function startListening() {
+  if (!SpeechRecognition || !recognition) {
+    callTextInput.focus();
+    return;
+  }
+
+  window.speechSynthesis?.cancel();
+  recognition.start();
+}
+
+function appendCallLine(role, text) {
+  const line = document.createElement("div");
+  line.className = `call-line ${role}`;
+  line.textContent = text;
+  callTranscript.appendChild(line);
+  callTranscript.scrollTop = callTranscript.scrollHeight;
+}
+
+function speak(text) {
+  if (!("speechSynthesis" in window)) {
+    return;
+  }
+
+  window.speechSynthesis.cancel();
+  const utterance = new SpeechSynthesisUtterance(text);
+  utterance.lang = "en-US";
+  utterance.rate = 0.95;
+  window.speechSynthesis.speak(utterance);
 }
 
 async function uploadMenu(file) {
@@ -434,6 +573,23 @@ suggestForm.addEventListener("submit", (event) => {
     document.querySelector("#occasionInput").value.trim() || "casual dinner",
     document.querySelector("#coursesInput").value || 3,
   );
+});
+
+document.querySelector("#openCall").addEventListener("click", openFakeCall);
+document.querySelector("#endCall").addEventListener("click", endFakeCall);
+startCallTalk.addEventListener("click", startListening);
+sendCallText.addEventListener("click", () => {
+  const text = callTextInput.value;
+  callTextInput.value = "";
+  sendCallMessage(text);
+});
+callTextInput.addEventListener("keydown", (event) => {
+  if (event.key === "Enter") {
+    event.preventDefault();
+    const text = callTextInput.value;
+    callTextInput.value = "";
+    sendCallMessage(text);
+  }
 });
 
 menuStatus.textContent = "Send me the menu when you're ready.";
