@@ -18,14 +18,12 @@ const suggestForm = document.querySelector("#suggestForm");
 const ocrProgress = document.querySelector("#ocrProgress");
 const ocrProgressBar = document.querySelector("#ocrProgressBar");
 const callScreen = document.querySelector("#callScreen");
-const callTranscript = document.querySelector("#callTranscript");
 const callStatus = document.querySelector("#callStatus");
 const callContactName = document.querySelector("#callContactName");
 const callAvatar = document.querySelector("#callAvatar");
 const callTimer = document.querySelector("#callTimer");
-const startCallTalk = document.querySelector("#startCallTalk");
-const callTextInput = document.querySelector("#callTextInput");
-const sendCallText = document.querySelector("#sendCallText");
+const incomingControls = document.querySelector("#incomingControls");
+const activeCallControls = document.querySelector("#activeCallControls");
 const agentContactNameInput = document.querySelector("#agentContactName");
 const saveContactName = document.querySelector("#saveContactName");
 const USE_LOCAL_OCR = true;
@@ -36,11 +34,13 @@ let recognition = null;
 let callActive = false;
 let callConnected = false;
 let callMuted = false;
+let pendingIncomingCall = false;
 let ringInterval = null;
 let ringContext = null;
-let connectTimeout = null;
+let incomingTimeout = null;
 let callTimerInterval = null;
 let callStartedAt = null;
+let microphoneStream = null;
 
 function getSessionId() {
   let id = localStorage.getItem("dining_session_id");
@@ -131,10 +131,8 @@ async function sendCallMessage(text) {
     return;
   }
 
-  appendCallLine("user", trimmed);
   appendMessage("user", trimmed);
   callStatus.textContent = "Thinking...";
-  setLoading(true);
 
   try {
     const data = await request("/chat", {
@@ -142,38 +140,47 @@ async function sendCallMessage(text) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session_id: sessionId, message: trimmed }),
     });
-    appendCallLine("agent", data.response);
     appendMessage("agent", data.response);
     speak(data.response);
     callStatus.textContent = "Connected";
   } catch (error) {
     const message = friendlyError(error);
-    appendCallLine("agent", message);
     speak(message);
     callStatus.textContent = "Connection issue";
-  } finally {
-    setLoading(false);
   }
 }
 
 function openFakeCall() {
+  if (callActive || pendingIncomingCall) {
+    return;
+  }
+
+  pendingIncomingCall = true;
+  requestMicrophonePermission();
+  incomingTimeout = window.setTimeout(showIncomingCall, 2800);
+}
+
+function showIncomingCall() {
+  if (!pendingIncomingCall) {
+    return;
+  }
+
   callActive = true;
   callConnected = false;
   callMuted = false;
+  pendingIncomingCall = false;
   callScreen.hidden = false;
-  callScreen.classList.add("calling");
-  callScreen.classList.remove("connected");
+  callScreen.classList.add("incoming");
+  callScreen.classList.remove("calling", "connected");
   callScreen.setAttribute("aria-hidden", "false");
-  callTranscript.textContent = "";
-  callTextInput.value = "";
   callContactName.textContent = getContactName();
   callAvatar.textContent = initials(getContactName());
-  callStatus.textContent = "Calling...";
+  callStatus.textContent = "Incoming call";
   callTimer.textContent = "00:00";
-  startCallTalk.textContent = "Talk";
+  incomingControls.hidden = false;
+  activeCallControls.hidden = true;
   setupRecognition();
   startRinging();
-  connectTimeout = window.setTimeout(connectFakeCall, 3800);
 }
 
 function connectFakeCall() {
@@ -184,25 +191,29 @@ function connectFakeCall() {
   callConnected = true;
   callStartedAt = Date.now();
   stopRinging();
-  callScreen.classList.remove("calling");
+  callScreen.classList.remove("incoming", "calling");
   callScreen.classList.add("connected");
-  callStatus.textContent = SpeechRecognition ? "Connected" : "Connected - type or use keyboard dictation";
+  incomingControls.hidden = true;
+  activeCallControls.hidden = false;
+  callStatus.textContent = SpeechRecognition ? "Connected" : "Connected - use keyboard dictation";
   startCallTimer();
 
-  const greeting = `Hi, it's ${getContactName()}. I'm here with you. Ask me about the menu or tell me what kind of dinner you want.`;
-  appendCallLine("agent", greeting);
+  const greeting = `Hi, it's ${getContactName()}. I'm here with you.`;
   speak(greeting);
 }
 
 function endFakeCall() {
   callActive = false;
   callConnected = false;
+  pendingIncomingCall = false;
   callScreen.hidden = true;
-  callScreen.classList.remove("calling", "connected");
+  callScreen.classList.remove("incoming", "calling", "connected");
   callScreen.setAttribute("aria-hidden", "true");
-  callStatus.textContent = "Calling...";
+  callStatus.textContent = "Incoming call";
   callTimer.textContent = "00:00";
-  clearTimeout(connectTimeout);
+  incomingControls.hidden = false;
+  activeCallControls.hidden = true;
+  clearTimeout(incomingTimeout);
   clearInterval(callTimerInterval);
   stopRinging();
   window.speechSynthesis?.cancel();
@@ -215,7 +226,6 @@ function endFakeCall() {
 
 function setupRecognition() {
   if (!SpeechRecognition || recognition) {
-    startCallTalk.textContent = SpeechRecognition ? "Talk" : "Type";
     return;
   }
 
@@ -226,7 +236,6 @@ function setupRecognition() {
 
   recognition.onstart = () => {
     callStatus.textContent = "Listening...";
-    startCallTalk.textContent = "Listening";
   };
 
   recognition.onresult = (event) => {
@@ -238,40 +247,37 @@ function setupRecognition() {
   };
 
   recognition.onerror = () => {
-    callStatus.textContent = "Use the text box if the mic is quiet";
-    startCallTalk.textContent = "Talk";
+    callStatus.textContent = "Connected";
   };
 
   recognition.onend = () => {
-    if (callActive) {
-      startCallTalk.textContent = "Talk";
+    if (callConnected) {
       if (callStatus.textContent === "Listening...") {
         callStatus.textContent = "Connected";
       }
+      window.setTimeout(startListening, 500);
     }
   };
 }
 
 function startListening() {
   if (!callConnected || !SpeechRecognition || !recognition) {
-    callTextInput.focus();
     return;
   }
 
   window.speechSynthesis?.cancel();
-  recognition.start();
-}
-
-function appendCallLine(role, text) {
-  const line = document.createElement("div");
-  line.className = `call-line ${role}`;
-  line.textContent = text;
-  callTranscript.appendChild(line);
-  callTranscript.scrollTop = callTranscript.scrollHeight;
+  try {
+    recognition.start();
+  } catch (error) {
+    // SpeechRecognition throws if it is already active.
+  }
 }
 
 function speak(text) {
   if (callMuted || !("speechSynthesis" in window)) {
+    if (callConnected) {
+      startListening();
+    }
     return;
   }
 
@@ -279,7 +285,25 @@ function speak(text) {
   const utterance = new SpeechSynthesisUtterance(text);
   utterance.lang = "en-US";
   utterance.rate = 0.95;
+  utterance.onend = () => {
+    if (callConnected) {
+      startListening();
+    }
+  };
   window.speechSynthesis.speak(utterance);
+}
+
+async function requestMicrophonePermission() {
+  if (!navigator.mediaDevices?.getUserMedia || microphoneStream) {
+    return;
+  }
+
+  try {
+    microphoneStream = await navigator.mediaDevices.getUserMedia({ audio: true });
+    microphoneStream.getTracks().forEach((track) => track.stop());
+  } catch (error) {
+    // iOS may require the actual Accept tap; SpeechRecognition will ask again then.
+  }
 }
 
 function getContactName() {
@@ -688,6 +712,8 @@ suggestForm.addEventListener("submit", (event) => {
 
 document.querySelector("#openCall").addEventListener("click", openFakeCall);
 document.querySelector("#endCall").addEventListener("click", endFakeCall);
+document.querySelector("#declineCall").addEventListener("click", endFakeCall);
+document.querySelector("#acceptCall").addEventListener("click", connectFakeCall);
 document.querySelector("#muteCall").addEventListener("click", () => {
   callMuted = !callMuted;
   document.querySelector("#muteCall").classList.toggle("active", callMuted);
@@ -698,22 +724,15 @@ document.querySelector("#muteCall").addEventListener("click", () => {
 document.querySelector("#speakerCall").addEventListener("click", () => {
   document.querySelector("#speakerCall").classList.toggle("active");
 });
-startCallTalk.addEventListener("click", startListening);
-sendCallText.addEventListener("click", () => {
-  const text = callTextInput.value;
-  callTextInput.value = "";
-  sendCallMessage(text);
+document.querySelector("#keypadCall").addEventListener("click", () => {
+  document.querySelector("#keypadCall").classList.toggle("active");
 });
-callTextInput.addEventListener("keydown", (event) => {
-  if (event.key === "Enter") {
-    event.preventDefault();
-    const text = callTextInput.value;
-    callTextInput.value = "";
-    sendCallMessage(text);
-  }
+document.querySelector("#contactsCall").addEventListener("click", () => {
+  document.querySelector("#contactsCall").classList.toggle("active");
 });
 
 agentContactNameInput.value = getContactName();
 callContactName.textContent = getContactName();
 callAvatar.textContent = initials(getContactName());
 menuStatus.textContent = "Send me the menu when you're ready.";
+requestMicrophonePermission();

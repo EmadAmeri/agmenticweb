@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#B8420F">
     <title>Dining Agent</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css?v=10">
+    <link rel="stylesheet" href="./style.css?v=11">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   </head>
   <body>
@@ -88,24 +88,25 @@
         <p>mobile</p>
         <div class="call-avatar" id="callAvatar">D</div>
         <h2 id="callContactName">Dining Agent</h2>
-        <span id="callStatus">Calling...</span>
+        <span id="callStatus">Incoming call</span>
         <strong id="callTimer">00:00</strong>
         <div class="ring-pulse" aria-hidden="true"><span></span><span></span><span></span></div>
       </div>
-      <div class="call-transcript" id="callTranscript" aria-live="polite"></div>
-      <div class="call-input-row" id="callInputRow">
-        <input id="callTextInput" type="text" placeholder="Say or type your question..." autocomplete="off">
-        <button id="sendCallText" type="button">Send</button>
+      <div class="call-spacer" aria-hidden="true"></div>
+      <div class="incoming-controls" id="incomingControls">
+        <button class="call-control decline" id="declineCall" type="button">Decline</button>
+        <button class="call-control accept" id="acceptCall" type="button">Accept</button>
       </div>
-      <div class="call-controls">
+      <div class="call-controls" id="activeCallControls" hidden>
         <button class="call-control secondary" id="muteCall" type="button">Mute</button>
-        <button class="call-control talk" id="startCallTalk" type="button">Talk</button>
+        <button class="call-control secondary" id="keypadCall" type="button">Keypad</button>
         <button class="call-control secondary" id="speakerCall" type="button">Speaker</button>
+        <button class="call-control secondary" id="contactsCall" type="button">Contacts</button>
         <button class="call-control end" id="endCall" type="button">End</button>
       </div>
     </section>
 
-    <script src="./app.js?v=10"></script>
+    <script src="./app.js?v=11"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");

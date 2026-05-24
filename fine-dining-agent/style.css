@@ -357,7 +357,7 @@ button {
   inset: 0;
   z-index: 90;
   display: grid;
-  grid-template-rows: auto 1fr auto auto;
+  grid-template-rows: auto 1fr auto;
   gap: 16px;
   padding: max(32px, env(safe-area-inset-top)) 18px max(22px, env(safe-area-inset-bottom));
   background:
@@ -436,73 +436,23 @@ button {
   visibility: hidden;
 }
 
-.call-screen.calling .call-transcript,
-.call-screen.calling .call-input-row {
-  opacity: 0.22;
-  pointer-events: none;
+.call-spacer {
+  min-height: 18vh;
 }
 
-.call-transcript {
-  align-self: stretch;
-  overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  padding: 6px 0;
-}
-
-.call-line {
-  max-width: 86%;
-  padding: 12px 14px;
-  border-radius: 16px;
-  line-height: 1.4;
-  white-space: pre-wrap;
-}
-
-.call-line.user {
-  align-self: flex-end;
-  background: var(--primary);
-  color: var(--background);
-}
-
-.call-line.agent {
-  align-self: flex-start;
-  background: rgba(250, 244, 232, 0.12);
-  border: 1px solid rgba(250, 244, 232, 0.16);
-}
-
-.call-input-row {
-  display: flex;
-  gap: 10px;
-}
-
-.call-input-row input {
-  min-width: 0;
-  flex: 1;
-  border: 1px solid rgba(250, 244, 232, 0.22);
-  border-radius: 999px;
-  background: rgba(250, 244, 232, 0.1);
-  color: var(--background);
-  padding: 14px 16px;
-}
-
-.call-input-row input::placeholder {
-  color: rgba(250, 244, 232, 0.54);
-}
-
-.call-input-row button {
-  border-radius: 999px;
-  background: var(--background);
-  color: var(--text);
-  padding: 0 18px;
-  font-weight: 800;
-}
-
-.call-controls {
+.call-controls,
+.incoming-controls {
   display: grid;
-  grid-template-columns: repeat(4, minmax(64px, 1fr));
+  grid-template-columns: repeat(3, minmax(64px, 1fr));
   justify-content: center;
   gap: 12px;
+}
+
+.incoming-controls {
+  grid-template-columns: 1fr 1fr;
+  max-width: 280px;
+  width: 100%;
+  justify-self: center;
 }
 
 .call-control {
@@ -529,12 +479,18 @@ button {
   color: var(--text);
 }
 
-.call-control.talk {
-  background: #1f7a4d;
+.call-control.accept {
+  background: #1f8f4d;
 }
 
+.call-control.decline,
 .call-control.end {
   background: #bd231b;
+}
+
+.call-control.accept,
+.call-control.decline {
+  max-width: 86px;
 }
 
 .loader {
