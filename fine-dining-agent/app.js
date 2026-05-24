@@ -203,11 +203,18 @@ async function extractMenuText(file, tesseract) {
 async function buildOcrVariants(file) {
   const image = await loadImage(file);
   const midpoint = Math.floor(image.width / 2);
+  const halfHeight = Math.floor(image.height / 2);
+  const overlapX = Math.round(image.width * 0.04);
+  const overlapY = Math.round(image.height * 0.06);
 
   return [
     { canvas: renderOcrCanvas(image, 0, 0, image.width, image.height), psm: "11" },
-    { canvas: renderOcrCanvas(image, 0, 0, midpoint + 24, image.height), psm: "6" },
-    { canvas: renderOcrCanvas(image, Math.max(0, midpoint - 24), 0, image.width - midpoint + 24, image.height), psm: "6" },
+    { canvas: renderOcrCanvas(image, 0, 0, midpoint + overlapX, image.height), psm: "6" },
+    { canvas: renderOcrCanvas(image, Math.max(0, midpoint - overlapX), 0, image.width - midpoint + overlapX, image.height), psm: "6" },
+    { canvas: renderOcrCanvas(image, 0, 0, midpoint + overlapX, halfHeight + overlapY), psm: "6" },
+    { canvas: renderOcrCanvas(image, 0, Math.max(0, halfHeight - overlapY), midpoint + overlapX, image.height - halfHeight + overlapY), psm: "6" },
+    { canvas: renderOcrCanvas(image, Math.max(0, midpoint - overlapX), 0, image.width - midpoint + overlapX, halfHeight + overlapY), psm: "6" },
+    { canvas: renderOcrCanvas(image, Math.max(0, midpoint - overlapX), Math.max(0, halfHeight - overlapY), image.width - midpoint + overlapX, image.height - halfHeight + overlapY), psm: "6" },
   ];
 }
 
@@ -221,7 +228,7 @@ function loadImage(file) {
 }
 
 function renderOcrCanvas(image, sourceX, sourceY, sourceWidth, sourceHeight) {
-  const scale = Math.max(2, Math.min(4, 2200 / Math.max(sourceWidth, sourceHeight)));
+  const scale = Math.max(2.5, Math.min(5, 2600 / Math.max(sourceWidth, sourceHeight)));
   const canvas = document.createElement("canvas");
   canvas.width = Math.round(sourceWidth * scale);
   canvas.height = Math.round(sourceHeight * scale);
