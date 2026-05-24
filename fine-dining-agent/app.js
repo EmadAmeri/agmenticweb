@@ -1,15 +1,17 @@
 const API_BASE = ["localhost", "127.0.0.1"].includes(window.location.hostname)
   ? window.location.origin
-  : "https://api-dining.agmentic.com";
+  : "https://elevation-beatles-buried-contrast.trycloudflare.com";
 
 const sessionId = getSessionId();
 const conversation = document.querySelector("#conversation");
 const chatForm = document.querySelector("#chatForm");
 const chatInput = document.querySelector("#chatInput");
 const cameraButton = document.querySelector("#cameraButton");
+const locationButton = document.querySelector("#locationButton");
 const menuImage = document.querySelector("#menuImage");
 const menuPreview = document.querySelector("#menuPreview");
 const menuStatus = document.querySelector("#menuStatus");
+const restaurantList = document.querySelector("#restaurantList");
 const loader = document.querySelector("#loader");
 const profilePanel = document.querySelector("#profilePanel");
 const profileContent = document.querySelector("#profileContent");
@@ -438,6 +440,93 @@ async function uploadMenu(file) {
   }
 }
 
+async function findRestaurantFromLocation() {
+  if (!navigator.geolocation) {
+    menuStatus.textContent = "Location is not available in this browser.";
+    return;
+  }
+
+  restaurantList.hidden = true;
+  restaurantList.innerHTML = "";
+  menuStatus.textContent = "Checking restaurants near you...";
+  setLoading(true);
+
+  try {
+    const position = await getCurrentPosition();
+    const data = await request("/location/restaurants", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        session_id: sessionId,
+        latitude: position.coords.latitude,
+        longitude: position.coords.longitude,
+      }),
+    });
+
+    renderRestaurants(data.restaurants || []);
+  } catch (error) {
+    menuStatus.textContent = `${friendlyError(error)} (${error.message || "location"})`;
+  } finally {
+    setLoading(false);
+  }
+}
+
+function getCurrentPosition() {
+  return new Promise((resolve, reject) => {
+    navigator.geolocation.getCurrentPosition(resolve, reject, {
+      enableHighAccuracy: true,
+      timeout: 12000,
+      maximumAge: 60000,
+    });
+  });
+}
+
+function renderRestaurants(restaurants) {
+  if (!restaurants.length) {
+    menuStatus.textContent = "I could not find a nearby restaurant. Photograph the menu instead.";
+    return;
+  }
+
+  restaurantList.hidden = false;
+  restaurantList.innerHTML = "";
+  menuStatus.textContent = "Pick the restaurant you're in.";
+
+  restaurants.forEach((restaurant) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = "restaurant-option";
+    button.innerHTML = `
+      <strong>${escapeHtml(restaurant.name)}</strong>
+      <span>${restaurant.distance_m}m away${restaurant.cuisine ? ` · ${escapeHtml(restaurant.cuisine)}` : ""}</span>
+    `;
+    button.addEventListener("click", () => loadOnlineMenu(restaurant));
+    restaurantList.appendChild(button);
+  });
+}
+
+async function loadOnlineMenu(restaurant) {
+  menuStatus.textContent = `Looking for ${restaurant.name}'s online menu...`;
+  setLoading(true);
+
+  try {
+    const data = await request("/location/menu", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_id: sessionId, restaurant }),
+    });
+    restaurantList.hidden = true;
+    menuStatus.textContent = `Loaded ${data.items_count} items from ${restaurant.name}.`;
+  } catch (error) {
+    if (error.status === 404) {
+      menuStatus.textContent = "I found the restaurant, but not an online menu. Photograph the menu instead.";
+    } else {
+      menuStatus.textContent = `${friendlyError(error)} (${error.status || "network"}: ${error.message})`;
+    }
+  } finally {
+    setLoading(false);
+  }
+}
+
 async function loadTesseract() {
   if (window.Tesseract) {
     return window.Tesseract;
@@ -675,6 +764,7 @@ chatForm.addEventListener("submit", (event) => {
 });
 
 cameraButton.addEventListener("click", () => menuImage.click());
+locationButton.addEventListener("click", findRestaurantFromLocation);
 
 menuImage.addEventListener("change", () => {
   const file = menuImage.files[0];

@@ -1,9 +1,9 @@
-const CACHE_NAME = "dining-agent-shell-v12";
+const CACHE_NAME = "dining-agent-shell-v14";
 const SHELL_ASSETS = [
   "./",
   "./index.html",
-  "./style.css?v=12",
-  "./app.js?v=12",
+  "./style.css?v=14",
+  "./app.js?v=14",
   "./manifest.json",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
@@ -35,7 +35,11 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  if (["/chat", "/menu", "/menu/text", "/suggest"].includes(url.pathname) || url.pathname.startsWith("/profile")) {
+  if (
+    ["/chat", "/menu", "/menu/text", "/suggest"].includes(url.pathname)
+    || url.pathname.startsWith("/profile")
+    || url.pathname.startsWith("/location")
+  ) {
     event.respondWith(
       fetch(event.request).catch(() => (
         new Response(JSON.stringify({ detail: "offline" }), {
