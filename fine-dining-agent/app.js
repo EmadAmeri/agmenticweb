@@ -1,6 +1,6 @@
 const API_BASE = ["localhost", "127.0.0.1"].includes(window.location.hostname)
   ? window.location.origin
-  : "https://elevation-beatles-buried-contrast.trycloudflare.com";
+  : "https://api-dining.agmentic.com";
 
 const sessionId = getSessionId();
 const conversation = document.querySelector("#conversation");
