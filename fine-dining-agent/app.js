@@ -453,6 +453,10 @@ async function findRestaurantFromLocation() {
 
   try {
     const position = await getCurrentPosition();
+    const accuracy = Math.round(position.coords.accuracy || 0);
+    menuStatus.textContent = accuracy
+      ? `Location found, accuracy about ${accuracy}m. Checking restaurants...`
+      : "Location found. Checking restaurants...";
     const data = await request("/location/restaurants", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -460,6 +464,7 @@ async function findRestaurantFromLocation() {
         session_id: sessionId,
         latitude: position.coords.latitude,
         longitude: position.coords.longitude,
+        accuracy: position.coords.accuracy,
       }),
     });
 
