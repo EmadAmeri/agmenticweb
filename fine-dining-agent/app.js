@@ -12,6 +12,9 @@ const menuImage = document.querySelector("#menuImage");
 const menuPreview = document.querySelector("#menuPreview");
 const menuStatus = document.querySelector("#menuStatus");
 const restaurantList = document.querySelector("#restaurantList");
+const providerToggle = document.querySelector("#providerToggle");
+const providerLabel = document.querySelector("#providerLabel");
+const localModelStatus = document.querySelector("#localModelStatus");
 const loader = document.querySelector("#loader");
 const profilePanel = document.querySelector("#profilePanel");
 const profileContent = document.querySelector("#profileContent");
@@ -33,7 +36,15 @@ const saveContactName = document.querySelector("#saveContactName");
 const USE_LOCAL_OCR = true;
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const CONTACT_NAME_KEY = "dining_agent_contact_name";
+const PROVIDER_MODE_KEY = "dining_provider_mode";
+const LOCAL_MENU_TEXT_KEY = "dining_local_menu_text";
+const LOCAL_MODEL_ID = "SmolLM2-360M-Instruct-q4f32_1-MLC";
+const WEBLLM_URL = "https://esm.run/@mlc-ai/web-llm";
 let lastErrorMessage = "";
+let providerMode = localStorage.getItem(PROVIDER_MODE_KEY) || "cloud";
+let localEngine = null;
+let localModelPromise = null;
+let localChatHistory = [];
 let recognition = null;
 let callActive = false;
 let callConnected = false;
@@ -111,19 +122,131 @@ async function request(path, options = {}) {
   return response.json();
 }
 
+function isLocalMode() {
+  return providerMode === "local";
+}
+
+function setProviderMode(mode) {
+  providerMode = mode;
+  localStorage.setItem(PROVIDER_MODE_KEY, mode);
+  updateProviderToggle();
+
+  if (isLocalMode()) {
+    localModelStatus.textContent = "Local mode: answers stay on this device.";
+  } else {
+    localModelStatus.textContent = "Cloud mode: using the current API.";
+  }
+}
+
+function updateProviderToggle() {
+  const local = isLocalMode();
+  providerToggle.classList.toggle("local", local);
+  providerToggle.setAttribute("aria-pressed", String(local));
+  providerLabel.textContent = local ? "Local" : "Cloud";
+}
+
+async function getLocalEngine() {
+  if (localEngine) {
+    return localEngine;
+  }
+
+  if (!navigator.gpu) {
+    throw new Error("Local AI needs WebGPU. Try Safari/Chrome updates, or use Cloud mode.");
+  }
+
+  if (!localModelPromise) {
+    localModelStatus.textContent = "Loading local model for the first time...";
+    localModelPromise = import(WEBLLM_URL).then((webllm) => (
+      webllm.CreateMLCEngine(
+        LOCAL_MODEL_ID,
+        {
+          initProgressCallback: (report) => {
+            const percent = Number.isFinite(report.progress)
+              ? ` ${Math.round(report.progress * 100)}%`
+              : "";
+            localModelStatus.textContent = `${report.text || "Loading local model..."}${percent}`;
+          },
+        },
+        { context_window_size: 2048 },
+      )
+    )).then((engine) => {
+      localEngine = engine;
+      localModelStatus.textContent = "Local model ready.";
+      return engine;
+    }).catch((error) => {
+      localModelPromise = null;
+      throw error;
+    });
+  }
+
+  return localModelPromise;
+}
+
+function saveLocalMenuText(text) {
+  localStorage.setItem(LOCAL_MENU_TEXT_KEY, text);
+}
+
+function getLocalMenuText() {
+  return localStorage.getItem(LOCAL_MENU_TEXT_KEY) || "";
+}
+
+async function localChat(text) {
+  const menuText = getLocalMenuText();
+
+  if (!menuText) {
+    throw new Error("Local mode needs a photographed menu first.");
+  }
+
+  const engine = await getLocalEngine();
+  const menuContext = menuText.slice(0, 5200);
+  const messages = [
+    {
+      role: "system",
+      content: [
+        "You are Dining, a calm fine-dining companion.",
+        "Answer in 1-3 short lines.",
+        "Use plain everyday language.",
+        "Use only the menu text and the user's message.",
+        "If the menu text is unclear, say so simply.",
+        "Never invent dishes that are not in the menu text.",
+        "",
+        `Menu text:\n${menuContext}`,
+      ].join("\n"),
+    },
+    ...localChatHistory.slice(-6),
+    { role: "user", content: text },
+  ];
+  const completion = await engine.chat.completions.create({
+    messages,
+    temperature: 0.4,
+    max_tokens: 140,
+  });
+  const response = completion.choices?.[0]?.message?.content?.trim() || "I could not answer that locally yet.";
+  localChatHistory.push({ role: "user", content: text }, { role: "assistant", content: response });
+  return response;
+}
+
+async function generateAgentResponse(text) {
+  if (isLocalMode()) {
+    return localChat(text);
+  }
+
+  const data = await request("/chat", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ session_id: sessionId, message: text }),
+  });
+  return data.response;
+}
+
 async function sendMessage(text) {
   appendMessage("user", text);
   setLoading(true);
 
   try {
-    const data = await request("/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ session_id: sessionId, message: text }),
-    });
-    appendMessage("agent", data.response);
+    appendMessage("agent", await generateAgentResponse(text));
   } catch (error) {
-    appendError(friendlyError(error));
+    appendError(isLocalMode() ? error.message : friendlyError(error));
   } finally {
     setLoading(false);
   }
@@ -140,16 +263,12 @@ async function sendCallMessage(text) {
   callStatus.textContent = "Thinking...";
 
   try {
-    const data = await request("/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ session_id: sessionId, message: trimmed }),
-    });
-    appendMessage("agent", data.response);
-    speak(data.response);
+    const response = await generateAgentResponse(trimmed);
+    appendMessage("agent", response);
+    speak(response);
     callStatus.textContent = "Connected";
   } catch (error) {
-    const message = friendlyError(error);
+    const message = isLocalMode() ? error.message : friendlyError(error);
     speak(message);
     callStatus.textContent = "Connection issue";
   }
@@ -407,6 +526,7 @@ async function uploadMenu(file) {
     }
 
     const { text, confidence } = await extractMenuText(file, tesseract);
+    saveLocalMenuText(text);
     console.debug("OCR text extracted", {
       confidence,
       lines: text.split("\n").filter(Boolean).length,
@@ -417,6 +537,12 @@ async function uploadMenu(file) {
       menuStatus.textContent = "The photo was hard to read, but I found some text. Loading it now...";
     } else {
       menuStatus.textContent = "Menu text found. Structuring it...";
+    }
+
+    if (isLocalMode()) {
+      const lineCount = text.split("\n").filter(Boolean).length;
+      menuStatus.textContent = `Local menu text ready (${lineCount} lines). Ask me anything.`;
+      return;
     }
 
     const data = await request("/menu/text", {
@@ -510,6 +636,11 @@ function renderRestaurants(restaurants) {
 }
 
 async function loadOnlineMenu(restaurant) {
+  if (isLocalMode()) {
+    menuStatus.textContent = "Local mode cannot read online menus yet. Photograph the menu to test local AI.";
+    return;
+  }
+
   menuStatus.textContent = `Looking for ${restaurant.name}'s online menu...`;
   setLoading(true);
 
@@ -678,6 +809,14 @@ async function suggestMeal(occasion, numCourses) {
   setLoading(true);
 
   try {
+    if (isLocalMode()) {
+      const response = await localChat(
+        `Build me a ${Number(numCourses)} course meal for ${occasion}. Give each course and a short reason.`,
+      );
+      appendMessage("agent", response);
+      return;
+    }
+
     const meal = await request("/suggest", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -690,7 +829,7 @@ async function suggestMeal(occasion, numCourses) {
 
     appendMessage("agent", formatMeal(meal));
   } catch (error) {
-    appendError(friendlyError(error));
+    appendError(isLocalMode() ? error.message : friendlyError(error));
   } finally {
     setLoading(false);
   }
@@ -793,9 +932,13 @@ document.querySelector("#closeProfile").addEventListener("click", () => {
 
 document.querySelector("#clearMemory").addEventListener("click", clearMemory);
 saveContactName.addEventListener("click", saveContact);
+providerToggle.addEventListener("click", () => {
+  setProviderMode(isLocalMode() ? "cloud" : "local");
+});
 
 document.querySelector("#newSession").addEventListener("click", () => {
   localStorage.removeItem("dining_session_id");
+  localStorage.removeItem(LOCAL_MENU_TEXT_KEY);
   window.location.reload();
 });
 
@@ -843,4 +986,8 @@ agentContactNameInput.value = getContactName();
 callContactName.textContent = getContactName();
 callAvatar.textContent = initials(getContactName());
 menuStatus.textContent = "Send me the menu when you're ready.";
+updateProviderToggle();
+localModelStatus.textContent = isLocalMode()
+  ? "Local mode: photograph a menu, then ask a short question."
+  : "Cloud mode: using the current API.";
 requestMicrophonePermission();

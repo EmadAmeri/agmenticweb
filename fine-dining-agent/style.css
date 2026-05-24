@@ -53,6 +53,12 @@ button {
   padding: 6px 0 18px;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .app-header h1,
 .panel-header h2,
 .modal h2 {
@@ -72,6 +78,14 @@ button {
   color: var(--muted);
 }
 
+.local-status {
+  min-height: 1.2em;
+  margin: 8px 0 0;
+  color: var(--primary);
+  font-size: 0.92rem;
+  font-weight: 650;
+}
+
 .icon-button {
   display: grid;
   place-items: center;
@@ -81,6 +95,21 @@ button {
   background: var(--surface);
   color: var(--text);
   box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.provider-toggle {
+  min-width: 76px;
+  height: 38px;
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--text);
+  font-weight: 800;
+  box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.provider-toggle.local {
+  background: var(--text);
+  color: var(--background);
 }
 
 .camera-card,

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#B8420F">
     <title>Dining Agent</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css?v=16">
+    <link rel="stylesheet" href="./style.css?v=17">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   </head>
   <body>
@@ -16,7 +16,12 @@
           <h1>Dining</h1>
           <p>your dinner companion</p>
         </div>
-        <button class="icon-button" id="openProfile" aria-label="Open profile">☰</button>
+        <div class="header-actions">
+          <button class="provider-toggle" id="providerToggle" type="button" aria-pressed="false">
+            <span id="providerLabel">Cloud</span>
+          </button>
+          <button class="icon-button" id="openProfile" aria-label="Open profile">☰</button>
+        </div>
       </header>
 
       <main>
@@ -30,6 +35,7 @@
           </div>
           <div class="restaurant-list" id="restaurantList" hidden></div>
           <p class="status-text" id="menuStatus">Start by adding the menu in front of you.</p>
+          <p class="local-status" id="localModelStatus"></p>
         </section>
 
         <section class="chat-card">
@@ -118,7 +124,7 @@
       </div>
     </section>
 
-    <script src="./app.js?v=16"></script>
+    <script src="./app.js?v=17"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");
