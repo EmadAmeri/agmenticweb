@@ -38,6 +38,7 @@ const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecogni
 const CONTACT_NAME_KEY = "dining_agent_contact_name";
 const PROVIDER_MODE_KEY = "dining_provider_mode";
 const LOCAL_MENU_TEXT_KEY = "dining_local_menu_text";
+const LOCAL_MENU_DATA_KEY = "dining_local_menu_data";
 const LOCAL_MODEL_ID = "SmolLM2-360M-Instruct-q4f32_1-MLC";
 const WEBLLM_URL = "https://esm.run/@mlc-ai/web-llm";
 let lastErrorMessage = "";
@@ -190,15 +191,71 @@ function getLocalMenuText() {
   return localStorage.getItem(LOCAL_MENU_TEXT_KEY) || "";
 }
 
-async function localChat(text) {
-  const menuText = getLocalMenuText();
+function saveStructuredMenu(data, rawText = "") {
+  const payload = {
+    menu: data.menu || null,
+    restaurant: data.restaurant || null,
+    source_url: data.source_url || data.restaurant?.source_url || "",
+    items_count: data.items_count || data.menu?.items?.length || 0,
+    restaurant_type: data.restaurant_type || data.menu?.restaurant_type || "",
+    raw_text_preview: rawText.slice(0, 1800),
+    saved_at: new Date().toISOString(),
+  };
+  localStorage.setItem(LOCAL_MENU_DATA_KEY, JSON.stringify(payload));
+}
 
-  if (!menuText) {
-    throw new Error("Local mode needs a photographed menu first.");
+function getStructuredMenu() {
+  try {
+    return JSON.parse(localStorage.getItem(LOCAL_MENU_DATA_KEY) || "null");
+  } catch (error) {
+    return null;
+  }
+}
+
+function localMenuPromptContext() {
+  const structured = getStructuredMenu();
+
+  if (structured?.menu?.items?.length) {
+    const restaurant = structured.restaurant || {};
+    const menu = structured.menu;
+    const restaurantLines = [
+      restaurant.name ? `Name: ${restaurant.name}` : "",
+      restaurant.address ? `Address: ${restaurant.address}` : "",
+      restaurant.cuisine ? `Cuisine: ${restaurant.cuisine}` : "",
+      restaurant.distance_m ? `Distance: ${restaurant.distance_m}m` : "",
+      restaurant.source_url ? `Menu source: ${restaurant.source_url}` : "",
+    ].filter(Boolean).join("\n");
+    const itemLines = menu.items.slice(0, 80).map((item) => (
+      `- ${item.name} | ${item.section || "Menu"} | ${item.price || ""} | ${item.description || ""}`
+    )).join("\n");
+
+    return [
+      "Structured restaurant context:",
+      restaurantLines || "No restaurant name available.",
+      "",
+      `Menu type: ${menu.restaurant_type || structured.restaurant_type || "restaurant"}`,
+      `Menu language: ${menu.language || "unknown"}`,
+      "Structured menu items:",
+      itemLines,
+    ].join("\n");
+  }
+
+  const menuText = getLocalMenuText();
+  if (menuText) {
+    return `Raw OCR menu text:\n${menuText.slice(0, 5200)}`;
+  }
+
+  return "";
+}
+
+async function localChat(text) {
+  const menuContext = localMenuPromptContext();
+
+  if (!menuContext) {
+    throw new Error("Local mode needs a structured menu first. Photograph the menu or load an online menu.");
   }
 
   const engine = await getLocalEngine();
-  const menuContext = menuText.slice(0, 5200);
   const messages = [
     {
       role: "system",
@@ -206,11 +263,13 @@ async function localChat(text) {
         "You are Dining, a calm fine-dining companion.",
         "Answer in 1-3 short lines.",
         "Use plain everyday language.",
-        "Use only the menu text and the user's message.",
-        "If the menu text is unclear, say so simply.",
-        "Never invent dishes that are not in the menu text.",
+        "Use the structured restaurant and menu context as the main source.",
+        "You may use general food knowledge to explain ingredients, taste, texture, and pairings.",
+        "Do not invent menu items, prices, or restaurant facts.",
+        "When explaining a dish, say what it is, how it tends to taste, and who might like it.",
+        "If the menu context is unclear, say that simply.",
         "",
-        `Menu text:\n${menuContext}`,
+        menuContext,
       ].join("\n"),
     },
     ...localChatHistory.slice(-6),
@@ -539,12 +598,6 @@ async function uploadMenu(file) {
       menuStatus.textContent = "Menu text found. Structuring it...";
     }
 
-    if (isLocalMode()) {
-      const lineCount = text.split("\n").filter(Boolean).length;
-      menuStatus.textContent = `Local menu text ready (${lineCount} lines). Ask me anything.`;
-      return;
-    }
-
     const data = await request("/menu/text", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -556,7 +609,10 @@ async function uploadMenu(file) {
       }
       throw error;
     });
-    menuStatus.textContent = `Loaded ${data.items_count} items from this menu.`;
+    saveStructuredMenu(data, text);
+    menuStatus.textContent = isLocalMode()
+      ? `Structured ${data.items_count} items for local AI. Ask me anything.`
+      : `Loaded ${data.items_count} items from this menu.`;
   } catch (error) {
     console.error("Menu upload failed", error);
     menuStatus.textContent = `${friendlyError(error)} (${error.status || "network"}: ${error.message})`;
@@ -636,11 +692,6 @@ function renderRestaurants(restaurants) {
 }
 
 async function loadOnlineMenu(restaurant) {
-  if (isLocalMode()) {
-    menuStatus.textContent = "Local mode cannot read online menus yet. Photograph the menu to test local AI.";
-    return;
-  }
-
   menuStatus.textContent = `Looking for ${restaurant.name}'s online menu...`;
   setLoading(true);
 
@@ -650,8 +701,11 @@ async function loadOnlineMenu(restaurant) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session_id: sessionId, restaurant }),
     });
+    saveStructuredMenu(data);
     restaurantList.hidden = true;
-    menuStatus.textContent = `Loaded ${data.items_count} items from ${restaurant.name}.`;
+    menuStatus.textContent = isLocalMode()
+      ? `Structured ${data.items_count} items from ${restaurant.name} for local AI.`
+      : `Loaded ${data.items_count} items from ${restaurant.name}.`;
   } catch (error) {
     if (error.status === 404) {
       menuStatus.textContent = "I found the restaurant, but not an online menu. Photograph the menu instead.";
@@ -939,6 +993,7 @@ providerToggle.addEventListener("click", () => {
 document.querySelector("#newSession").addEventListener("click", () => {
   localStorage.removeItem("dining_session_id");
   localStorage.removeItem(LOCAL_MENU_TEXT_KEY);
+  localStorage.removeItem(LOCAL_MENU_DATA_KEY);
   window.location.reload();
 });
 
