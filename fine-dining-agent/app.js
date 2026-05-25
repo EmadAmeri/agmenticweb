@@ -255,6 +255,12 @@ async function localChat(text) {
     throw new Error("Local mode needs a structured menu first. Photograph the menu or load an online menu.");
   }
 
+  const directAnswer = answerStructuredMenuQuestion(text);
+  if (directAnswer) {
+    localChatHistory.push({ role: "user", content: text }, { role: "assistant", content: directAnswer });
+    return directAnswer;
+  }
+
   const engine = await getLocalEngine();
   const messages = [
     {
@@ -283,6 +289,69 @@ async function localChat(text) {
   const response = completion.choices?.[0]?.message?.content?.trim() || "I could not answer that locally yet.";
   localChatHistory.push({ role: "user", content: text }, { role: "assistant", content: response });
   return response;
+}
+
+function answerStructuredMenuQuestion(text) {
+  const structured = getStructuredMenu();
+  const items = structured?.menu?.items || [];
+
+  if (!items.length) {
+    return "";
+  }
+
+  const lowered = text.toLowerCase();
+  if (!lowered.includes("cheapest") && !lowered.includes("least expensive") && !lowered.includes("lowest price")) {
+    return "";
+  }
+
+  const section = requestedSection(lowered);
+  const candidates = items
+    .filter((item) => !section || sectionMatches(item.section, section))
+    .map((item) => ({ item, price: parseMenuPrice(item.price) }))
+    .filter((entry) => Number.isFinite(entry.price));
+
+  if (!candidates.length) {
+    return section
+      ? `I can't see a priced ${section} item in this menu.`
+      : "I can't see clear prices in this menu.";
+  }
+
+  candidates.sort((a, b) => a.price - b.price);
+  const cheapest = candidates[0].item;
+  return `${cheapest.name} — ${cheapest.price}`;
+}
+
+function requestedSection(text) {
+  if (text.includes("main") || text.includes("entrée") || text.includes("entree") || text.includes("haupt")) {
+    return "main";
+  }
+  if (text.includes("starter") || text.includes("appetizer") || text.includes("vorspeise")) {
+    return "starter";
+  }
+  if (text.includes("dessert") || text.includes("nachspeise")) {
+    return "dessert";
+  }
+  if (text.includes("drink") || text.includes("wine") || text.includes("getränk") || text.includes("getrank")) {
+    return "drinks";
+  }
+  return "";
+}
+
+function sectionMatches(value, section) {
+  const normalized = String(value || "").toLowerCase();
+  const groups = {
+    main: ["main", "mains", "main course", "hauptgang", "hauptgänge", "hauptgange", "hauptgerichte", "entree", "entrée"],
+    starter: ["starter", "starters", "appetizer", "appetizers", "vorspeise", "vorspeisen"],
+    dessert: ["dessert", "desserts", "nachspeise", "nachspeisen"],
+    drinks: ["drink", "drinks", "wine", "weine", "getränke", "getranke"],
+  };
+
+  return (groups[section] || []).some((name) => normalized.includes(name));
+}
+
+function parseMenuPrice(value) {
+  const match = String(value || "").match(/(\d+(?:[,.]\d{1,2})?)/);
+  return match ? Number(match[1].replace(",", ".")) : NaN;
 }
 
 async function generateAgentResponse(text) {
