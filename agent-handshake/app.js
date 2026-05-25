@@ -8,17 +8,22 @@ Main | Dry-aged duck | cherry jus, endive, potato millefeuille | 38
 Dessert | Chocolate souffle | vanilla ice cream, cacao nib | 13
 Wine | Riesling Kabinett | Mosel, citrus, slate | 12`;
 
+const defaultScenario = {
+  retailer_name: "Maison Lumiere",
+  consumer_name: "Consumer Dining Agent",
+  distance_m: 130,
+  consumer_intent: "anniversary dinner for two",
+  consumer_preferences: ["quiet table", "vegetarian starter", "wine pairing"],
+  menu_text: sampleMenu,
+  promotions: [{
+    name: "Chef welcome pairing",
+    type: "percentage",
+    value: 12,
+    rule: "Use for parties of 2+ before 19:00 or when the consumer asks for wine pairing.",
+  }],
+};
+
 const els = {
-  retailerName: document.querySelector("#retailerName"),
-  consumerName: document.querySelector("#consumerName"),
-  consumerIntent: document.querySelector("#consumerIntent"),
-  preferences: document.querySelector("#preferences"),
-  distance: document.querySelector("#distance"),
-  distanceValue: document.querySelector("#distanceValue"),
-  menuText: document.querySelector("#menuText"),
-  promoName: document.querySelector("#promoName"),
-  promoValue: document.querySelector("#promoValue"),
-  promoRule: document.querySelector("#promoRule"),
   status: document.querySelector("#status"),
   timeline: document.querySelector("#timeline"),
   agentLanguage: document.querySelector("#agentLanguage"),
@@ -32,20 +37,9 @@ let fallbackTimers = [];
 const events = [];
 
 function payload() {
-  return {
-    retailer_name: els.retailerName.value.trim() || "Retailer Agent",
-    consumer_name: els.consumerName.value.trim() || "Consumer Agent",
-    distance_m: Number(els.distance.value),
-    consumer_intent: els.consumerIntent.value.trim() || "dining nearby",
-    consumer_preferences: els.preferences.value.split(",").map((item) => item.trim()).filter(Boolean),
-    menu_text: els.menuText.value.trim() || sampleMenu,
-    promotions: [{
-      name: els.promoName.value.trim() || "Retailer offer",
-      type: "percentage",
-      value: Number(els.promoValue.value || 0),
-      rule: els.promoRule.value.trim(),
-    }],
-  };
+  return typeof structuredClone === "function"
+    ? structuredClone(defaultScenario)
+    : JSON.parse(JSON.stringify(defaultScenario));
 }
 
 async function startLive() {
@@ -286,24 +280,4 @@ document.querySelector("#clearTimeline").addEventListener("click", () => {
   resetFeeds();
   setStatus("Idle");
 });
-document.querySelector("#loadSample").addEventListener("click", async () => {
-  try {
-    const response = await fetch(`${API_BASE}/api/sample`);
-    const data = await response.json();
-    els.menuText.value = data.menu_text || sampleMenu;
-    if (data.promotions?.[0]) {
-      els.promoName.value = data.promotions[0].name;
-      els.promoValue.value = data.promotions[0].value;
-      els.promoRule.value = data.promotions[0].rule;
-    }
-  } catch (error) {
-    els.menuText.value = sampleMenu;
-  }
-  showToast("Sample scenario loaded.");
-});
-els.distance.addEventListener("input", () => {
-  els.distanceValue.textContent = `${els.distance.value} m`;
-});
-
-els.menuText.value = sampleMenu;
 lucide.createIcons();

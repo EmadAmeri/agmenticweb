@@ -16,9 +16,6 @@
           <h1>Agent Handshake</h1>
         </div>
         <div class="header-actions">
-          <button class="icon-button" id="loadSample" type="button" aria-label="Load sample" title="Load sample">
-            <i data-lucide="wand-sparkles"></i>
-          </button>
           <button class="primary-action" id="startLive" type="button">
             <i data-lucide="radio"></i>
             Start live
@@ -27,76 +24,19 @@
       </header>
 
       <main class="layout-grid">
-        <section class="workspace-panel control-panel">
-          <div class="panel-title">
-            <div>
-              <h2>Scenario</h2>
-              <p>Set location context, consumer intent, menu, and retailer promotion.</p>
-            </div>
-            <span class="status-pill" id="status">Idle</span>
-          </div>
-
-          <div class="two-fields">
-            <label class="field">
-              Retailer agent
-              <input id="retailerName" type="text" value="Maison Lumiere">
-            </label>
-            <label class="field">
-              Consumer agent
-              <input id="consumerName" type="text" value="Consumer Dining Agent">
-            </label>
-          </div>
-
-          <label class="field">
-            Consumer intent
-            <input id="consumerIntent" type="text" value="anniversary dinner for two">
-          </label>
-
-          <label class="field">
-            Consumer preferences
-            <input id="preferences" type="text" value="quiet table, vegetarian starter, wine pairing">
-          </label>
-
-          <div class="signal-stack">
-            <div class="signal-row">
-              <span>Distance between agents</span>
-              <strong id="distanceValue">130 m</strong>
-            </div>
-            <input id="distance" type="range" min="10" max="1200" step="10" value="130">
-          </div>
-
-          <label class="field">
-            Retailer menu
-            <textarea id="menuText" spellcheck="false"></textarea>
-          </label>
-
-          <div class="two-fields">
-            <label class="field">
-              Offer name
-              <input id="promoName" type="text" value="Chef welcome pairing">
-            </label>
-            <label class="field">
-              Offer value %
-              <input id="promoValue" type="number" min="0" max="35" value="12">
-            </label>
-          </div>
-
-          <label class="field">
-            Offer rule
-            <input id="promoRule" type="text" value="Use for parties of 2+ before 19:00 or when the consumer asks for wine pairing.">
-          </label>
-        </section>
-
         <section class="workspace-panel live-panel">
           <div class="panel-title">
             <div>
               <h2>Live Negotiation</h2>
               <p>Watch the same exchange as agent protocol and plain English.</p>
             </div>
-            <button class="secondary-action" id="clearTimeline" type="button">
-              <i data-lucide="eraser"></i>
-              Clear
-            </button>
+            <div class="panel-actions">
+              <span class="status-pill" id="status">Idle</span>
+              <button class="secondary-action" id="clearTimeline" type="button">
+                <i data-lucide="eraser"></i>
+                Clear
+              </button>
+            </div>
           </div>
 
           <div class="agent-map">
