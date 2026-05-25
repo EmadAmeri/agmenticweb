@@ -263,7 +263,6 @@ svg {
   padding-right: 4px;
 }
 
-.event-card,
 .english-card {
   border-radius: 8px;
   padding: 13px;
@@ -271,39 +270,43 @@ svg {
   border: 1px solid var(--line);
 }
 
-.event-card.consumer,
 .english-card.consumer {
   border-left: 4px solid var(--consumer);
 }
 
-.event-card.retailer,
 .english-card.retailer {
   border-left: 4px solid var(--retailer);
 }
 
-.event-card.system,
 .english-card.system {
   border-left: 4px solid var(--accent);
 }
 
-.event-head {
+.event-card {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.event-head span {
-  color: var(--primary);
-  font-size: 0.78rem;
+  min-height: 58px;
+  padding: 0 16px;
+  border-radius: 8px;
+  background: white;
+  border: 1px solid var(--line);
+  font-size: 1.05rem;
   font-weight: 860;
 }
 
-.event-card p,
 .english-card p {
   margin-bottom: 0;
   line-height: 1.42;
+}
+
+.event-card.consumer {
+  color: var(--consumer);
+  border-left: 4px solid var(--consumer);
+}
+
+.event-card.retailer {
+  color: var(--retailer);
+  border-left: 4px solid var(--retailer);
 }
 
 .feed-grid {

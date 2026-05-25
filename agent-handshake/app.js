@@ -105,14 +105,14 @@ function pushEvent(event) {
 }
 
 function renderEvent(event) {
+  if (event.speaker === "system") {
+    return;
+  }
+
   const card = document.createElement("article");
   card.className = `event-card ${event.speaker}`;
   card.innerHTML = `
-    <div class="event-head">
-      <strong>${escapeHtml(labelFor(event.speaker))}</strong>
-      <span>${escapeHtml(event.agent_language.action)}</span>
-    </div>
-    <p>${escapeHtml(event.english)}</p>
+    <strong>${escapeHtml(displayAgentName(event.speaker))}</strong>
   `;
   els.timeline.appendChild(card);
   els.timeline.scrollTop = els.timeline.scrollHeight;
@@ -158,6 +158,13 @@ function labelFor(speaker) {
   if (speaker === "consumer") return "Consumer agent";
   if (speaker === "retailer") return "Retailer agent";
   return "System";
+}
+
+function displayAgentName(speaker) {
+  const scenario = payload();
+  if (speaker === "consumer") return scenario.consumer_name;
+  if (speaker === "retailer") return scenario.retailer_name;
+  return "";
 }
 
 function showToast(message) {
