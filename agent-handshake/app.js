@@ -1,4 +1,4 @@
-const API_BASE = window.location.origin;
+const API_BASE = window.localStorage?.getItem("agmentic_agent_handshake_api_base") || window.location.origin;
 
 const sampleMenu = `Snacks | Oyster tartlet | cucumber, finger lime, jalapeno | 9
 Starter | Burrata | smoked tomato, basil oil, toasted sourdough | 16
@@ -46,25 +46,39 @@ function payload() {
 async function startLive() {
   stopStream();
   resetFeeds();
-  setStatus("Starting");
+  setStatus("Registering");
 
   try {
-    const response = await fetch(`${API_BASE}/api/sessions`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload()),
+    const scenario = payload();
+    const retailer = await postJson("/api/agents/retailer", {
+      name: scenario.retailer_name,
+      menu_text: scenario.menu_text,
+      promotions: scenario.promotions,
+      radius_m: 450,
+    });
+    const consumer = await postJson("/api/agents/consumer", {
+      name: scenario.consumer_name,
+      intent: scenario.consumer_intent,
+      preferences: scenario.consumer_preferences,
+    });
+    setStatus("Connecting");
+    const connection = await postJson("/api/connections", {
+      retailer_agent_id: retailer.id,
+      consumer_agent_id: consumer.id,
+      distance_m: scenario.distance_m,
     });
 
-    if (!response.ok) {
-      throw new Error("API session failed");
-    }
-
-    const data = await response.json();
     setStatus("Live");
     els.pulseDot.classList.add("active");
-    eventSource = new EventSource(`${API_BASE}/api/sessions/${data.session_id}/events`);
+    eventSource = new EventSource(`${API_BASE}/api/connections/${connection.connection_id}/events`);
     eventSource.onmessage = (message) => {
       const event = JSON.parse(message.data);
+      if (event.type === "error") {
+        showToast(event.message || "Connection failed.");
+        setStatus("Error");
+        stopStream();
+        return;
+      }
       if (event.type === "complete") {
         setStatus("Complete");
         els.pulseDot.classList.remove("active");
@@ -74,13 +88,28 @@ async function startLive() {
       pushEvent(event);
     };
     eventSource.onerror = () => {
-      showToast("Backend stream disconnected. Switching to browser live simulation.");
+      showToast("Backend stream disconnected. Showing browser fallback.");
       startFallbackLive();
     };
   } catch (error) {
-    showToast("Running live browser simulation for GitHub Pages.");
+    showToast("Backend unavailable on GitHub Pages. Showing browser fallback.");
     startFallbackLive();
   }
+}
+
+async function postJson(path, body) {
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body),
+  });
+
+  if (!response.ok) {
+    const details = await response.text().catch(() => response.statusText);
+    throw new Error(details || response.statusText);
+  }
+
+  return response.json();
 }
 
 function startFallbackLive() {
