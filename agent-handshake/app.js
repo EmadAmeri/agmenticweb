@@ -1,0 +1,309 @@
+const API_BASE = window.location.origin;
+
+const sampleMenu = `Snacks | Oyster tartlet | cucumber, finger lime, jalapeno | 9
+Starter | Burrata | smoked tomato, basil oil, toasted sourdough | 16
+Starter | Beetroot carpaccio | horseradish cream, hazelnut, dill | 14
+Main | Sea bass | saffron beurre blanc, fennel, caviar oil | 34
+Main | Dry-aged duck | cherry jus, endive, potato millefeuille | 38
+Dessert | Chocolate souffle | vanilla ice cream, cacao nib | 13
+Wine | Riesling Kabinett | Mosel, citrus, slate | 12`;
+
+const els = {
+  retailerName: document.querySelector("#retailerName"),
+  consumerName: document.querySelector("#consumerName"),
+  consumerIntent: document.querySelector("#consumerIntent"),
+  preferences: document.querySelector("#preferences"),
+  distance: document.querySelector("#distance"),
+  distanceValue: document.querySelector("#distanceValue"),
+  menuText: document.querySelector("#menuText"),
+  promoName: document.querySelector("#promoName"),
+  promoValue: document.querySelector("#promoValue"),
+  promoRule: document.querySelector("#promoRule"),
+  status: document.querySelector("#status"),
+  timeline: document.querySelector("#timeline"),
+  agentLanguage: document.querySelector("#agentLanguage"),
+  englishFeed: document.querySelector("#englishFeed"),
+  toast: document.querySelector("#toast"),
+  pulseDot: document.querySelector("#pulseDot"),
+};
+
+let eventSource = null;
+let fallbackTimers = [];
+const events = [];
+
+function payload() {
+  return {
+    retailer_name: els.retailerName.value.trim() || "Retailer Agent",
+    consumer_name: els.consumerName.value.trim() || "Consumer Agent",
+    distance_m: Number(els.distance.value),
+    consumer_intent: els.consumerIntent.value.trim() || "dining nearby",
+    consumer_preferences: els.preferences.value.split(",").map((item) => item.trim()).filter(Boolean),
+    menu_text: els.menuText.value.trim() || sampleMenu,
+    promotions: [{
+      name: els.promoName.value.trim() || "Retailer offer",
+      type: "percentage",
+      value: Number(els.promoValue.value || 0),
+      rule: els.promoRule.value.trim(),
+    }],
+  };
+}
+
+async function startLive() {
+  stopStream();
+  resetFeeds();
+  setStatus("Starting");
+
+  try {
+    const response = await fetch(`${API_BASE}/api/sessions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload()),
+    });
+
+    if (!response.ok) {
+      throw new Error("API session failed");
+    }
+
+    const data = await response.json();
+    setStatus("Live");
+    els.pulseDot.classList.add("active");
+    eventSource = new EventSource(`${API_BASE}/api/sessions/${data.session_id}/events`);
+    eventSource.onmessage = (message) => {
+      const event = JSON.parse(message.data);
+      if (event.type === "complete") {
+        setStatus("Complete");
+        els.pulseDot.classList.remove("active");
+        stopStream();
+        return;
+      }
+      pushEvent(event);
+    };
+    eventSource.onerror = () => {
+      showToast("Backend stream disconnected. Switching to browser live simulation.");
+      startFallbackLive();
+    };
+  } catch (error) {
+    showToast("Running live browser simulation for GitHub Pages.");
+    startFallbackLive();
+  }
+}
+
+function startFallbackLive() {
+  stopStream();
+  setStatus("Live");
+  els.pulseDot.classList.add("active");
+  buildFallbackEvents(payload()).forEach((event, index, allEvents) => {
+    const timer = window.setTimeout(() => {
+      pushEvent(event);
+      if (index === allEvents.length - 1) {
+        setStatus("Complete");
+        els.pulseDot.classList.remove("active");
+      }
+    }, index * 1150);
+    fallbackTimers.push(timer);
+  });
+}
+
+function pushEvent(event) {
+  events.push(event);
+  renderEvent(event);
+  renderFeeds();
+}
+
+function renderEvent(event) {
+  const card = document.createElement("article");
+  card.className = `event-card ${event.speaker}`;
+  card.innerHTML = `
+    <div class="event-head">
+      <strong>${escapeHtml(labelFor(event.speaker))}</strong>
+      <span>${escapeHtml(event.agent_language.action)}</span>
+    </div>
+    <p>${escapeHtml(event.english)}</p>
+  `;
+  els.timeline.appendChild(card);
+  els.timeline.scrollTop = els.timeline.scrollHeight;
+}
+
+function renderFeeds() {
+  els.agentLanguage.textContent = events
+    .map((event) => JSON.stringify({
+      speaker: event.speaker,
+      ...event.agent_language,
+    }, null, 2))
+    .join("\n\n");
+
+  els.englishFeed.innerHTML = events.map((event) => `
+    <article class="english-card ${event.speaker}">
+      <strong>${escapeHtml(labelFor(event.speaker))}</strong>
+      <p>${escapeHtml(event.english)}</p>
+    </article>
+  `).join("");
+}
+
+function resetFeeds() {
+  events.length = 0;
+  els.timeline.innerHTML = "";
+  els.agentLanguage.textContent = "";
+  els.englishFeed.innerHTML = "";
+}
+
+function stopStream() {
+  if (eventSource) {
+    eventSource.close();
+    eventSource = null;
+  }
+  fallbackTimers.forEach((timer) => window.clearTimeout(timer));
+  fallbackTimers = [];
+}
+
+function setStatus(text) {
+  els.status.textContent = text;
+}
+
+function labelFor(speaker) {
+  if (speaker === "consumer") return "Consumer agent";
+  if (speaker === "retailer") return "Retailer agent";
+  return "System";
+}
+
+function showToast(message) {
+  els.toast.textContent = message;
+  els.toast.hidden = false;
+  window.clearTimeout(showToast.timer);
+  showToast.timer = window.setTimeout(() => {
+    els.toast.hidden = true;
+  }, 2400);
+}
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function buildFallbackEvents(scenario) {
+  const menu = parseMenu(scenario.menu_text);
+  const promotion = scenario.promotions[0] || {
+    name: "Retailer offer",
+    type: "percentage",
+    value: 10,
+    rule: "Use when the consumer agent shows high intent.",
+  };
+  const hook = chooseMenuHook(menu, scenario.consumer_preferences, scenario.consumer_intent);
+  const counter = chooseCounterHook(menu, hook.name);
+  const proposedPrice = hook.price === null ? null : Math.round(hook.price * (1 - Math.min(promotion.value, 35) / 100) * 100) / 100;
+
+  return [
+    agentEvent("handshake", "system", "proximity_match", "Both agents are inside the discovery radius. Secure handshake channel opened.", {
+      distance_m: scenario.distance_m,
+      retailer: scenario.retailer_name,
+    }),
+    agentEvent("message", "retailer", "HELLO_CONSUMER_AGENT", `${scenario.retailer_name} retailer agent shares a signed menu payload and current offer policy.`, {
+      menu_items: menu.length,
+      offer_policy: promotion,
+      capabilities: ["menu_exchange", "promotion_negotiation", "reservation_intent"],
+    }),
+    agentEvent("message", "consumer", "CONSUMER_INTENT", `The consumer agent receives the menu and asks for a fit for ${scenario.consumer_intent}.`, {
+      intent: scenario.consumer_intent,
+      preferences: scenario.consumer_preferences,
+      distance_m: scenario.distance_m,
+    }),
+    agentEvent("message", "retailer", "OFFER_PROPOSAL", `The retailer agent proposes ${hook.name} and applies ${promotion.name}.`, {
+      menu_hook: hook,
+      promotion,
+      proposed_price: proposedPrice,
+    }),
+    agentEvent("message", "consumer", "COUNTER_REQUEST", `The consumer agent asks whether ${counter.name} can be included without losing the quiet-table preference.`, {
+      counter_item: counter,
+      required_conditions: ["quiet_table", "clear_allergen_notes", "reservation_hold"],
+    }),
+    agentEvent("message", "retailer", "ACCEPT_WITH_TERMS", "The retailer agent accepts the counter request and holds the table for 10 minutes.", {
+      accepted: true,
+      reservation_hold_minutes: 10,
+      included_items: [hook.name, counter.name],
+      terms: ["promotion_applied_once", "arrival_confirmation_required"],
+    }),
+    agentEvent("summary", "system", "NEGOTIATION_SUMMARY", "Handshake complete. Menu, offer, counter-request, and accepted terms are visible in both languages.", {
+      status: "ready_for_consumer_confirmation",
+      retailer: scenario.retailer_name,
+      consumer_agent: scenario.consumer_name,
+    }),
+  ];
+}
+
+function agentEvent(type, speaker, action, english, payloadData) {
+  return {
+    type,
+    speaker,
+    timestamp: new Date().toISOString(),
+    agent_language: {
+      protocol: "agmentic-a2a.v1",
+      action,
+      payload: payloadData,
+    },
+    english,
+  };
+}
+
+function parseMenu(text) {
+  return text.split("\n").map((line) => line.trim()).filter(Boolean).map((line) => {
+    const parts = line.split("|").map((part) => part.trim());
+    const section = parts.length >= 4 ? parts[0] : "Menu";
+    const name = parts.length >= 4 ? parts[1] : parts[0] || "Menu item";
+    const description = parts.length >= 4 ? parts[2] : parts[1] || "";
+    const price = extractPrice(parts.at(-1) || line);
+    return { section, name, description, price };
+  });
+}
+
+function extractPrice(text) {
+  const match = String(text).match(/(?:€|\$|£)?\s?(\d{1,3}(?:[.,]\d{1,2})?)\s*$/);
+  return match ? Number(match[1].replace(",", ".")) : null;
+}
+
+function chooseMenuHook(menu, preferences, intent) {
+  const source = [intent, ...preferences].join(" ").toLowerCase();
+  return menu.find((item) => {
+    const itemText = `${item.section} ${item.name} ${item.description}`.toLowerCase();
+    return source.split(/\W+/).some((word) => word.length > 4 && itemText.includes(word));
+  }) || menu[0] || { section: "Menu", name: "seasonal item", description: "", price: null };
+}
+
+function chooseCounterHook(menu, firstName) {
+  return menu.find((item) => item.name !== firstName && /starter|dessert|wine|snacks/i.test(item.section))
+    || menu.find((item) => item.name !== firstName)
+    || menu[0]
+    || { section: "Menu", name: "reservation hold", description: "", price: null };
+}
+
+document.querySelector("#startLive").addEventListener("click", startLive);
+document.querySelector("#clearTimeline").addEventListener("click", () => {
+  stopStream();
+  els.pulseDot.classList.remove("active");
+  resetFeeds();
+  setStatus("Idle");
+});
+document.querySelector("#loadSample").addEventListener("click", async () => {
+  try {
+    const response = await fetch(`${API_BASE}/api/sample`);
+    const data = await response.json();
+    els.menuText.value = data.menu_text || sampleMenu;
+    if (data.promotions?.[0]) {
+      els.promoName.value = data.promotions[0].name;
+      els.promoValue.value = data.promotions[0].value;
+      els.promoRule.value = data.promotions[0].rule;
+    }
+  } catch (error) {
+    els.menuText.value = sampleMenu;
+  }
+  showToast("Sample scenario loaded.");
+});
+els.distance.addEventListener("input", () => {
+  els.distanceValue.textContent = `${els.distance.value} m`;
+});
+
+els.menuText.value = sampleMenu;
+lucide.createIcons();
