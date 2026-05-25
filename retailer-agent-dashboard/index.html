@@ -1,0 +1,186 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#8F2F14">
+    <title>Retailer Dining Agent</title>
+    <link rel="stylesheet" href="./style.css?v=1">
+    <script src="https://unpkg.com/lucide@latest"></script>
+  </head>
+  <body>
+    <div class="app-shell">
+      <header class="app-header">
+        <div>
+          <p class="eyebrow">Agmentic retailer side</p>
+          <h1>Retailer Dining Agent</h1>
+        </div>
+        <div class="header-actions">
+          <button class="icon-button" id="loadSample" type="button" aria-label="Load sample menu" title="Load sample menu">
+            <i data-lucide="wand-sparkles"></i>
+          </button>
+          <button class="primary-action" id="standardizeTop" type="button">
+            <i data-lucide="scan-text"></i>
+            Standardize
+          </button>
+        </div>
+      </header>
+
+      <main class="dashboard-grid">
+        <section class="workspace-panel menu-panel">
+          <div class="panel-title">
+            <div>
+              <h2>Menu Intake</h2>
+              <p>Paste retailer menu text, one item per line when possible.</p>
+            </div>
+            <span class="status-pill" id="menuStatus">Draft</span>
+          </div>
+          <label class="field compact">
+            Retailer name
+            <input id="retailerName" type="text" value="Maison Lumiere" autocomplete="off">
+          </label>
+          <div class="two-fields">
+            <label class="field">
+              Cuisine
+              <input id="cuisine" type="text" value="modern fine dining" autocomplete="off">
+            </label>
+            <label class="field">
+              Currency
+              <select id="currency">
+                <option>EUR</option>
+                <option>USD</option>
+                <option>GBP</option>
+              </select>
+            </label>
+          </div>
+          <label class="field">
+            Raw menu
+            <textarea id="rawMenu" spellcheck="false" placeholder="Starter | Burrata | smoked tomato, basil oil | 16&#10;Main | Sea bass | saffron beurre blanc | 34"></textarea>
+          </label>
+          <div class="action-row">
+            <button class="primary-action" id="standardizeMenu" type="button">
+              <i data-lucide="scan-text"></i>
+              Standardize menu
+            </button>
+            <button class="secondary-action" id="clearMenu" type="button">
+              <i data-lucide="trash-2"></i>
+              Clear
+            </button>
+          </div>
+        </section>
+
+        <section class="workspace-panel">
+          <div class="panel-title">
+            <div>
+              <h2>Consumer Handshake</h2>
+              <p>Preview what the consumer agent receives by location.</p>
+            </div>
+            <button class="icon-button" id="useLocation" type="button" aria-label="Use location" title="Use location">
+              <i data-lucide="map-pin"></i>
+            </button>
+          </div>
+          <div class="signal-stack">
+            <div class="signal-row">
+              <span>Discovery radius</span>
+              <strong id="radiusValue">450 m</strong>
+            </div>
+            <input id="radius" type="range" min="100" max="2000" step="50" value="450">
+            <div class="signal-card">
+              <i data-lucide="navigation"></i>
+              <div>
+                <span id="locationLabel">Location permission not requested</span>
+                <small id="connectionLabel">Ready to expose menu when a consumer agent is nearby.</small>
+              </div>
+            </div>
+            <label class="toggle-row">
+              <span>
+                Allow marketing promotions
+                <small>Consumer agent can negotiate inside approved limits.</small>
+              </span>
+              <input id="promoEnabled" type="checkbox" checked>
+            </label>
+          </div>
+        </section>
+
+        <section class="workspace-panel wide">
+          <div class="panel-title">
+            <div>
+              <h2>Standard Menu</h2>
+              <p>Normalized schema prepared for agent-to-agent exchange.</p>
+            </div>
+            <button class="secondary-action" id="copyPayload" type="button">
+              <i data-lucide="copy"></i>
+              Copy JSON
+            </button>
+          </div>
+          <div class="menu-output" id="menuOutput"></div>
+        </section>
+
+        <section class="workspace-panel promo-panel">
+          <div class="panel-title">
+            <div>
+              <h2>Promotions</h2>
+              <p>Define offers the retailer agent can use in negotiation.</p>
+            </div>
+            <button class="icon-button" id="addPromotion" type="button" aria-label="Add promotion" title="Add promotion">
+              <i data-lucide="plus"></i>
+            </button>
+          </div>
+          <div class="promo-form">
+            <label class="field">
+              Name
+              <input id="promoName" type="text" value="Chef welcome pairing" autocomplete="off">
+            </label>
+            <div class="two-fields">
+              <label class="field">
+                Type
+                <select id="promoType">
+                  <option value="percentage">Percentage</option>
+                  <option value="fixed">Fixed amount</option>
+                  <option value="bundle">Bundle</option>
+                  <option value="complimentary">Complimentary item</option>
+                </select>
+              </label>
+              <label class="field">
+                Value
+                <input id="promoValue" type="number" min="0" value="12">
+              </label>
+            </div>
+            <label class="field">
+              Negotiation rule
+              <input id="promoRule" type="text" value="Use for parties of 2+ before 19:00 or when consumer asks for wine pairing.">
+            </label>
+            <button class="primary-action" id="savePromotion" type="button">
+              <i data-lucide="badge-percent"></i>
+              Save promotion
+            </button>
+          </div>
+          <div class="promo-list" id="promoList"></div>
+        </section>
+
+        <section class="workspace-panel">
+          <div class="panel-title">
+            <div>
+              <h2>Negotiation Preview</h2>
+              <p>Retailer policy generated from current menu and promotions.</p>
+            </div>
+          </div>
+          <div class="negotiation-card" id="negotiationPreview"></div>
+        </section>
+
+        <section class="workspace-panel wide">
+          <div class="panel-title">
+            <div>
+              <h2>Backend Contract</h2>
+              <p>Use this on the local Mac backend when the real agent service is added.</p>
+            </div>
+          </div>
+          <pre class="contract-block" id="contractBlock"></pre>
+        </section>
+      </main>
+    </div>
+
+    <div class="toast" id="toast" hidden></div>
+    <script src="./app.js?v=1"></script>
+  </body>
+</html>
