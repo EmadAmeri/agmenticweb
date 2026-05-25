@@ -26,6 +26,7 @@ const defaultScenario = {
 const els = {
   status: document.querySelector("#status"),
   timeline: document.querySelector("#timeline"),
+  connectedAgents: document.querySelector("#connectedAgents"),
   agentLanguage: document.querySelector("#agentLanguage"),
   englishFeed: document.querySelector("#englishFeed"),
   toast: document.querySelector("#toast"),
@@ -105,17 +106,16 @@ function pushEvent(event) {
 }
 
 function renderEvent(event) {
-  if (event.speaker === "system") {
+  if (event.speaker === "system" || els.connectedAgents.textContent.trim()) {
     return;
   }
 
-  const card = document.createElement("article");
-  card.className = `event-card ${event.speaker}`;
-  card.innerHTML = `
-    <strong>${escapeHtml(displayAgentName(event.speaker))}</strong>
+  els.connectedAgents.hidden = false;
+  els.connectedAgents.innerHTML = `
+    <span>${escapeHtml(displayAgentName("consumer"))}</span>
+    <strong>connected with</strong>
+    <span>${escapeHtml(displayAgentName("retailer"))}</span>
   `;
-  els.timeline.appendChild(card);
-  els.timeline.scrollTop = els.timeline.scrollHeight;
 }
 
 function renderFeeds() {
@@ -137,6 +137,8 @@ function renderFeeds() {
 function resetFeeds() {
   events.length = 0;
   els.timeline.innerHTML = "";
+  els.connectedAgents.innerHTML = "";
+  els.connectedAgents.hidden = true;
   els.agentLanguage.textContent = "";
   els.englishFeed.innerHTML = "";
 }
