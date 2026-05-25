@@ -263,25 +263,6 @@ svg {
   padding-right: 4px;
 }
 
-.english-card {
-  border-radius: 8px;
-  padding: 13px;
-  background: white;
-  border: 1px solid var(--line);
-}
-
-.english-card.consumer {
-  border-left: 4px solid var(--consumer);
-}
-
-.english-card.retailer {
-  border-left: 4px solid var(--retailer);
-}
-
-.english-card.system {
-  border-left: 4px solid var(--accent);
-}
-
 .connected-agents {
   display: flex;
   align-items: center;
@@ -339,12 +320,69 @@ pre,
 }
 
 .english-feed {
-  display: grid;
-  align-content: start;
-  gap: 10px;
-  background: var(--surface-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  background: transparent;
   color: var(--ink);
-  border: 1px solid var(--line);
+  border: 0;
+  padding: 2px 4px;
+}
+
+.english-card {
+  display: grid;
+  gap: 5px;
+  width: fit-content;
+  max-width: min(78%, 680px);
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: white;
+  box-shadow: inset 0 0 0 1px rgba(23, 33, 31, 0.08);
+}
+
+.english-card strong {
+  font-size: 0.78rem;
+  line-height: 1.1;
+}
+
+.english-card p {
+  color: var(--ink);
+  font-size: 0.94rem;
+}
+
+.english-card.consumer {
+  align-self: flex-start;
+  background: rgba(35, 97, 168, 0.1);
+}
+
+.english-card.consumer strong {
+  color: var(--consumer);
+}
+
+.english-card.retailer {
+  align-self: flex-end;
+  background: rgba(20, 112, 98, 0.11);
+}
+
+.english-card.retailer strong {
+  color: var(--retailer);
+}
+
+.english-card.system {
+  align-self: center;
+  max-width: 86%;
+  background: transparent;
+  box-shadow: none;
+  text-align: center;
+}
+
+.english-card.system strong {
+  color: var(--accent);
+}
+
+.english-card.system p {
+  color: var(--muted);
+  font-size: 0.86rem;
 }
 
 .toast {

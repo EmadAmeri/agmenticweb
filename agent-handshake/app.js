@@ -128,7 +128,7 @@ function renderFeeds() {
 
   els.englishFeed.innerHTML = events.map((event) => `
     <article class="english-card ${event.speaker}">
-      <strong>${escapeHtml(labelFor(event.speaker))}</strong>
+      <strong>${escapeHtml(chatLabel(event.speaker))}</strong>
       <p>${escapeHtml(event.english)}</p>
     </article>
   `).join("");
@@ -159,6 +159,12 @@ function setStatus(text) {
 function labelFor(speaker) {
   if (speaker === "consumer") return "Consumer agent";
   if (speaker === "retailer") return "Retailer agent";
+  return "System";
+}
+
+function chatLabel(speaker) {
+  if (speaker === "consumer") return displayAgentName("consumer");
+  if (speaker === "retailer") return displayAgentName("retailer");
   return "System";
 }
 
