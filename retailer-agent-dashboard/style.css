@@ -200,6 +200,10 @@ textarea:focus {
   background: var(--primary-dark);
 }
 
+.full-action {
+  width: 100%;
+}
+
 .secondary-action,
 .icon-button {
   background: var(--surface-strong);
@@ -305,7 +309,8 @@ input[type="range"] {
 
 .menu-card,
 .promo-card,
-.negotiation-card {
+.agent-card,
+.offer-box {
   border-radius: 8px;
   background: var(--surface-strong);
   border: 1px solid var(--line);
@@ -378,37 +383,72 @@ input[type="range"] {
   color: var(--primary);
 }
 
-.negotiation-card {
-  padding: 15px;
-  min-height: 196px;
+.agent-list {
+  display: grid;
+  gap: 12px;
 }
 
-.negotiation-card p {
-  margin: 0 0 12px;
-  line-height: 1.45;
+.agent-card {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
 }
 
-.negotiation-card ul {
-  margin: 0;
-  padding-left: 18px;
+.agent-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.agent-card-header strong,
+.agent-card-header span {
+  display: block;
+}
+
+.agent-card-header span,
+.offer-box span,
+.offer-box small {
   color: var(--muted);
+  line-height: 1.35;
 }
 
-.negotiation-card li {
-  margin: 7px 0;
+.distance-pill {
+  display: inline-flex !important;
+  align-items: center;
+  min-height: 30px;
+  padding: 0 10px;
+  border-radius: 999px;
+  background: rgba(143, 47, 20, 0.1);
+  color: var(--primary) !important;
+  font-size: 0.82rem;
+  font-weight: 850;
+  white-space: nowrap;
 }
 
-.contract-block {
-  margin: 0;
-  max-height: 320px;
-  overflow: auto;
-  padding: 15px;
-  border-radius: 8px;
-  background: #20201F;
-  color: #FFF9EF;
-  font-size: 0.86rem;
-  line-height: 1.48;
-  white-space: pre-wrap;
+.preference-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 7px;
+}
+
+.preference-row span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 0 9px;
+  border-radius: 999px;
+  background: rgba(30, 111, 103, 0.11);
+  color: var(--accent);
+  font-size: 0.8rem;
+  font-weight: 800;
+}
+
+.offer-box {
+  display: grid;
+  gap: 5px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.66);
 }
 
 .toast {

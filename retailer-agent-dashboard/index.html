@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#8F2F14">
     <title>Retailer Dining Agent</title>
-    <link rel="stylesheet" href="./style.css?v=1">
+    <link rel="stylesheet" href="./style.css?v=2">
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -72,8 +72,8 @@
         <section class="workspace-panel">
           <div class="panel-title">
             <div>
-              <h2>Consumer Handshake</h2>
-              <p>Preview what the consumer agent receives by location.</p>
+              <h2>Nearby Agents</h2>
+              <p>Discover consumer agents inside the retailer radius.</p>
             </div>
             <button class="icon-button" id="useLocation" type="button" aria-label="Use location" title="Use location">
               <i data-lucide="map-pin"></i>
@@ -99,6 +99,10 @@
               </span>
               <input id="promoEnabled" type="checkbox" checked>
             </label>
+            <button class="primary-action full-action" id="findAgents" type="button">
+              <i data-lucide="radar"></i>
+              Find agents in range
+            </button>
           </div>
         </section>
 
@@ -161,26 +165,16 @@
         <section class="workspace-panel">
           <div class="panel-title">
             <div>
-              <h2>Negotiation Preview</h2>
-              <p>Retailer policy generated from current menu and promotions.</p>
+              <h2>Agents In Range</h2>
+              <p>Offer preview based on intent, distance, menu, and active promotions.</p>
             </div>
           </div>
-          <div class="negotiation-card" id="negotiationPreview"></div>
-        </section>
-
-        <section class="workspace-panel wide">
-          <div class="panel-title">
-            <div>
-              <h2>Backend Contract</h2>
-              <p>Use this on the local Mac backend when the real agent service is added.</p>
-            </div>
-          </div>
-          <pre class="contract-block" id="contractBlock"></pre>
+          <div class="agent-list" id="agentList"></div>
         </section>
       </main>
     </div>
 
     <div class="toast" id="toast" hidden></div>
-    <script src="./app.js?v=1"></script>
+    <script src="./app.js?v=2"></script>
   </body>
 </html>

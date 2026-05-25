@@ -1,4 +1,8 @@
 const STORAGE_KEY = "agmentic_retailer_agent_state_v1";
+const API_BASE = localStorage.getItem("agmentic_retailer_api_base")
+  || (["localhost", "127.0.0.1"].includes(window.location.hostname)
+    ? "http://localhost:8000"
+    : "https://api-retailer.agmentic.com");
 
 const sampleMenu = `Snacks | Oyster tartlet | cucumber, finger lime, jalapeno | 9
 Starter | Burrata | smoked tomato, basil oil, toasted sourdough | 16
@@ -12,6 +16,8 @@ const state = {
   menu: null,
   promotions: [],
   location: null,
+  nearbyAgents: [],
+  apiOnline: false,
 };
 
 const els = {
@@ -31,10 +37,39 @@ const els = {
   promoValue: document.querySelector("#promoValue"),
   promoRule: document.querySelector("#promoRule"),
   promoList: document.querySelector("#promoList"),
-  negotiationPreview: document.querySelector("#negotiationPreview"),
-  contractBlock: document.querySelector("#contractBlock"),
+  agentList: document.querySelector("#agentList"),
   toast: document.querySelector("#toast"),
 };
+
+const sampleAgents = [
+  {
+    id: "consumer-agent-table-2",
+    name: "Ava dining agent",
+    distance_m: 140,
+    intent: "anniversary dinner",
+    party_size: 2,
+    preferences: ["wine_pairing", "vegetarian starter", "quiet table"],
+    attention_signal: "high",
+  },
+  {
+    id: "consumer-agent-business",
+    name: "Noah concierge agent",
+    distance_m: 310,
+    intent: "business dinner tonight",
+    party_size: 4,
+    preferences: ["fast seating", "seafood", "premium bottle"],
+    attention_signal: "medium",
+  },
+  {
+    id: "consumer-agent-dessert",
+    name: "Mila taste agent",
+    distance_m: 620,
+    intent: "after dinner dessert",
+    party_size: 2,
+    preferences: ["dessert", "non-alcoholic", "walk-in"],
+    attention_signal: "low",
+  },
+];
 
 function uuid() {
   return crypto.randomUUID ? crypto.randomUUID() : `id-${Date.now()}-${Math.random().toString(16).slice(2)}`;
@@ -60,6 +95,23 @@ function showToast(message) {
   showToast.timer = window.setTimeout(() => {
     els.toast.hidden = true;
   }, 2400);
+}
+
+async function apiRequest(path, payload) {
+  const response = await fetch(`${API_BASE}${path}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(await response.text().catch(() => response.statusText));
+  }
+
+  state.apiOnline = true;
+  return response.json();
 }
 
 function parseLine(line, fallbackSection) {
@@ -152,7 +204,16 @@ function standardizeMenu() {
   els.menuStatus.textContent = `${items.length} items`;
   save();
   render();
+  syncMenuWithApi();
   showToast("Menu standardized for consumer agents.");
+}
+
+async function syncMenuWithApi() {
+  try {
+    await apiRequest("/retailer/menu/standardize", buildAgentPayload());
+  } catch (error) {
+    state.apiOnline = false;
+  }
 }
 
 function promotionPayload() {
@@ -198,6 +259,7 @@ function buildAgentPayload() {
         "standard_menu_exchange",
         "location_based_discovery",
         "promotion_negotiation",
+        "marketing_attention_offer",
       ],
     },
     menu: state.menu,
@@ -206,6 +268,143 @@ function buildAgentPayload() {
       promotions: promotionPayload(),
     },
   };
+}
+
+async function findAgentsInRange() {
+  const payload = buildAgentPayload();
+
+  try {
+    const data = await apiRequest("/retailer/agents/nearby", payload);
+    state.nearbyAgents = normalizeAgents(data.agents || []);
+    showToast(`${state.nearbyAgents.length} consumer agents found by API.`);
+  } catch (error) {
+    state.apiOnline = false;
+    state.nearbyAgents = sampleAgents
+      .filter((agent) => agent.distance_m <= Number(els.radius.value))
+      .map((agent) => ({
+        ...agent,
+        offer: buildMarketingOffer(agent),
+      }));
+    showToast("API is not reachable, showing local nearby-agent simulation.");
+  }
+
+  save();
+  render();
+}
+
+function normalizeAgents(agents) {
+  return agents.map((agent) => ({
+    id: agent.id || uuid(),
+    name: agent.name || "Consumer agent",
+    distance_m: Number(agent.distance_m || 0),
+    intent: agent.intent || "dining intent",
+    party_size: Number(agent.party_size || 1),
+    preferences: agent.preferences || [],
+    attention_signal: agent.attention_signal || "medium",
+    offer: agent.offer || buildMarketingOffer(agent),
+  }));
+}
+
+function buildMarketingOffer(agent) {
+  const activePromotions = els.promoEnabled.checked ? state.promotions : [];
+  const selectedPromotion = choosePromotion(agent, activePromotions);
+  const menuHook = chooseMenuHook(agent);
+  const channel = chooseMarketingChannel(agent);
+  const urgency = agent.attention_signal === "high" ? "hold for 10 minutes" : "soft invitation";
+
+  if (!selectedPromotion) {
+    return {
+      headline: `Invite ${agent.name} with ${menuHook}`,
+      message: `Lead with ${menuHook}, mention proximity, and invite the consumer agent to request preferences before arrival.`,
+      method: channel,
+      concession: "No promotion selected",
+      urgency,
+    };
+  }
+
+  return {
+    headline: `${selectedPromotion.name} for ${agent.intent}`,
+    message: `Use ${channel}: open with ${menuHook}, then offer ${formatPromotion(selectedPromotion)} because the intent is ${agent.intent}.`,
+    method: channel,
+    concession: selectedPromotion.max_agent_concession,
+    urgency,
+    promotion_id: selectedPromotion.id,
+  };
+}
+
+function choosePromotion(agent, promotions) {
+  if (!promotions.length) {
+    return null;
+  }
+
+  const preferenceText = [...(agent.preferences || []), agent.intent || ""].join(" ").toLowerCase();
+  return promotions.find((promotion) => {
+    const rule = promotion.negotiation_rule.toLowerCase();
+    return rule.split(/\W+/).some((word) => word.length > 4 && preferenceText.includes(word));
+  }) || promotions[0];
+}
+
+function chooseMenuHook(agent) {
+  const items = state.menu?.items || [];
+  if (!items.length) {
+    return "the current tasting menu";
+  }
+
+  const preferenceText = [...(agent.preferences || []), agent.intent || ""].join(" ").toLowerCase();
+  const match = items.find((item) => {
+    const source = `${item.name} ${item.description} ${item.section}`.toLowerCase();
+    return preferenceText.split(/\W+/).some((word) => word.length > 4 && source.includes(word));
+  }) || items[0];
+
+  return match.price === null ? match.name : `${match.name} at ${money(match.price)}`;
+}
+
+function chooseMarketingChannel(agent) {
+  if (agent.distance_m <= 200) {
+    return "proximity nudge";
+  }
+  if ((agent.preferences || []).some((preference) => /wine|premium|pairing/i.test(preference))) {
+    return "value-added upsell";
+  }
+  if (agent.party_size >= 4) {
+    return "group conversion offer";
+  }
+  return "personalized menu hook";
+}
+
+async function negotiateWithAgent(agentId) {
+  const agent = state.nearbyAgents.find((item) => item.id === agentId);
+  if (!agent) {
+    return;
+  }
+
+  const offer = buildMarketingOffer(agent);
+
+  try {
+    const data = await apiRequest("/retailer/negotiate", {
+      agent: buildAgentPayload(),
+      consumer_agent: agent,
+      objective: "attract_consumer_agent",
+      marketing_methods: [
+        "proximity nudge",
+        "personalized menu hook",
+        "value-added upsell",
+        "scarcity without over-discounting",
+      ],
+      proposed_offer: offer,
+    });
+    agent.offer = data.offer || offer;
+    agent.negotiation_status = data.status || "offer_sent";
+    showToast(`Offer sent to ${agent.name}.`);
+  } catch (error) {
+    state.apiOnline = false;
+    agent.offer = offer;
+    agent.negotiation_status = "local_offer_ready";
+    showToast(`Local offer prepared for ${agent.name}.`);
+  }
+
+  save();
+  render();
 }
 
 function renderMenu() {
@@ -257,45 +456,38 @@ function formatPromotion(promotion) {
   return `${promotion.type.replace("_", " ")} · ${value} · max concession ${promotion.max_agent_concession}`;
 }
 
-function renderNegotiation() {
-  const itemCount = state.menu?.items?.length || 0;
-  const promoCount = els.promoEnabled.checked ? state.promotions.length : 0;
-  const radius = Number(els.radius.value);
+function renderAgents() {
+  if (!state.nearbyAgents.length) {
+    els.agentList.innerHTML = '<p class="empty-state">No consumer agents discovered yet. Set the radius, then find agents in range.</p>';
+    return;
+  }
 
-  els.negotiationPreview.innerHTML = `
-    <p><strong>Policy:</strong> expose a normalized fine-dining menu to nearby consumer agents within ${radius} meters.</p>
-    <ul>
-      <li>${itemCount} menu items are available for structured recommendation and dietary matching.</li>
-      <li>${promoCount} marketing promotions can be offered during negotiation.</li>
-      <li>Agent may negotiate only inside saved promotion values and rules.</li>
-      <li>Location is used for discovery, not for changing menu prices.</li>
-    </ul>
-  `;
-}
-
-function renderContract() {
-  els.contractBlock.textContent = JSON.stringify({
-    "POST /agent/handshake": {
-      request: {
-        consumer_agent_id: "consumer-agent-uuid",
-        latitude: 52.520008,
-        longitude: 13.404954,
-        preferences: ["vegetarian", "wine_pairing"],
-      },
-      response: buildAgentPayload(),
-    },
-    "POST /agent/negotiate": {
-      request: {
-        consumer_agent_id: "consumer-agent-uuid",
-        target: "reservation_or_order",
-        requested_outcome: "best available dining offer",
-      },
-      response: {
-        accepted_promotions: promotionPayload(),
-        guardrails: "Never exceed max_agent_concession. Respect promotion negotiation_rule.",
-      },
-    },
-  }, null, 2);
+  els.agentList.innerHTML = state.nearbyAgents.map((agent) => {
+    const offer = agent.offer || buildMarketingOffer(agent);
+    return `
+      <article class="agent-card">
+        <div class="agent-card-header">
+          <div>
+            <strong>${escapeHtml(agent.name)}</strong>
+            <span>${escapeHtml(agent.intent)} · ${agent.party_size} guests</span>
+          </div>
+          <span class="distance-pill">${Math.round(agent.distance_m)} m</span>
+        </div>
+        <div class="preference-row">
+          ${(agent.preferences || []).map((preference) => `<span>${escapeHtml(preference)}</span>`).join("")}
+        </div>
+        <div class="offer-box">
+          <strong>${escapeHtml(offer.headline)}</strong>
+          <span>${escapeHtml(offer.message)}</span>
+          <small>${escapeHtml(offer.method)} · ${escapeHtml(offer.urgency)}${agent.negotiation_status ? ` · ${escapeHtml(agent.negotiation_status)}` : ""}</small>
+        </div>
+        <button class="primary-action" type="button" data-negotiate-agent="${agent.id}">
+          <i data-lucide="sparkles"></i>
+          Negotiate offer
+        </button>
+      </article>
+    `;
+  }).join("");
 }
 
 function render() {
@@ -305,8 +497,7 @@ function render() {
     : "Ready to expose menu when a consumer agent is nearby.";
   renderMenu();
   renderPromotions();
-  renderNegotiation();
-  renderContract();
+  renderAgents();
   lucide.createIcons();
 }
 
@@ -321,6 +512,7 @@ function save() {
     menu: state.menu,
     promotions: state.promotions,
     location: state.location,
+    nearbyAgents: state.nearbyAgents,
   }));
 }
 
@@ -341,6 +533,7 @@ function load() {
     state.menu = stored.menu || null;
     state.promotions = stored.promotions || [];
     state.location = stored.location || null;
+    state.nearbyAgents = stored.nearbyAgents || [];
     if (state.menu?.items?.length) {
       els.menuStatus.textContent = `${state.menu.items.length} items`;
     }
@@ -377,6 +570,7 @@ document.querySelector("#clearMenu").addEventListener("click", () => {
 });
 document.querySelector("#savePromotion").addEventListener("click", addPromotion);
 document.querySelector("#addPromotion").addEventListener("click", () => els.promoName.focus());
+document.querySelector("#findAgents").addEventListener("click", findAgentsInRange);
 document.querySelector("#copyPayload").addEventListener("click", async () => {
   await navigator.clipboard.writeText(JSON.stringify(buildAgentPayload(), null, 2));
   showToast("Agent payload copied.");
@@ -418,6 +612,12 @@ els.promoList.addEventListener("click", (event) => {
   const button = event.target.closest("[data-remove-promo]");
   if (button) {
     removePromotion(button.dataset.removePromo);
+  }
+});
+els.agentList.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-negotiate-agent]");
+  if (button) {
+    negotiateWithAgent(button.dataset.negotiateAgent);
   }
 });
 
