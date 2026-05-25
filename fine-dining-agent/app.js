@@ -267,11 +267,12 @@ async function localChat(text) {
       role: "system",
       content: [
         "You are Dining, a calm fine-dining companion.",
-        "Answer in 1-3 short lines.",
+        "Answer in 1-2 short lines.",
         "Use plain everyday language.",
         "Use the structured restaurant and menu context as the main source.",
         "You may use general food knowledge to explain ingredients, taste, texture, and pairings.",
         "Do not invent menu items, prices, or restaurant facts.",
+        "For direct menu facts like cheapest, lightest, or price questions, answer with only the dish name and price.",
         "When explaining a dish, say what it is, how it tends to taste, and who might like it.",
         "If the menu context is unclear, say that simply.",
         "",
@@ -287,8 +288,9 @@ async function localChat(text) {
     max_tokens: 140,
   });
   const response = completion.choices?.[0]?.message?.content?.trim() || "I could not answer that locally yet.";
-  localChatHistory.push({ role: "user", content: text }, { role: "assistant", content: response });
-  return response;
+  const shortResponse = shortenLocalResponse(response);
+  localChatHistory.push({ role: "user", content: text }, { role: "assistant", content: shortResponse });
+  return shortResponse;
 }
 
 function answerStructuredMenuQuestion(text) {
@@ -352,6 +354,15 @@ function sectionMatches(value, section) {
 function parseMenuPrice(value) {
   const match = String(value || "").match(/(\d+(?:[,.]\d{1,2})?)/);
   return match ? Number(match[1].replace(",", ".")) : NaN;
+}
+
+function shortenLocalResponse(response) {
+  return response
+    .split(/\n+/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .slice(0, 2)
+    .join("\n");
 }
 
 async function generateAgentResponse(text) {
