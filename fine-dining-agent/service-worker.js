@@ -1,9 +1,9 @@
-const CACHE_NAME = "dining-agent-shell-v20";
+const CACHE_NAME = "dining-agent-shell-v21";
 const SHELL_ASSETS = [
   "./",
   "./index.html",
-  "./style.css?v=20",
-  "./app.js?v=20",
+  "./style.css?v=21",
+  "./app.js?v=21",
   "./manifest.json",
   "./icons/icon-192.png",
   "./icons/icon-512.png",

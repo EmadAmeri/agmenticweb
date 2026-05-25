@@ -267,12 +267,12 @@ async function localChat(text) {
       role: "system",
       content: [
         "You are Dining, a calm fine-dining companion.",
-        "Answer in 1-2 short lines.",
+        "Answer in one short sentence when possible.",
         "Use plain everyday language.",
         "Use the structured restaurant and menu context as the main source.",
         "You may use general food knowledge to explain ingredients, taste, texture, and pairings.",
         "Do not invent menu items, prices, or restaurant facts.",
-        "For direct menu facts like cheapest, lightest, or price questions, answer with only the dish name and price.",
+        "For direct menu facts like cheapest, lightest, or price questions, answer in one short sentence with the dish name and price.",
         "When explaining a dish, say what it is, how it tends to taste, and who might like it.",
         "If the menu context is unclear, say that simply.",
         "",
@@ -320,7 +320,7 @@ function answerStructuredMenuQuestion(text) {
 
   candidates.sort((a, b) => a.price - b.price);
   const cheapest = candidates[0].item;
-  return `${cheapest.name} — ${cheapest.price}`;
+  return `The cheapest ${section || "option"} is ${cheapest.name} at ${cheapest.price}.`;
 }
 
 function requestedSection(text) {
