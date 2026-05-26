@@ -285,7 +285,7 @@ async function findAgentsInRange() {
         ...agent,
         offer: buildMarketingOffer(agent),
       }));
-    showToast("API is not reachable, showing local nearby-agent simulation.");
+    showToast("Local agent simulation is on.");
   }
 
   save();
@@ -400,7 +400,7 @@ async function negotiateWithAgent(agentId) {
     state.apiOnline = false;
     agent.offer = offer;
     agent.negotiation_status = "local_offer_ready";
-    showToast(`Local offer prepared for ${agent.name}.`);
+    showToast(`Offer prepared for ${agent.name}.`);
   }
 
   save();
