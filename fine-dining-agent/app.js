@@ -2,7 +2,6 @@ const API_BASE = ["localhost", "127.0.0.1"].includes(window.location.hostname)
   ? window.location.origin
   : "https://api-dining.agmentic.com";
 
-const sessionId = getSessionId();
 const conversation = document.querySelector("#conversation");
 const chatForm = document.querySelector("#chatForm");
 const chatInput = document.querySelector("#chatInput");
@@ -33,14 +32,19 @@ const incomingControls = document.querySelector("#incomingControls");
 const activeCallControls = document.querySelector("#activeCallControls");
 const agentContactNameInput = document.querySelector("#agentContactName");
 const saveContactName = document.querySelector("#saveContactName");
+const userIdInput = document.querySelector("#userIdInput");
+const saveUserIdButton = document.querySelector("#saveUserId");
 const USE_LOCAL_OCR = true;
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+const USER_ID_KEY = "dining_user_id";
 const CONTACT_NAME_KEY = "dining_agent_contact_name";
 const PROVIDER_MODE_KEY = "dining_provider_mode";
 const LOCAL_MENU_TEXT_KEY = "dining_local_menu_text";
 const LOCAL_MENU_DATA_KEY = "dining_local_menu_data";
-const LOCAL_MODEL_ID = "SmolLM2-360M-Instruct-q4f32_1-MLC";
+const LOCAL_MODEL_ID = "Qwen2.5-1.5B-Instruct-q4f16_1-MLC";
+const LOCAL_FALLBACK_MODEL_ID = "SmolLM2-360M-Instruct-q4f32_1-MLC";
 const WEBLLM_URL = "https://esm.run/@mlc-ai/web-llm";
+let sessionId = getSessionId();
 let lastErrorMessage = "";
 let providerMode = localStorage.getItem(PROVIDER_MODE_KEY) || "cloud";
 let localEngine = null;
@@ -60,6 +64,13 @@ let callStartedAt = null;
 let microphoneStream = null;
 
 function getSessionId() {
+  const userId = getUserId();
+  if (userId) {
+    const id = `user_${slugifyUserId(userId)}`;
+    localStorage.setItem("dining_session_id", id);
+    return id;
+  }
+
   let id = localStorage.getItem("dining_session_id");
 
   if (!id) {
@@ -72,6 +83,36 @@ function getSessionId() {
   }
 
   return id;
+}
+
+function getUserId() {
+  return localStorage.getItem(USER_ID_KEY) || "";
+}
+
+function setUserId(value) {
+  const userId = value.trim();
+
+  if (!userId) {
+    return;
+  }
+
+  localStorage.setItem(USER_ID_KEY, userId);
+  sessionId = `user_${slugifyUserId(userId)}`;
+  localStorage.setItem("dining_session_id", sessionId);
+  localChatHistory = [];
+}
+
+function slugifyUserId(value) {
+  return value
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 60) || "default";
+}
+
+function userStorageKey(key) {
+  return `${key}:${sessionId}`;
 }
 
 function setLoading(isLoading) {
@@ -157,20 +198,14 @@ async function getLocalEngine() {
 
   if (!localModelPromise) {
     localModelStatus.textContent = "Loading local model for the first time...";
-    localModelPromise = import(WEBLLM_URL).then((webllm) => (
-      webllm.CreateMLCEngine(
-        LOCAL_MODEL_ID,
-        {
-          initProgressCallback: (report) => {
-            const percent = Number.isFinite(report.progress)
-              ? ` ${Math.round(report.progress * 100)}%`
-              : "";
-            localModelStatus.textContent = `${report.text || "Loading local model..."}${percent}`;
-          },
-        },
-        { context_window_size: 2048 },
-      )
-    )).then((engine) => {
+    localModelPromise = import(WEBLLM_URL).then(async (webllm) => {
+      try {
+        return await createLocalEngine(webllm, LOCAL_MODEL_ID);
+      } catch (error) {
+        localModelStatus.textContent = "Bigger local model failed. Trying the smaller fallback...";
+        return createLocalEngine(webllm, LOCAL_FALLBACK_MODEL_ID);
+      }
+    }).then((engine) => {
       localEngine = engine;
       localModelStatus.textContent = "Local model ready.";
       return engine;
@@ -183,12 +218,29 @@ async function getLocalEngine() {
   return localModelPromise;
 }
 
+function createLocalEngine(webllm, modelId) {
+  return webllm.CreateMLCEngine(
+    modelId,
+    {
+      initProgressCallback: (report) => {
+        const percent = Number.isFinite(report.progress)
+          ? ` ${Math.round(report.progress * 100)}%`
+          : "";
+        localModelStatus.textContent = `${modelId}: ${report.text || "Loading local model..."}${percent}`;
+      },
+    },
+    { context_window_size: 2048 },
+  );
+}
+
 function saveLocalMenuText(text) {
-  localStorage.setItem(LOCAL_MENU_TEXT_KEY, text);
+  localStorage.setItem(userStorageKey(LOCAL_MENU_TEXT_KEY), text);
 }
 
 function getLocalMenuText() {
-  return localStorage.getItem(LOCAL_MENU_TEXT_KEY) || "";
+  return localStorage.getItem(userStorageKey(LOCAL_MENU_TEXT_KEY))
+    || localStorage.getItem(LOCAL_MENU_TEXT_KEY)
+    || "";
 }
 
 function saveStructuredMenu(data, rawText = "") {
@@ -201,12 +253,16 @@ function saveStructuredMenu(data, rawText = "") {
     raw_text_preview: rawText.slice(0, 1800),
     saved_at: new Date().toISOString(),
   };
-  localStorage.setItem(LOCAL_MENU_DATA_KEY, JSON.stringify(payload));
+  localStorage.setItem(userStorageKey(LOCAL_MENU_DATA_KEY), JSON.stringify(payload));
 }
 
 function getStructuredMenu() {
   try {
-    return JSON.parse(localStorage.getItem(LOCAL_MENU_DATA_KEY) || "null");
+    return JSON.parse(
+      localStorage.getItem(userStorageKey(LOCAL_MENU_DATA_KEY))
+        || localStorage.getItem(LOCAL_MENU_DATA_KEY)
+        || "null",
+    );
   } catch (error) {
     return null;
   }
@@ -1053,6 +1109,7 @@ menuImage.addEventListener("change", () => {
 });
 
 document.querySelector("#openProfile").addEventListener("click", () => {
+  userIdInput.value = getUserId();
   agentContactNameInput.value = getContactName();
   profilePanel.classList.add("open");
   profilePanel.setAttribute("aria-hidden", "false");
@@ -1066,14 +1123,18 @@ document.querySelector("#closeProfile").addEventListener("click", () => {
 
 document.querySelector("#clearMemory").addEventListener("click", clearMemory);
 saveContactName.addEventListener("click", saveContact);
+saveUserIdButton.addEventListener("click", async () => {
+  setUserId(userIdInput.value);
+  await loadProfile();
+  menuStatus.textContent = `Using memory for ${getUserId() || "this user"}.`;
+});
 providerToggle.addEventListener("click", () => {
   setProviderMode(isLocalMode() ? "cloud" : "local");
 });
 
 document.querySelector("#newSession").addEventListener("click", () => {
-  localStorage.removeItem("dining_session_id");
-  localStorage.removeItem(LOCAL_MENU_TEXT_KEY);
-  localStorage.removeItem(LOCAL_MENU_DATA_KEY);
+  localStorage.removeItem(userStorageKey(LOCAL_MENU_TEXT_KEY));
+  localStorage.removeItem(userStorageKey(LOCAL_MENU_DATA_KEY));
   window.location.reload();
 });
 
@@ -1118,6 +1179,7 @@ document.querySelector("#contactsCall").addEventListener("click", () => {
 });
 
 agentContactNameInput.value = getContactName();
+userIdInput.value = getUserId();
 callContactName.textContent = getContactName();
 callAvatar.textContent = initials(getContactName());
 menuStatus.textContent = "Send me the menu when you're ready.";

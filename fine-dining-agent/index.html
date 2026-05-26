@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#B8420F">
     <title>Dining Agent</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css?v=21">
+    <link rel="stylesheet" href="./style.css?v=22">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   </head>
   <body>
@@ -60,6 +60,11 @@
         <button class="icon-button" id="closeProfile" aria-label="Close profile">×</button>
       </div>
       <div class="profile-content" id="profileContent"></div>
+      <label class="contact-setting">
+        User ID
+        <input id="userIdInput" type="text" placeholder="e.g. emad" autocomplete="off">
+      </label>
+      <button class="secondary-button" id="saveUserId">Switch user</button>
       <label class="contact-setting">
         Agent contact name
         <input id="agentContactName" type="text" value="Dining Agent" autocomplete="off">
@@ -124,7 +129,7 @@
       </div>
     </section>
 
-    <script src="./app.js?v=21"></script>
+    <script src="./app.js?v=22"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");
