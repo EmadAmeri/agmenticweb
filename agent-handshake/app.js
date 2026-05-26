@@ -11,9 +11,15 @@ Wine | Riesling Kabinett | Mosel, citrus, slate | 12`;
 const defaultScenario = {
   retailer_name: "Maison Lumiere",
   consumer_name: "Consumer Dining Agent",
+  consumer_memory_session_id: "agent-handshake-consumer",
   distance_m: 130,
   consumer_intent: "anniversary dinner for two",
   consumer_preferences: ["quiet table", "vegetarian starter", "wine pairing"],
+  consumer_memory: {
+    liked: ["quiet table", "vegetarian starter", "wine pairing"],
+    disliked: ["noisy seating", "shellfish-heavy menu"],
+    notes: ["Prefers calm rooms, clear vegetarian options, and wine-pairing value."],
+  },
   menu_text: sampleMenu,
   promotions: [{
     name: "Chef welcome pairing",
@@ -50,6 +56,7 @@ async function startLive() {
 
   try {
     const scenario = payload();
+    await postJson(`/api/consumer-memory/${encodeURIComponent(scenario.consumer_memory_session_id)}`, scenario.consumer_memory);
     const retailer = await postJson("/api/agents/retailer", {
       name: scenario.retailer_name,
       menu_text: scenario.menu_text,
@@ -58,6 +65,7 @@ async function startLive() {
     });
     const consumer = await postJson("/api/agents/consumer", {
       name: scenario.consumer_name,
+      memory_session_id: scenario.consumer_memory_session_id,
       intent: scenario.consumer_intent,
       preferences: scenario.consumer_preferences,
     });
@@ -230,43 +238,51 @@ function buildFallbackEvents(scenario) {
     value: 10,
     rule: "Use when the consumer agent shows high intent.",
   };
-  const hook = chooseMenuHook(menu, scenario.consumer_preferences, scenario.consumer_intent);
+  const hook = chooseMenuHook(menu, [...scenario.consumer_preferences, ...scenario.consumer_memory.liked, ...scenario.consumer_memory.notes], scenario.consumer_intent);
   const counter = chooseCounterHook(menu, hook.name);
   const proposedPrice = hook.price === null ? null : Math.round(hook.price * (1 - Math.min(promotion.value, 35) / 100) * 100) / 100;
+  const memoryProfile = {
+    liked: scenario.consumer_memory.liked.map((item) => ({ item, reason: "browser fallback memory" })),
+    disliked: scenario.consumer_memory.disliked.map((item) => ({ item, reason: "browser fallback memory" })),
+    notes: scenario.consumer_memory.notes.map((text) => ({ text })),
+  };
 
   return [
-    agentEvent("handshake", "system", "proximity_match", "Both agents are inside the discovery radius. Secure handshake channel opened.", {
+    agentEvent("handshake", "system", "proximity_match", `${scenario.consumer_name} connected with ${scenario.retailer_name}.`, {
       distance_m: scenario.distance_m,
       retailer: scenario.retailer_name,
     }),
-    agentEvent("message", "retailer", "HELLO_CONSUMER_AGENT", `${scenario.retailer_name} retailer agent shares a signed menu payload and current offer policy.`, {
+    agentEvent("message", "retailer", "MENU_TRANSFER", `${scenario.retailer_name} sends its live menu and offer policy.`, {
       menu_items: menu.length,
-      offer_policy: promotion,
-      capabilities: ["menu_exchange", "promotion_negotiation", "reservation_intent"],
+      offer_policy: [promotion],
+      capabilities: ["menu_exchange", "promotion_negotiation", "reservation_hold"],
     }),
-    agentEvent("message", "consumer", "CONSUMER_INTENT", `The consumer agent receives the menu and asks for a fit for ${scenario.consumer_intent}.`, {
+    agentEvent("message", "consumer", "MENU_RECEIVED", `${scenario.consumer_name} receives ${menu.length} menu items and checks them against memory.`, {
       intent: scenario.consumer_intent,
-      preferences: scenario.consumer_preferences,
+      request_preferences: scenario.consumer_preferences,
+      memory_profile: memoryProfile,
+      effective_preferences: [...scenario.consumer_preferences, ...scenario.consumer_memory.liked, ...scenario.consumer_memory.notes],
       distance_m: scenario.distance_m,
     }),
-    agentEvent("message", "retailer", "OFFER_PROPOSAL", `The retailer agent proposes ${hook.name} and applies ${promotion.name}.`, {
+    agentEvent("message", "retailer", "OFFER_PROPOSAL", `${scenario.retailer_name} offers ${hook.name} at ${proposedPrice} using ${promotion.name}.`, {
       menu_hook: hook,
       promotion,
       proposed_price: proposedPrice,
     }),
-    agentEvent("message", "consumer", "COUNTER_REQUEST", `The consumer agent asks whether ${counter.name} can be included without losing the quiet-table preference.`, {
+    agentEvent("message", "consumer", "COUNTER_REQUEST", `${scenario.consumer_name} can accept if ${counter.name} is included and the quiet table preference is preserved.`, {
       counter_item: counter,
-      required_conditions: ["quiet_table", "clear_allergen_notes", "reservation_hold"],
+      required_conditions: ["vegetarian_safe_option", "quiet_table", "clear_allergen_notes", "reservation_hold"],
+      memory_used: memoryProfile,
     }),
-    agentEvent("message", "retailer", "ACCEPT_WITH_TERMS", "The retailer agent accepts the counter request and holds the table for 10 minutes.", {
+    agentEvent("message", "retailer", "ACCEPT_WITH_TERMS", `${scenario.retailer_name} accepts the counter request and holds the table for 10 minutes.`, {
       accepted: true,
       reservation_hold_minutes: 10,
       included_items: [hook.name, counter.name],
       terms: ["promotion_applied_once", "arrival_confirmation_required"],
     }),
-    agentEvent("summary", "system", "NEGOTIATION_SUMMARY", "Handshake complete. Menu, offer, counter-request, and accepted terms are visible in both languages.", {
+    agentEvent("summary", "system", "NEGOTIATION_COMPLETE", "Menu exchange and negotiation completed between the two agents.", {
       status: "ready_for_consumer_confirmation",
-      retailer: scenario.retailer_name,
+      retailer_agent: scenario.retailer_name,
       consumer_agent: scenario.consumer_name,
     }),
   ];

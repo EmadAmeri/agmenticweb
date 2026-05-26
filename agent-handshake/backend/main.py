@@ -2,7 +2,9 @@ import asyncio
 import json
 import os
 import re
+import sys
 import uuid
+from copy import deepcopy
 from dataclasses import dataclass, field
 from datetime import datetime, timezone
 from typing import Any
@@ -21,6 +23,12 @@ FRONTEND_DIR = os.path.join(APP_ROOT, "frontend")
 
 load_dotenv(os.path.join(WORKSPACE_ROOT, "fine_dining_agent", ".env"))
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
+
+FINE_DINING_DIR = os.path.join(WORKSPACE_ROOT, "fine_dining_agent")
+if FINE_DINING_DIR not in sys.path:
+    sys.path.append(FINE_DINING_DIR)
+
+from memory.store import UserMemory  # noqa: E402
 
 app = FastAPI(title="Agmentic Agent Handshake Platform")
 app.add_middleware(
@@ -55,6 +63,7 @@ class RetailerAgentRequest(BaseModel):
 
 class ConsumerAgentRequest(BaseModel):
     name: str = "Consumer Dining Agent"
+    memory_session_id: str = "agent-handshake-consumer"
     intent: str = "anniversary dinner for two"
     preferences: list[str] = Field(default_factory=lambda: [
         "quiet table",
@@ -67,6 +76,12 @@ class ConnectRequest(BaseModel):
     retailer_agent_id: str
     consumer_agent_id: str
     distance_m: int = Field(default=130, ge=0, le=5000)
+
+
+class ConsumerMemoryRequest(BaseModel):
+    liked: list[str] = Field(default_factory=list)
+    disliked: list[str] = Field(default_factory=list)
+    notes: list[str] = Field(default_factory=list)
 
 
 @dataclass
@@ -88,7 +103,7 @@ class RetailerAgent:
 
     def propose_offer(self, consumer: "ConsumerAgent") -> dict[str, Any]:
         promotion = self.promotions[0] if self.promotions else Promotion()
-        item = choose_menu_hook(self.menu, consumer.preferences, consumer.intent)
+        item = choose_menu_hook(self.menu, consumer.effective_preferences(), consumer.intent)
         proposed_price = calculate_offer_price(item.price, promotion)
         return {
             "menu_hook": dump_model(item),
@@ -114,18 +129,49 @@ class RetailerAgent:
 class ConsumerAgent:
     id: str
     name: str
+    memory_session_id: str
     intent: str
     preferences: list[str]
+    memory: UserMemory
     received_menu: list[MenuItem] = field(default_factory=list)
     received_offer: dict[str, Any] | None = None
+
+    @property
+    def memory_profile(self) -> dict[str, Any]:
+        return deepcopy(self.memory.get_profile())
+
+    def effective_preferences(self) -> list[str]:
+        profile = self.memory_profile
+        liked = [
+            entry.get("item", "")
+            for entry in profile.get("liked", [])
+            if entry.get("item")
+        ]
+        notes = [
+            entry.get("text", "")
+            for entry in profile.get("notes", [])
+            if entry.get("text")
+        ]
+        merged = [*self.preferences, *liked, *notes]
+        return list(dict.fromkeys(item for item in merged if item))
+
+    def disliked_terms(self) -> list[str]:
+        return [
+            entry.get("item", "")
+            for entry in self.memory_profile.get("disliked", [])
+            if entry.get("item")
+        ]
 
     def receive_menu(self, menu: list[MenuItem]) -> dict[str, Any]:
         self.received_menu = menu
         return {
             "consumer_agent_id": self.id,
+            "memory_session_id": self.memory_session_id,
             "received_items": len(menu),
             "intent": self.intent,
-            "preferences": self.preferences,
+            "request_preferences": self.preferences,
+            "memory_profile": self.memory_profile,
+            "effective_preferences": self.effective_preferences(),
         }
 
     def evaluate_offer(self, offer: dict[str, Any]) -> dict[str, Any]:
@@ -133,6 +179,7 @@ class ConsumerAgent:
         requested_item = choose_counter_hook(
             self.received_menu,
             offer.get("menu_hook", {}).get("name", ""),
+            self.disliked_terms(),
         )
         return {
             "accepted_offer_context": offer,
@@ -140,12 +187,37 @@ class ConsumerAgent:
                 offer.get("menu_hook", {}).get("name", "menu hook"),
                 requested_item.name,
             ],
-            "required_conditions": ["quiet_table", "clear_allergen_notes", "reservation_hold"],
+            "required_conditions": self._required_conditions(),
+            "memory_used": self.memory_profile,
             "message": (
                 f"{self.name} can accept if {requested_item.name} is included "
-                "and the quiet table is preserved."
+                f"and {self._human_condition()} is preserved."
             ),
         }
+
+    def remember_negotiation(self, retailer_name: str, accepted: dict[str, Any]) -> None:
+        included = ", ".join(accepted.get("included_items", []))
+        self.memory.add_note(
+            f"Negotiated with {retailer_name}; accepted items: {included}; "
+            f"terms: {', '.join(accepted.get('terms', []))}."
+        )
+
+    def _required_conditions(self) -> list[str]:
+        conditions = ["clear_allergen_notes", "reservation_hold"]
+        joined = " ".join(self.effective_preferences()).lower()
+        if "quiet" in joined:
+            conditions.insert(0, "quiet_table")
+        if "vegetarian" in joined:
+            conditions.insert(0, "vegetarian_safe_option")
+        return conditions
+
+    def _human_condition(self) -> str:
+        conditions = self._required_conditions()
+        if "quiet_table" in conditions:
+            return "the quiet table preference"
+        if "vegetarian_safe_option" in conditions:
+            return "the vegetarian preference"
+        return "the consumer memory constraints"
 
 
 @dataclass
@@ -222,6 +294,7 @@ class ConnectionSession:
         )
 
         accepted = self.retailer.accept_counter(counter)
+        self.consumer.remember_negotiation(self.retailer.name, accepted)
         self.events.append(
             agent_event(
                 "message",
@@ -285,6 +358,7 @@ def sample() -> dict[str, Any]:
         },
         "consumer": {
             "name": "Consumer Dining Agent",
+            "memory_session_id": "agent-handshake-consumer",
             "intent": "anniversary dinner for two",
             "preferences": ["quiet table", "vegetarian starter", "wine pairing"],
         },
@@ -311,14 +385,41 @@ def register_retailer(request: RetailerAgentRequest) -> dict[str, Any]:
 
 @app.post("/api/agents/consumer")
 def register_consumer(request: ConsumerAgentRequest) -> dict[str, Any]:
+    memory = UserMemory(session_id=request.memory_session_id)
     agent = ConsumerAgent(
         id=f"consumer-{uuid.uuid4()}",
         name=request.name,
+        memory_session_id=request.memory_session_id,
         intent=request.intent,
         preferences=request.preferences,
+        memory=memory,
     )
     CONSUMER_AGENTS[agent.id] = agent
     return serialize_consumer(agent)
+
+
+@app.get("/api/consumer-memory/{session_id}")
+def get_consumer_memory(session_id: str) -> dict[str, Any]:
+    memory = UserMemory(session_id=session_id)
+    return {
+        "session_id": session_id,
+        "profile": memory.get_profile(),
+    }
+
+
+@app.post("/api/consumer-memory/{session_id}")
+def update_consumer_memory(session_id: str, request: ConsumerMemoryRequest) -> dict[str, Any]:
+    memory = UserMemory(session_id=session_id)
+    for item in request.liked:
+        memory.add_liked(item, "seeded for agent-to-agent negotiation")
+    for item in request.disliked:
+        memory.add_disliked(item, "seeded for agent-to-agent negotiation")
+    for note in request.notes:
+        memory.add_note(note)
+    return {
+        "session_id": session_id,
+        "profile": memory.get_profile(),
+    }
 
 
 @app.post("/api/connections")
@@ -381,6 +482,7 @@ def create_legacy_session(request: dict[str, Any]) -> dict[str, Any]:
     consumer = register_consumer(
         ConsumerAgentRequest(
             name=request.get("consumer_name", "Consumer Dining Agent"),
+            memory_session_id=request.get("consumer_memory_session_id", "agent-handshake-consumer"),
             intent=request.get("consumer_intent", "anniversary dinner for two"),
             preferences=request.get("consumer_preferences", ["quiet table", "vegetarian starter", "wine pairing"]),
         )
@@ -475,8 +577,11 @@ def serialize_consumer(agent: ConsumerAgent) -> dict[str, Any]:
     return {
         "id": agent.id,
         "name": agent.name,
+        "memory_session_id": agent.memory_session_id,
         "intent": agent.intent,
-        "preferences": agent.preferences,
+        "request_preferences": agent.preferences,
+        "effective_preferences": agent.effective_preferences(),
+        "memory_profile": agent.memory_profile,
         "received_menu_items": len(agent.received_menu),
         "has_offer": agent.received_offer is not None,
     }
@@ -491,8 +596,12 @@ def choose_menu_hook(menu: list[MenuItem], preferences: list[str], intent: str) 
     return menu[0]
 
 
-def choose_counter_hook(menu: list[MenuItem], first_name: str) -> MenuItem:
+def choose_counter_hook(menu: list[MenuItem], first_name: str, disliked_terms: list[str] | None = None) -> MenuItem:
+    disliked = " ".join(disliked_terms or []).lower()
     for item in menu:
+        item_text = f"{item.name} {item.description} {item.section}".lower()
+        if disliked and any(term.lower() in item_text for term in disliked_terms or []):
+            continue
         if item.name != first_name and item.section.lower() in {"starter", "dessert", "wine", "snacks"}:
             return item
     return menu[-1]
