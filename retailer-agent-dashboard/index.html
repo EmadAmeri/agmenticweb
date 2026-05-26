@@ -3,17 +3,20 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="theme-color" content="#8F2F14">
+    <meta name="theme-color" content="#0C1720">
     <title>Retailer Dining Agent</title>
-    <link rel="stylesheet" href="./style.css?v=2">
+    <link rel="stylesheet" href="./style.css?v=4">
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
     <div class="app-shell">
       <header class="app-header">
-        <div>
-          <p class="eyebrow">Agmentic retailer side</p>
-          <h1>Retailer Dining Agent</h1>
+        <div class="brand-lockup">
+          <img src="./assets/agmentic_logo.png" alt="Agmentic logo">
+          <div>
+            <p class="eyebrow">Retailer Agent</p>
+            <h1>Dining Offers</h1>
+          </div>
         </div>
         <div class="header-actions">
           <button class="icon-button" id="loadSample" type="button" aria-label="Load sample menu" title="Load sample menu">
@@ -31,7 +34,6 @@
           <div class="panel-title">
             <div>
               <h2>Menu Intake</h2>
-              <p>Paste retailer menu text, one item per line when possible.</p>
             </div>
             <span class="status-pill" id="menuStatus">Draft</span>
           </div>
@@ -73,7 +75,6 @@
           <div class="panel-title">
             <div>
               <h2>Nearby Agents</h2>
-              <p>Discover consumer agents inside the retailer radius.</p>
             </div>
             <button class="icon-button" id="useLocation" type="button" aria-label="Use location" title="Use location">
               <i data-lucide="map-pin"></i>
@@ -88,14 +89,13 @@
             <div class="signal-card">
               <i data-lucide="navigation"></i>
               <div>
-                <span id="locationLabel">Location permission not requested</span>
-                <small id="connectionLabel">Ready to expose menu when a consumer agent is nearby.</small>
+                <span id="locationLabel">Location off</span>
+                <small id="connectionLabel">Ready</small>
               </div>
             </div>
             <label class="toggle-row">
               <span>
                 Allow marketing promotions
-                <small>Consumer agent can negotiate inside approved limits.</small>
               </span>
               <input id="promoEnabled" type="checkbox" checked>
             </label>
@@ -110,7 +110,6 @@
           <div class="panel-title">
             <div>
               <h2>Standard Menu</h2>
-              <p>Normalized schema prepared for agent-to-agent exchange.</p>
             </div>
             <button class="secondary-action" id="copyPayload" type="button">
               <i data-lucide="copy"></i>
@@ -124,7 +123,6 @@
           <div class="panel-title">
             <div>
               <h2>Promotions</h2>
-              <p>Define offers the retailer agent can use in negotiation.</p>
             </div>
             <button class="icon-button" id="addPromotion" type="button" aria-label="Add promotion" title="Add promotion">
               <i data-lucide="plus"></i>
@@ -166,15 +164,17 @@
           <div class="panel-title">
             <div>
               <h2>Agents In Range</h2>
-              <p>Offer preview based on intent, distance, menu, and active promotions.</p>
             </div>
           </div>
           <div class="agent-list" id="agentList"></div>
         </section>
       </main>
+      <footer class="app-footer">
+        اجرا شده با <a href="https://agmentic.com" target="_blank" rel="noopener">Agmentic</a> Lab
+      </footer>
     </div>
 
     <div class="toast" id="toast" hidden></div>
-    <script src="./app.js?v=2"></script>
+    <script src="./app.js?v=4"></script>
   </body>
 </html>

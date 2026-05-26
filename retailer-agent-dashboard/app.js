@@ -493,8 +493,8 @@ function renderAgents() {
 function render() {
   els.radiusValue.textContent = `${els.radius.value} m`;
   els.connectionLabel.textContent = state.menu?.items?.length
-    ? "Standard menu is ready for a nearby consumer agent."
-    : "Ready to expose menu when a consumer agent is nearby.";
+    ? "Menu ready"
+    : "Ready";
   renderMenu();
   renderPromotions();
   renderAgents();
