@@ -4,8 +4,8 @@
   "description": "Your dinner companion",
   "start_url": "./",
   "display": "standalone",
-  "theme_color": "#B8420F",
-  "background_color": "#FAF4E8",
+  "theme_color": "#8FD42E",
+  "background_color": "#f7f8f5",
   "icons": [
     {
       "src": "./icons/icon-192.png",
