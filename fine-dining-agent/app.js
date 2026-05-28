@@ -363,10 +363,22 @@ function answerStructuredMenuQuestion(text) {
   }
 
   const section = requestedSection(lowered);
-  const candidates = items
-    .filter((item) => !section || sectionMatches(item.section, section))
+  let scopedItems = items.filter((item) => !section || sectionMatches(item.section, section));
+
+  if (section === "main" && !scopedItems.length) {
+    scopedItems = items.filter((item) => looksLikeMainFood(item));
+  }
+
+  let candidates = scopedItems
     .map((item) => ({ item, price: parseMenuPrice(item.price) }))
     .filter((entry) => Number.isFinite(entry.price));
+
+  if (section === "main" && !candidates.length) {
+    candidates = items
+      .filter((item) => !looksLikeNonMainItem(item))
+      .map((item) => ({ item, price: parseMenuPrice(item.price) }))
+      .filter((entry) => Number.isFinite(entry.price));
+  }
 
   if (!candidates.length) {
     return section
@@ -405,6 +417,72 @@ function sectionMatches(value, section) {
   };
 
   return (groups[section] || []).some((name) => normalized.includes(name));
+}
+
+function looksLikeMainFood(item) {
+  const text = [
+    item.section,
+    item.name,
+    item.description,
+  ].join(" ").toLowerCase();
+
+  if (looksLikeNonMainItem(item)) {
+    return false;
+  }
+
+  const mainWords = [
+    "schnitzel",
+    "roast",
+    "steak",
+    "duck",
+    "beef",
+    "pork",
+    "chicken",
+    "fish",
+    "salmon",
+    "trout",
+    "veal",
+    "lamb",
+    "pasta",
+    "risotto",
+    "burger",
+    "dumpling",
+    "potato",
+    "rice",
+    "main",
+    "haupt",
+  ];
+
+  return mainWords.some((word) => text.includes(word));
+}
+
+function looksLikeNonMainItem(item) {
+  const text = [
+    item.section,
+    item.name,
+    item.description,
+  ].join(" ").toLowerCase();
+
+  if (sectionMatches(item.section, "drinks") || sectionMatches(item.section, "dessert") || sectionMatches(item.section, "starter")) {
+    return true;
+  }
+
+  const excludedWords = [
+    "wine",
+    "beer",
+    "cocktail",
+    "drink",
+    "dessert",
+    "cake",
+    "ice cream",
+    "sorbet",
+    "starter",
+    "appetizer",
+    "soup",
+    "salad",
+  ];
+
+  return excludedWords.some((word) => text.includes(word));
 }
 
 function parseMenuPrice(value) {
