@@ -659,8 +659,7 @@ button {
   z-index: 40;
   display: grid;
   place-items: center;
-  background: rgba(247, 248, 245, 0.62);
-  backdrop-filter: blur(8px);
+  background: rgba(247, 248, 245, 0.24);
 }
 
 .loader span {

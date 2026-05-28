@@ -837,6 +837,12 @@ async function loadOnlineMenu(restaurant) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session_id: sessionId, restaurant }),
     });
+    if (!data.items_count) {
+      const emptyMenuError = new Error("No readable menu items found");
+      emptyMenuError.status = 404;
+      throw emptyMenuError;
+    }
+
     saveStructuredMenu(data);
     restaurantList.hidden = true;
     menuStatus.textContent = isLocalMode()
@@ -844,7 +850,7 @@ async function loadOnlineMenu(restaurant) {
       : `Loaded ${data.items_count} items from ${restaurant.name}.`;
   } catch (error) {
     if (error.status === 404) {
-      menuStatus.textContent = "I found the restaurant, but not an online menu. Photograph the menu instead.";
+      menuStatus.textContent = "I found the restaurant, but not a readable online menu. Photograph the menu instead.";
     } else {
       menuStatus.textContent = `${friendlyError(error)} (${error.status || "network"}: ${error.message})`;
     }
