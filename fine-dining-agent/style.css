@@ -655,11 +655,18 @@ button {
 
 .loader {
   position: fixed;
-  inset: 0;
+  top: 50%;
+  left: 50%;
   z-index: 40;
   display: grid;
   place-items: center;
-  background: rgba(247, 248, 245, 0.24);
+  width: 58px;
+  height: 58px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.82);
+  box-shadow: 0 14px 34px rgba(11, 12, 13, 0.14);
+  pointer-events: none;
+  transform: translate(-50%, -50%);
 }
 
 .loader span {
