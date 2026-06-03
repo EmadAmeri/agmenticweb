@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0C1720">
     <title>Retailer Dining Agent</title>
-    <link rel="stylesheet" href="./style.css?v=6">
+    <link rel="stylesheet" href="./style.css?v=7">
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -140,7 +140,10 @@
                   <option value="percentage">Percentage</option>
                   <option value="fixed">Fixed amount</option>
                   <option value="bundle">Bundle</option>
-                  <option value="complimentary">Complimentary item</option>
+                  <option value="complimentary_item">Complimentary item</option>
+                  <option value="table_hold">Table hold</option>
+                  <option value="wine_pairing">Wine pairing</option>
+                  <option value="soft_upgrade">Soft upgrade</option>
                 </select>
               </label>
               <label class="field">
@@ -168,6 +171,43 @@
           </div>
           <div class="agent-list" id="agentList"></div>
         </section>
+
+        <section class="workspace-panel wide">
+          <div class="panel-title">
+            <div>
+              <h2>Agent Offer</h2>
+            </div>
+            <button class="primary-action" id="generateAgentOffer" type="button">
+              <i data-lucide="sparkles"></i>
+              Generate agent offer
+            </button>
+          </div>
+          <div class="offer-preview" id="offerPreview">
+            <p class="empty-state">No retailer offer generated yet.</p>
+          </div>
+        </section>
+
+        <section class="workspace-panel wide">
+          <div class="panel-title">
+            <div>
+              <h2>Latest agent negotiation</h2>
+              <p>Public outcome from the latest local agent handshake.</p>
+            </div>
+            <div class="action-row">
+              <button class="secondary-action" id="refreshNegotiationResult" type="button">
+                <i data-lucide="refresh-cw"></i>
+                Refresh negotiation result
+              </button>
+              <a class="secondary-link" href="../agent-handshake/">
+                <i data-lucide="external-link"></i>
+                Open handshake dashboard
+              </a>
+            </div>
+          </div>
+          <div class="negotiation-result" id="negotiationResult">
+            <p class="empty-state">No real local negotiation has been run yet.</p>
+          </div>
+        </section>
       </main>
       <footer class="app-footer">
         اجرا شده با <a href="https://agmentic.com" target="_blank" rel="noopener">Agmentic</a> Lab
@@ -175,6 +215,7 @@
     </div>
 
     <div class="toast" id="toast" hidden></div>
-    <script src="./app.js?v=6"></script>
+    <script src="../shared/agent-protocol.js?v=1"></script>
+    <script src="./app.js?v=7"></script>
   </body>
 </html>

@@ -14,6 +14,9 @@ const restaurantList = document.querySelector("#restaurantList");
 const providerToggle = document.querySelector("#providerToggle");
 const providerLabel = document.querySelector("#providerLabel");
 const localModelStatus = document.querySelector("#localModelStatus");
+const agentOfferCard = document.querySelector("#agentOfferCard");
+const agentOfferBody = document.querySelector("#agentOfferBody");
+const refreshAgentOffer = document.querySelector("#refreshAgentOffer");
 const loader = document.querySelector("#loader");
 const profilePanel = document.querySelector("#profilePanel");
 const profileContent = document.querySelector("#profileContent");
@@ -62,6 +65,14 @@ let incomingTimeout = null;
 let callTimerInterval = null;
 let callStartedAt = null;
 let microphoneStream = null;
+const agentProtocol = window.AgmenticAgentProtocol;
+const OFFER_VISIBLE_STATUSES = new Set([
+  "accepted",
+  "counter_unresolved",
+  "clarification_needed",
+  "rejected",
+  "failed_no_safe_offer",
+]);
 
 function getSessionId() {
   const userId = getUserId();
@@ -149,6 +160,150 @@ function appendError(text) {
 
   appendMessage("agent", text);
   lastErrorMessage = text;
+}
+
+function latestSessionMessage(session, action) {
+  return [...(session.messages || [])].reverse().find((message) => message.action === action) || null;
+}
+
+function latestEvaluation(session) {
+  return latestSessionMessage(session, "CONSUMER_EVALUATION")?.payload?.evaluation || null;
+}
+
+function latestCounterRequest(session) {
+  return latestSessionMessage(session, "CONSUMER_COUNTER_OFFER")?.payload?.counterRequest || "";
+}
+
+function currentOffer(session) {
+  return session.currentOffer?.offer || session.currentOffer || null;
+}
+
+function sessionExistsInStorage() {
+  const key = agentProtocol?.STORAGE_KEYS?.negotiationSession || "agmentic_negotiation_session_v1";
+  return Boolean(localStorage.getItem(key));
+}
+
+function moneyLabel(value, currency) {
+  if (value === null || value === undefined || value === "") {
+    return "not confirmed yet";
+  }
+  return `${currency || ""} ${value}`.trim();
+}
+
+function valueAddLabel(terms) {
+  if (terms.discountAmount) {
+    return `${moneyLabel(terms.discountAmount, terms.currency)} off${terms.discountPercent ? ` (${terms.discountPercent}%)` : ""}`;
+  }
+  if (terms.valueAdd) {
+    return terms.valueAdd.replaceAll("_", " ");
+  }
+  return "Clear price and safety check";
+}
+
+function simpleSafetyReason(session) {
+  const evaluation = latestEvaluation(session);
+  const offer = currentOffer(session);
+  const failedMessage = latestSessionMessage(session, "SESSION_FAILED");
+  const safetyFailure = evaluation?.safetyChecks?.find((check) => ["fail", "needs_clarification"].includes(check.status));
+  if (safetyFailure?.detail) {
+    return safetyFailure.detail;
+  }
+  if (offer?.constraintsUsed?.length) {
+    return offer.constraintsUsed[0];
+  }
+  if (failedMessage?.payload?.constraintsUsed?.length) {
+    return failedMessage.payload.constraintsUsed[0];
+  }
+  const rejected = evaluation?.rejectedItems?.[0];
+  if (rejected) {
+    return `${rejected.name} did not pass the safety check.`;
+  }
+  return evaluation?.publicMessageToRetailer || "It did not fit your preferences closely enough.";
+}
+
+function offerItemsHtml(items) {
+  if (!items?.length) {
+    return "";
+  }
+  return `<ul class="agent-offer-items">${items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>`;
+}
+
+function renderAgentOfferDetails(details = []) {
+  const rows = details
+    .filter((detail) => detail.value)
+    .map((detail) => `
+      <div>
+        <dt>${escapeHtml(detail.label)}</dt>
+        <dd>${escapeHtml(detail.value)}</dd>
+      </div>
+    `)
+    .join("");
+  return rows ? `<dl class="agent-offer-details">${rows}</dl>` : "";
+}
+
+function renderLatestNegotiationOffer() {
+  if (!agentOfferCard || !agentOfferBody || !agentProtocol?.getNegotiationSession || !sessionExistsInStorage()) {
+    if (agentOfferCard) agentOfferCard.hidden = true;
+    return;
+  }
+
+  const session = agentProtocol.getNegotiationSession();
+  if (!OFFER_VISIBLE_STATUSES.has(session.status)) {
+    agentOfferCard.hidden = true;
+    return;
+  }
+
+  const terms = session.finalTerms || {};
+  const offer = currentOffer(session) || {};
+  const evaluation = latestEvaluation(session);
+  const acceptedItems = terms.acceptedItems?.length
+    ? terms.acceptedItems
+    : (offer.proposedItems || []).map((item) => item.name).filter(Boolean);
+  const bestItems = acceptedItems.length ? acceptedItems : (offer.proposedItems || []).map((item) => item.name).filter(Boolean);
+  const clarification = evaluation?.publicMessageToRetailer || latestCounterRequest(session) || terms.remainingCaveats?.[0] || "The restaurant needs to clarify one detail.";
+  const reason = simpleSafetyReason(session);
+  const finalPrice = moneyLabel(terms.finalPrice ?? offer.priceAfter, terms.currency || offer.currency);
+  const discount = valueAddLabel(terms);
+  let html = "";
+
+  if (session.status === "accepted") {
+    html = `
+      <p class="agent-offer-lead">Good news - this offer looks safe and useful for you.</p>
+      ${offerItemsHtml(acceptedItems)}
+      ${renderAgentOfferDetails([
+        { label: "Final price", value: finalPrice },
+        { label: "Discount/value-add", value: discount },
+      ])}
+      <p class="agent-offer-confidence">You can order this confidently.</p>
+    `;
+  } else if (session.status === "rejected") {
+    html = `
+      <p class="agent-offer-lead">Your agent rejected this offer because it did not fit your preferences.</p>
+      <p>${escapeHtml(reason)}</p>
+    `;
+  } else if (session.status === "counter_unresolved") {
+    html = `
+      <p class="agent-offer-lead">Your agent tried to improve the offer, but the restaurant could not fully match your preferences.</p>
+      ${bestItems.length ? `<p>Best available option:</p>${offerItemsHtml(bestItems)}` : ""}
+      ${renderAgentOfferDetails([
+        { label: "Current price", value: finalPrice },
+        { label: "Still unresolved", value: clarification },
+      ])}
+    `;
+  } else if (session.status === "clarification_needed") {
+    html = `
+      <p class="agent-offer-lead">Your agent needs one more detail before recommending this.</p>
+      <p>${escapeHtml(clarification)}</p>
+    `;
+  } else if (session.status === "failed_no_safe_offer") {
+    html = `
+      <p class="agent-offer-lead">No safe offer was found based on your preferences/allergies.</p>
+      <p>${escapeHtml(reason)}</p>
+    `;
+  }
+
+  agentOfferBody.innerHTML = html;
+  agentOfferCard.hidden = false;
 }
 
 async function request(path, options = {}) {
@@ -1239,6 +1394,15 @@ suggestForm.addEventListener("submit", (event) => {
   );
 });
 
+refreshAgentOffer?.addEventListener("click", renderLatestNegotiationOffer);
+window.addEventListener("storage", (event) => {
+  const negotiationKey = agentProtocol?.STORAGE_KEYS?.negotiationSession || "agmentic_negotiation_session_v1";
+  if (event.key === negotiationKey) {
+    renderLatestNegotiationOffer();
+  }
+});
+window.addEventListener("focus", renderLatestNegotiationOffer);
+
 document.querySelector("#openCall").addEventListener("click", openFakeCall);
 document.querySelector("#endCall").addEventListener("click", endFakeCall);
 document.querySelector("#declineCall").addEventListener("click", endFakeCall);
@@ -1271,4 +1435,5 @@ updateProviderToggle();
 localModelStatus.textContent = isLocalMode()
   ? "Local mode: photograph a menu, then ask a short question."
   : "Cloud mode: using the current API.";
+renderLatestNegotiationOffer();
 requestMicrophonePermission();

@@ -20,6 +20,24 @@ const state = {
   apiOnline: false,
 };
 
+const protocol = window.AgmenticAgentProtocol;
+
+const defaultNegotiationRules = {
+  maxDiscountPercent: 12,
+  preferValueAddBeforeDiscount: true,
+  neverViolateAllergies: true,
+  neverOfferUnavailableItems: true,
+  requireClearPriceDisclosure: true,
+  allowedTactics: [
+    "proximity_nudge",
+    "wine_pairing",
+    "bundle_offer",
+    "quiet_table",
+    "limited_hold",
+    "soft_upgrade",
+  ],
+};
+
 const els = {
   retailerName: document.querySelector("#retailerName"),
   cuisine: document.querySelector("#cuisine"),
@@ -38,6 +56,8 @@ const els = {
   promoRule: document.querySelector("#promoRule"),
   promoList: document.querySelector("#promoList"),
   agentList: document.querySelector("#agentList"),
+  offerPreview: document.querySelector("#offerPreview"),
+  negotiationResult: document.querySelector("#negotiationResult"),
   toast: document.querySelector("#toast"),
 };
 
@@ -183,6 +203,35 @@ function detectDietaryTags(text) {
   return tags;
 }
 
+function detectPairingTags(text) {
+  const source = text.toLowerCase();
+  const tags = [];
+  if (/wine|riesling|champagne|sparkling|pairing/.test(source)) {
+    tags.push("wine_pairing");
+  }
+  if (/dessert|souffle|chocolate|sweet/.test(source)) {
+    tags.push("dessert_pairing");
+  }
+  if (/starter|snack|tartlet|burrata|carpaccio/.test(source)) {
+    tags.push("starter_pairing");
+  }
+  return tags;
+}
+
+function syncMenuMetadata() {
+  if (!state.menu) {
+    return;
+  }
+
+  state.menu.retailer = {
+    ...(state.menu.retailer || {}),
+    name: els.retailerName.value.trim() || "Unnamed retailer",
+    cuisine: els.cuisine.value.trim() || "restaurant",
+  };
+  state.menu.currency = els.currency.value;
+  state.menu.updated_at = new Date().toISOString();
+}
+
 function standardizeMenu() {
   const rawLines = els.rawMenu.value.split("\n").map((line) => line.trim()).filter(Boolean);
   const items = rawLines.map((line) => parseLine(line, "Menu"));
@@ -268,6 +317,264 @@ function buildAgentPayload() {
       promotions: promotionPayload(),
     },
   };
+}
+
+function saveSharedRetailerPolicy() {
+  if (!protocol) {
+    return;
+  }
+
+  syncMenuMetadata();
+  const menuItems = (state.menu?.items || []).map((item) => ({
+    id: item.id,
+    category: item.section,
+    name: item.name,
+    description: item.description,
+    price: item.price,
+    currency: els.currency.value,
+    allergens: item.allergens,
+    dietaryTags: item.dietary_tags,
+    pairingTags: item.pairing_tags || detectPairingTags(`${item.name} ${item.description} ${item.section}`),
+    availability: item.availability || "available",
+  }));
+
+  const savedPolicy = protocol.saveRetailerPolicy({
+    retailerId: "retailer-dining-agent",
+    retailerName: els.retailerName.value.trim() || "Unnamed retailer",
+    cuisine: els.cuisine.value.trim() || "restaurant",
+    currency: els.currency.value,
+    location: state.location,
+    discoveryRadius: Number(els.radius.value),
+    menuItems,
+    promotions: state.promotions.map((promotion) => ({
+      id: promotion.id,
+      name: promotion.name,
+      type: promotion.type,
+      value: promotion.value,
+      maxConcession: promotion.max_agent_concession,
+      rule: promotion.negotiation_rule,
+      appliesTo: [],
+      marketingText: "",
+      expiresAt: "",
+    })),
+    negotiationRules: defaultNegotiationRules,
+    marketingAllowed: els.promoEnabled.checked,
+  });
+  console.info("Retailer policy saved for agent handshake.", savedPolicy);
+  return savedPolicy;
+}
+
+function hasConsumerProfile(profile) {
+  return Boolean(profile?.sessionId && profile.sessionId !== "default")
+    || Boolean(profile?.likes?.length)
+    || Boolean(profile?.dislikes?.length)
+    || Boolean(profile?.allergies?.length)
+    || Boolean(profile?.memoryNotes?.length);
+}
+
+function hasRetailerPolicy(policy) {
+  return Boolean(policy?.retailerId && policy?.menuItems?.length);
+}
+
+function generateSharedRetailerOffer() {
+  if (!protocol) {
+    showToast("Shared agent protocol is not loaded.");
+    return null;
+  }
+
+  saveSharedRetailerPolicy();
+  const consumerProfile = protocol.getConsumerProfile();
+  const retailerPolicy = protocol.getRetailerPolicy();
+
+  if (!hasConsumerProfile(consumerProfile)) {
+    renderOfferPreview(null, "No consumer agent profile found.");
+    showToast("No consumer agent profile found.");
+    return null;
+  }
+  if (!hasRetailerPolicy(retailerPolicy)) {
+    renderOfferPreview(null, "No retailer policy or menu found.");
+    showToast("No retailer policy or menu found.");
+    return null;
+  }
+
+  const offer = protocol.generateRetailerOffer({
+    consumerProfile,
+    retailerPolicy,
+    negotiationContext: { source: "retailer_dashboard" },
+  });
+  renderOfferPreview(offer);
+  protocol.addAgentMessage({
+    speaker: "retailer_agent",
+    action: "RETAILER_OFFER",
+    protocol: "agmentic-a2a.v1",
+    payload: offer.protocolPayload,
+    readableEnglish: offer.readableEnglish,
+    visibility: "public",
+  });
+  showToast("Retailer offer generated for agent handshake.");
+  return offer;
+}
+
+function renderOfferPreview(offer, emptyMessage = "No retailer offer generated yet.") {
+  if (!els.offerPreview) {
+    return;
+  }
+
+  if (!offer) {
+    els.offerPreview.innerHTML = `<p class="empty-state">${escapeHtml(emptyMessage)}</p>`;
+    return;
+  }
+
+  els.offerPreview.innerHTML = `
+    <article class="offer-preview-card">
+      <div class="agent-card-header">
+        <div>
+          <strong>${escapeHtml(offer.offerTitle)}</strong>
+          <span>${escapeHtml(offer.offerType)} · ${escapeHtml(offer.marketingTactic)}</span>
+        </div>
+        <span class="distance-pill">${escapeHtml(offer.retailerName)}</span>
+      </div>
+      <p>${escapeHtml(offer.readableEnglish)}</p>
+      <div class="offer-price-row">
+        <span>Before ${money(offer.priceBefore)}</span>
+        <strong>After ${money(offer.priceAfter)}</strong>
+        <span>${offer.discountPercent}% discount</span>
+      </div>
+      <small>${escapeHtml(offer.constraintsUsed.join(" ")) || "Policy constraints satisfied."}</small>
+    </article>
+  `;
+}
+
+function negotiationSessionExists() {
+  const key = protocol?.STORAGE_KEYS?.negotiationSession || "agmentic_negotiation_session_v1";
+  return Boolean(localStorage.getItem(key));
+}
+
+function latestPublicMessage(action) {
+  if (!protocol?.getAgentMessages) {
+    return null;
+  }
+  return [...protocol.getAgentMessages()].reverse().find((message) => (
+    message.action === action && message.visibility === "public"
+  )) || null;
+}
+
+function latestPublicConsumerMessage(session) {
+  const evaluationMessage = latestPublicMessage("CONSUMER_EVALUATION")
+    || [...(session.messages || [])].reverse().find((message) => (
+      message.action === "CONSUMER_EVALUATION" && message.visibility === "public"
+    ));
+  return evaluationMessage?.payload?.evaluation?.publicMessageToRetailer
+    || evaluationMessage?.readableEnglish
+    || "";
+}
+
+function statusCopy(status) {
+  const labels = {
+    accepted: "Consumer agent accepted the offer.",
+    rejected: "Consumer agent rejected the offer.",
+    counter_unresolved: "Consumer agent asked for a better fit, but no acceptable revision was found.",
+    clarification_needed: "Consumer agent needs more information.",
+    failed_no_safe_offer: "No safe offer was available for this consumer profile.",
+  };
+  return labels[status] || "No completed negotiation outcome yet.";
+}
+
+function nextStepCopy(status) {
+  const labels = {
+    accepted: "Hold the proposed items/table and prepare clear confirmation.",
+    rejected: "Review allergy, budget, or preference mismatch before sending a new offer.",
+    counter_unresolved: "Consider a lighter item, lower price, or non-discount value-add.",
+    clarification_needed: "Provide clearer availability, price, allergens, or pairing details.",
+    failed_no_safe_offer: "Do not push this offer. Update menu options or allergy-safe alternatives.",
+  };
+  return labels[status] || "Run a real local negotiation from the handshake dashboard.";
+}
+
+function readableStatus(status) {
+  const labels = {
+    accepted: "Accepted",
+    rejected: "Rejected",
+    counter_unresolved: "Counter unresolved",
+    clarification_needed: "Clarification needed",
+    failed_no_safe_offer: "No safe offer",
+  };
+  return labels[status] || "No outcome";
+}
+
+function currentSessionOffer(session) {
+  return session.currentOffer?.offer || session.currentOffer || {};
+}
+
+function publicSafetySummary(terms) {
+  const checks = terms?.safetyChecks || [];
+  if (!checks.length) {
+    return "No public safety checks recorded.";
+  }
+  return checks.map((check) => `${check.name || "check"}: ${check.status || "unknown"}`).join(" · ");
+}
+
+function renderNegotiationResult() {
+  if (!els.negotiationResult) {
+    return;
+  }
+  if (!protocol?.getNegotiationSession || !negotiationSessionExists()) {
+    els.negotiationResult.innerHTML = '<p class="empty-state">No real local negotiation has been run yet.</p>';
+    return;
+  }
+
+  const session = protocol.getNegotiationSession();
+  const visibleStatuses = new Set(["accepted", "rejected", "counter_unresolved", "clarification_needed", "failed_no_safe_offer"]);
+  if (!visibleStatuses.has(session.status)) {
+    els.negotiationResult.innerHTML = '<p class="empty-state">No completed real local negotiation outcome yet.</p>';
+    return;
+  }
+
+  const terms = session.finalTerms || {};
+  const offer = currentSessionOffer(session);
+  const acceptedItems = terms.acceptedItems?.length
+    ? terms.acceptedItems
+    : (offer.proposedItems || []).map((item) => item.name).filter(Boolean);
+  const publicMessage = latestPublicConsumerMessage(session) || statusCopy(session.status);
+  const finalPrice = terms.finalPrice === null || terms.finalPrice === undefined
+    ? ""
+    : `${terms.currency || els.currency.value} ${terms.finalPrice}`;
+  const discount = terms.discountAmount
+    ? `${terms.currency || els.currency.value} ${terms.discountAmount} off${terms.discountPercent ? ` (${terms.discountPercent}%)` : ""}`
+    : (terms.valueAdd || offer.marketingTactic || "");
+  const caveats = terms.remainingCaveats?.filter(Boolean) || [];
+
+  els.negotiationResult.innerHTML = `
+    <article class="negotiation-card">
+      <div class="agent-card-header">
+        <div>
+          <strong>${escapeHtml(statusCopy(session.status))}</strong>
+          <span>Public decision: ${escapeHtml(readableStatus(session.status))}</span>
+        </div>
+        <span class="distance-pill">${escapeHtml(readableStatus(session.status))}</span>
+      </div>
+      <dl class="negotiation-details">
+        <div><dt>Accepted items</dt><dd>${acceptedItems.length ? escapeHtml(acceptedItems.join(", ")) : "None"}</dd></div>
+        <div><dt>Final price</dt><dd>${escapeHtml(finalPrice || "Not finalized")}</dd></div>
+        <div><dt>Discount/value-add</dt><dd>${escapeHtml(discount || "None recorded")}</dd></div>
+        <div><dt>Safety checks</dt><dd>${escapeHtml(publicSafetySummary(terms))}</dd></div>
+      </dl>
+      <div class="retailer-public-message">
+        <span>Public consumer message</span>
+        <p>${escapeHtml(publicMessage)}</p>
+      </div>
+      ${caveats.length ? `
+        <div class="retailer-public-message">
+          <span>Open caveat</span>
+          <p>${escapeHtml(caveats.join(" "))}</p>
+        </div>
+      ` : ""}
+      <div class="next-step-box">
+        <span>Retailer next step</span>
+        <strong>${escapeHtml(nextStepCopy(session.status))}</strong>
+      </div>
+    </article>
+  `;
 }
 
 async function findAgentsInRange() {
@@ -498,10 +805,12 @@ function render() {
   renderMenu();
   renderPromotions();
   renderAgents();
+  renderNegotiationResult();
   lucide.createIcons();
 }
 
 function save() {
+  syncMenuMetadata();
   localStorage.setItem(STORAGE_KEY, JSON.stringify({
     rawMenu: els.rawMenu.value,
     retailerName: els.retailerName.value,
@@ -514,6 +823,7 @@ function save() {
     location: state.location,
     nearbyAgents: state.nearbyAgents,
   }));
+  saveSharedRetailerPolicy();
 }
 
 function load() {
@@ -571,6 +881,8 @@ document.querySelector("#clearMenu").addEventListener("click", () => {
 document.querySelector("#savePromotion").addEventListener("click", addPromotion);
 document.querySelector("#addPromotion").addEventListener("click", () => els.promoName.focus());
 document.querySelector("#findAgents").addEventListener("click", findAgentsInRange);
+document.querySelector("#generateAgentOffer").addEventListener("click", generateSharedRetailerOffer);
+document.querySelector("#refreshNegotiationResult").addEventListener("click", renderNegotiationResult);
 document.querySelector("#copyPayload").addEventListener("click", async () => {
   await navigator.clipboard.writeText(JSON.stringify(buildAgentPayload(), null, 2));
   showToast("Agent payload copied.");
@@ -605,8 +917,18 @@ els.promoEnabled.addEventListener("change", () => {
   save();
   render();
 });
-["retailerName", "cuisine", "currency", "rawMenu"].forEach((key) => {
-  els[key].addEventListener("change", save);
+["retailerName", "cuisine"].forEach((key) => {
+  els[key].addEventListener("input", () => {
+    save();
+    render();
+  });
+});
+els.currency.addEventListener("change", () => {
+  save();
+  render();
+});
+els.rawMenu.addEventListener("change", () => {
+  save();
 });
 els.promoList.addEventListener("click", (event) => {
   const button = event.target.closest("[data-remove-promo]");
@@ -620,6 +942,15 @@ els.agentList.addEventListener("click", (event) => {
     negotiateWithAgent(button.dataset.negotiateAgent);
   }
 });
+
+window.addEventListener("storage", (event) => {
+  const sessionKey = protocol?.STORAGE_KEYS?.negotiationSession || "agmentic_negotiation_session_v1";
+  const messageKey = protocol?.STORAGE_KEYS?.agentMessages || "agmentic_agent_messages_v1";
+  if (event.key === sessionKey || event.key === messageKey) {
+    renderNegotiationResult();
+  }
+});
+window.addEventListener("focus", renderNegotiationResult);
 
 load();
 render();

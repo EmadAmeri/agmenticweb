@@ -12,14 +12,26 @@
     <div class="app-shell">
       <header class="app-header">
         <div>
-          <p class="eyebrow">Agmentic LAB live exchange</p>
+          <p class="eyebrow">Agmentic agent negotiation</p>
           <h1>Agent Handshake</h1>
-          <p class="hero-copy">Retailer and consumer agents connect, exchange menu memory, and negotiate in real time.</p>
+          <p class="hero-copy">Run a local negotiation between the consumer agent profile and the retailer agent policy saved by the other pages.</p>
         </div>
         <div class="header-actions">
-          <button class="primary-action" id="startLive" type="button">
+          <button class="secondary-action" id="loadMaisonDemo" type="button">
+            <i data-lucide="utensils"></i>
+            Load Maison Lumiere demo
+          </button>
+          <button class="secondary-action" id="loadAllergyDemo" type="button">
+            <i data-lucide="shield-alert"></i>
+            Load allergy rejection demo
+          </button>
+          <button class="primary-action" id="startLocalNegotiation" type="button">
+            <i data-lucide="handshake"></i>
+            Start real local negotiation
+          </button>
+          <button class="secondary-action legacy-action" id="startLive" type="button">
             <i data-lucide="radio"></i>
-            Connect live
+            Run scripted backend demo
           </button>
         </div>
       </header>
@@ -28,11 +40,20 @@
         <section class="workspace-panel live-panel">
           <div class="panel-title">
             <div>
-              <h2>Live Negotiation</h2>
-              <p>Watch the same exchange as agent protocol and plain English.</p>
+              <h2>Real Local Negotiation</h2>
+              <p>Primary mode uses current shared state from the consumer and retailer pages. Legacy demo uses a scripted backend scenario.</p>
             </div>
             <div class="panel-actions">
+              <span class="mode-pill" id="modeLabel">Real local negotiation</span>
               <span class="status-pill" id="status">Idle</span>
+              <button class="secondary-action" id="generateRetailerOfferDebug" type="button">
+                <i data-lucide="sparkles"></i>
+                Generate retailer offer from shared state
+              </button>
+              <button class="secondary-action" id="evaluateRetailerOfferDebug" type="button">
+                <i data-lucide="check-circle-2"></i>
+                Evaluate latest retailer offer
+              </button>
               <button class="secondary-action" id="clearTimeline" type="button">
                 <i data-lucide="eraser"></i>
                 Clear
@@ -53,23 +74,26 @@
           </div>
 
           <div class="connected-agents" id="connectedAgents" hidden></div>
+          <div class="shared-state-summary" id="sharedStateSummary" aria-live="polite"></div>
+          <div class="meal-path-comparison" id="mealPathComparison" hidden></div>
+          <div class="final-result-card" id="finalResultCard" hidden></div>
           <div class="timeline" id="timeline"></div>
         </section>
 
         <section class="workspace-panel wide">
           <div class="panel-title">
             <div>
-              <h2>Dual Language Feed</h2>
-              <p>Left side is the agent-to-agent protocol. Right side is readable English.</p>
+              <h2>Negotiation Transcript</h2>
+              <p>Protocol messages are shown for debugging. Conversation text is the public agent exchange.</p>
             </div>
           </div>
           <div class="feed-grid">
             <div>
-              <h3>Agent language</h3>
+              <h3>Agent protocol</h3>
               <pre id="agentLanguage"></pre>
             </div>
             <div>
-              <h3>English</h3>
+              <h3>Agent conversation</h3>
               <div id="englishFeed" class="english-feed"></div>
             </div>
           </div>
@@ -78,6 +102,7 @@
     </div>
 
     <div class="toast" id="toast" hidden></div>
+    <script src="../shared/agent-protocol.js?v=2"></script>
     <script src="./app-memory-real-v1.js"></script>
   </body>
 </html>

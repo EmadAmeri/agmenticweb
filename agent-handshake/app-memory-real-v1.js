@@ -37,11 +37,165 @@ const els = {
   englishFeed: document.querySelector("#englishFeed"),
   toast: document.querySelector("#toast"),
   pulseDot: document.querySelector("#pulseDot"),
+  modeLabel: document.querySelector("#modeLabel"),
+  sharedStateSummary: document.querySelector("#sharedStateSummary"),
+  mealPathComparison: document.querySelector("#mealPathComparison"),
+  finalResultCard: document.querySelector("#finalResultCard"),
+  generateRetailerOfferDebug: document.querySelector("#generateRetailerOfferDebug"),
+  evaluateRetailerOfferDebug: document.querySelector("#evaluateRetailerOfferDebug"),
 };
 
 let eventSource = null;
 let fallbackTimers = [];
 const events = [];
+const protocol = window.AgmenticAgentProtocol;
+const maisonLumiereDemoConsumer = {
+  userId: "demo-consumer-emma",
+  sessionId: "demo-session-maison-lumiere",
+  name: "Emma",
+  likes: ["seafood", "citrus", "light dinner", "quiet table"],
+  dislikes: ["very heavy food"],
+  allergies: [],
+  dietaryPreference: "",
+  budgetRange: "medium",
+  occasion: "anniversary dinner",
+  confidenceLevel: "low",
+  winePreference: "white wine",
+  preferredTableStyle: "quiet table",
+  memoryNotes: [
+    "Prefers clear, simple recommendations.",
+    "Likes lighter seafood dishes.",
+    "Does not want to look unsure in front of the waiter.",
+  ],
+  diningHistory: [],
+};
+
+const maisonLumiereDemoRetailer = {
+  retailerId: "demo-retailer-maison-lumiere",
+  retailerName: "Maison Lumiere",
+  cuisine: "modern fine dining",
+  currency: "EUR",
+  location: {
+    city: "Munich",
+    country: "Germany",
+  },
+  discoveryRadius: 450,
+  marketingAllowed: true,
+  menuItems: [
+    {
+      id: "item-oyster-tartlet",
+      category: "Snacks",
+      name: "Oyster tartlet",
+      description: "cucumber, finger lime, jalapeno",
+      price: 9,
+      currency: "EUR",
+      allergens: ["shellfish"],
+      dietaryTags: [],
+      pairingTags: ["citrus", "fresh", "snack"],
+      availability: "available",
+    },
+    {
+      id: "item-burrata",
+      category: "Starter",
+      name: "Burrata",
+      description: "smoked tomato, basil oil, toasted sourdough",
+      price: 16,
+      currency: "EUR",
+      allergens: ["dairy", "gluten"],
+      dietaryTags: ["vegetarian"],
+      pairingTags: ["soft", "starter", "wine-friendly"],
+      availability: "available",
+    },
+    {
+      id: "item-beetroot",
+      category: "Starter",
+      name: "Beetroot carpaccio",
+      description: "horseradish cream, hazelnut, dill",
+      price: 14,
+      currency: "EUR",
+      allergens: ["nuts", "dairy"],
+      dietaryTags: ["vegetarian"],
+      pairingTags: ["light", "fresh", "starter"],
+      availability: "available",
+    },
+    {
+      id: "item-sea-bass",
+      category: "Main",
+      name: "Sea bass",
+      description: "saffron beurre blanc, fennel, caviar oil",
+      price: 34,
+      currency: "EUR",
+      allergens: ["fish", "dairy"],
+      dietaryTags: ["pescatarian"],
+      pairingTags: ["seafood", "white wine", "light", "anniversary"],
+      availability: "available",
+    },
+    {
+      id: "item-duck",
+      category: "Main",
+      name: "Dry-aged duck",
+      description: "cherry jus, endive, potato millefeuille",
+      price: 38,
+      currency: "EUR",
+      allergens: ["dairy"],
+      dietaryTags: [],
+      pairingTags: ["rich", "heavy", "red wine"],
+      availability: "available",
+    },
+    {
+      id: "item-souffle",
+      category: "Dessert",
+      name: "Chocolate souffle",
+      description: "vanilla ice cream, cacao nib",
+      price: 13,
+      currency: "EUR",
+      allergens: ["dairy", "egg", "gluten"],
+      dietaryTags: ["vegetarian"],
+      pairingTags: ["dessert", "sweet"],
+      availability: "available",
+    },
+    {
+      id: "item-riesling",
+      category: "Wine",
+      name: "Riesling Kabinett",
+      description: "Mosel, citrus, slate",
+      price: 12,
+      currency: "EUR",
+      allergens: ["sulfites"],
+      dietaryTags: [],
+      pairingTags: ["white wine", "citrus", "seafood pairing"],
+      availability: "available",
+    },
+  ],
+  promotions: [
+    {
+      id: "promo-chef-welcome-pairing",
+      name: "Chef welcome pairing",
+      type: "percentage",
+      value: 12,
+      maxConcession: 12,
+      rule: "Use for parties of 2+ before 19:00 or when consumer asks for wine pairing.",
+      appliesTo: ["item-sea-bass", "item-riesling"],
+      marketingText: "A calm anniversary pairing with sea bass and Riesling.",
+      expiresAt: "",
+    },
+  ],
+  negotiationRules: {
+    maxDiscountPercent: 12,
+    preferValueAddBeforeDiscount: true,
+    neverViolateAllergies: true,
+    neverOfferUnavailableItems: true,
+    requireClearPriceDisclosure: true,
+    allowedTactics: [
+      "proximity_nudge",
+      "wine_pairing",
+      "bundle_offer",
+      "quiet_table",
+      "limited_hold",
+      "soft_upgrade",
+    ],
+  },
+};
 
 function payload() {
   return typeof structuredClone === "function"
@@ -52,6 +206,8 @@ function payload() {
 async function startLive() {
   stopStream();
   resetFeeds();
+  setMode("Legacy scripted demo");
+  renderSharedStateSummary();
   setStatus("Registering");
 
   try {
@@ -76,7 +232,7 @@ async function startLive() {
       distance_m: scenario.distance_m,
     });
 
-    setStatus("Live");
+    setStatus("Demo stream");
     els.pulseDot.classList.add("active");
     eventSource = new EventSource(`${API_BASE}/api/connections/${connection.connection_id}/events`);
     eventSource.onmessage = (message) => {
@@ -88,7 +244,7 @@ async function startLive() {
         return;
       }
       if (event.type === "complete") {
-        setStatus("Complete");
+        setStatus("Demo complete");
         els.pulseDot.classList.remove("active");
         stopStream();
         return;
@@ -96,11 +252,11 @@ async function startLive() {
       pushEvent(event);
     };
     eventSource.onerror = () => {
-      showToast("Backend stream disconnected. Showing browser fallback.");
+      showToast("Scripted backend demo disconnected. Showing browser fallback.");
       startFallbackLive();
     };
   } catch (error) {
-    showToast("Backend unavailable on GitHub Pages. Showing browser fallback.");
+    showToast("Scripted backend demo unavailable. Showing browser fallback.");
     startFallbackLive();
   }
 }
@@ -122,13 +278,14 @@ async function postJson(path, body) {
 
 function startFallbackLive() {
   stopStream();
-  setStatus("Live");
+  setMode("Legacy scripted demo");
+  setStatus("Demo stream");
   els.pulseDot.classList.add("active");
   buildFallbackEvents(payload()).forEach((event, index, allEvents) => {
     const timer = window.setTimeout(() => {
       pushEvent(event);
       if (index === allEvents.length - 1) {
-        setStatus("Complete");
+        setStatus("Demo complete");
         els.pulseDot.classList.remove("active");
       }
     }, index * 1150);
@@ -165,7 +322,7 @@ function renderFeeds() {
 
   els.englishFeed.innerHTML = events.map((event) => `
     <article class="english-card ${event.speaker}">
-      <strong>${escapeHtml(chatLabel(event.speaker))}</strong>
+      <strong>${escapeHtml(chatLabel(event))}</strong>
       <p>${escapeHtml(event.english)}</p>
     </article>
   `).join("");
@@ -178,6 +335,9 @@ function resetFeeds() {
   els.connectedAgents.hidden = true;
   els.agentLanguage.textContent = "";
   els.englishFeed.innerHTML = "";
+  renderFinalResult(null);
+  renderSharedStateSummary();
+  renderMealPathComparison();
 }
 
 function stopStream() {
@@ -193,15 +353,35 @@ function setStatus(text) {
   els.status.textContent = text;
 }
 
+function setMode(text) {
+  if (els.modeLabel) {
+    els.modeLabel.textContent = text;
+  }
+}
+
+function statusLabel(status) {
+  const labels = {
+    accepted: "Accepted by consumer agent",
+    rejected: "Rejected by consumer agent",
+    counter_unresolved: "Counter unresolved",
+    clarification_needed: "Clarification needed",
+    failed_no_safe_offer: "No safe offer available",
+    failed_no_consumer: "Missing consumer profile",
+    failed_no_retailer: "Missing retailer policy/menu",
+  };
+  return labels[status] || status || "Idle";
+}
+
 function labelFor(speaker) {
   if (speaker === "consumer") return "Consumer agent";
   if (speaker === "retailer") return "Retailer agent";
   return "System";
 }
 
-function chatLabel(speaker) {
-  if (speaker === "consumer") return displayAgentName("consumer");
-  if (speaker === "retailer") return displayAgentName("retailer");
+function chatLabel(event) {
+  if (event.speakerLabel) return event.speakerLabel;
+  if (event.speaker === "consumer") return displayAgentName("consumer");
+  if (event.speaker === "retailer") return displayAgentName("retailer");
   return "System";
 }
 
@@ -230,6 +410,408 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
+function renderSharedStateSummary() {
+  if (!els.sharedStateSummary || !protocol) {
+    return;
+  }
+
+  const consumer = protocol.getConsumerProfile();
+  const retailer = protocol.getRetailerPolicy();
+  const hasConsumer = hasConsumerProfile(consumer);
+  const hasRetailer = Boolean(retailer.retailerId && retailer.retailerId !== "retailer-dining-agent")
+    || Boolean(retailer.retailerName && retailer.retailerName !== "Unnamed retailer")
+    || retailer.menuItems.length
+    || retailer.promotions.length;
+  const hasMenu = Boolean(retailer.menuItems.length);
+  const marketingLabel = retailer.marketingAllowed ? "yes" : "no";
+  const missing = [
+    hasConsumer ? "" : "consumer profile",
+    hasRetailer ? "" : "retailer policy",
+    hasMenu ? "" : "menu",
+  ].filter(Boolean);
+  const readiness = !missing.length ? "Ready for real local negotiation" : `Missing ${missing.join(", ")}`;
+  const readinessClass = !missing.length ? "ready" : "missing";
+
+  els.sharedStateSummary.innerHTML = `
+    <div class="readiness-row ${readinessClass}">
+      <strong>${escapeHtml(readiness)}</strong>
+      <span>Promotions are optional.</span>
+    </div>
+    <div class="state-grid">
+      <section>
+        <strong>Consumer Agent</strong>
+        <dl>
+          <div><dt>Session id</dt><dd>${escapeHtml(hasConsumer ? consumer.sessionId : "missing")}</dd></div>
+          <div><dt>Likes</dt><dd>${consumer.likes.length}</dd></div>
+          <div><dt>Allergies</dt><dd>${consumer.allergies.length}</dd></div>
+          <div><dt>Occasion</dt><dd>${escapeHtml(consumer.occasion || "none")}</dd></div>
+          <div><dt>Budget</dt><dd>${escapeHtml(consumer.budgetRange || "none")}</dd></div>
+          <div><dt>Confidence</dt><dd>${escapeHtml(consumer.confidenceLevel || "unknown")}</dd></div>
+          <div><dt>Wine</dt><dd>${escapeHtml(consumer.winePreference || "none")}</dd></div>
+        </dl>
+      </section>
+      <section>
+        <strong>Retailer Agent</strong>
+        <dl>
+          <div><dt>Name</dt><dd>${escapeHtml(hasRetailer ? retailer.retailerName : "missing")}</dd></div>
+          <div><dt>Menu items</dt><dd>${retailer.menuItems.length}</dd></div>
+          <div><dt>Promotions</dt><dd>${retailer.promotions.length}</dd></div>
+          <div><dt>Marketing allowed</dt><dd>${marketingLabel}</dd></div>
+          <div><dt>Radius</dt><dd>${retailer.discoveryRadius} m</dd></div>
+          <div><dt>Readiness</dt><dd>${escapeHtml(!missing.length ? "ready" : missing.join(", "))}</dd></div>
+        </dl>
+      </section>
+    </div>
+  `;
+}
+
+function compactItems(items) {
+  return (items || []).map((item) => item.name).filter(Boolean).join(", ") || "None";
+}
+
+function scoreRows(scoreBreakdown = {}) {
+  return Object.entries(scoreBreakdown)
+    .map(([key, value]) => `<span>${escapeHtml(key.replace(/([A-Z])/g, " $1"))}: <strong>${escapeHtml(value)}</strong></span>`)
+    .join("");
+}
+
+function renderMealPathComparison() {
+  if (!els.mealPathComparison || !protocol?.compareItemAndMealPathEngines) {
+    return;
+  }
+  const consumer = protocol.getConsumerProfile();
+  const retailer = protocol.getRetailerPolicy();
+  if (!hasConsumerProfile(consumer) || !hasRetailerPolicy(retailer)) {
+    els.mealPathComparison.hidden = true;
+    els.mealPathComparison.innerHTML = "";
+    return;
+  }
+
+  const comparison = protocol.compareItemAndMealPathEngines({
+    consumerProfile: consumer,
+    retailerPolicy: retailer,
+    limit: 5,
+  });
+  const currentOfferItems = compactItems(comparison.currentOfferWinner?.proposedItems);
+  const bestPath = comparison.bestMealPathWinner;
+  const pathCards = comparison.mealPaths.map((path, index) => `
+    <article class="meal-path-card ${index === 0 ? "winner" : ""}">
+      <div class="meal-path-title">
+        <strong>${index + 1}. ${escapeHtml([
+          compactItems(path.starters),
+          compactItems(path.mains),
+          compactItems(path.desserts),
+          compactItems(path.wines),
+        ].filter((part) => part !== "None").join(" + "))}</strong>
+        <span>${escapeHtml(path.totalScore)} pts · ${escapeHtml(retailer.currency)} ${escapeHtml(path.totalPrice)}</span>
+      </div>
+      <dl>
+        <div><dt>Starter</dt><dd>${escapeHtml(compactItems(path.starters))}</dd></div>
+        <div><dt>Main</dt><dd>${escapeHtml(compactItems(path.mains))}</dd></div>
+        <div><dt>Dessert</dt><dd>${escapeHtml(compactItems(path.desserts))}</dd></div>
+        <div><dt>Wine</dt><dd>${escapeHtml(compactItems(path.wines))}</dd></div>
+      </dl>
+      <div class="score-chip-row">${scoreRows(path.scoreBreakdown)}</div>
+    </article>
+  `).join("");
+
+  els.mealPathComparison.hidden = false;
+  els.mealPathComparison.innerHTML = `
+    <div class="comparison-heading">
+      <div>
+        <strong>Item Engine vs Meal Path Engine</strong>
+        <span>Phase 1 runs both engines side by side. Retailer offers are not replaced yet.</span>
+      </div>
+    </div>
+    <div class="engine-compare-grid">
+      <article>
+        <span>Current item engine offer</span>
+        <strong>${escapeHtml(currentOfferItems)}</strong>
+        <small>Top scored item: ${escapeHtml(comparison.currentItemWinner?.item?.name || comparison.currentItemWinner?.item || "None")} (${escapeHtml(comparison.currentItemWinner?.totalScore || 0)} pts)</small>
+      </article>
+      <article class="winner">
+        <span>Best meal path winner</span>
+        <strong>${escapeHtml([
+          compactItems(bestPath?.starters),
+          compactItems(bestPath?.mains),
+          compactItems(bestPath?.wines),
+        ].filter((part) => part !== "None").join(" + ") || "None")}</strong>
+        <small>${escapeHtml(bestPath?.totalScore || 0)} pts · ${escapeHtml(retailer.currency)} ${escapeHtml(bestPath?.totalPrice || 0)}</small>
+      </article>
+    </div>
+    <div class="meal-path-list">${pathCards}</div>
+  `;
+}
+
+function hasConsumerProfile(profile) {
+  return Boolean(profile?.sessionId && profile.sessionId !== "default")
+    || Boolean(profile?.likes?.length)
+    || Boolean(profile?.dislikes?.length)
+    || Boolean(profile?.allergies?.length)
+    || Boolean(profile?.memoryNotes?.length);
+}
+
+function hasRetailerPolicy(policy) {
+  return Boolean(policy?.retailerId && policy?.menuItems?.length);
+}
+
+function generateRetailerOfferFromSharedState() {
+  if (!protocol) {
+    showToast("Shared agent protocol is not loaded.");
+    return;
+  }
+
+  const consumerProfile = protocol.getConsumerProfile();
+  const retailerPolicy = protocol.getRetailerPolicy();
+
+  if (!hasConsumerProfile(consumerProfile)) {
+    showToast("No consumer agent profile found.");
+    return;
+  }
+  if (!hasRetailerPolicy(retailerPolicy)) {
+    showToast("No retailer policy or menu found.");
+    return;
+  }
+
+  const offer = protocol.generateRetailerOffer({
+    consumerProfile,
+    retailerPolicy,
+    negotiationContext: { source: "agent_handshake_debug" },
+  });
+  protocol.addAgentMessage({
+    speaker: "retailer_agent",
+    action: "RETAILER_OFFER",
+    protocol: "agmentic-a2a.v1",
+    payload: offer.protocolPayload,
+    readableEnglish: offer.readableEnglish,
+    visibility: "public",
+  });
+  pushEvent({
+    type: "message",
+    speaker: "retailer",
+    timestamp: offer.createdAt,
+    agent_language: offer.protocolPayload,
+    english: offer.readableEnglish,
+  });
+  setStatus("Debug offer");
+}
+
+function latestRetailerOfferMessage() {
+  if (!protocol?.getAgentMessages) {
+    return null;
+  }
+
+  return [...protocol.getAgentMessages()].reverse().find((message) => {
+    const payload = message.payload || {};
+    return message.action === "RETAILER_OFFER"
+      || payload.action === "RETAILER_OFFER"
+      || Boolean(payload.offer);
+  }) || null;
+}
+
+function offerFromMessage(message) {
+  if (!message) {
+    return null;
+  }
+  const payload = message.payload || {};
+  return payload.offer || payload.protocolPayload?.offer || payload;
+}
+
+function evaluateLatestRetailerOffer() {
+  if (!protocol) {
+    showToast("Shared agent protocol is not loaded.");
+    return;
+  }
+
+  const consumerProfile = protocol.getConsumerProfile();
+  const retailerPolicy = protocol.getRetailerPolicy();
+  const offerMessage = latestRetailerOfferMessage();
+  const offer = offerFromMessage(offerMessage);
+
+  if (!hasConsumerProfile(consumerProfile)) {
+    showToast("No consumer agent profile found.");
+    return;
+  }
+  if (!offerMessage || !offer) {
+    showToast("No retailer offer found.");
+    return;
+  }
+
+  const evaluation = protocol.evaluateRetailerOffer({
+    consumerProfile,
+    retailerPolicy,
+    offer,
+    negotiationContext: { source: "agent_handshake_debug" },
+  });
+
+  protocol.addAgentMessage({
+    speaker: "consumer_agent",
+    action: "CONSUMER_EVALUATION",
+    protocol: "agmentic-a2a.v1",
+    payload: evaluation.protocolPayload,
+    readableEnglish: evaluation.readableEnglish,
+    visibility: "public",
+  });
+  pushEvent({
+    type: "message",
+    speaker: "consumer",
+    timestamp: evaluation.createdAt,
+    agent_language: evaluation.protocolPayload,
+    english: evaluation.readableEnglish,
+  });
+  setStatus("Debug evaluation");
+}
+
+function eventFromAgentMessage(message) {
+  const speakerMap = {
+    consumer_agent: "consumer",
+    retailer_agent: "retailer",
+    system: "system",
+  };
+  const retailer = protocol?.getRetailerPolicy?.();
+  return {
+    type: "message",
+    speaker: speakerMap[message.speaker] || message.speaker || "system",
+    speakerLabel: message.speaker === "consumer_agent"
+      ? "Consumer Agent"
+      : message.speaker === "retailer_agent"
+        ? retailer?.retailerName || "Retailer Agent"
+        : "System",
+    timestamp: message.timestamp,
+    agent_language: message.payload,
+    english: message.readableEnglish,
+  };
+}
+
+function runRealLocalNegotiation() {
+  if (!protocol?.runLocalNegotiationSession) {
+    showToast("Shared agent protocol is not loaded.");
+    return;
+  }
+
+  stopStream();
+  els.pulseDot.classList.add("active");
+  resetFeeds();
+  setMode("Local real negotiation");
+  setStatus("Negotiating");
+  renderSharedStateSummary();
+
+  const consumerProfile = protocol.getConsumerProfile();
+  const retailerPolicy = protocol.getRetailerPolicy();
+  const session = protocol.runLocalNegotiationSession({
+    consumerProfile,
+    retailerPolicy,
+    maxRounds: 2,
+  });
+
+  resetFeeds();
+  setMode("Local real negotiation");
+  session.messages.forEach((message) => pushEvent(eventFromAgentMessage(message)));
+  renderFinalResult(session);
+  setStatus(statusLabel(session.status));
+  els.pulseDot.classList.remove("active");
+
+  if (session.status === "failed_no_consumer") {
+    showToast("No consumer agent profile found.");
+  } else if (session.status === "failed_no_retailer") {
+    showToast("No retailer policy or menu found.");
+  } else if (session.status === "failed_no_safe_offer") {
+    showToast("No safe retailer offer was available.");
+  }
+}
+
+function renderFinalResult(session) {
+  if (!els.finalResultCard) {
+    return;
+  }
+  if (!session) {
+    els.finalResultCard.hidden = true;
+    els.finalResultCard.innerHTML = "";
+    return;
+  }
+
+  const terms = session.finalTerms || {};
+  const finalEvaluation = session.finalEvaluation || session.firstEvaluation || {};
+  const checks = (terms.safetyChecks || finalEvaluation.safetyChecks || [])
+    .map((check) => `${escapeHtml(check.name || "check")}: ${escapeHtml(check.status || "unknown")}`)
+    .join(" · ") || "No safety checks recorded";
+  const caveats = (terms.remainingCaveats || [])
+    .map((caveat) => `<li>${escapeHtml(caveat)}</li>`)
+    .join("") || "<li>None</li>";
+  const acceptedItems = (terms.acceptedItems || [])
+    .map((item) => escapeHtml(item))
+    .join(", ") || "None";
+  const price = terms.finalPrice === null || terms.finalPrice === undefined
+    ? "not finalized"
+    : `${escapeHtml(terms.currency || "")} ${escapeHtml(terms.finalPrice)}`;
+  const value = terms.discountAmount
+    ? `${escapeHtml(terms.currency || "")} ${escapeHtml(terms.discountAmount)} discount (${escapeHtml(terms.discountPercent || 0)}%)`
+    : escapeHtml(terms.valueAdd || "No discount/value-add recorded");
+
+  els.finalResultCard.hidden = false;
+  els.finalResultCard.innerHTML = `
+    <div class="final-result-heading">
+      <span>Final result</span>
+      <strong>${escapeHtml(statusLabel(session.status))}</strong>
+    </div>
+    <dl>
+      <div><dt>Retailer</dt><dd>${escapeHtml(terms.retailerName || "Unknown")}</dd></div>
+      <div><dt>Accepted items</dt><dd>${acceptedItems}</dd></div>
+      <div><dt>Final price</dt><dd>${price}</dd></div>
+      <div><dt>Discount/value-add</dt><dd>${value}</dd></div>
+      <div><dt>Consumer-safe checks</dt><dd>${checks}</dd></div>
+    </dl>
+    <div class="final-caveats">
+      <span>Remaining caveats</span>
+      <ul>${caveats}</ul>
+    </div>
+  `;
+}
+
+function cloneDemoData(value) {
+  return typeof structuredClone === "function"
+    ? structuredClone(value)
+    : JSON.parse(JSON.stringify(value));
+}
+
+function loadMaisonLumiereDemo({ allergyMode = false } = {}) {
+  if (!protocol) {
+    showToast("Shared agent protocol is not loaded.");
+    return;
+  }
+
+  const consumerProfile = cloneDemoData(maisonLumiereDemoConsumer);
+  const retailerPolicy = cloneDemoData(maisonLumiereDemoRetailer);
+
+  if (allergyMode) {
+    consumerProfile.userId = "demo-consumer-emma-allergy";
+    consumerProfile.sessionId = "demo-session-maison-lumiere-allergy";
+    consumerProfile.allergies = ["fish", "shellfish", "dairy"];
+    consumerProfile.dislikes = ["wine", "riesling", "nuts", "gluten", "egg", "very heavy food"];
+    consumerProfile.winePreference = "";
+    consumerProfile.memoryNotes = [
+      ...consumerProfile.memoryNotes,
+      "Needs strict allergy protection for fish, shellfish, and dairy.",
+      "Does not want a wine-only recommendation.",
+    ];
+  }
+
+  protocol.saveConsumerProfile(consumerProfile);
+  protocol.saveRetailerPolicy(retailerPolicy);
+  protocol.clearNegotiationSession();
+  protocol.clearAgentMessages?.();
+
+  stopStream();
+  resetFeeds();
+  setMode("Real local negotiation");
+  setStatus("Ready");
+  renderSharedStateSummary();
+  renderMealPathComparison();
+  showToast(allergyMode
+    ? "Allergy rejection demo loaded. Ready for real local negotiation."
+    : "Maison Lumiere demo loaded. Ready for real local negotiation.");
+}
+
 function buildFallbackEvents(scenario) {
   const menu = parseMenu(scenario.menu_text);
   const promotion = scenario.promotions[0] || {
@@ -252,7 +834,7 @@ function buildFallbackEvents(scenario) {
       distance_m: scenario.distance_m,
       retailer: scenario.retailer_name,
     }),
-    agentEvent("message", "retailer", "MENU_TRANSFER", `${scenario.retailer_name} sends its live menu and offer policy.`, {
+    agentEvent("message", "retailer", "MENU_TRANSFER", `${scenario.retailer_name} sends the scripted demo menu and offer policy.`, {
       menu_items: menu.length,
       offer_policy: [promotion],
       capabilities: ["menu_exchange", "promotion_negotiation", "reservation_hold"],
@@ -333,11 +915,31 @@ function chooseCounterHook(menu, firstName) {
     || { section: "Menu", name: "reservation hold", description: "", price: null };
 }
 
+document.querySelector("#loadMaisonDemo").addEventListener("click", () => loadMaisonLumiereDemo());
+document.querySelector("#loadAllergyDemo").addEventListener("click", () => loadMaisonLumiereDemo({ allergyMode: true }));
+document.querySelector("#startLocalNegotiation").addEventListener("click", runRealLocalNegotiation);
 document.querySelector("#startLive").addEventListener("click", startLive);
 document.querySelector("#clearTimeline").addEventListener("click", () => {
   stopStream();
   els.pulseDot.classList.remove("active");
   resetFeeds();
+  setMode("Real local negotiation");
   setStatus("Idle");
 });
+els.generateRetailerOfferDebug.addEventListener("click", generateRetailerOfferFromSharedState);
+els.evaluateRetailerOfferDebug.addEventListener("click", evaluateLatestRetailerOffer);
+renderSharedStateSummary();
+renderMealPathComparison();
+setMode("Real local negotiation");
+if (protocol) {
+  const consumer = protocol.getConsumerProfile();
+  const retailer = protocol.getRetailerPolicy();
+  if (hasConsumerProfile(consumer) && hasRetailerPolicy(retailer)) {
+    setStatus("Ready");
+  } else if (!hasConsumerProfile(consumer)) {
+    setStatus("Missing consumer");
+  } else {
+    setStatus("Missing retailer");
+  }
+}
 lucide.createIcons();

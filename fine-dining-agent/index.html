@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#8FD42E">
     <title>Dining Agent</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css?v=27">
+    <link rel="stylesheet" href="./style.css?v=28">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   </head>
   <body>
@@ -36,6 +36,20 @@
           <div class="restaurant-list" id="restaurantList" hidden></div>
           <p class="status-text" id="menuStatus">Start by adding the menu in front of you.</p>
           <p class="local-status" id="localModelStatus"></p>
+        </section>
+
+        <section class="agent-offer-card" id="agentOfferCard" hidden>
+          <div class="agent-offer-header">
+            <div>
+              <p>Agent offer</p>
+              <h2>Your agent found an offer</h2>
+            </div>
+          </div>
+          <div class="agent-offer-body" id="agentOfferBody"></div>
+          <div class="agent-offer-actions">
+            <button type="button" id="refreshAgentOffer">Refresh agent offer</button>
+            <a href="../agent-handshake/" id="openHandshakeDashboard">Open handshake dashboard</a>
+          </div>
         </section>
 
         <section class="chat-card">
@@ -129,7 +143,8 @@
       </div>
     </section>
 
-    <script src="./app.js?v=27"></script>
+    <script src="../shared/agent-protocol.js?v=1"></script>
+    <script src="./app.js?v=28"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");

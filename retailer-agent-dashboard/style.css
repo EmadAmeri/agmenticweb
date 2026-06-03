@@ -265,6 +265,23 @@ textarea:focus {
   padding: 0 14px;
 }
 
+.secondary-link {
+  position: relative;
+  z-index: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 14px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.9);
+  color: var(--ink);
+  box-shadow: inset 0 0 0 1px rgba(5, 5, 5, 0.08), 0 10px 22px rgba(5, 5, 5, 0.07);
+  font-weight: 820;
+  text-decoration: none;
+}
+
 .icon-button {
   width: 46px;
   flex: 0 0 46px;
@@ -393,7 +410,8 @@ input[type="range"] {
 .menu-card,
 .promo-card,
 .agent-card,
-.offer-box {
+.offer-box,
+.offer-preview-card {
   border-radius: 20px;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(5, 5, 5, 0.08);
@@ -542,6 +560,105 @@ input[type="range"] {
   background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(234, 248, 216, 0.48));
 }
 
+.offer-preview {
+  position: relative;
+  z-index: 1;
+}
+
+.negotiation-result {
+  position: relative;
+  z-index: 1;
+}
+
+.offer-preview-card {
+  display: grid;
+  gap: 12px;
+  padding: 16px;
+}
+
+.offer-preview-card p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.45;
+}
+
+.offer-preview-card small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.offer-price-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px;
+  color: var(--muted);
+}
+
+.offer-price-row strong {
+  color: var(--brand-dark);
+}
+
+.negotiation-card {
+  display: grid;
+  gap: 14px;
+  padding: 16px;
+  border-radius: 20px;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(5, 5, 5, 0.08);
+  box-shadow: 0 12px 28px rgba(5, 5, 5, 0.06);
+}
+
+.negotiation-details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.negotiation-details div,
+.retailer-public-message,
+.next-step-box {
+  min-width: 0;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgba(247, 249, 244, 0.78);
+  border: 1px solid rgba(5, 5, 5, 0.08);
+}
+
+.negotiation-details dt,
+.retailer-public-message span,
+.next-step-box span {
+  display: block;
+  margin-bottom: 5px;
+  color: var(--muted);
+  font-size: 0.78rem;
+  font-weight: 820;
+  text-transform: uppercase;
+}
+
+.negotiation-details dd,
+.retailer-public-message p {
+  margin: 0;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+.negotiation-details dd,
+.next-step-box strong {
+  font-weight: 780;
+}
+
+.next-step-box {
+  background: var(--brand-soft);
+  border-color: rgba(95, 148, 23, 0.2);
+}
+
+.next-step-box strong {
+  color: var(--brand-dark);
+  line-height: 1.35;
+}
+
 .app-footer {
   padding: 18px 0 0;
   color: rgba(5, 5, 5, 0.48);
@@ -595,6 +712,10 @@ input[type="range"] {
   }
 
   .two-fields {
+    grid-template-columns: 1fr;
+  }
+
+  .negotiation-details {
     grid-template-columns: 1fr;
   }
 
