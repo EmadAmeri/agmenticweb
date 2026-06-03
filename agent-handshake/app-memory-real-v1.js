@@ -1,4 +1,7 @@
-const API_BASE = window.localStorage?.getItem("agmentic_agent_handshake_api_base") || window.location.origin;
+const DEFAULT_API_BASE = ["localhost", "127.0.0.1"].includes(window.location.hostname)
+  ? window.location.origin
+  : "https://api-handshake.agmentic.com";
+const API_BASE = window.localStorage?.getItem("agmentic_agent_handshake_api_base") || DEFAULT_API_BASE;
 
 const sampleMenu = `Snacks | Oyster tartlet | cucumber, finger lime, jalapeno | 9
 Starter | Burrata | smoked tomato, basil oil, toasted sourdough | 16
