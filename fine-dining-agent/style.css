@@ -123,153 +123,61 @@ button {
 
 .camera-card,
 .chat-card {
-  border-radius: 8px;
+  border-radius: 24px;
   background: var(--surface);
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72), var(--shadow);
   backdrop-filter: blur(22px);
 }
 
 .camera-card {
-  padding: 16px;
-  margin-bottom: 18px;
+  padding: 14px;
+  margin-bottom: 14px;
 }
 
-.agent-offer-card {
-  margin-bottom: 18px;
-  padding: 16px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.9);
-  border: 1px solid rgba(143, 212, 46, 0.3);
-  box-shadow: var(--soft-shadow);
-}
-
-.agent-offer-header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 12px;
-  margin-bottom: 12px;
-}
-
-.agent-offer-header p,
-.agent-offer-header h2,
-.agent-offer-body p {
-  margin: 0;
-}
-
-.agent-offer-header p {
-  color: #4f8f11;
-  font-size: 0.78rem;
-  font-weight: 850;
-  text-transform: uppercase;
-}
-
-.agent-offer-header h2 {
-  margin-top: 3px;
-  font-size: 1.1rem;
-  line-height: 1.15;
-}
-
-.agent-offer-body {
-  display: grid;
-  gap: 11px;
-  color: var(--text);
-}
-
-.agent-offer-lead {
-  font-weight: 760;
-  line-height: 1.35;
-}
-
-.agent-offer-confidence {
-  color: #4f8f11;
-  font-weight: 780;
-}
-
-.agent-offer-items {
-  display: grid;
-  gap: 6px;
-  margin: 0;
-  padding-left: 20px;
-  color: var(--text);
-}
-
-.agent-offer-details {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin: 0;
-}
-
-.agent-offer-details div {
-  min-width: 0;
-  padding: 10px;
-  border-radius: 8px;
-  background: rgba(247, 248, 245, 0.84);
-  border: 1px solid var(--line);
-}
-
-.agent-offer-details dt {
-  margin-bottom: 3px;
-  color: var(--muted);
-  font-size: 0.76rem;
-  font-weight: 750;
-}
-
-.agent-offer-details dd {
-  margin: 0;
-  color: var(--text);
-  font-weight: 790;
-  overflow-wrap: anywhere;
-}
-
-.agent-offer-actions {
+.menu-actions {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 14px;
 }
 
-.agent-offer-actions button,
-.agent-offer-actions a {
-  display: inline-flex;
+.camera-button,
+.location-button {
+  display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 44px;
-  border-radius: 14px;
-  background: rgba(255, 255, 255, 0.86);
+  gap: 10px;
+  width: 100%;
+  min-height: 58px;
+  border-radius: 16px;
   color: var(--text);
-  border: 1px solid var(--line);
-  font-weight: 760;
-  text-align: center;
-  text-decoration: none;
-}
-
-.agent-offer-actions button {
-  background: var(--primary);
-  border-color: transparent;
+  font-size: 1rem;
+  font-weight: 820;
 }
 
 .camera-button {
-  width: 100%;
-  min-height: 86px;
-  border-radius: 16px;
   background: var(--primary);
-  color: var(--text);
-  font-size: 1.25rem;
-  font-weight: 820;
-  box-shadow: 0 16px 30px rgba(143, 212, 46, 0.32);
+  box-shadow: 0 14px 26px rgba(143, 212, 46, 0.28);
 }
 
 .location-button {
-  width: 100%;
-  min-height: 52px;
-  margin-top: 12px;
-  border-radius: 14px;
   background: rgba(255, 255, 255, 0.92);
-  color: var(--text);
-  font-weight: 750;
   box-shadow: inset 0 0 0 1px var(--line);
+}
+
+.action-icon {
+  display: grid;
+  place-items: center;
+  width: 30px;
+  height: 30px;
+  flex: 0 0 auto;
+  border-radius: 50%;
+  background: rgba(11, 12, 13, 0.08);
+  font-size: 1.05rem;
+  font-weight: 900;
+}
+
+.camera-button .action-icon {
+  background: rgba(255, 255, 255, 0.42);
 }
 
 .menu-preview {
@@ -327,23 +235,24 @@ button {
 }
 
 .chat-card {
-  min-height: 54vh;
+  min-height: 58vh;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  background: rgba(255, 255, 255, 0.94);
 }
 
 .conversation {
   flex: 1;
   min-height: 390px;
-  max-height: calc(100vh - 360px);
+  max-height: calc(100vh - 320px);
   overflow-y: auto;
-  padding: 18px 16px;
+  padding: 22px 18px 14px;
 }
 
 .message-row {
   display: flex;
-  margin-bottom: 12px;
+  margin-bottom: 18px;
 }
 
 .message-row.user {
@@ -355,39 +264,54 @@ button {
 }
 
 .bubble {
-  max-width: 82%;
-  padding: 12px 15px;
-  border-radius: 18px;
-  line-height: 1.4;
+  max-width: min(84%, 620px);
+  padding: 11px 14px;
+  border-radius: 20px;
+  line-height: 1.45;
   white-space: pre-wrap;
 }
 
 .message-row.user .bubble {
   background: var(--accent);
   color: #fff;
-  border-bottom-right-radius: 6px;
+  border-bottom-right-radius: 8px;
   box-shadow: 0 10px 20px rgba(248, 113, 113, 0.24);
 }
 
 .message-row.agent .bubble {
-  background: rgba(255, 255, 255, 0.9);
+  max-width: 100%;
+  padding: 2px 4px;
+  background: transparent;
   color: var(--text);
-  border: 1px solid var(--line);
-  border-bottom-left-radius: 6px;
+  border: 0;
+  border-radius: 0;
 }
 
 .chat-form {
   position: sticky;
   bottom: 0;
   display: flex;
-  gap: 10px;
-  padding: 12px;
-  background: rgba(255, 255, 255, 0.86);
-  border-top: 1px solid var(--line);
+  align-items: center;
+  gap: 8px;
+  margin: 0 12px 12px;
+  padding: 6px;
+  border-radius: 999px;
+  background: #fff;
+  border: 1px solid rgba(11, 12, 13, 0.12);
+  box-shadow: 0 12px 30px rgba(11, 12, 13, 0.08);
   backdrop-filter: blur(20px);
 }
 
-.chat-form input,
+.chat-form input {
+  width: 100%;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--text);
+  padding: 12px 12px;
+  outline: none;
+}
+
 .modal input {
   width: 100%;
   border: 1px solid var(--line);
@@ -398,7 +322,10 @@ button {
   outline: none;
 }
 
-.chat-form input:focus,
+.chat-form input:focus {
+  box-shadow: none;
+}
+
 .modal input:focus,
 .contact-setting input:focus {
   border-color: rgba(143, 212, 46, 0.74);
@@ -407,11 +334,26 @@ button {
 
 .chat-form button,
 .modal-actions button[type="submit"] {
-  border-radius: 14px;
+  border-radius: 999px;
   background: var(--primary);
   color: var(--text);
-  padding: 0 16px;
   font-weight: 820;
+}
+
+.chat-form button {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  flex: 0 0 auto;
+  padding: 0;
+  font-size: 0;
+}
+
+.chat-form button::before {
+  content: "↑";
+  font-size: 1.25rem;
+  line-height: 1;
 }
 
 .suggest-button {
@@ -440,6 +382,10 @@ button {
   padding: 0 20px;
   font-weight: 800;
   box-shadow: var(--shadow);
+}
+
+.bottom-actions {
+  display: contents;
 }
 
 .side-panel {
@@ -815,25 +761,29 @@ button {
 
 @media (max-width: 719px) {
   .app-shell {
-    padding-bottom: 156px;
+    padding-bottom: 28px;
   }
 
-  .agent-offer-details,
-  .agent-offer-actions {
-    grid-template-columns: 1fr;
+  .bottom-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 12px;
   }
 
   .call-button,
   .suggest-button {
-    bottom: 104px;
+    position: static;
+    width: 100%;
+    margin: 0;
   }
 
   .call-button {
-    left: 16px;
+    left: auto;
   }
 
   .suggest-button {
-    right: 16px;
+    right: auto;
   }
 }
 

@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#8FD42E">
     <title>Dining Agent</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css?v=28">
+    <link rel="stylesheet" href="./style.css?v=30">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   </head>
   <body>
@@ -27,8 +27,16 @@
       <main>
         <section class="camera-card">
           <input id="menuImage" type="file" accept="image/*" capture="environment" hidden>
-          <button class="camera-button" id="cameraButton">Photograph the menu</button>
-          <button class="location-button" id="locationButton" type="button">Use my location</button>
+          <div class="menu-actions">
+            <button class="camera-button" id="cameraButton">
+              <span class="action-icon" aria-hidden="true">◉</span>
+              <span>Photo menu</span>
+            </button>
+            <button class="location-button" id="locationButton" type="button">
+              <span class="action-icon" aria-hidden="true">⌖</span>
+              <span>Use location</span>
+            </button>
+          </div>
           <img class="menu-preview" id="menuPreview" alt="Uploaded menu preview" hidden>
           <div class="ocr-progress" id="ocrProgress" hidden>
             <div class="ocr-progress-bar" id="ocrProgressBar"></div>
@@ -36,20 +44,6 @@
           <div class="restaurant-list" id="restaurantList" hidden></div>
           <p class="status-text" id="menuStatus">Start by adding the menu in front of you.</p>
           <p class="local-status" id="localModelStatus"></p>
-        </section>
-
-        <section class="agent-offer-card" id="agentOfferCard" hidden>
-          <div class="agent-offer-header">
-            <div>
-              <p>Agent offer</p>
-              <h2>Your agent found an offer</h2>
-            </div>
-          </div>
-          <div class="agent-offer-body" id="agentOfferBody"></div>
-          <div class="agent-offer-actions">
-            <button type="button" id="refreshAgentOffer">Refresh agent offer</button>
-            <a href="../agent-handshake/" id="openHandshakeDashboard">Open handshake dashboard</a>
-          </div>
         </section>
 
         <section class="chat-card">
@@ -61,8 +55,10 @@
         </section>
       </main>
 
-      <button class="call-button" id="openCall">Call agent</button>
-      <button class="suggest-button" id="openSuggest">Suggest a meal</button>
+      <div class="bottom-actions">
+        <button class="call-button" id="openCall">Call agent</button>
+        <button class="suggest-button" id="openSuggest">Suggest a meal</button>
+      </div>
     </div>
 
     <aside class="side-panel" id="profilePanel" aria-hidden="true">
@@ -143,8 +139,7 @@
       </div>
     </section>
 
-    <script src="../shared/agent-protocol.js?v=1"></script>
-    <script src="./app.js?v=28"></script>
+    <script src="./app.js?v=30"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");
