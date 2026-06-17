@@ -65,6 +65,10 @@ let callTimerInterval = null;
 let callStartedAt = null;
 let microphoneStream = null;
 let agentProtocolPromise = null;
+let agentSpeaking = false;
+let recognitionRestartTimer = null;
+let activeUtterances = [];
+let callRequestInFlight = false;
 
 function getSessionId() {
   const userId = getUserId();
@@ -716,22 +720,24 @@ async function sendMessage(text) {
 async function sendCallMessage(text) {
   const trimmed = text.trim();
 
-  if (!trimmed || !callConnected) {
+  if (!trimmed || !callConnected || agentSpeaking || callRequestInFlight) {
     return;
   }
 
   appendMessage("user", trimmed);
   callStatus.textContent = "Thinking...";
+  callRequestInFlight = true;
 
   try {
     const response = await generateAgentResponse(trimmed);
     appendMessage("agent", response);
     speak(response);
-    callStatus.textContent = "Connected";
   } catch (error) {
     const message = isLocalMode() ? error.message : friendlyError(error);
     speak(message);
     callStatus.textContent = "Connection issue";
+  } finally {
+    callRequestInFlight = false;
   }
 }
 
@@ -807,9 +813,14 @@ function endFakeCall() {
   incomingControls.hidden = false;
   activeCallControls.hidden = true;
   clearTimeout(incomingTimeout);
+  clearTimeout(recognitionRestartTimer);
   clearInterval(callTimerInterval);
   stopRinging();
+  stopRecognition();
   window.speechSynthesis?.cancel();
+  activeUtterances = [];
+  agentSpeaking = false;
+  callRequestInFlight = false;
 
   if (recognition) {
     recognition.onend = null;
@@ -825,40 +836,46 @@ function setupRecognition() {
   recognition = new SpeechRecognition();
   recognition.lang = "en-US";
   recognition.interimResults = false;
-  recognition.continuous = false;
+  recognition.continuous = true;
+  recognition.maxAlternatives = 1;
 
   recognition.onstart = () => {
-    callStatus.textContent = "Listening...";
+    if (!agentSpeaking && !callRequestInFlight) {
+      callStatus.textContent = "Listening...";
+    }
   };
 
   recognition.onresult = (event) => {
-    const text = Array.from(event.results)
+    const results = Array.from(event.results).slice(event.resultIndex || 0);
+    const text = results
+      .filter((result) => result.isFinal)
       .map((result) => result[0]?.transcript || "")
       .join(" ")
       .trim();
     sendCallMessage(text);
   };
 
-  recognition.onerror = () => {
-    callStatus.textContent = "Connected";
+  recognition.onerror = (event) => {
+    if (event.error !== "no-speech" && event.error !== "aborted") {
+      callStatus.textContent = "Connected";
+    }
   };
 
   recognition.onend = () => {
-    if (callConnected) {
+    if (callConnected && !agentSpeaking && !callRequestInFlight) {
       if (callStatus.textContent === "Listening...") {
         callStatus.textContent = "Connected";
       }
-      window.setTimeout(startListening, 500);
+      recognitionRestartTimer = window.setTimeout(startListening, 650);
     }
   };
 }
 
 function startListening() {
-  if (!callConnected || !SpeechRecognition || !recognition) {
+  if (!callConnected || !SpeechRecognition || !recognition || agentSpeaking || callRequestInFlight) {
     return;
   }
 
-  window.speechSynthesis?.cancel();
   try {
     recognition.start();
   } catch (error) {
@@ -874,16 +891,100 @@ function speak(text) {
     return;
   }
 
+  stopRecognition();
   window.speechSynthesis.cancel();
-  const utterance = new SpeechSynthesisUtterance(text);
-  utterance.lang = "en-US";
-  utterance.rate = 0.95;
-  utterance.onend = () => {
-    if (callConnected) {
-      startListening();
-    }
-  };
+  activeUtterances = [];
+  agentSpeaking = true;
+  callStatus.textContent = "Speaking...";
+
+  const chunks = splitSpeechIntoChunks(text);
+  speakChunks(chunks);
+}
+
+function speakChunks(chunks) {
+  const next = chunks.shift();
+
+  if (!next || !callConnected || callMuted) {
+    finishSpeaking();
+    return;
+  }
+
+  const utterance = new SpeechSynthesisUtterance(next);
+  const voice = preferredVoice();
+  if (voice) {
+    utterance.voice = voice;
+  }
+  utterance.lang = voice?.lang || "en-US";
+  utterance.rate = 0.92;
+  utterance.pitch = 1;
+  utterance.volume = speakerEnabled ? 1 : 0.86;
+  utterance.onend = () => speakChunks(chunks);
+  utterance.onerror = () => speakChunks(chunks);
+  activeUtterances.push(utterance);
   window.speechSynthesis.speak(utterance);
+}
+
+function finishSpeaking() {
+  activeUtterances = [];
+  agentSpeaking = false;
+  if (callConnected) {
+    callStatus.textContent = SpeechRecognition ? "Listening..." : "Connected - use keyboard dictation";
+    recognitionRestartTimer = window.setTimeout(startListening, 450);
+  }
+}
+
+function splitSpeechIntoChunks(text) {
+  const cleanText = String(text || "")
+    .replace(/\s+/g, " ")
+    .trim();
+  if (!cleanText) {
+    return [];
+  }
+
+  const sentences = cleanText.match(/[^.!?]+[.!?]*/g) || [cleanText];
+  const chunks = [];
+  let current = "";
+
+  sentences.forEach((sentence) => {
+    const next = `${current} ${sentence}`.trim();
+    if (next.length > 180 && current) {
+      chunks.push(current);
+      current = sentence.trim();
+    } else {
+      current = next;
+    }
+  });
+
+  if (current) {
+    chunks.push(current);
+  }
+
+  return chunks;
+}
+
+function preferredVoice() {
+  const voices = window.speechSynthesis?.getVoices?.() || [];
+  return voices.find((voice) => /en-US/i.test(voice.lang) && /samantha|ava|allison|nicky|joelle/i.test(voice.name))
+    || voices.find((voice) => /en/i.test(voice.lang))
+    || voices[0]
+    || null;
+}
+
+function stopRecognition() {
+  clearTimeout(recognitionRestartTimer);
+  if (!recognition) {
+    return;
+  }
+
+  try {
+    recognition.stop();
+  } catch (error) {
+    try {
+      recognition.abort();
+    } catch (abortError) {
+      // Recognition was already stopped.
+    }
+  }
 }
 
 async function requestMicrophonePermission() {
@@ -1454,6 +1555,11 @@ document.querySelector("#muteCall").addEventListener("click", () => {
   document.querySelector("#muteCall").classList.toggle("active", callMuted);
   if (callMuted) {
     window.speechSynthesis?.cancel();
+    activeUtterances = [];
+    agentSpeaking = false;
+    if (callConnected) {
+      startListening();
+    }
   }
 });
 document.querySelector("#speakerCall").addEventListener("click", () => {
