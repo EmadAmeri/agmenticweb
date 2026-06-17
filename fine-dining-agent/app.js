@@ -45,6 +45,7 @@ const LOCAL_MENU_DATA_KEY = "dining_local_menu_data";
 const LOCAL_MODEL_ID = "Qwen2.5-1.5B-Instruct-q4f16_1-MLC";
 const LOCAL_FALLBACK_MODEL_ID = "SmolLM2-360M-Instruct-q4f32_1-MLC";
 const WEBLLM_URL = "https://esm.run/@mlc-ai/web-llm";
+const AGENT_PROTOCOL_URL = "../shared/agent-protocol.js?v=1";
 let sessionId = getSessionId();
 let lastErrorMessage = "";
 let providerMode = localStorage.getItem(PROVIDER_MODE_KEY) || "cloud";
@@ -63,6 +64,7 @@ let incomingTimeout = null;
 let callTimerInterval = null;
 let callStartedAt = null;
 let microphoneStream = null;
+let agentProtocolPromise = null;
 
 function getSessionId() {
   const userId = getUserId();
@@ -511,12 +513,94 @@ async function generateAgentResponse(text) {
     return localChat(text);
   }
 
+  if (wantsRetailerOffer(text)) {
+    return negotiateRetailerOffer(text);
+  }
+
+  if (!getStructuredMenu()?.menu?.items?.length) {
+    return "I need a real menu first. Use the camera or location button, then I’ll answer from that menu only.";
+  }
+
   const data = await request("/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ session_id: sessionId, message: text }),
   });
   return data.response;
+}
+
+function wantsRetailerOffer(text) {
+  const lowered = text.toLowerCase();
+  return [
+    "offer",
+    "discount",
+    "deal",
+    "negotiate",
+    "negotiation",
+    "promotion",
+    "coupon",
+    "retailer agent",
+  ].some((word) => lowered.includes(word));
+}
+
+async function negotiateRetailerOffer(text) {
+  const structured = getStructuredMenu();
+  if (!structured?.menu?.items?.length) {
+    return "I need a real menu first. Use the camera or location button, then I can check for retailer-agent offers.";
+  }
+
+  const protocol = await loadAgentProtocol();
+  if (!protocol) {
+    return "I can’t see a connected retailer agent yet, so I won’t invent an offer.";
+  }
+
+  const retailerPolicy = protocol.getRetailerPolicy?.();
+  if (!retailerPolicy?.menuItems?.length) {
+    return "I don’t see a connected retailer agent for this restaurant yet, so I won’t invent an offer.";
+  }
+
+  const profile = await request(`/profile/${sessionId}`).catch(() => ({ liked: [], disliked: [], notes: [] }));
+  const consumerProfile = protocol.createConsumerAgentProfile?.({
+    consumerId: sessionId,
+    likes: (profile.liked || []).map((entry) => entry.item || entry),
+    dislikes: (profile.disliked || []).map((entry) => entry.item || entry),
+    notes: (profile.notes || []).map((entry) => entry.text || entry),
+  }) || {};
+
+  const offer = protocol.generateRetailerOffer({
+    consumerProfile,
+    retailerPolicy,
+    negotiationContext: {
+      source: "fine_dining_agent",
+      user_message: text,
+      loaded_menu_items: structured.menu.items.length,
+    },
+  });
+
+  if (!offer || offer.offerType === "safe_rejection") {
+    return offer?.readableEnglish || "The retailer agent did not find a safe offer from the current menu.";
+  }
+
+  return offer.readableEnglish || `The retailer agent offers ${offer.offerTitle}.`;
+}
+
+async function loadAgentProtocol() {
+  if (window.AgmenticAgentProtocol) {
+    return window.AgmenticAgentProtocol;
+  }
+
+  if (!agentProtocolPromise) {
+    agentProtocolPromise = new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = AGENT_PROTOCOL_URL;
+      script.async = true;
+      script.onload = () => resolve(window.AgmenticAgentProtocol || null);
+      script.onerror = () => resolve(null);
+      document.head.appendChild(script);
+    });
+  }
+
+  return agentProtocolPromise;
 }
 
 async function sendMessage(text) {
