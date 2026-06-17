@@ -765,8 +765,8 @@ function formatNegotiationForConsumer(session, retailerPolicy) {
       caveat || "The restaurant needs to confirm price, availability, allergens, or pairing details.",
     ],
     failed_no_safe_offer: [
-      "No safe offer was found based on your preferences/allergies.",
-      caveat || "I would not push this offer without safer alternatives.",
+      "I couldn’t find a safe, good-fit option from this menu yet.",
+      caveat || "Given what I know about your preferences and allergies, I’d rather ask the restaurant for a better option than nudge you toward this one.",
     ],
     failed_no_retailer: [
       "I need the restaurant agent's current menu and policy before I can negotiate.",

@@ -1443,7 +1443,7 @@
         payload: firstOffer.protocolPayload,
         readableEnglish: firstOffer.readableEnglish,
       }));
-      return fail("failed_no_safe_offer", "No safe retailer offer was available for the current consumer profile.", {
+      return fail("failed_no_safe_offer", "The consumer agent could not find a safe, good-fit option from the current restaurant menu.", {
         constraintsUsed: firstOffer.constraintsUsed,
       });
     }
