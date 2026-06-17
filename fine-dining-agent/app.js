@@ -45,7 +45,7 @@ const LOCAL_MENU_DATA_KEY = "dining_local_menu_data";
 const LOCAL_MODEL_ID = "Qwen2.5-1.5B-Instruct-q4f16_1-MLC";
 const LOCAL_FALLBACK_MODEL_ID = "SmolLM2-360M-Instruct-q4f32_1-MLC";
 const WEBLLM_URL = "https://esm.run/@mlc-ai/web-llm";
-const AGENT_PROTOCOL_URL = "../shared/agent-protocol.js?v=1";
+const AGENT_PROTOCOL_URL = "../shared/agent-protocol.js?v=2";
 let sessionId = getSessionId();
 let lastErrorMessage = "";
 let providerMode = localStorage.getItem(PROVIDER_MODE_KEY) || "cloud";
@@ -263,6 +263,7 @@ function saveStructuredMenu(data, rawText = "") {
     saved_at: new Date().toISOString(),
   };
   localStorage.setItem(userStorageKey(LOCAL_MENU_DATA_KEY), JSON.stringify(payload));
+  saveConsumerProfileForNegotiation("menu_updated");
 }
 
 function getStructuredMenu() {
@@ -275,6 +276,98 @@ function getStructuredMenu() {
   } catch (error) {
     return null;
   }
+}
+
+function uniqueList(values) {
+  const seen = new Set();
+  return values
+    .map((value) => String(value || "").trim())
+    .filter(Boolean)
+    .filter((value) => {
+      const key = value.toLowerCase();
+      if (seen.has(key)) return false;
+      seen.add(key);
+      return true;
+    });
+}
+
+function extractConsumerSignals(text) {
+  const lowered = String(text || "").toLowerCase();
+  const signals = {
+    likes: [],
+    dislikes: [],
+    allergies: [],
+    memoryNotes: [],
+    budgetRange: "",
+    occasion: "",
+    confidenceLevel: "",
+    winePreference: "",
+    preferredTableStyle: "",
+    dietaryPreference: "",
+  };
+
+  if (/seafood|fish|sea bass/.test(lowered)) signals.likes.push("seafood");
+  if (/light|lighter|not too heavy|fresh/.test(lowered)) {
+    signals.likes.push("light dinner");
+    signals.memoryNotes.push("Prefers a lighter dinner.");
+  }
+  if (/white wine|riesling|sauvignon|chardonnay/.test(lowered)) {
+    signals.likes.push("white wine");
+    signals.winePreference = "white wine";
+  }
+  if (/red wine|pinot|merlot|cabernet/.test(lowered)) {
+    signals.likes.push("red wine");
+    signals.winePreference = "red wine";
+  }
+  if (/don't eat shellfish|do not eat shellfish|no shellfish|shellfish allergy|allergic to shellfish/.test(lowered)) {
+    signals.dislikes.push("shellfish");
+    if (/allergy|allergic/.test(lowered)) signals.allergies.push("shellfish");
+  }
+  if (/nut allergy|allergic to nuts|no nuts/.test(lowered)) signals.allergies.push("nuts");
+  if (/dairy allergy|allergic to dairy|lactose/.test(lowered)) signals.allergies.push("dairy");
+  if (/gluten allergy|celiac|coeliac/.test(lowered)) signals.allergies.push("gluten");
+  if (/vegetarian/.test(lowered)) signals.dietaryPreference = "vegetarian";
+  if (/vegan/.test(lowered)) signals.dietaryPreference = "vegan";
+  if (/cheap|low budget|not too expensive|affordable|under\s*(?:€|eur|\$)?\s*30/.test(lowered)) signals.budgetRange = "low";
+  else if (/medium budget|reasonable|under\s*(?:€|eur|\$)?\s*55/.test(lowered)) signals.budgetRange = "medium";
+  if (/anniversary/.test(lowered)) signals.occasion = "anniversary dinner";
+  else if (/business dinner|client dinner/.test(lowered)) signals.occasion = "business dinner";
+  else if (/date night|first date/.test(lowered)) signals.occasion = "date night";
+  if (/not confident|don't know fine dining|do not know fine dining|nervous|unsure/.test(lowered)) {
+    signals.confidenceLevel = "low";
+    signals.memoryNotes.push("Prefers clear, simple recommendations.");
+  }
+  if (/quiet table|quiet corner|calm table|less noisy/.test(lowered)) signals.preferredTableStyle = "quiet table";
+  return signals;
+}
+
+function saveConsumerProfileForNegotiation(reason = "updated", sourceText = "") {
+  const agentProtocol = window.AgmenticAgentProtocol;
+  if (!agentProtocol?.saveConsumerProfile) {
+    return null;
+  }
+
+  const existing = agentProtocol.getConsumerProfile?.() || {};
+  const signals = extractConsumerSignals(sourceText);
+  const profile = agentProtocol.createConsumerAgentProfile?.({
+    ...existing,
+    userId: getUserId() || existing.userId || sessionId,
+    sessionId,
+    name: existing.name || getContactName() || "Consumer Dining Agent",
+    likes: uniqueList([...(existing.likes || []), ...signals.likes]),
+    dislikes: uniqueList([...(existing.dislikes || []), ...signals.dislikes]),
+    allergies: uniqueList([...(existing.allergies || []), ...signals.allergies]),
+    dietaryPreference: signals.dietaryPreference || existing.dietaryPreference,
+    budgetRange: signals.budgetRange || existing.budgetRange,
+    occasion: signals.occasion || existing.occasion,
+    confidenceLevel: signals.confidenceLevel || existing.confidenceLevel || "unknown",
+    winePreference: signals.winePreference || existing.winePreference,
+    preferredTableStyle: signals.preferredTableStyle || existing.preferredTableStyle,
+    memoryNotes: uniqueList([...(existing.memoryNotes || []), ...signals.memoryNotes]),
+  }) || existing;
+  const saved = agentProtocol.saveConsumerProfile(profile);
+  console.debug("Consumer profile saved for agent negotiation.", { reason, sessionId: saved.sessionId });
+  return saved;
 }
 
 function localMenuPromptContext() {
@@ -367,6 +460,33 @@ function answerStructuredMenuQuestion(text) {
   }
 
   const lowered = text.toLowerCase();
+  const mentionedItem = findMentionedMenuItem(lowered, items);
+
+  if (mentionedItem && /\b(price|cost|how much|expensive|€|\$|eur)\b/.test(lowered)) {
+    return `${mentionedItem.name} is ${mentionedItem.price || "not clearly priced"} on this menu.`;
+  }
+
+  if (mentionedItem && /\b(allergen|allergy|contains|safe)\b/.test(lowered)) {
+    const allergens = Array.isArray(mentionedItem.allergens) && mentionedItem.allergens.length
+      ? mentionedItem.allergens.join(", ")
+      : "not clearly listed";
+    return `${mentionedItem.name}: ${mentionedItem.description || "I can see it on the menu."} Allergens: ${allergens}.`;
+  }
+
+  if (mentionedItem && /\b(what is|tell me about|explain|taste|good)\b/.test(lowered)) {
+    return `${mentionedItem.name}: ${mentionedItem.description || "I can see it on the menu, but there is not much description."}${mentionedItem.price ? ` It is ${mentionedItem.price}.` : ""}`;
+  }
+
+  if (/\b(vegetarian|vegan|pescatarian|seafood|fish|light|lighter|not heavy|white wine|riesling)\b/.test(lowered)) {
+    const filtered = items.filter((item) => menuItemMatchesPreference(item, lowered));
+    if (filtered.length) {
+      const best = filtered
+        .map((item) => ({ item, price: parseMenuPrice(item.price) }))
+        .sort((a, b) => (Number.isFinite(a.price) ? a.price : 9999) - (Number.isFinite(b.price) ? b.price : 9999))[0].item;
+      return `From this menu, ${best.name}${best.price ? ` (${best.price})` : ""} looks like the best fit. ${best.description || ""}`.trim();
+    }
+  }
+
   if (!lowered.includes("cheapest") && !lowered.includes("least expensive") && !lowered.includes("lowest price")) {
     return "";
   }
@@ -398,6 +518,34 @@ function answerStructuredMenuQuestion(text) {
   candidates.sort((a, b) => a.price - b.price);
   const cheapest = candidates[0].item;
   return `The cheapest ${section || "option"} is ${cheapest.name} at ${cheapest.price}.`;
+}
+
+function findMentionedMenuItem(loweredText, items) {
+  return items
+    .filter((item) => String(item.name || "").length > 2)
+    .sort((a, b) => String(b.name).length - String(a.name).length)
+    .find((item) => loweredText.includes(String(item.name).toLowerCase()));
+}
+
+function menuItemMatchesPreference(item, loweredText) {
+  const itemText = [
+    item.section,
+    item.name,
+    item.description,
+    ...(Array.isArray(item.allergens) ? item.allergens : []),
+    ...(Array.isArray(item.dietaryTags) ? item.dietaryTags : []),
+    ...(Array.isArray(item.pairingTags) ? item.pairingTags : []),
+  ].join(" ").toLowerCase();
+
+  if (/vegan/.test(loweredText)) return /vegan|plant/.test(itemText);
+  if (/vegetarian/.test(loweredText)) return /vegetarian|veggie|beetroot|burrata|salad|vegetable/.test(itemText);
+  if (/pescatarian|seafood|fish/.test(loweredText)) return /pescatarian|seafood|fish|sea bass|salmon|trout/.test(itemText);
+  if (/white wine|riesling/.test(loweredText)) return /white wine|riesling|seafood|fish|citrus/.test(itemText);
+  if (/light|lighter|not heavy/.test(loweredText)) {
+    return /light|fresh|citrus|fish|seafood|salad|vegetable|beetroot/.test(itemText)
+      && !/duck|steak|beef|cream|fried|rich/.test(itemText);
+  }
+  return false;
 }
 
 function requestedSection(text) {
@@ -509,6 +657,11 @@ function shortenLocalResponse(response) {
 }
 
 async function generateAgentResponse(text) {
+  const directAnswer = answerStructuredMenuQuestion(text);
+  if (directAnswer) {
+    return directAnswer;
+  }
+
   if (isLocalMode()) {
     return localChat(text);
   }
@@ -532,6 +685,10 @@ async function generateAgentResponse(text) {
 function wantsRetailerOffer(text) {
   const lowered = text.toLowerCase();
   return [
+    "ask the restaurant",
+    "ask them",
+    "talk to the restaurant",
+    "restaurant agent",
     "offer",
     "discount",
     "deal",
@@ -540,48 +697,91 @@ function wantsRetailerOffer(text) {
     "promotion",
     "coupon",
     "retailer agent",
+    "quiet table",
+    "reservation",
+    "reserve",
+    "hold",
+    "agreement",
+    "counter",
   ].some((word) => lowered.includes(word));
 }
 
 async function negotiateRetailerOffer(text) {
-  const structured = getStructuredMenu();
-  if (!structured?.menu?.items?.length) {
-    return "I need a real menu first. Use the camera or location button, then I can check for retailer-agent offers.";
-  }
-
   const protocol = await loadAgentProtocol();
-  if (!protocol) {
-    return "I can’t see a connected retailer agent yet, so I won’t invent an offer.";
+  if (!protocol?.runLocalNegotiationSession) {
+    return "I can answer menu questions, but the agent-to-agent negotiation layer is not loaded yet.";
   }
 
+  const consumerProfile = saveConsumerProfileForNegotiation("negotiation_request", text)
+    || protocol.getConsumerProfile?.()
+    || protocol.createConsumerAgentProfile?.({ userId: getUserId() || sessionId, sessionId });
   const retailerPolicy = protocol.getRetailerPolicy?.();
   if (!retailerPolicy?.menuItems?.length) {
-    return "I don’t see a connected retailer agent for this restaurant yet, so I won’t invent an offer.";
+    return "I need the restaurant agent's current menu and policy first. Open the Retailer Agent Dashboard, standardize the menu, then ask me to negotiate again.";
   }
 
-  const profile = await request(`/profile/${sessionId}`).catch(() => ({ liked: [], disliked: [], notes: [] }));
-  const consumerProfile = protocol.createConsumerAgentProfile?.({
-    consumerId: sessionId,
-    likes: (profile.liked || []).map((entry) => entry.item || entry),
-    dislikes: (profile.disliked || []).map((entry) => entry.item || entry),
-    notes: (profile.notes || []).map((entry) => entry.text || entry),
-  }) || {};
-
-  const offer = protocol.generateRetailerOffer({
+  const session = protocol.runLocalNegotiationSession({
     consumerProfile,
     retailerPolicy,
-    negotiationContext: {
-      source: "fine_dining_agent",
-      user_message: text,
-      loaded_menu_items: structured.menu.items.length,
-    },
+    maxRounds: 2,
   });
 
-  if (!offer || offer.offerType === "safe_rejection") {
-    return offer?.readableEnglish || "The retailer agent did not find a safe offer from the current menu.";
-  }
+  return formatNegotiationForConsumer(session, retailerPolicy);
+}
 
-  return offer.readableEnglish || `The retailer agent offers ${offer.offerTitle}.`;
+function formatNegotiationForConsumer(session, retailerPolicy) {
+  const retailerName = retailerPolicy?.retailerName || "the restaurant";
+  const terms = session.finalTerms || {};
+  const evaluation = session.finalEvaluation || session.firstEvaluation || {};
+  const currentOffer = session.revisedOffer || session.firstOffer || {};
+  const acceptedItems = terms.acceptedItems?.length
+    ? terms.acceptedItems.join(", ")
+    : currentOffer.proposedItems?.map((item) => item.name).filter(Boolean).join(", ") || "no clear item";
+  const finalPrice = terms.finalPrice === null || terms.finalPrice === undefined
+    ? "not confirmed"
+    : `${terms.currency || retailerPolicy?.currency || ""} ${terms.finalPrice}`.trim();
+  const valueAdd = terms.valueAdd || currentOffer.marketingTactic || currentOffer.offerType || "clear terms";
+  const caveat = terms.remainingCaveats?.[0] || evaluation.publicMessageToRetailer || "";
+
+  const responses = {
+    accepted: [
+      `Good news — your agent and ${retailerName} reached an agreement.`,
+      `Recommended path: ${acceptedItems}.`,
+      `Final price: ${finalPrice}.`,
+      `Value-add: ${valueAdd}.`,
+      "You can order this confidently.",
+    ],
+    rejected: [
+      "Your agent rejected this offer because it did not fit your preferences.",
+      caveat || "The restaurant should revise allergy, budget, or preference alignment before sending another offer.",
+    ],
+    counter_unresolved: [
+      "Your agent tried to improve the offer, but the restaurant could not fully match your preferences.",
+      `Best available option: ${acceptedItems}.`,
+      caveat ? `Open point: ${caveat}` : "You may want to ask for a simpler, lighter, or lower-priced option.",
+    ],
+    clarification_needed: [
+      "Your agent needs one more detail before recommending this.",
+      caveat || "The restaurant needs to confirm price, availability, allergens, or pairing details.",
+    ],
+    failed_no_safe_offer: [
+      "No safe offer was found based on your preferences/allergies.",
+      caveat || "I would not push this offer without safer alternatives.",
+    ],
+    failed_no_retailer: [
+      "I need the restaurant agent's current menu and policy before I can negotiate.",
+      "Open the retailer dashboard, standardize the menu, then ask me again.",
+    ],
+    failed_no_consumer: [
+      "I need a little more about your preferences before I can negotiate for you.",
+      "Tell me your budget, allergies, occasion, and what you feel like eating.",
+    ],
+  };
+
+  return (responses[session.status] || [
+    `The agent conversation ended with status: ${session.status || "unknown"}.`,
+    caveat,
+  ]).filter(Boolean).join("\n");
 }
 
 async function loadAgentProtocol() {
@@ -605,6 +805,7 @@ async function loadAgentProtocol() {
 
 async function sendMessage(text) {
   appendMessage("user", text);
+  saveConsumerProfileForNegotiation("message_sent", text);
   setLoading(true);
 
   try {
@@ -624,6 +825,7 @@ async function sendCallMessage(text) {
   }
 
   appendMessage("user", trimmed);
+  saveConsumerProfileForNegotiation("call_message", trimmed);
   callStatus.textContent = "Thinking...";
 
   try {
@@ -1300,6 +1502,7 @@ document.querySelector("#clearMemory").addEventListener("click", clearMemory);
 saveContactName.addEventListener("click", saveContact);
 saveUserIdButton.addEventListener("click", async () => {
   setUserId(userIdInput.value);
+  saveConsumerProfileForNegotiation("user_id_changed");
   await loadProfile();
   menuStatus.textContent = `Using memory for ${getUserId() || "this user"}.`;
 });
@@ -1360,6 +1563,7 @@ callAvatar.textContent = initials(getContactName());
 menuStatus.textContent = "";
 updateProviderToggle();
 localModelStatus.textContent = "";
+saveConsumerProfileForNegotiation("session_started");
 updateMenuPanelVisibility();
 new MutationObserver(updateMenuPanelVisibility).observe(menuPanel, {
   attributes: true,
