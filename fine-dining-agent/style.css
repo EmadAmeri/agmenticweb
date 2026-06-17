@@ -395,12 +395,17 @@ button {
   inset: 0 0 0 auto;
   z-index: 20;
   width: min(88vw, 360px);
-  padding: 20px;
+  height: 100dvh;
+  max-height: 100dvh;
+  padding: 20px 20px calc(24px + env(safe-area-inset-bottom));
   background: rgba(255, 255, 255, 0.92);
   box-shadow: var(--shadow);
   transform: translateX(105%);
   transition: transform 180ms ease;
   backdrop-filter: blur(24px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
 }
 
 .side-panel.open {
@@ -408,11 +413,17 @@ button {
 }
 
 .panel-header {
+  position: sticky;
+  top: -20px;
+  z-index: 1;
   display: flex;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
   margin-bottom: 20px;
+  padding: 20px 0 14px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(18px);
 }
 
 .profile-content {
