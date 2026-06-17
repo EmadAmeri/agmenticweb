@@ -172,12 +172,7 @@ function setProviderMode(mode) {
   providerMode = mode;
   localStorage.setItem(PROVIDER_MODE_KEY, mode);
   updateProviderToggle();
-
-  if (isLocalMode()) {
-    localModelStatus.textContent = "Local mode: answers stay on this device.";
-  } else {
-    localModelStatus.textContent = "Cloud mode: using the current API.";
-  }
+  localModelStatus.textContent = "";
 }
 
 function updateProviderToggle() {
@@ -1266,9 +1261,7 @@ agentContactNameInput.value = getContactName();
 userIdInput.value = getUserId();
 callContactName.textContent = getContactName();
 callAvatar.textContent = initials(getContactName());
-menuStatus.textContent = "Send me the menu when you're ready.";
+menuStatus.textContent = "";
 updateProviderToggle();
-localModelStatus.textContent = isLocalMode()
-  ? "Local mode: photograph a menu, then ask a short question."
-  : "Cloud mode: using the current API.";
+localModelStatus.textContent = "";
 requestMicrophonePermission();

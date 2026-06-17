@@ -135,22 +135,20 @@ button {
 }
 
 .menu-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
+  justify-content: center;
   gap: 10px;
 }
 
 .camera-button,
 .location-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 10px;
-  width: 100%;
+  display: grid;
+  place-items: center;
+  width: 58px;
+  height: 58px;
   min-height: 58px;
-  border-radius: 16px;
+  border-radius: 50%;
   color: var(--text);
-  font-size: 1rem;
   font-weight: 820;
 }
 
@@ -167,17 +165,17 @@ button {
 .action-icon {
   display: grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 100%;
+  height: 100%;
   flex: 0 0 auto;
   border-radius: 50%;
-  background: rgba(11, 12, 13, 0.08);
-  font-size: 1.05rem;
+  background: transparent;
+  font-size: 1.2rem;
   font-weight: 900;
 }
 
 .camera-button .action-icon {
-  background: rgba(255, 255, 255, 0.42);
+  background: transparent;
 }
 
 .menu-preview {

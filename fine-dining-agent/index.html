@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#8FD42E">
     <title>Dining Agent</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css?v=30">
+    <link rel="stylesheet" href="./style.css?v=31">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   </head>
   <body>
@@ -28,13 +28,11 @@
         <section class="camera-card">
           <input id="menuImage" type="file" accept="image/*" capture="environment" hidden>
           <div class="menu-actions">
-            <button class="camera-button" id="cameraButton">
+            <button class="camera-button" id="cameraButton" aria-label="Photograph menu" title="Photograph menu">
               <span class="action-icon" aria-hidden="true">◉</span>
-              <span>Photo menu</span>
             </button>
-            <button class="location-button" id="locationButton" type="button">
+            <button class="location-button" id="locationButton" type="button" aria-label="Use location" title="Use location">
               <span class="action-icon" aria-hidden="true">⌖</span>
-              <span>Use location</span>
             </button>
           </div>
           <img class="menu-preview" id="menuPreview" alt="Uploaded menu preview" hidden>
@@ -42,7 +40,7 @@
             <div class="ocr-progress-bar" id="ocrProgressBar"></div>
           </div>
           <div class="restaurant-list" id="restaurantList" hidden></div>
-          <p class="status-text" id="menuStatus">Start by adding the menu in front of you.</p>
+          <p class="status-text" id="menuStatus"></p>
           <p class="local-status" id="localModelStatus"></p>
         </section>
 
@@ -139,7 +137,7 @@
       </div>
     </section>
 
-    <script src="./app.js?v=30"></script>
+    <script src="./app.js?v=31"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");
