@@ -524,7 +524,7 @@ async function generateAgentResponse(text) {
     // Agent Handshake page negotiates against this request (same origin =>
     // shared localStorage). The consumer agent already stored the goal as a
     // memory note; here we mirror the memory into the shared profile.
-    syncConsumerGoalToHandshake();
+    await syncConsumerGoalToHandshake();
     return data.response;
   }
 
@@ -644,11 +644,24 @@ async function syncConsumerGoalToHandshake() {
     if (!protocol?.saveConsumerProfile) return;
 
     let memory = { liked: [], disliked: [], notes: [] };
+    let diningRequest = null;
     try {
       memory = await request(`/profile/${sessionId}`);
     } catch (error) {
       // No backend profile yet; still record the session so the handshake links.
     }
+    try {
+      const response = await request(`/dining-request/${sessionId}`);
+      diningRequest = response?.dining_request || null;
+    } catch (error) {
+      // The note parser in the shared protocol can still infer older requests.
+    }
+
+    const budgetPerPerson = diningRequest?.budget_amount != null
+      ? (diningRequest.budget_per_person
+        ? diningRequest.budget_amount
+        : (diningRequest.party_size ? diningRequest.budget_amount / diningRequest.party_size : diningRequest.budget_amount))
+      : null;
 
     protocol.saveConsumerProfile({
       userId: sessionId.replace(/^user_/, "") || sessionId,
@@ -656,11 +669,35 @@ async function syncConsumerGoalToHandshake() {
       name: "Consumer Dining Agent",
       likes: (memory.liked || []).map((entry) => entry.item).filter(Boolean),
       dislikes: (memory.disliked || []).map((entry) => entry.item).filter(Boolean),
+      allergies: extractAllergiesFromNotes(memory.notes || []),
       notes: (memory.notes || []).map((entry) => entry.text).filter(Boolean),
+      partySize: diningRequest?.party_size || null,
+      budgetPerPerson,
+      goal: diningRequest?.intent || "",
+      winePreference: diningRequest?.raw && /\b(drink|drinks|wine|beverage|cocktail)\b/i.test(diningRequest.raw)
+        ? "open to a drink or wine pairing"
+        : "",
     });
   } catch (error) {
     // Non-fatal: the chat reply still works even if the handshake sync fails.
   }
+}
+
+function extractAllergiesFromNotes(notes = []) {
+  const values = [];
+  notes
+    .map((entry) => entry?.text || entry)
+    .filter(Boolean)
+    .forEach((text) => {
+      const match = String(text).toLowerCase().match(/allergic to ([^.]+)/);
+      if (!match) return;
+      match[1]
+        .split(/,| and | & /)
+        .map((item) => item.trim().replace(/^the\s+/, "").replace(/\s+when possible$/, ""))
+        .filter(Boolean)
+        .forEach((item) => values.push(item));
+    });
+  return [...new Set(values)];
 }
 
 async function sendMessage(text) {

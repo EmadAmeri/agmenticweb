@@ -9,6 +9,8 @@ const API_BASE = window.localStorage?.getItem("agmentic_agent_handshake_api_base
 // of a stale browser-cached profile.
 const FINE_DINING_API_BASE = window.localStorage?.getItem("agmentic_fine_dining_api_base")
   || (["localhost", "127.0.0.1"].includes(window.location.hostname) ? "http://localhost:8000" : "https://api-dining.agmentic.com");
+const DINING_USER_ID_KEY = "dining_user_id";
+const DINING_SESSION_ID_KEY = "dining_session_id";
 
 const sampleMenu = `Snacks | Oyster tartlet | cucumber, finger lime, jalapeno | 9
 Starter | Burrata | smoked tomato, basil oil, toasted sourdough | 16
@@ -749,8 +751,12 @@ async function runPrimaryNegotiation() {
 
   const consumerProfile = protocol.getConsumerProfile();
   const retailerPolicy = protocol.getRetailerPolicy();
-  if (!hasConsumerProfile(consumerProfile) || !hasRetailerPolicy(retailerPolicy)) {
+  if (!hasConsumerProfile(consumerProfile)) {
     loadMaisonLumiereDemo({ silent: true });
+  } else if (!hasRetailerPolicy(retailerPolicy)) {
+    protocol.saveRetailerPolicy(cloneDemoData(maisonLumiereDemoRetailer));
+    renderSharedStateSummary();
+    renderMealPathComparison();
   }
   runRealLocalNegotiation();
 }
@@ -763,7 +769,7 @@ async function refreshConsumerProfileFromMemory() {
   if (!protocol?.getConsumerProfile || !protocol?.saveConsumerProfile) return;
 
   const current = protocol.getConsumerProfile();
-  const sessionId = current?.sessionId || "";
+  const sessionId = resolveDiningSessionId(current);
   if (!/^user_/.test(sessionId)) return;
 
   try {
@@ -784,14 +790,57 @@ async function refreshConsumerProfileFromMemory() {
       name: current.name || "Consumer Dining Agent",
       likes: (memory.liked || []).map((entry) => entry.item).filter(Boolean),
       dislikes: (memory.disliked || []).map((entry) => entry.item).filter(Boolean),
+      allergies: extractAllergies(memory.notes || []),
       notes: (memory.notes || []).map((entry) => entry.text).filter(Boolean),
       partySize: dining ? dining.party_size : null,
       budgetPerPerson,
       goal: dining ? dining.intent : "",
+      winePreference: dining?.raw && /\b(drink|drinks|wine|beverage|cocktail)\b/i.test(dining.raw)
+        ? "open to a drink or wine pairing"
+        : "",
     });
   } catch (error) {
     // Keep the existing cached profile if the live memory is unreachable.
   }
+}
+
+function resolveDiningSessionId(current = {}) {
+  const currentSession = current?.sessionId || "";
+  if (/^user_/.test(currentSession)) return currentSession;
+
+  const storedSession = window.localStorage?.getItem(DINING_SESSION_ID_KEY) || "";
+  if (/^user_/.test(storedSession)) return storedSession;
+
+  const storedUser = window.localStorage?.getItem(DINING_USER_ID_KEY) || "";
+  const slug = slugifyUserId(storedUser);
+  return slug ? `user_${slug}` : currentSession;
+}
+
+function slugifyUserId(value) {
+  return String(value || "")
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9_-]+/g, "_")
+    .replace(/^_+|_+$/g, "")
+    .slice(0, 60);
+}
+
+function extractAllergies(notes = []) {
+  const values = [];
+  notes
+    .map((entry) => entry?.text || entry)
+    .filter(Boolean)
+    .forEach((text) => {
+      const lower = String(text).toLowerCase();
+      const match = lower.match(/allergic to ([^.]+)/);
+      if (!match) return;
+      match[1]
+        .split(/,| and | & /)
+        .map((item) => item.trim().replace(/^the\s+/, "").replace(/\s+when possible$/, ""))
+        .filter(Boolean)
+        .forEach((item) => values.push(item));
+    });
+  return [...new Set(values)];
 }
 
 function renderFinalResult(session) {
