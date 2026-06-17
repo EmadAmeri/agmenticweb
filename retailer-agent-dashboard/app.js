@@ -23,20 +23,72 @@ const state = {
 const protocol = window.AgmenticAgentProtocol;
 
 const defaultNegotiationRules = {
-  maxDiscountPercent: 12,
+  maxDiscountPercent: 15,
   preferValueAddBeforeDiscount: true,
   neverViolateAllergies: true,
   neverOfferUnavailableItems: true,
   requireClearPriceDisclosure: true,
   allowedTactics: [
     "proximity_nudge",
+    "intent_match",
+    "personalized_menu_hook",
     "wine_pairing",
     "bundle_offer",
     "quiet_table",
     "limited_hold",
     "soft_upgrade",
+    "complimentary_item",
+    "off_peak_conversion",
+    "party_size_upgrade",
+    "premium_upsell",
+    "budget_respect",
+    "counter_offer",
+    "scarcity_hold",
   ],
 };
+
+const defaultPromotions = [
+  {
+    id: "promo-chef-welcome-pairing",
+    name: "Chef welcome pairing",
+    type: "percentage",
+    value: 12,
+    negotiation_rule: "Use for parties of 2+ before 19:00 or when consumer asks for wine pairing.",
+    max_agent_concession: 12,
+  },
+  {
+    id: "promo-quiet-table-hold",
+    name: "Quiet table hold",
+    type: "table_hold",
+    value: 20,
+    negotiation_rule: "Use for nearby agents asking for quiet table, anniversary, business dinner, or premium experience.",
+    max_agent_concession: 20,
+  },
+  {
+    id: "promo-dessert-moment",
+    name: "Dessert moment",
+    type: "complimentary_item",
+    value: 1,
+    negotiation_rule: "Use when the consumer intent mentions dessert, celebration, birthday, anniversary, or after dinner.",
+    max_agent_concession: 1,
+  },
+  {
+    id: "promo-tasting-bundle",
+    name: "Tasting bundle",
+    type: "bundle",
+    value: 18,
+    negotiation_rule: "Use for groups of 3+ or agents asking for best value, sharing, tasting menu, or multi-course meal.",
+    max_agent_concession: 18,
+  },
+  {
+    id: "promo-soft-upgrade",
+    name: "Soft upgrade",
+    type: "soft_upgrade",
+    value: 10,
+    negotiation_rule: "Use when the consumer asks for premium bottle, better table, fast seating, or a stronger reason to choose us.",
+    max_agent_concession: 10,
+  },
+];
 
 const els = {
   retailerName: document.querySelector("#retailerName"),
@@ -297,6 +349,14 @@ function removePromotion(id) {
   state.promotions = state.promotions.filter((promotion) => promotion.id !== id);
   save();
   render();
+}
+
+function withDefaultPromotions(promotions = []) {
+  const byId = new Map();
+  [...defaultPromotions, ...promotions].forEach((promotion) => {
+    byId.set(promotion.id || uuid(), promotion);
+  });
+  return [...byId.values()];
 }
 
 function buildAgentPayload() {
@@ -766,6 +826,7 @@ function renderPromotions() {
 function getNegotiationCapabilities() {
   const hasMenu = Boolean(state.menu?.items?.length);
   const hasPromotions = Boolean(state.promotions.length);
+  const hasFiveOffers = state.promotions.length >= 5;
   return [
     {
       title: "Personalized offer",
@@ -778,6 +839,11 @@ function getNegotiationCapabilities() {
       ready: hasPromotions && els.promoEnabled.checked,
     },
     {
+      title: "Five active offers",
+      detail: hasFiveOffers ? "Agent has a broad offer portfolio ready." : "Needs five active offers.",
+      ready: hasFiveOffers && els.promoEnabled.checked,
+    },
+    {
       title: "Guardrails",
       detail: `Max discount ${defaultNegotiationRules.maxDiscountPercent}%, allergy-safe, clear price.`,
       ready: true,
@@ -785,6 +851,46 @@ function getNegotiationCapabilities() {
     {
       title: "Value-add first",
       detail: "Prefers pairing, table hold, bundle, or soft upgrade before discounting.",
+      ready: true,
+    },
+    {
+      title: "Counter-offer logic",
+      detail: "Can revise offer when the first proposal does not fit intent or budget.",
+      ready: true,
+    },
+    {
+      title: "Intent matching",
+      detail: "Reads signals like anniversary, business dinner, dessert, group, or premium bottle.",
+      ready: true,
+    },
+    {
+      title: "Budget respect",
+      detail: "Keeps price disclosure clear and avoids unsafe over-discounting.",
+      ready: true,
+    },
+    {
+      title: "Scarcity hold",
+      detail: "Can hold a table or value-add briefly without changing base menu price.",
+      ready: true,
+    },
+    {
+      title: "Premium upsell",
+      detail: "Uses wine pairing, better table, or bundle as an upgrade path.",
+      ready: hasPromotions,
+    },
+    {
+      title: "Allergy safety",
+      detail: "Never offers unavailable or unsafe items when allergy signals exist.",
+      ready: true,
+    },
+    {
+      title: "Proximity nudge",
+      detail: "Can adapt offer framing for nearby consumer agents.",
+      ready: true,
+    },
+    {
+      title: "Public outcome",
+      detail: "Can surface accepted, rejected, or unresolved negotiation state.",
       ready: true,
     },
   ];
@@ -802,11 +908,12 @@ function calculateInitialScore() {
     (hasMenu ? 35 : 0)
     + Math.min(itemCount, 8) * 2
     + (hasPromotions ? 22 : 0)
+    + (promoCount >= 5 ? 8 : 0)
     + (hasRules ? 12 : 0)
     + (hasLocation ? 8 : 0)
     + (hasAgents ? 7 : 0)
   );
-  const label = score >= 80 ? "Ready" : score >= 55 ? "Good start" : score >= 30 ? "Needs offers" : "Draft";
+  const label = !hasMenu ? "Needs menu" : score >= 80 ? "Ready" : score >= 55 ? "Good start" : "Needs signal";
   const details = [
     `${itemCount} menu items`,
     `${promoCount} offers`,
@@ -916,6 +1023,7 @@ function load() {
     const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || "null");
     if (!stored) {
       els.rawMenu.value = sampleMenu;
+      state.promotions = withDefaultPromotions();
       return;
     }
 
@@ -926,7 +1034,7 @@ function load() {
     els.radius.value = stored.radius || 450;
     els.promoEnabled.checked = stored.promoEnabled !== false;
     state.menu = stored.menu || null;
-    state.promotions = stored.promotions || [];
+    state.promotions = withDefaultPromotions(stored.promotions || []);
     state.location = stored.location || null;
     state.nearbyAgents = stored.nearbyAgents || [];
     if (state.menu?.items?.length) {
