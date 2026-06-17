@@ -324,8 +324,7 @@ function renderFeeds() {
     .join("\n\n");
 
   const visibleConversation = events
-    .filter((event) => event.speaker !== "system")
-    .slice(-4);
+    .filter((event) => event.speaker !== "system");
 
   els.englishFeed.innerHTML = visibleConversation.map((event) => `
     <article class="english-card ${event.speaker}">
@@ -333,6 +332,7 @@ function renderFeeds() {
       <p>${escapeHtml(event.english)}</p>
     </article>
   `).join("");
+  els.englishFeed.scrollTop = els.englishFeed.scrollHeight;
 }
 
 function resetFeeds() {
