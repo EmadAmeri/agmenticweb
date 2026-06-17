@@ -35,7 +35,7 @@ const agentContactNameInput = document.querySelector("#agentContactName");
 const saveContactName = document.querySelector("#saveContactName");
 const userIdInput = document.querySelector("#userIdInput");
 const saveUserIdButton = document.querySelector("#saveUserId");
-const USE_LOCAL_OCR = true;
+const USE_LOCAL_OCR_FALLBACK = true;
 const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
 const USER_ID_KEY = "dining_user_id";
 const CONTACT_NAME_KEY = "dining_agent_contact_name";
@@ -938,15 +938,41 @@ async function uploadMenu(file) {
   setLoading(true);
 
   try {
-    if (!USE_LOCAL_OCR) {
-      await uploadMenuViaServer(file);
+    try {
+      menuStatus.textContent = "Reading menu with the vision API...";
+      const data = await uploadMenuViaServer(file);
+      saveStructuredMenu(data);
+      menuStatus.textContent = isLocalMode()
+        ? `Structured ${data.items_count} items for local AI. Ask me anything.`
+        : `Loaded ${data.items_count} items from this menu.`;
       return;
+    } catch (serverError) {
+      if (!USE_LOCAL_OCR_FALLBACK) {
+        throw serverError;
+      }
+
+      console.warn("Vision API menu reading failed; using OCR fallback", serverError);
+      menuStatus.textContent = "Vision reading had trouble. Trying local OCR...";
     }
 
+    const data = await uploadMenuWithOcrFallback(file);
+    saveStructuredMenu(data);
+    menuStatus.textContent = isLocalMode()
+      ? `Structured ${data.items_count} items for local AI. Ask me anything.`
+      : `Loaded ${data.items_count} items from this menu.`;
+  } catch (error) {
+    console.error("Menu upload failed", error);
+    menuStatus.textContent = `${friendlyError(error)} (${error.status || "network"}: ${error.message})`;
+  } finally {
+    hideOcrProgress();
+    setLoading(false);
+  }
+}
+
+async function uploadMenuWithOcrFallback(file) {
     const tesseract = await loadTesseract();
     if (!tesseract) {
-      await uploadMenuViaServer(file);
-      return;
+      return uploadMenuViaServer(file);
     }
 
     const { text, confidence } = await extractMenuText(file, tesseract);
@@ -974,17 +1000,9 @@ async function uploadMenu(file) {
       }
       throw error;
     });
-    saveStructuredMenu(data, text);
-    menuStatus.textContent = isLocalMode()
-      ? `Structured ${data.items_count} items for local AI. Ask me anything.`
-      : `Loaded ${data.items_count} items from this menu.`;
-  } catch (error) {
-    console.error("Menu upload failed", error);
-    menuStatus.textContent = `${friendlyError(error)} (${error.status || "network"}: ${error.message})`;
-  } finally {
-    hideOcrProgress();
-    setLoading(false);
-  }
+
+    saveLocalMenuText(text);
+    return data;
 }
 
 async function findRestaurantFromLocation() {
