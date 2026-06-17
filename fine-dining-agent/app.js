@@ -69,6 +69,7 @@ let agentSpeaking = false;
 let recognitionRestartTimer = null;
 let activeUtterances = [];
 let callRequestInFlight = false;
+let serverMenuHydratedFor = "";
 
 function getSessionId() {
   const userId = getUserId();
@@ -267,6 +268,7 @@ function saveStructuredMenu(data, rawText = "") {
     saved_at: new Date().toISOString(),
   };
   localStorage.setItem(userStorageKey(LOCAL_MENU_DATA_KEY), JSON.stringify(payload));
+  serverMenuHydratedFor = sessionId;
 }
 
 function getStructuredMenu() {
@@ -371,9 +373,13 @@ function answerStructuredMenuQuestion(text) {
   }
 
   const lowered = text.toLowerCase();
-  if (!lowered.includes("cheapest") && !lowered.includes("least expensive") && !lowered.includes("lowest price")) {
-    return "";
-  }
+  const wantsCheapest = lowered.includes("cheapest")
+    || lowered.includes("least expensive")
+    || lowered.includes("lowest price");
+  const wantsBest = lowered.includes("best")
+    || lowered.includes("recommend")
+    || lowered.includes("should i")
+    || lowered.includes("for me");
 
   const section = requestedSection(lowered);
   let scopedItems = items.filter((item) => !section || sectionMatches(item.section, section));
@@ -386,11 +392,20 @@ function answerStructuredMenuQuestion(text) {
     .map((item) => ({ item, price: parseMenuPrice(item.price) }))
     .filter((entry) => Number.isFinite(entry.price));
 
+  const budget = requestedBudget(lowered);
+  if (budget !== null) {
+    candidates = candidates.filter((entry) => entry.price < budget);
+  }
+
   if (section === "main" && !candidates.length) {
     candidates = items
       .filter((item) => !looksLikeNonMainItem(item))
       .map((item) => ({ item, price: parseMenuPrice(item.price) }))
       .filter((entry) => Number.isFinite(entry.price));
+
+    if (budget !== null) {
+      candidates = candidates.filter((entry) => entry.price < budget);
+    }
   }
 
   if (!candidates.length) {
@@ -399,9 +414,64 @@ function answerStructuredMenuQuestion(text) {
       : "I can't see clear prices in this menu.";
   }
 
-  candidates.sort((a, b) => a.price - b.price);
-  const cheapest = candidates[0].item;
-  return `The cheapest ${section || "option"} is ${cheapest.name} at ${cheapest.price}.`;
+  if (!wantsCheapest && !wantsBest) {
+    return "";
+  }
+
+  candidates.sort((a, b) => (
+    wantsBest
+      ? (preferenceScore(b.item) - preferenceScore(a.item)) || (a.price - b.price)
+      : a.price - b.price
+  ));
+  const choice = candidates[0].item;
+
+  if (wantsBest) {
+    return `I’d pick ${choice.name} at ${choice.price}.`;
+  }
+
+  return `The cheapest ${section || "option"} is ${choice.name} at ${choice.price}.`;
+}
+
+function requestedBudget(text) {
+  const match = text.match(/(?:less than|under|below|maximum|max|up to)\s*(?:€|\$|£)?\s*(\d+(?:[,.]\d{1,2})?)/);
+  return match ? Number(match[1].replace(",", ".")) : null;
+}
+
+function preferenceScore(item) {
+  const text = [
+    item.name,
+    item.description,
+    item.section,
+  ].join(" ").toLowerCase();
+  let score = 0;
+
+  const profile = getCachedProfile();
+  (profile.liked || []).forEach((entry) => {
+    const value = String(entry.item || entry || "").toLowerCase();
+    if (value && text.includes(value)) {
+      score += 4;
+    }
+  });
+  (profile.disliked || []).forEach((entry) => {
+    const value = String(entry.item || entry || "").toLowerCase();
+    if (value && text.includes(value)) {
+      score -= 8;
+    }
+  });
+
+  if (text.includes("cream") || text.includes("blue cheese")) {
+    score -= 2;
+  }
+
+  return score;
+}
+
+function getCachedProfile() {
+  try {
+    return JSON.parse(localStorage.getItem(`dining_profile_cache:${sessionId}`) || "{}");
+  } catch (error) {
+    return {};
+  }
 }
 
 function requestedSection(text) {
@@ -544,12 +614,37 @@ async function generateAgentResponse(text) {
     return "I need a real menu first. Use the camera or location button, then I’ll answer from that menu only.";
   }
 
+  const directAnswer = answerStructuredMenuQuestion(text);
+  if (directAnswer) {
+    return directAnswer;
+  }
+
+  await hydrateServerMenuIfNeeded();
+
   const data = await request("/chat", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ session_id: sessionId, message: text }),
   });
   return data.response;
+}
+
+async function hydrateServerMenuIfNeeded() {
+  if (serverMenuHydratedFor === sessionId) {
+    return;
+  }
+
+  const structured = getStructuredMenu();
+  if (!structured?.menu?.items?.length) {
+    return;
+  }
+
+  await request("/menu/structured", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ session_id: sessionId, menu: structured.menu }),
+  });
+  serverMenuHydratedFor = sessionId;
 }
 
 function wantsDiningReservation(text) {
@@ -1431,6 +1526,7 @@ async function loadProfile() {
 
   try {
     const profile = await request(`/profile/${sessionId}`);
+    localStorage.setItem(`dining_profile_cache:${sessionId}`, JSON.stringify(profile));
     profileContent.innerHTML = profileHtml(profile);
   } catch (error) {
     profileContent.textContent = friendlyError(error);
