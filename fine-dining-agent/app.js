@@ -509,6 +509,20 @@ function shortenLocalResponse(response) {
 }
 
 async function generateAgentResponse(text) {
+  const hasMenu = Boolean(getStructuredMenu()?.menu?.items?.length);
+
+  // A dining request without a menu (e.g. "a table for 4, budget 25 euro
+  // per person") must reach the backend so the agent can capture it and set
+  // up the retailer negotiation, instead of being told to load a menu.
+  if (!hasMenu && wantsDiningReservation(text)) {
+    const data = await request("/chat", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ session_id: sessionId, message: text }),
+    });
+    return data.response;
+  }
+
   if (isLocalMode()) {
     return localChat(text);
   }
@@ -517,7 +531,7 @@ async function generateAgentResponse(text) {
     return negotiateRetailerOffer(text);
   }
 
-  if (!getStructuredMenu()?.menu?.items?.length) {
+  if (!hasMenu) {
     return "I need a real menu first. Use the camera or location button, then I’ll answer from that menu only.";
   }
 
@@ -527,6 +541,40 @@ async function generateAgentResponse(text) {
     body: JSON.stringify({ session_id: sessionId, message: text }),
   });
   return data.response;
+}
+
+function wantsDiningReservation(text) {
+  const lowered = text.toLowerCase();
+  const booking = [
+    "table for",
+    "book a table",
+    "book a restaurant",
+    "reserve",
+    "reservation",
+    "find a restaurant",
+    "find me a restaurant",
+    "find a place",
+    "table at",
+  ];
+  if (booking.some((word) => lowered.includes(word))) {
+    return true;
+  }
+
+  const dining = ["dinner", "lunch", "brunch", "dine", "eat out", "restaurant"];
+  const budget = ["budget", "per person", "per head", "per guest", "a head", " pp", "each"];
+  const partySize = /\bfor\s+(\d{1,2}|two|three|four|five|six)\b/.test(lowered)
+    || /\b(\d{1,2})\s+(people|persons?|guests?|pax)\b/.test(lowered);
+
+  const hasDining = dining.some((word) => lowered.includes(word));
+  const hasBudget = budget.some((word) => lowered.includes(word));
+
+  if (hasDining && (hasBudget || partySize)) {
+    return true;
+  }
+  if (hasBudget && partySize) {
+    return true;
+  }
+  return false;
 }
 
 function wantsRetailerOffer(text) {
