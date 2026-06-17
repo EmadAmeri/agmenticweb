@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#8FD42E">
     <title>Dining Agent</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css?v=31">
+    <link rel="stylesheet" href="./style.css?v=33">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   </head>
   <body>
@@ -17,6 +17,18 @@
           <p>your dinner companion</p>
         </div>
         <div class="header-actions">
+          <button class="header-action-button camera-button" id="cameraButton" aria-label="Photograph menu" title="Photograph menu">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M9 6.5 10.4 5h3.2L15 6.5h3.2A2.8 2.8 0 0 1 21 9.3v6.9a2.8 2.8 0 0 1-2.8 2.8H5.8A2.8 2.8 0 0 1 3 16.2V9.3a2.8 2.8 0 0 1 2.8-2.8H9Z"/>
+              <circle cx="12" cy="12.6" r="3.4"/>
+            </svg>
+          </button>
+          <button class="header-action-button location-button" id="locationButton" type="button" aria-label="Use location" title="Use location">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 21s7-5.7 7-12a7 7 0 0 0-14 0c0 6.3 7 12 7 12Z"/>
+              <circle cx="12" cy="9" r="2.4"/>
+            </svg>
+          </button>
           <button class="provider-toggle" id="providerToggle" type="button" aria-pressed="false">
             <span id="providerLabel">Cloud</span>
           </button>
@@ -27,14 +39,6 @@
       <main>
         <section class="camera-card">
           <input id="menuImage" type="file" accept="image/*" capture="environment" hidden>
-          <div class="menu-actions">
-            <button class="camera-button" id="cameraButton" aria-label="Photograph menu" title="Photograph menu">
-              <span class="action-icon" aria-hidden="true">◉</span>
-            </button>
-            <button class="location-button" id="locationButton" type="button" aria-label="Use location" title="Use location">
-              <span class="action-icon" aria-hidden="true">⌖</span>
-            </button>
-          </div>
           <img class="menu-preview" id="menuPreview" alt="Uploaded menu preview" hidden>
           <div class="ocr-progress" id="ocrProgress" hidden>
             <div class="ocr-progress-bar" id="ocrProgressBar"></div>
@@ -54,7 +58,12 @@
       </main>
 
       <div class="bottom-actions">
-        <button class="call-button" id="openCall">Call agent</button>
+        <button class="call-button" id="openCall">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M8.5 4.5 6.6 5.7c-.8.5-1.1 1.5-.8 2.4a17.5 17.5 0 0 0 10.1 10.1c.9.3 1.9 0 2.4-.8l1.2-1.9c.4-.7.3-1.6-.3-2.2l-1.7-1.7c-.6-.6-1.5-.7-2.2-.3l-1.2.7a10.3 10.3 0 0 1-4.1-4.1l.7-1.2c.4-.7.3-1.6-.3-2.2L8.7 4.8c-.6-.6-1.5-.7-2.2-.3Z"/>
+          </svg>
+          <span>Call agent</span>
+        </button>
         <button class="suggest-button" id="openSuggest">Suggest a meal</button>
       </div>
     </div>
@@ -137,7 +146,7 @@
       </div>
     </section>
 
-    <script src="./app.js?v=31"></script>
+    <script src="./app.js?v=33"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");

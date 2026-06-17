@@ -7,6 +7,7 @@ const chatForm = document.querySelector("#chatForm");
 const chatInput = document.querySelector("#chatInput");
 const cameraButton = document.querySelector("#cameraButton");
 const locationButton = document.querySelector("#locationButton");
+const menuPanel = document.querySelector(".camera-card");
 const menuImage = document.querySelector("#menuImage");
 const menuPreview = document.querySelector("#menuPreview");
 const menuStatus = document.querySelector("#menuStatus");
@@ -117,6 +118,17 @@ function userStorageKey(key) {
 
 function setLoading(isLoading) {
   loader.hidden = !isLoading;
+}
+
+function updateMenuPanelVisibility() {
+  const hasContent = Boolean(
+    menuStatus.textContent.trim()
+    || localModelStatus.textContent.trim()
+    || !menuPreview.hidden
+    || !ocrProgress.hidden
+    || !restaurantList.hidden,
+  );
+  menuPanel.classList.toggle("has-content", hasContent);
 }
 
 function friendlyError(error) {
@@ -1264,4 +1276,11 @@ callAvatar.textContent = initials(getContactName());
 menuStatus.textContent = "";
 updateProviderToggle();
 localModelStatus.textContent = "";
+updateMenuPanelVisibility();
+new MutationObserver(updateMenuPanelVisibility).observe(menuPanel, {
+  attributes: true,
+  childList: true,
+  characterData: true,
+  subtree: true,
+});
 requestMicrophonePermission();
