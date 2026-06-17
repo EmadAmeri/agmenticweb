@@ -55,6 +55,11 @@ const els = {
   promoValue: document.querySelector("#promoValue"),
   promoRule: document.querySelector("#promoRule"),
   promoList: document.querySelector("#promoList"),
+  capabilityList: document.querySelector("#capabilityList"),
+  scoreValue: document.querySelector("#scoreValue"),
+  scoreLabel: document.querySelector("#scoreLabel"),
+  scoreBar: document.querySelector("#scoreBar"),
+  scoreDetails: document.querySelector("#scoreDetails"),
   agentList: document.querySelector("#agentList"),
   offerPreview: document.querySelector("#offerPreview"),
   negotiationResult: document.querySelector("#negotiationResult"),
@@ -758,6 +763,85 @@ function renderPromotions() {
   `).join("");
 }
 
+function getNegotiationCapabilities() {
+  const hasMenu = Boolean(state.menu?.items?.length);
+  const hasPromotions = Boolean(state.promotions.length);
+  return [
+    {
+      title: "Personalized offer",
+      detail: hasMenu ? "Uses menu items, tags, prices, and dietary signals." : "Needs a standardized menu.",
+      ready: hasMenu,
+    },
+    {
+      title: "Marketing hook",
+      detail: hasPromotions ? "Can use saved promotions as conversion levers." : "Add at least one offer.",
+      ready: hasPromotions && els.promoEnabled.checked,
+    },
+    {
+      title: "Guardrails",
+      detail: `Max discount ${defaultNegotiationRules.maxDiscountPercent}%, allergy-safe, clear price.`,
+      ready: true,
+    },
+    {
+      title: "Value-add first",
+      detail: "Prefers pairing, table hold, bundle, or soft upgrade before discounting.",
+      ready: true,
+    },
+  ];
+}
+
+function calculateInitialScore() {
+  const itemCount = state.menu?.items?.length || 0;
+  const promoCount = state.promotions.length;
+  const hasMenu = itemCount > 0;
+  const hasPromotions = promoCount > 0 && els.promoEnabled.checked;
+  const hasRules = state.promotions.some((promotion) => promotion.negotiation_rule?.trim());
+  const hasLocation = Boolean(state.location);
+  const hasAgents = state.nearbyAgents.length > 0;
+  const score = Math.min(100,
+    (hasMenu ? 35 : 0)
+    + Math.min(itemCount, 8) * 2
+    + (hasPromotions ? 22 : 0)
+    + (hasRules ? 12 : 0)
+    + (hasLocation ? 8 : 0)
+    + (hasAgents ? 7 : 0)
+  );
+  const label = score >= 80 ? "Ready" : score >= 55 ? "Good start" : score >= 30 ? "Needs offers" : "Draft";
+  const details = [
+    `${itemCount} menu items`,
+    `${promoCount} offers`,
+    hasRules ? "rules set" : "rules missing",
+    hasLocation ? "location on" : "location off",
+  ];
+  return { score, label, details };
+}
+
+function renderCapabilitiesAndScore() {
+  if (els.capabilityList) {
+    els.capabilityList.innerHTML = getNegotiationCapabilities().map((capability) => `
+      <article class="capability-card ${capability.ready ? "ready" : "pending"}">
+        <span>${capability.ready ? "Ready" : "Setup"}</span>
+        <strong>${escapeHtml(capability.title)}</strong>
+        <small>${escapeHtml(capability.detail)}</small>
+      </article>
+    `).join("");
+  }
+
+  const summary = calculateInitialScore();
+  if (els.scoreValue) {
+    els.scoreValue.textContent = String(summary.score);
+  }
+  if (els.scoreLabel) {
+    els.scoreLabel.textContent = summary.label;
+  }
+  if (els.scoreBar) {
+    els.scoreBar.style.width = `${summary.score}%`;
+  }
+  if (els.scoreDetails) {
+    els.scoreDetails.innerHTML = summary.details.map((detail) => `<span>${escapeHtml(detail)}</span>`).join("");
+  }
+}
+
 function formatPromotion(promotion) {
   const value = promotion.type === "percentage" ? `${promotion.value}%` : promotion.type === "fixed" ? money(promotion.value) : promotion.value;
   return `${promotion.type.replace("_", " ")} · ${value} · max concession ${promotion.max_agent_concession}`;
@@ -804,6 +888,7 @@ function render() {
     : "Ready";
   renderMenu();
   renderPromotions();
+  renderCapabilitiesAndScore();
   renderAgents();
   renderNegotiationResult();
   lucide.createIcons();

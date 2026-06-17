@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0C1720">
     <title>Retailer Dining Agent</title>
-    <link rel="stylesheet" href="./style.css?v=7">
+    <link rel="stylesheet" href="./style.css?v=8">
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -71,54 +71,6 @@
           </div>
         </section>
 
-        <section class="workspace-panel">
-          <div class="panel-title">
-            <div>
-              <h2>Nearby Agents</h2>
-            </div>
-            <button class="icon-button" id="useLocation" type="button" aria-label="Use location" title="Use location">
-              <i data-lucide="map-pin"></i>
-            </button>
-          </div>
-          <div class="signal-stack">
-            <div class="signal-row">
-              <span>Discovery radius</span>
-              <strong id="radiusValue">450 m</strong>
-            </div>
-            <input id="radius" type="range" min="100" max="2000" step="50" value="450">
-            <div class="signal-card">
-              <i data-lucide="navigation"></i>
-              <div>
-                <span id="locationLabel">Location off</span>
-                <small id="connectionLabel">Ready</small>
-              </div>
-            </div>
-            <label class="toggle-row">
-              <span>
-                Allow marketing promotions
-              </span>
-              <input id="promoEnabled" type="checkbox" checked>
-            </label>
-            <button class="primary-action full-action" id="findAgents" type="button">
-              <i data-lucide="radar"></i>
-              Find agents in range
-            </button>
-          </div>
-        </section>
-
-        <section class="workspace-panel wide">
-          <div class="panel-title">
-            <div>
-              <h2>Standard Menu</h2>
-            </div>
-            <button class="secondary-action" id="copyPayload" type="button">
-              <i data-lucide="copy"></i>
-              Copy JSON
-            </button>
-          </div>
-          <div class="menu-output" id="menuOutput"></div>
-        </section>
-
         <section class="workspace-panel promo-panel">
           <div class="panel-title">
             <div>
@@ -163,13 +115,40 @@
           <div class="promo-list" id="promoList"></div>
         </section>
 
-        <section class="workspace-panel">
+        <section class="workspace-panel capability-panel">
           <div class="panel-title">
             <div>
-              <h2>Agents In Range</h2>
+              <h2>Negotiation Capabilities</h2>
             </div>
           </div>
-          <div class="agent-list" id="agentList"></div>
+          <div class="capability-list" id="capabilityList"></div>
+        </section>
+
+        <section class="workspace-panel score-panel">
+          <div class="panel-title">
+            <div>
+              <h2>Initial Score</h2>
+            </div>
+          </div>
+          <div class="score-summary">
+            <strong id="scoreValue">0</strong>
+            <span id="scoreLabel">Draft</span>
+          </div>
+          <div class="score-bar" aria-hidden="true"><span id="scoreBar"></span></div>
+          <div class="score-details" id="scoreDetails"></div>
+        </section>
+
+        <section class="workspace-panel wide">
+          <div class="panel-title">
+            <div>
+              <h2>Standard Menu</h2>
+            </div>
+            <button class="secondary-action" id="copyPayload" type="button">
+              <i data-lucide="copy"></i>
+              Copy JSON
+            </button>
+          </div>
+          <div class="menu-output" id="menuOutput"></div>
         </section>
 
         <section class="workspace-panel wide">
@@ -187,20 +166,61 @@
           </div>
         </section>
 
-        <section class="workspace-panel wide">
+        <section class="workspace-panel secondary-panel">
+          <div class="panel-title">
+            <div>
+              <h2>Nearby Agents</h2>
+            </div>
+            <button class="icon-button" id="useLocation" type="button" aria-label="Use location" title="Use location">
+              <i data-lucide="map-pin"></i>
+            </button>
+          </div>
+          <div class="signal-stack">
+            <div class="signal-row">
+              <span>Discovery radius</span>
+              <strong id="radiusValue">450 m</strong>
+            </div>
+            <input id="radius" type="range" min="100" max="2000" step="50" value="450">
+            <div class="signal-card">
+              <i data-lucide="navigation"></i>
+              <div>
+                <span id="locationLabel">Location off</span>
+                <small id="connectionLabel">Ready</small>
+              </div>
+            </div>
+            <label class="toggle-row">
+              <span>Allow marketing promotions</span>
+              <input id="promoEnabled" type="checkbox" checked>
+            </label>
+            <button class="primary-action full-action" id="findAgents" type="button">
+              <i data-lucide="radar"></i>
+              Find agents in range
+            </button>
+          </div>
+        </section>
+
+        <section class="workspace-panel secondary-panel">
+          <div class="panel-title">
+            <div>
+              <h2>Agents In Range</h2>
+            </div>
+          </div>
+          <div class="agent-list" id="agentList"></div>
+        </section>
+
+        <section class="workspace-panel wide secondary-panel">
           <div class="panel-title">
             <div>
               <h2>Latest agent negotiation</h2>
-              <p>Public outcome from the latest local agent handshake.</p>
             </div>
             <div class="action-row">
               <button class="secondary-action" id="refreshNegotiationResult" type="button">
                 <i data-lucide="refresh-cw"></i>
-                Refresh negotiation result
+                Refresh result
               </button>
               <a class="secondary-link" href="../agent-handshake/">
                 <i data-lucide="external-link"></i>
-                Open handshake dashboard
+                Open handshake
               </a>
             </div>
           </div>
@@ -216,6 +236,6 @@
 
     <div class="toast" id="toast" hidden></div>
     <script src="../shared/agent-protocol.js?v=1"></script>
-    <script src="./app.js?v=7"></script>
+    <script src="./app.js?v=8"></script>
   </body>
 </html>
