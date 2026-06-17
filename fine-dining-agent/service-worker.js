@@ -3,7 +3,7 @@ const SHELL_ASSETS = [
   "./",
   "./index.html",
   "./style.css",
-  "/app.js?v=41",
+  "./app.js",
   "./manifest.json",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
