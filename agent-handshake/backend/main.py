@@ -104,6 +104,65 @@ class Promotion(BaseModel):
     type: str = "percentage"
     value: float = 12
     rule: str = "Use when the consumer agent asks for wine pairing."
+    max_concession: float | None = None
+    max_agent_concession: float | None = None
+
+
+NEGOTIATION_CAPABILITIES = [
+    "menu_exchange",
+    "promotion_negotiation",
+    "reservation_hold",
+    "personalized_offer",
+    "marketing_hook",
+    "five_active_offers",
+    "value_add_first",
+    "counter_offer",
+    "intent_matching",
+    "budget_respect",
+    "scarcity_hold",
+    "premium_upsell",
+    "allergy_safety",
+    "proximity_nudge",
+    "public_outcome",
+]
+
+DEFAULT_PROMOTIONS = [
+    {
+        "name": "Chef welcome pairing",
+        "type": "percentage",
+        "value": 12,
+        "max_concession": 12,
+        "rule": "Use for parties of 2+ before 19:00 or when the consumer asks for wine pairing.",
+    },
+    {
+        "name": "Quiet table hold",
+        "type": "table_hold",
+        "value": 20,
+        "max_concession": 20,
+        "rule": "Use for nearby agents asking for quiet table, anniversary, business dinner, or premium experience.",
+    },
+    {
+        "name": "Dessert moment",
+        "type": "complimentary_item",
+        "value": 1,
+        "max_concession": 1,
+        "rule": "Use when the consumer intent mentions dessert, celebration, birthday, anniversary, or after dinner.",
+    },
+    {
+        "name": "Tasting bundle",
+        "type": "bundle",
+        "value": 18,
+        "max_concession": 18,
+        "rule": "Use for groups of 3+ or agents asking for best value, sharing, tasting menu, or multi-course meal.",
+    },
+    {
+        "name": "Soft upgrade",
+        "type": "soft_upgrade",
+        "value": 10,
+        "max_concession": 10,
+        "rule": "Use when the consumer asks for premium bottle, better table, fast seating, or a stronger reason to choose us.",
+    },
+]
 
 
 class RetailerAgentRequest(BaseModel):
@@ -150,21 +209,42 @@ class RetailerAgent:
             "menu_items": len(self.menu),
             "offer_policy": [dump_model(promotion) for promotion in self.promotions],
             "radius_m": self.radius_m,
-            "capabilities": ["menu_exchange", "promotion_negotiation", "reservation_hold"],
+            "capabilities": NEGOTIATION_CAPABILITIES,
+            "guardrails": {
+                "max_discount_percent": 15,
+                "prefer_value_add_before_discount": True,
+                "require_clear_price_disclosure": True,
+                "never_offer_unavailable_or_unsafe_items": True,
+            },
         }
 
     def propose_offer(self, consumer: "ConsumerAgent") -> dict[str, Any]:
-        promotion = self.promotions[0] if self.promotions else Promotion()
-        item = choose_menu_hook(self.menu, consumer.effective_preferences(), consumer.intent)
+        preferences = consumer.effective_preferences()
+        promotion = choose_promotion(self.promotions, preferences, consumer.intent)
+        item = choose_menu_hook(self.menu, preferences, consumer.intent)
         proposed_price = calculate_offer_price(item.price, promotion)
+        tactic = choose_marketing_tactic(promotion, preferences, consumer.intent)
         return {
             "menu_hook": dump_model(item),
             "promotion": dump_model(promotion),
             "proposed_price": proposed_price,
+            "marketing_tactic": tactic,
+            "capabilities_used": [
+                "intent_matching",
+                "personalized_offer",
+                tactic,
+                "budget_respect",
+                "clear_price_disclosure",
+            ],
+            "guardrails_applied": {
+                "max_discount_percent": 15,
+                "promotion_rule": promotion.rule,
+                "value_add_first": promotion.type != "percentage",
+            },
             "message": (
                 f"{self.name} offers {item.name}"
                 f"{f' at {proposed_price}' if proposed_price is not None else ''}"
-                f" using {promotion.name}."
+                f" using {promotion.name} via {tactic.replace('_', ' ')}."
             ),
         }
 
@@ -398,14 +478,7 @@ def sample() -> dict[str, Any]:
         "retailer": {
             "name": "Maison Lumiere",
             "menu_text": SAMPLE_MENU,
-            "promotions": [
-                {
-                    "name": "Chef welcome pairing",
-                    "type": "percentage",
-                    "value": 12,
-                    "rule": "Use for parties of 2+ before 19:00 or when the consumer asks for wine pairing.",
-                }
-            ],
+            "promotions": [dump_model(promotion) for promotion in default_promotions()],
             "radius_m": 450,
         },
         "consumer": {
@@ -428,7 +501,7 @@ def register_retailer(request: RetailerAgentRequest) -> dict[str, Any]:
         id=f"retailer-{uuid.uuid4()}",
         name=request.name,
         menu=menu,
-        promotions=request.promotions or [Promotion()],
+        promotions=merge_default_promotions(request.promotions),
         radius_m=request.radius_m,
     )
     RETAILER_AGENTS[agent.id] = agent
@@ -622,6 +695,7 @@ def serialize_retailer(agent: RetailerAgent) -> dict[str, Any]:
         "menu": [dump_model(item) for item in agent.menu],
         "promotions": [dump_model(promotion) for promotion in agent.promotions],
         "radius_m": agent.radius_m,
+        "capabilities": NEGOTIATION_CAPABILITIES,
     }
 
 
@@ -648,6 +722,62 @@ def choose_menu_hook(menu: list[MenuItem], preferences: list[str], intent: str) 
     return menu[0]
 
 
+def default_promotions() -> list[Promotion]:
+    return [Promotion(**promotion) for promotion in DEFAULT_PROMOTIONS]
+
+
+def merge_default_promotions(promotions: list[Promotion] | None = None) -> list[Promotion]:
+    by_name = {promotion.name.lower(): promotion for promotion in default_promotions()}
+    for promotion in promotions or []:
+        by_name[promotion.name.lower()] = promotion
+    return list(by_name.values())
+
+
+def choose_promotion(promotions: list[Promotion], preferences: list[str], intent: str) -> Promotion:
+    candidates = promotions or default_promotions()
+    source = " ".join([intent, *preferences]).lower()
+    return max(candidates, key=lambda promotion: promotion_score(promotion, source))
+
+
+def promotion_score(promotion: Promotion, source: str) -> int:
+    rule = promotion.rule.lower()
+    name = promotion.name.lower()
+    promotion_type = promotion.type.lower()
+    score = 0
+    for word in re.findall(r"[a-z0-9_]+", f"{rule} {name} {promotion_type}"):
+        normalized = word.replace("_", " ")
+        if len(word) > 4 and (word in source or normalized in source):
+            score += 3
+    if "wine" in source and promotion_type in {"wine_pairing", "percentage"}:
+        score += 5
+    if any(term in source for term in ["quiet", "anniversary", "business"]) and promotion_type == "table_hold":
+        score += 6
+    if any(term in source for term in ["dessert", "birthday", "celebration"]) and promotion_type == "complimentary_item":
+        score += 6
+    if any(term in source for term in ["group", "sharing", "value", "course"]) and promotion_type == "bundle":
+        score += 6
+    if any(term in source for term in ["premium", "bottle", "fast", "upgrade"]) and promotion_type == "soft_upgrade":
+        score += 6
+    return score
+
+
+def choose_marketing_tactic(promotion: Promotion, preferences: list[str], intent: str) -> str:
+    source = " ".join([intent, *preferences, promotion.rule]).lower()
+    if promotion.type == "table_hold" or "quiet" in source:
+        return "scarcity_hold"
+    if promotion.type == "bundle" or any(term in source for term in ["group", "sharing", "course"]):
+        return "bundle_offer"
+    if promotion.type == "complimentary_item" or "dessert" in source:
+        return "complimentary_item"
+    if promotion.type == "soft_upgrade" or any(term in source for term in ["premium", "bottle", "upgrade"]):
+        return "premium_upsell"
+    if "wine" in source or promotion.type == "wine_pairing":
+        return "wine_pairing"
+    if promotion.type == "percentage":
+        return "budget_respect"
+    return "personalized_menu_hook"
+
+
 def choose_counter_hook(menu: list[MenuItem], first_name: str, disliked_terms: list[str] | None = None) -> MenuItem:
     disliked = " ".join(disliked_terms or []).lower()
     for item in menu:
@@ -663,9 +793,11 @@ def calculate_offer_price(price: float | None, promotion: Promotion) -> float | 
     if price is None:
         return None
     if promotion.type == "percentage":
-        return round(price * (1 - min(promotion.value, 35) / 100), 2)
+        max_discount = promotion.max_concession or promotion.max_agent_concession or promotion.value
+        return round(price * (1 - min(promotion.value, max_discount, 15) / 100), 2)
     if promotion.type == "fixed":
-        return max(0, round(price - promotion.value, 2))
+        max_discount = promotion.max_concession or promotion.max_agent_concession or promotion.value
+        return max(0, round(price - min(promotion.value, max_discount), 2))
     return price
 
 
