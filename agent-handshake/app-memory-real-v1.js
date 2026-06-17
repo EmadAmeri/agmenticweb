@@ -3,6 +3,13 @@ const DEFAULT_API_BASE = ["localhost", "127.0.0.1"].includes(window.location.hos
   : "https://api-handshake.agmentic.com";
 const API_BASE = window.localStorage?.getItem("agmentic_agent_handshake_api_base") || DEFAULT_API_BASE;
 
+// The consumer agent's live memory (likes, notes, and the dining-request goal)
+// is served by the fine-dining backend. The handshake refreshes from it on
+// connect so it always negotiates against the user's current request instead
+// of a stale browser-cached profile.
+const FINE_DINING_API_BASE = window.localStorage?.getItem("agmentic_fine_dining_api_base")
+  || (["localhost", "127.0.0.1"].includes(window.location.hostname) ? "http://localhost:8000" : "https://api-dining.agmentic.com");
+
 const sampleMenu = `Snacks | Oyster tartlet | cucumber, finger lime, jalapeno | 9
 Starter | Burrata | smoked tomato, basil oil, toasted sourdough | 16
 Starter | Beetroot carpaccio | horseradish cream, hazelnut, dill | 14
@@ -61,6 +68,8 @@ const maisonLumiereDemoConsumer = {
   allergies: [],
   dietaryPreference: "",
   budgetRange: "medium",
+  budgetPerPerson: 50,
+  partySize: 2,
   occasion: "anniversary dinner",
   confidenceLevel: "low",
   winePreference: "white wine",
@@ -728,11 +737,15 @@ function runRealLocalNegotiation() {
   }
 }
 
-function runPrimaryNegotiation() {
+async function runPrimaryNegotiation() {
   if (!protocol) {
     startLive();
     return;
   }
+
+  // Pull the consumer's current goal/memory before negotiating so a real
+  // session always reflects the latest dining request, not stale cached data.
+  await refreshConsumerProfileFromMemory();
 
   const consumerProfile = protocol.getConsumerProfile();
   const retailerPolicy = protocol.getRetailerPolicy();
@@ -740,6 +753,45 @@ function runPrimaryNegotiation() {
     loadMaisonLumiereDemo({ silent: true });
   }
   runRealLocalNegotiation();
+}
+
+// Rebuild a real consumer-agent profile (sessionId "user_*") from the live
+// fine-dining memory: likes/dislikes/notes plus the parsed dining goal
+// (party size, per-person budget, intent). Demo/default profiles are left
+// untouched, and any fetch failure keeps the existing cached profile.
+async function refreshConsumerProfileFromMemory() {
+  if (!protocol?.getConsumerProfile || !protocol?.saveConsumerProfile) return;
+
+  const current = protocol.getConsumerProfile();
+  const sessionId = current?.sessionId || "";
+  if (!/^user_/.test(sessionId)) return;
+
+  try {
+    const [memory, diningResponse] = await Promise.all([
+      fetch(`${FINE_DINING_API_BASE}/profile/${encodeURIComponent(sessionId)}`).then((r) => (r.ok ? r.json() : null)),
+      fetch(`${FINE_DINING_API_BASE}/dining-request/${encodeURIComponent(sessionId)}`).then((r) => (r.ok ? r.json() : null)).catch(() => null),
+    ]);
+    if (!memory) return;
+
+    const dining = diningResponse?.dining_request || null;
+    const budgetPerPerson = dining && dining.budget_amount != null
+      ? (dining.budget_per_person ? dining.budget_amount : (dining.party_size ? dining.budget_amount / dining.party_size : dining.budget_amount))
+      : null;
+
+    protocol.saveConsumerProfile({
+      userId: sessionId.replace(/^user_/, "") || sessionId,
+      sessionId,
+      name: current.name || "Consumer Dining Agent",
+      likes: (memory.liked || []).map((entry) => entry.item).filter(Boolean),
+      dislikes: (memory.disliked || []).map((entry) => entry.item).filter(Boolean),
+      notes: (memory.notes || []).map((entry) => entry.text).filter(Boolean),
+      partySize: dining ? dining.party_size : null,
+      budgetPerPerson,
+      goal: dining ? dining.intent : "",
+    });
+  } catch (error) {
+    // Keep the existing cached profile if the live memory is unreachable.
+  }
 }
 
 function renderFinalResult(session) {
