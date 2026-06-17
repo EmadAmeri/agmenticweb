@@ -47,10 +47,10 @@ button {
 }
 
 .app-shell {
-  width: min(100%, 1200px);
+  width: min(100%, 1160px);
   min-height: 100vh;
   margin: 0 auto;
-  padding: 30px 18px 18px;
+  padding: 24px 18px 18px;
 }
 
 .app-header {
@@ -58,7 +58,7 @@ button {
   align-items: center;
   justify-content: space-between;
   gap: 18px;
-  padding: 14px 0 28px;
+  padding: 10px 0 20px;
 }
 
 .brand-lockup {
@@ -108,19 +108,19 @@ button {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: minmax(0, 1.12fr) minmax(330px, 0.88fr);
-  gap: 18px;
+  grid-template-columns: minmax(0, 1fr) minmax(360px, 0.86fr);
+  gap: 14px;
 }
 
 .workspace-panel {
   position: relative;
   min-width: 0;
   overflow: hidden;
-  padding: 20px;
-  border-radius: 28px;
+  padding: 16px;
+  border-radius: 24px;
   background: var(--surface);
-  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.78), var(--shadow);
-  backdrop-filter: blur(22px) saturate(1.15);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.78), 0 18px 44px rgba(5, 5, 5, 0.09);
+  backdrop-filter: blur(18px) saturate(1.1);
 }
 
 .workspace-panel::before {
@@ -141,7 +141,7 @@ button {
 }
 
 .menu-panel textarea {
-  min-height: 168px;
+  min-height: 154px;
 }
 
 .wide {
@@ -155,7 +155,7 @@ button {
   align-items: flex-start;
   justify-content: space-between;
   gap: 14px;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .panel-title h2 {
@@ -210,14 +210,14 @@ textarea {
 
 input,
 select {
-  min-height: 48px;
-  padding: 0 14px;
+  min-height: 42px;
+  padding: 0 12px;
 }
 
 textarea {
   min-height: 264px;
   resize: vertical;
-  padding: 14px;
+  padding: 12px;
   line-height: 1.45;
 }
 
@@ -484,22 +484,25 @@ input[type="range"] {
   display: grid;
   gap: 10px;
   margin-top: 14px;
+  max-height: 178px;
+  overflow-y: auto;
+  padding-right: 4px;
 }
 
 .capability-list {
   position: relative;
   z-index: 1;
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
 }
 
 .capability-card {
   display: grid;
-  gap: 7px;
-  min-height: 128px;
-  padding: 14px;
-  border-radius: 20px;
+  gap: 5px;
+  min-height: 92px;
+  padding: 11px;
+  border-radius: 16px;
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(5, 5, 5, 0.08);
   box-shadow: 0 12px 28px rgba(5, 5, 5, 0.05);
@@ -507,7 +510,7 @@ input[type="range"] {
 
 .capability-card span {
   justify-self: start;
-  padding: 5px 9px;
+  padding: 4px 8px;
   border-radius: 999px;
   background: var(--brand-soft);
   color: var(--brand-dark);
@@ -521,11 +524,12 @@ input[type="range"] {
 }
 
 .capability-card strong {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .capability-card small {
   color: var(--muted);
+  font-size: 0.78rem;
   line-height: 1.35;
 }
 
@@ -538,7 +542,7 @@ input[type="range"] {
 }
 
 .score-summary strong {
-  font-size: clamp(3.5rem, 8vw, 5.2rem);
+  font-size: clamp(2.6rem, 6vw, 4rem);
   line-height: 0.9;
   letter-spacing: 0;
 }
@@ -552,7 +556,7 @@ input[type="range"] {
   position: relative;
   z-index: 1;
   height: 12px;
-  margin: 18px 0 14px;
+  margin: 12px 0 10px;
   overflow: hidden;
   border-radius: 999px;
   background: rgba(5, 5, 5, 0.09);
@@ -586,8 +590,15 @@ input[type="range"] {
 
 .promo-card {
   display: grid;
-  gap: 7px;
-  padding: 15px;
+  gap: 5px;
+  padding: 10px 12px;
+}
+
+.promo-card span {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
 }
 
 .promo-card button {

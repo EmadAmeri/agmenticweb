@@ -816,9 +816,6 @@ function renderPromotions() {
       <strong>${escapeHtml(promotion.name)}</strong>
       <span>${escapeHtml(formatPromotion(promotion))}</span>
       <span>${escapeHtml(promotion.negotiation_rule || "No negotiation rule set.")}</span>
-      <button type="button" data-remove-promo="${promotion.id}" aria-label="Remove promotion" title="Remove promotion">
-        <i data-lucide="x"></i>
-      </button>
     </article>
   `).join("");
 }
@@ -1057,30 +1054,30 @@ function escapeHtml(value) {
     .replaceAll("'", "&#039;");
 }
 
-document.querySelector("#standardizeMenu").addEventListener("click", standardizeMenu);
-document.querySelector("#standardizeTop").addEventListener("click", standardizeMenu);
-document.querySelector("#loadSample").addEventListener("click", () => {
+document.querySelector("#standardizeMenu")?.addEventListener("click", standardizeMenu);
+document.querySelector("#standardizeTop")?.addEventListener("click", standardizeMenu);
+document.querySelector("#loadSample")?.addEventListener("click", () => {
   els.rawMenu.value = sampleMenu;
   save();
   showToast("Sample fine-dining menu loaded.");
 });
-document.querySelector("#clearMenu").addEventListener("click", () => {
+document.querySelector("#clearMenu")?.addEventListener("click", () => {
   els.rawMenu.value = "";
   state.menu = null;
   els.menuStatus.textContent = "Draft";
   save();
   render();
 });
-document.querySelector("#savePromotion").addEventListener("click", addPromotion);
-document.querySelector("#addPromotion").addEventListener("click", () => els.promoName.focus());
-document.querySelector("#findAgents").addEventListener("click", findAgentsInRange);
-document.querySelector("#generateAgentOffer").addEventListener("click", generateSharedRetailerOffer);
-document.querySelector("#refreshNegotiationResult").addEventListener("click", renderNegotiationResult);
-document.querySelector("#copyPayload").addEventListener("click", async () => {
+document.querySelector("#savePromotion")?.addEventListener("click", addPromotion);
+document.querySelector("#addPromotion")?.addEventListener("click", () => els.promoName.focus());
+document.querySelector("#findAgents")?.addEventListener("click", findAgentsInRange);
+document.querySelector("#generateAgentOffer")?.addEventListener("click", generateSharedRetailerOffer);
+document.querySelector("#refreshNegotiationResult")?.addEventListener("click", renderNegotiationResult);
+document.querySelector("#copyPayload")?.addEventListener("click", async () => {
   await navigator.clipboard.writeText(JSON.stringify(buildAgentPayload(), null, 2));
   showToast("Agent payload copied.");
 });
-document.querySelector("#useLocation").addEventListener("click", () => {
+document.querySelector("#useLocation")?.addEventListener("click", () => {
   if (!navigator.geolocation) {
     showToast("Geolocation is not available in this browser.");
     return;
@@ -1102,34 +1099,34 @@ document.querySelector("#useLocation").addEventListener("click", () => {
   });
 });
 
-els.radius.addEventListener("input", () => {
+els.radius?.addEventListener("input", () => {
   save();
   render();
 });
-els.promoEnabled.addEventListener("change", () => {
+els.promoEnabled?.addEventListener("change", () => {
   save();
   render();
 });
 ["retailerName", "cuisine"].forEach((key) => {
-  els[key].addEventListener("input", () => {
+  els[key]?.addEventListener("input", () => {
     save();
     render();
   });
 });
-els.currency.addEventListener("change", () => {
+els.currency?.addEventListener("change", () => {
   save();
   render();
 });
-els.rawMenu.addEventListener("change", () => {
+els.rawMenu?.addEventListener("change", () => {
   save();
 });
-els.promoList.addEventListener("click", (event) => {
+els.promoList?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-remove-promo]");
   if (button) {
     removePromotion(button.dataset.removePromo);
   }
 });
-els.agentList.addEventListener("click", (event) => {
+els.agentList?.addEventListener("click", (event) => {
   const button = event.target.closest("[data-negotiate-agent]");
   if (button) {
     negotiateWithAgent(button.dataset.negotiateAgent);

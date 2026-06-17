@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="theme-color" content="#0C1720">
     <title>Retailer Dining Agent</title>
-    <link rel="stylesheet" href="./style.css?v=11">
+    <link rel="stylesheet" href="./style.css?v=13">
     <script src="https://unpkg.com/lucide@latest"></script>
   </head>
   <body>
@@ -17,15 +17,6 @@
             <p class="eyebrow">Retailer Agent</p>
             <h1>Dining Offers</h1>
           </div>
-        </div>
-        <div class="header-actions">
-          <button class="icon-button" id="loadSample" type="button" aria-label="Load sample menu" title="Load sample menu">
-            <i data-lucide="wand-sparkles"></i>
-          </button>
-          <button class="primary-action" id="standardizeTop" type="button">
-            <i data-lucide="scan-text"></i>
-            Standardize
-          </button>
         </div>
       </header>
 
@@ -76,9 +67,6 @@
             <div>
               <h2>Promotions</h2>
             </div>
-            <button class="icon-button" id="addPromotion" type="button" aria-label="Add promotion" title="Add promotion">
-              <i data-lucide="plus"></i>
-            </button>
           </div>
           <div class="promo-form">
             <label class="field">
@@ -143,27 +131,8 @@
             <div>
               <h2>Standard Menu</h2>
             </div>
-            <button class="secondary-action" id="copyPayload" type="button">
-              <i data-lucide="copy"></i>
-              Copy JSON
-            </button>
           </div>
           <div class="menu-output" id="menuOutput"></div>
-        </section>
-
-        <section class="workspace-panel wide">
-          <div class="panel-title">
-            <div>
-              <h2>Agent Offer</h2>
-            </div>
-            <button class="primary-action" id="generateAgentOffer" type="button">
-              <i data-lucide="sparkles"></i>
-              Generate agent offer
-            </button>
-          </div>
-          <div class="offer-preview" id="offerPreview">
-            <p class="empty-state">No retailer offer generated yet.</p>
-          </div>
         </section>
 
         <section class="workspace-panel secondary-panel">
@@ -208,26 +177,6 @@
           <div class="agent-list" id="agentList"></div>
         </section>
 
-        <section class="workspace-panel wide secondary-panel">
-          <div class="panel-title">
-            <div>
-              <h2>Latest agent negotiation</h2>
-            </div>
-            <div class="action-row">
-              <button class="secondary-action" id="refreshNegotiationResult" type="button">
-                <i data-lucide="refresh-cw"></i>
-                Refresh result
-              </button>
-              <a class="secondary-link" href="../agent-handshake/">
-                <i data-lucide="external-link"></i>
-                Open handshake
-              </a>
-            </div>
-          </div>
-          <div class="negotiation-result" id="negotiationResult">
-            <p class="empty-state">No real local negotiation has been run yet.</p>
-          </div>
-        </section>
       </main>
       <footer class="app-footer">
         Powered by <a href="https://agmentic.com" target="_blank" rel="noopener">Agmentic</a> Lab
@@ -236,6 +185,6 @@
 
     <div class="toast" id="toast" hidden></div>
     <script src="../shared/agent-protocol.js?v=1"></script>
-    <script src="./app.js?v=11"></script>
+    <script src="./app.js?v=13"></script>
   </body>
 </html>
