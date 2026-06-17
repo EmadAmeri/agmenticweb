@@ -550,38 +550,17 @@ async function negotiateRetailerOffer(text) {
   }
 
   const protocol = await loadAgentProtocol();
-  if (!protocol) {
-    return "I can’t see a connected retailer agent yet, so I won’t invent an offer.";
-  }
-
-  const retailerPolicy = protocol.getRetailerPolicy?.();
-  if (!retailerPolicy?.menuItems?.length) {
-    return "I don’t see a connected retailer agent for this restaurant yet, so I won’t invent an offer.";
-  }
-
-  const profile = await request(`/profile/${sessionId}`).catch(() => ({ liked: [], disliked: [], notes: [] }));
-  const consumerProfile = protocol.createConsumerAgentProfile?.({
-    consumerId: sessionId,
-    likes: (profile.liked || []).map((entry) => entry.item || entry),
-    dislikes: (profile.disliked || []).map((entry) => entry.item || entry),
-    notes: (profile.notes || []).map((entry) => entry.text || entry),
-  }) || {};
-
-  const offer = protocol.generateRetailerOffer({
-    consumerProfile,
-    retailerPolicy,
-    negotiationContext: {
-      source: "fine_dining_agent",
-      user_message: text,
-      loaded_menu_items: structured.menu.items.length,
-    },
+  const retailerPolicy = protocol?.getRetailerPolicy?.() || null;
+  const data = await request("/retailer/negotiate", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      session_id: sessionId,
+      message: text,
+      retailer_policy: retailerPolicy,
+    }),
   });
-
-  if (!offer || offer.offerType === "safe_rejection") {
-    return offer?.readableEnglish || "The retailer agent did not find a safe offer from the current menu.";
-  }
-
-  return offer.readableEnglish || `The retailer agent offers ${offer.offerTitle}.`;
+  return data.response;
 }
 
 async function loadAgentProtocol() {
