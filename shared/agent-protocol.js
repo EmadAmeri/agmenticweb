@@ -121,7 +121,63 @@
     };
   }
 
+  function budgetPostureFromAmount(amount) {
+    if (!amount) return "";
+    if (amount <= 20) return "low";
+    if (amount <= 45) return "medium";
+    return "high";
+  }
+
+  // The consumer agent records the user's goal (party size, per-person budget,
+  // drink, intent) as a memory note like:
+  //   "Dining request: party of 4; budget 24 € per person; intent ...; request ..."
+  // The handshake reads the consumer profile, so we parse that goal here so the
+  // negotiation runs against the actual request instead of stale posture data.
+  function parseDiningGoal(notes) {
+    const text = asArray(notes).join(" ; ").toLowerCase();
+    if (!text) return null;
+    const result = { budgetPerPerson: null, partySize: null, goal: "", wantsDrink: false };
+
+    let budget = text.match(/budget(?:\s+of)?\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|\$|£|eur|euros?)?\s*(?:per\s+person|per\s+head|per\s+guest|each|\bpp\b|a\s+head)/);
+    if (!budget) budget = text.match(/(\d+(?:[.,]\d{1,2})?)\s*(?:€|\$|£|eur|euros?)\s*(?:per\s+person|per\s+head|per\s+guest|each|\bpp\b|a\s+head)/);
+    if (budget) result.budgetPerPerson = asNumber(budget[1].replace(",", "."), 0) || null;
+
+    const party = text.match(/party of\s+(\d{1,2})/)
+      || text.match(/table for\s+(\d{1,2})/)
+      || text.match(/\bfor\s+(\d{1,2})\b/)
+      || text.match(/\b(\d{1,2})\s+(?:people|persons?|guests?|pax)\b/);
+    if (party) result.partySize = asNumber(party[1], 0) || null;
+
+    if (/\b(drink|drinks|wine|beverage|cocktail)\b/.test(text)) result.wantsDrink = true;
+
+    const intent = text.match(/intent\s+([^.;]+)/);
+    if (intent) result.goal = intent[1].trim();
+    else if (/dining request/.test(text)) result.goal = "dinner reservation";
+
+    return (result.budgetPerPerson || result.partySize || result.goal) ? result : null;
+  }
+
   function createConsumerAgentProfile(input = {}) {
+    const memoryNotes = asArray(input.memoryNotes || input.memory_notes || input.notes);
+    const goalFromNotes = parseDiningGoal(memoryNotes) || {};
+
+    let budgetPerPerson = input.budgetPerPerson ?? input.budget_per_person ?? null;
+    if (budgetPerPerson === null || budgetPerPerson === "") budgetPerPerson = goalFromNotes.budgetPerPerson ?? null;
+    budgetPerPerson = budgetPerPerson === null ? null : (asNumber(budgetPerPerson, 0) || null);
+
+    let partySize = input.partySize ?? input.party_size ?? null;
+    if (partySize === null || partySize === "") partySize = goalFromNotes.partySize ?? null;
+    partySize = partySize === null ? null : (asNumber(partySize, 0) || null);
+
+    const goal = asString(input.goal || goalFromNotes.goal);
+    // Keep `occasion` clean for the scoring engine; the free-text goal lives in
+    // its own field so it does not pollute occasion/coherence scoring.
+    const occasion = asString(input.occasion);
+    let budgetRange = asString(input.budgetRange || input.budget_range);
+    if (!budgetRange && budgetPerPerson) budgetRange = budgetPostureFromAmount(budgetPerPerson);
+    let winePreference = asString(input.winePreference || input.wine_preference);
+    if (!winePreference && goalFromNotes.wantsDrink) winePreference = "open to a drink or wine pairing";
+
     return {
       userId: asString(input.userId || input.user_id || input.sessionId || input.session_id, "default"),
       sessionId: asString(input.sessionId || input.session_id, "default"),
@@ -130,12 +186,15 @@
       dislikes: asArray(input.dislikes || input.disliked),
       allergies: asArray(input.allergies),
       dietaryPreference: asString(input.dietaryPreference || input.dietary_preference),
-      budgetRange: asString(input.budgetRange || input.budget_range),
-      occasion: asString(input.occasion),
+      budgetRange,
+      budgetPerPerson,
+      partySize,
+      goal,
+      occasion,
       confidenceLevel: asString(input.confidenceLevel || input.confidence_level, "unknown"),
-      winePreference: asString(input.winePreference || input.wine_preference),
+      winePreference,
       preferredTableStyle: asString(input.preferredTableStyle || input.preferred_table_style),
-      memoryNotes: asArray(input.memoryNotes || input.memory_notes || input.notes),
+      memoryNotes,
       diningHistory: asArray(input.diningHistory || input.dining_history),
       updatedAt: asString(input.updatedAt || input.updated_at, now()),
     };
@@ -786,7 +845,17 @@
       };
     }
 
-    const sortedItems = [...safeItems].sort((a, b) => scoreMenuItem(b, consumer) - scoreMenuItem(a, consumer));
+    let selectionItems = safeItems;
+    if (consumer.budgetPerPerson) {
+      const withinBudget = safeItems.filter((item) => item.price === null || asNumber(item.price, 0) <= consumer.budgetPerPerson);
+      if (withinBudget.length) {
+        selectionItems = withinBudget;
+        constraintsUsed.push(`Filtered to items within ${retailer.currency} ${consumer.budgetPerPerson} per person.`);
+      } else {
+        constraintsUsed.push(`No menu item fits ${retailer.currency} ${consumer.budgetPerPerson} per person; offering the closest option.`);
+      }
+    }
+    const sortedItems = [...selectionItems].sort((a, b) => scoreMenuItem(b, consumer) - scoreMenuItem(a, consumer));
     const primaryItem = sortedItems.find((item) => !isWineItem(item)) || sortedItems[0];
     const proposedItems = [primaryItem];
     if (consumer.winePreference) {
@@ -903,6 +972,14 @@
 
     if (priceAfter === null) {
       return { ...check, status: "needs_clarification", reason: "The offer does not disclose priceAfter." };
+    }
+    if (consumer.budgetPerPerson && priceAfter > consumer.budgetPerPerson) {
+      return {
+        ...check,
+        status: priceAfter > consumer.budgetPerPerson * 1.25 ? "fail" : "counter",
+        reason: `The offer is above the ${consumer.budgetPerPerson} per person budget.`,
+        suggestedMax: consumer.budgetPerPerson,
+      };
     }
     if (/low/.test(budget) && priceAfter > 30) {
       return {
@@ -1061,6 +1138,11 @@
     if (budgetCheck.status === "strong") score += 6;
     if (budgetCheck.status === "counter") score -= 10;
     if (budgetCheck.status === "fail") score -= 22;
+    // The user's explicit per-person budget is their primary stated constraint;
+    // a safe offer that meets it should be enough to close the deal.
+    if (consumer.budgetPerPerson && normalizedOffer.priceAfter !== null && normalizedOffer.priceAfter <= consumer.budgetPerPerson) {
+      score += 12;
+    }
     if (allergyConflicts.length || unavailableItems.length) score = Math.min(score, 15);
     if (availabilityUnclear.length || normalizedOffer.priceAfter === null) score = Math.min(score, 45);
     const consumerScore = Math.max(0, Math.min(100, Math.round(score)));
@@ -1160,7 +1242,7 @@
     const consumer = createConsumerAgentProfile(consumerProfile || {});
     const retailer = createRetailerAgentPolicy(retailerPolicy || {});
     const previous = normalizeOffer(previousOffer || {});
-    const targetBudget = extractCounterBudget(evaluation);
+    const targetBudget = extractCounterBudget(evaluation) || asNumber(consumer.budgetPerPerson, 0) || 0;
     const wantsLight = consumerWantsLightDinner(consumer);
     const previousItemIds = new Set(previous.proposedItems.map((item) => item.id));
     const allergies = asArray(consumer.allergies);

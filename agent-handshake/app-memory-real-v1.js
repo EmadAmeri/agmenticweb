@@ -451,8 +451,9 @@ function renderSharedStateSummary() {
           <div><dt>Session id</dt><dd>${escapeHtml(hasConsumer ? consumer.sessionId : "missing")}</dd></div>
           <div><dt>Likes</dt><dd>${consumer.likes.length}</dd></div>
           <div><dt>Allergies</dt><dd>${consumer.allergies.length}</dd></div>
-          <div><dt>Occasion</dt><dd>${escapeHtml(consumer.occasion || "none")}</dd></div>
-          <div><dt>Budget</dt><dd>${escapeHtml(consumer.budgetRange || "none")}</dd></div>
+          <div><dt>Party size</dt><dd>${escapeHtml(consumer.partySize || "—")}</dd></div>
+          <div><dt>Goal</dt><dd>${escapeHtml(consumer.goal || consumer.occasion || "none")}</dd></div>
+          <div><dt>Budget</dt><dd>${escapeHtml(consumer.budgetPerPerson ? `${consumer.budgetPerPerson}/person` : (consumer.budgetRange || "none"))}</dd></div>
           <div><dt>Confidence</dt><dd>${escapeHtml(consumer.confidenceLevel || "unknown")}</dd></div>
           <div><dt>Wine</dt><dd>${escapeHtml(consumer.winePreference || "none")}</dd></div>
         </dl>

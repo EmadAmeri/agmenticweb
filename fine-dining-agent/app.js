@@ -520,6 +520,11 @@ async function generateAgentResponse(text) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ session_id: sessionId, message: text }),
     });
+    // Carry the user's goal into the shared consumer-agent profile so the
+    // Agent Handshake page negotiates against this request (same origin =>
+    // shared localStorage). The consumer agent already stored the goal as a
+    // memory note; here we mirror the memory into the shared profile.
+    syncConsumerGoalToHandshake();
     return data.response;
   }
 
@@ -628,6 +633,34 @@ async function loadAgentProtocol() {
   }
 
   return agentProtocolPromise;
+}
+
+// Mirror the consumer's backend memory (incl. the dining-request goal note)
+// into the shared consumer-agent profile that the Agent Handshake page reads.
+// The handshake engine parses budget / party size / drink from the notes.
+async function syncConsumerGoalToHandshake() {
+  try {
+    const protocol = await loadAgentProtocol();
+    if (!protocol?.saveConsumerProfile) return;
+
+    let memory = { liked: [], disliked: [], notes: [] };
+    try {
+      memory = await request(`/profile/${sessionId}`);
+    } catch (error) {
+      // No backend profile yet; still record the session so the handshake links.
+    }
+
+    protocol.saveConsumerProfile({
+      userId: sessionId.replace(/^user_/, "") || sessionId,
+      sessionId,
+      name: "Consumer Dining Agent",
+      likes: (memory.liked || []).map((entry) => entry.item).filter(Boolean),
+      dislikes: (memory.disliked || []).map((entry) => entry.item).filter(Boolean),
+      notes: (memory.notes || []).map((entry) => entry.text).filter(Boolean),
+    });
+  } catch (error) {
+    // Non-fatal: the chat reply still works even if the handshake sync fails.
+  }
 }
 
 async function sendMessage(text) {
