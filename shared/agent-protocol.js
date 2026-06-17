@@ -1372,9 +1372,28 @@
     });
   }
 
+  function hasHardDealBlock(evaluation, offer) {
+    const normalizedOffer = normalizeOffer(offer || {});
+    const checks = asArray(evaluation?.safetyChecks);
+    const failedChecks = checks.filter((check) => ["fail", "needs_clarification"].includes(check.status));
+    return Boolean(failedChecks.length || normalizedOffer.priceAfter === null || evaluation?.decision === "reject");
+  }
+
+  function finalStatusFromEvaluation(evaluation, offer) {
+    if (hasHardDealBlock(evaluation, offer)) return "no_deal";
+    return "deal_confirmed";
+  }
+
   function termsFromEvaluation({ retailer, offer, evaluation, status }) {
     const normalizedOffer = normalizeOffer(offer || {});
     const acceptedItemNames = asArray(evaluation?.acceptedItems).map((item) => item.name);
+    const dealConfirmed = status === "deal_confirmed" || status === "accepted";
+    const noDeal = status === "no_deal" || status === "rejected" || status === "failed_no_safe_offer";
+    const consumerNotification = dealConfirmed
+      ? `Deal confirmed with ${retailer.retailerName}: ${acceptedItemNames.join(", ") || "selected menu offer"} at ${retailer.currency} ${normalizedOffer.priceAfter}.`
+      : noDeal
+        ? `No deal with ${retailer.retailerName}. ${evaluation?.publicMessageToRetailer || "The current offer does not meet the consumer requirements."}`
+        : `Negotiation ended with ${retailer.retailerName}: ${evaluation?.publicMessageToRetailer || status}.`;
     return {
       status,
       retailerId: retailer.retailerId,
@@ -1386,8 +1405,9 @@
       discountPercent: normalizedOffer.discountPercent,
       valueAdd: normalizedOffer.marketingTactic || normalizedOffer.offerType || "",
       safetyChecks: asArray(evaluation?.safetyChecks),
+      consumerNotification,
       remainingCaveats: [
-        evaluation?.decision === "counter_offer" ? evaluation.counterRequest : "",
+        dealConfirmed ? "" : evaluation?.decision === "counter_offer" ? evaluation.counterRequest : "",
         evaluation?.decision === "ask_clarification" ? evaluation.publicMessageToRetailer : "",
       ].filter(Boolean),
     };
@@ -1518,14 +1538,38 @@
     });
     result.firstOffer = firstOffer;
     if (firstOffer.offerType === "safe_rejection" || !firstOffer.proposedItems.length) {
-      result.status = "failed_no_safe_offer";
+      result.status = "no_deal";
       record(sessionMessage({
         speaker: "retailer_agent",
         action: "RETAILER_OFFER",
         payload: firstOffer.protocolPayload,
         readableEnglish: firstOffer.readableEnglish,
       }));
-      return fail("failed_no_safe_offer", "The consumer agent could not find a safe, good-fit option from the current restaurant menu.", {
+      result.finalTerms = {
+        status: "no_deal",
+        retailerId: retailer.retailerId,
+        retailerName: retailer.retailerName,
+        acceptedItems: [],
+        finalPrice: null,
+        currency: retailer.currency,
+        discountAmount: 0,
+        discountPercent: 0,
+        valueAdd: "",
+        safetyChecks: [],
+        consumerNotification: `No deal with ${retailer.retailerName}. The restaurant menu does not have a safe, good-fit option for this consumer profile.`,
+        remainingCaveats: firstOffer.constraintsUsed || [],
+      };
+      record(sessionMessage({
+        speaker: "consumer_agent",
+        action: "CONSUMER_NO_DEAL",
+        payload: {
+          sessionId,
+          status: "no_deal",
+          finalTerms: result.finalTerms,
+        },
+        readableEnglish: result.finalTerms.consumerNotification,
+      }));
+      return fail("no_deal", result.finalTerms.consumerNotification, {
         constraintsUsed: firstOffer.constraintsUsed,
       });
     }
@@ -1552,13 +1596,13 @@
     }));
 
     if (firstEvaluation.decision === "accept") {
-      result.status = "accepted";
+      result.status = "deal_confirmed";
       result.finalTerms = termsFromEvaluation({ retailer, offer: firstOffer, evaluation: firstEvaluation, status: result.status });
     } else if (firstEvaluation.decision === "reject") {
-      result.status = "rejected";
+      result.status = "no_deal";
       result.finalTerms = termsFromEvaluation({ retailer, offer: firstOffer, evaluation: firstEvaluation, status: result.status });
     } else if (firstEvaluation.decision === "ask_clarification") {
-      result.status = "clarification_needed";
+      result.status = "no_deal";
       result.finalTerms = termsFromEvaluation({ retailer, offer: firstOffer, evaluation: firstEvaluation, status: result.status });
     } else if (firstEvaluation.decision === "counter_offer" && maxRounds > 1) {
       record(sessionMessage({
@@ -1586,7 +1630,7 @@
       }));
 
       if (!revisedOffer.proposedItems.length) {
-        result.status = "counter_unresolved";
+        result.status = "no_deal";
         result.finalTerms = termsFromEvaluation({ retailer, offer: firstOffer, evaluation: firstEvaluation, status: result.status });
       } else {
         const revisedEvaluation = evaluateRetailerOffer({
@@ -1602,18 +1646,28 @@
           payload: revisedEvaluation.protocolPayload,
           readableEnglish: revisedEvaluation.readableEnglish,
         }));
-        if (revisedEvaluation.decision === "accept" && revisedEvaluation.consumerScore >= firstEvaluation.consumerScore) {
-          result.status = "accepted";
-          result.finalTerms = termsFromEvaluation({ retailer, offer: revisedOffer, evaluation: revisedEvaluation, status: result.status });
-        } else {
-          result.status = revisedEvaluation.decision === "reject" ? "rejected" : "counter_unresolved";
-          result.finalTerms = termsFromEvaluation({ retailer, offer: revisedOffer, evaluation: revisedEvaluation, status: result.status });
-        }
+        result.status = finalStatusFromEvaluation(revisedEvaluation, revisedOffer);
+        result.finalTerms = termsFromEvaluation({ retailer, offer: revisedOffer, evaluation: revisedEvaluation, status: result.status });
       }
     } else {
-      result.status = "counter_unresolved";
+      result.status = finalStatusFromEvaluation(firstEvaluation, firstOffer);
       result.finalTerms = termsFromEvaluation({ retailer, offer: firstOffer, evaluation: firstEvaluation, status: result.status });
     }
+
+    record(sessionMessage({
+      speaker: "consumer_agent",
+      action: result.status === "deal_confirmed" ? "CONSUMER_DEAL_CONFIRMED" : "CONSUMER_NO_DEAL",
+      payload: {
+        sessionId,
+        status: result.status,
+        finalTerms: result.finalTerms,
+      },
+      readableEnglish: result.finalTerms?.consumerNotification || (
+        result.status === "deal_confirmed"
+          ? `Deal confirmed with ${retailer.retailerName}.`
+          : `No deal with ${retailer.retailerName}.`
+      ),
+    }));
 
     record(sessionMessage({
       speaker: "system",
@@ -1623,9 +1677,7 @@
         status: result.status,
         finalTerms: result.finalTerms,
       },
-      readableEnglish: result.status === "accepted"
-        ? `Final terms accepted with ${retailer.retailerName}.`
-        : `Local negotiation finished with status ${result.status}.`,
+      readableEnglish: result.finalTerms?.consumerNotification || `Local negotiation finished with status ${result.status}.`,
     }));
 
     result.updatedAt = now();

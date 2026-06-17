@@ -379,6 +379,8 @@ function setMode(text) {
 
 function statusLabel(status) {
   const labels = {
+    deal_confirmed: "Deal confirmed",
+    no_deal: "No deal",
     accepted: "Accepted by consumer agent",
     rejected: "Rejected by consumer agent",
     counter_unresolved: "Counter unresolved",
@@ -870,13 +872,22 @@ function renderFinalResult(session) {
   const value = terms.discountAmount
     ? `${escapeHtml(terms.currency || "")} ${escapeHtml(terms.discountAmount)} discount (${escapeHtml(terms.discountPercent || 0)}%)`
     : escapeHtml(terms.valueAdd || "No discount/value-add recorded");
+  const consumerNotification = terms.consumerNotification
+    || (session.status === "deal_confirmed"
+      ? "Deal confirmed and sent to the consumer agent."
+      : session.status === "no_deal"
+        ? "No deal. The consumer agent has been notified."
+        : statusLabel(session.status));
+  const resultTone = session.status === "no_deal" ? "is-no-deal" : "is-deal";
 
   els.finalResultCard.hidden = false;
+  els.finalResultCard.className = `final-result-card ${resultTone}`;
   els.finalResultCard.innerHTML = `
     <div class="final-result-heading">
       <span>Final result</span>
       <strong>${escapeHtml(statusLabel(session.status))}</strong>
     </div>
+    <div class="consumer-notification">${escapeHtml(consumerNotification)}</div>
     <dl>
       <div><dt>Retailer</dt><dd>${escapeHtml(terms.retailerName || "Unknown")}</dd></div>
       <div><dt>Accepted items</dt><dd>${acceptedItems}</dd></div>
