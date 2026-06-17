@@ -42,6 +42,8 @@ const CONTACT_NAME_KEY = "dining_agent_contact_name";
 const PROVIDER_MODE_KEY = "dining_provider_mode";
 const LOCAL_MENU_TEXT_KEY = "dining_local_menu_text";
 const LOCAL_MENU_DATA_KEY = "dining_local_menu_data";
+const HANDSHAKE_INBOX_KEY = "agmentic_consumer_agent_inbox_v1";
+const HANDSHAKE_SEEN_KEY = "agmentic_consumer_agent_seen_results_v1";
 const LOCAL_MODEL_ID = "Qwen2.5-1.5B-Instruct-q4f16_1-MLC";
 const LOCAL_FALLBACK_MODEL_ID = "SmolLM2-360M-Instruct-q4f32_1-MLC";
 const WEBLLM_URL = "https://esm.run/@mlc-ai/web-llm";
@@ -168,6 +170,35 @@ function appendError(text) {
 
   appendMessage("agent", text);
   lastErrorMessage = text;
+}
+
+function consumeHandshakeResults() {
+  let inbox = [];
+  let seen = [];
+  try {
+    inbox = JSON.parse(localStorage.getItem(HANDSHAKE_INBOX_KEY) || "[]");
+    seen = JSON.parse(localStorage.getItem(HANDSHAKE_SEEN_KEY) || "[]");
+  } catch (error) {
+    return;
+  }
+
+  const seenSet = new Set(seen);
+  const relevant = inbox
+    .filter((message) => (
+      message
+      && !seenSet.has(message.id)
+      && (!message.consumerSessionId || message.consumerSessionId === sessionId)
+    ))
+    .sort((a, b) => String(a.createdAt || "").localeCompare(String(b.createdAt || "")));
+
+  relevant.forEach((message) => {
+    appendMessage("agent", message.text);
+    seenSet.add(message.id);
+  });
+
+  if (relevant.length) {
+    localStorage.setItem(HANDSHAKE_SEEN_KEY, JSON.stringify([...seenSet].slice(-100)));
+  }
 }
 
 async function request(path, options = {}) {
@@ -1619,6 +1650,19 @@ providerToggle.addEventListener("click", () => {
   setProviderMode(isLocalMode() ? "cloud" : "local");
 });
 
+window.addEventListener("storage", (event) => {
+  if (event.key === HANDSHAKE_INBOX_KEY) {
+    consumeHandshakeResults();
+  }
+});
+
+window.addEventListener("focus", consumeHandshakeResults);
+document.addEventListener("visibilitychange", () => {
+  if (!document.hidden) {
+    consumeHandshakeResults();
+  }
+});
+
 document.querySelector("#newSession").addEventListener("click", () => {
   localStorage.removeItem(userStorageKey(LOCAL_MENU_TEXT_KEY));
   localStorage.removeItem(userStorageKey(LOCAL_MENU_DATA_KEY));
@@ -1684,4 +1728,5 @@ new MutationObserver(updateMenuPanelVisibility).observe(menuPanel, {
   characterData: true,
   subtree: true,
 });
+consumeHandshakeResults();
 requestMicrophonePermission();

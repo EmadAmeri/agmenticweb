@@ -11,6 +11,7 @@ const FINE_DINING_API_BASE = window.localStorage?.getItem("agmentic_fine_dining_
   || (["localhost", "127.0.0.1"].includes(window.location.hostname) ? "http://localhost:8000" : "https://api-dining.agmentic.com");
 const DINING_USER_ID_KEY = "dining_user_id";
 const DINING_SESSION_ID_KEY = "dining_session_id";
+const CONSUMER_INBOX_KEY = "agmentic_consumer_agent_inbox_v1";
 
 const sampleMenu = `Snacks | Oyster tartlet | cucumber, finger lime, jalapeno | 9
 Starter | Burrata | smoked tomato, basil oil, toasted sourdough | 16
@@ -729,6 +730,7 @@ function runRealLocalNegotiation() {
   setMode("Local real negotiation");
   session.messages.forEach((message) => pushEvent(eventFromAgentMessage(message)));
   renderFinalResult(session);
+  publishConsumerNotification(session);
   setStatus(statusLabel(session.status));
   els.pulseDot.classList.remove("active");
 
@@ -816,6 +818,32 @@ function resolveDiningSessionId(current = {}) {
   const storedUser = window.localStorage?.getItem(DINING_USER_ID_KEY) || "";
   const slug = slugifyUserId(storedUser);
   return slug ? `user_${slug}` : currentSession;
+}
+
+function publishConsumerNotification(session) {
+  const notification = session?.finalTerms?.consumerNotification;
+  if (!notification) return;
+
+  const consumer = protocol?.getConsumerProfile?.() || {};
+  const message = {
+    id: `${session.sessionId}:${session.status}`,
+    type: "handshake_result",
+    status: session.status,
+    sessionId: session.sessionId,
+    consumerSessionId: consumer.sessionId || "",
+    userId: consumer.userId || "",
+    retailerName: session.finalTerms?.retailerName || "",
+    text: notification,
+    createdAt: new Date().toISOString(),
+  };
+
+  try {
+    const current = JSON.parse(window.localStorage?.getItem(CONSUMER_INBOX_KEY) || "[]");
+    const next = [message, ...current.filter((item) => item.id !== message.id)].slice(0, 20);
+    window.localStorage?.setItem(CONSUMER_INBOX_KEY, JSON.stringify(next));
+  } catch (error) {
+    // Non-fatal: the handshake still displays the final result locally.
+  }
 }
 
 function slugifyUserId(value) {
