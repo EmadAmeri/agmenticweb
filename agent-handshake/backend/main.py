@@ -20,6 +20,8 @@ from pydantic import BaseModel, Field
 APP_ROOT = os.path.abspath(os.path.join(os.path.dirname(__file__), ".."))
 WORKSPACE_ROOT = os.path.abspath(os.path.join(APP_ROOT, ".."))
 FRONTEND_DIR = os.path.join(APP_ROOT, "frontend")
+if not os.path.exists(FRONTEND_DIR):
+    FRONTEND_DIR = APP_ROOT
 
 load_dotenv(os.path.join(WORKSPACE_ROOT, "fine_dining_agent", ".env"))
 load_dotenv(os.path.join(os.path.dirname(__file__), ".env"))
@@ -28,7 +30,57 @@ FINE_DINING_DIR = os.path.join(WORKSPACE_ROOT, "fine_dining_agent")
 if FINE_DINING_DIR not in sys.path:
     sys.path.append(FINE_DINING_DIR)
 
-from memory.store import UserMemory  # noqa: E402
+try:
+    from memory.store import UserMemory  # noqa: E402
+except ModuleNotFoundError:
+    class UserMemory:
+        def __init__(self, session_id: str = "default") -> None:
+            safe_session_id = session_id.replace("/", "_").replace("\\", "_")
+            self.file_path = os.path.join(
+                os.path.dirname(__file__),
+                "memory",
+                f"user_data_{safe_session_id}.json",
+            )
+            os.makedirs(os.path.dirname(self.file_path), exist_ok=True)
+            self.data = self._load()
+
+        def add_liked(self, item: str, reason: str = "") -> None:
+            self._add_item("liked", item, reason)
+
+        def add_disliked(self, item: str, reason: str = "") -> None:
+            self._add_item("disliked", item, reason)
+
+        def add_note(self, text: str) -> None:
+            self.data["notes"].append({"text": text, "added_at": datetime.now(timezone.utc).isoformat()})
+            self._save()
+
+        def get_profile(self) -> dict[str, Any]:
+            return self.data
+
+        def _add_item(self, category: str, item: str, reason: str) -> None:
+            normalized = item.strip().lower()
+            for entry in self.data[category]:
+                if entry.get("item", "").strip().lower() == normalized:
+                    if reason:
+                        entry["reason"] = reason
+                    self._save()
+                    return
+            self.data[category].append({
+                "item": item,
+                "reason": reason,
+                "added_at": datetime.now(timezone.utc).isoformat(),
+            })
+            self._save()
+
+        def _load(self) -> dict[str, Any]:
+            if not os.path.exists(self.file_path):
+                return {"liked": [], "disliked": [], "notes": []}
+            with open(self.file_path, "r", encoding="utf-8") as file:
+                return json.load(file)
+
+        def _save(self) -> None:
+            with open(self.file_path, "w", encoding="utf-8") as file:
+                json.dump(self.data, file, indent=2)
 
 app = FastAPI(title="Agmentic Agent Handshake Platform")
 app.add_middleware(

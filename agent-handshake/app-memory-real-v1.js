@@ -323,7 +323,11 @@ function renderFeeds() {
     }, null, 2))
     .join("\n\n");
 
-  els.englishFeed.innerHTML = events.map((event) => `
+  const visibleConversation = events
+    .filter((event) => event.speaker !== "system")
+    .slice(-4);
+
+  els.englishFeed.innerHTML = visibleConversation.map((event) => `
     <article class="english-card ${event.speaker}">
       <strong>${escapeHtml(chatLabel(event))}</strong>
       <p>${escapeHtml(event.english)}</p>
@@ -723,6 +727,20 @@ function runRealLocalNegotiation() {
   }
 }
 
+function runPrimaryNegotiation() {
+  if (!protocol) {
+    startLive();
+    return;
+  }
+
+  const consumerProfile = protocol.getConsumerProfile();
+  const retailerPolicy = protocol.getRetailerPolicy();
+  if (!hasConsumerProfile(consumerProfile) || !hasRetailerPolicy(retailerPolicy)) {
+    loadMaisonLumiereDemo({ silent: true });
+  }
+  runRealLocalNegotiation();
+}
+
 function renderFinalResult(session) {
   if (!els.finalResultCard) {
     return;
@@ -777,7 +795,7 @@ function cloneDemoData(value) {
     : JSON.parse(JSON.stringify(value));
 }
 
-function loadMaisonLumiereDemo({ allergyMode = false } = {}) {
+function loadMaisonLumiereDemo({ allergyMode = false, silent = false } = {}) {
   if (!protocol) {
     showToast("Shared agent protocol is not loaded.");
     return;
@@ -810,9 +828,11 @@ function loadMaisonLumiereDemo({ allergyMode = false } = {}) {
   setStatus("Ready");
   renderSharedStateSummary();
   renderMealPathComparison();
-  showToast(allergyMode
-    ? "Allergy rejection demo loaded. Ready for real local negotiation."
-    : "Maison Lumiere demo loaded. Ready for real local negotiation.");
+  if (!silent) {
+    showToast(allergyMode
+      ? "Allergy rejection demo loaded. Ready for real local negotiation."
+      : "Maison Lumiere demo loaded. Ready for real local negotiation.");
+  }
 }
 
 function buildFallbackEvents(scenario) {
@@ -920,7 +940,7 @@ function chooseCounterHook(menu, firstName) {
 
 document.querySelector("#loadMaisonDemo").addEventListener("click", () => loadMaisonLumiereDemo());
 document.querySelector("#loadAllergyDemo").addEventListener("click", () => loadMaisonLumiereDemo({ allergyMode: true }));
-document.querySelector("#startLocalNegotiation").addEventListener("click", runRealLocalNegotiation);
+document.querySelector("#startLocalNegotiation").addEventListener("click", runPrimaryNegotiation);
 document.querySelector("#startLive").addEventListener("click", startLive);
 document.querySelector("#clearTimeline").addEventListener("click", () => {
   stopStream();
