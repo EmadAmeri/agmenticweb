@@ -1,12 +1,22 @@
 const API_BASE = window.localStorage?.getItem("agmentic_agent_handshake_api_base") || window.location.origin;
 
 const sampleMenu = `Snacks | Oyster tartlet | cucumber, finger lime, jalapeno | 9
+Snacks | Truffle arancini | aged parmesan, black garlic aioli | 11
 Starter | Burrata | smoked tomato, basil oil, toasted sourdough | 16
 Starter | Beetroot carpaccio | horseradish cream, hazelnut, dill | 14
+Starter | Hamachi crudo | yuzu kosho, radish, shiso | 18
 Main | Sea bass | saffron beurre blanc, fennel, caviar oil | 34
+Main | Wild mushroom risotto | parmesan foam, chive oil, pickled chanterelle | 29
 Main | Dry-aged duck | cherry jus, endive, potato millefeuille | 38
+Main | Wagyu beef cheek | celeriac puree, bordelaise, crispy shallot | 42
+Side | Charred broccolini | lemon, chili, almond crumb | 9
 Dessert | Chocolate souffle | vanilla ice cream, cacao nib | 13
-Wine | Riesling Kabinett | Mosel, citrus, slate | 12`;
+Dessert | Lemon verbena panna cotta | raspberry, pistachio, olive oil | 12
+Wine | Riesling Kabinett | Mosel, citrus, slate | 12
+Wine | Pinot Noir | Baden, cherry, soft spice | 15
+Cocktail | Garden spritz | elderflower, basil, sparkling wine | 14
+Zero-proof | Yuzu tonic | yuzu, rosemary, tonic water | 10
+Coffee | Espresso | single origin, dark chocolate finish | 4`;
 
 const defaultScenario = {
   retailer_name: "Maison Lumiere",

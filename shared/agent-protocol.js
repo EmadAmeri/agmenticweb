@@ -136,7 +136,7 @@
   function parseDiningGoal(notes) {
     const text = asArray(notes).join(" ; ").toLowerCase();
     if (!text) return null;
-    const result = { budgetPerPerson: null, partySize: null, goal: "", wantsDrink: false };
+    const result = { budgetPerPerson: null, partySize: null, goal: "", wantsDrink: false, winePreference: "" };
 
     let budget = text.match(/budget(?:\s+of)?\s*(?:€|\$|£)?\s*(\d+(?:[.,]\d{1,2})?)\s*(?:€|\$|£|eur|euros?)?\s*(?:per\s+person|per\s+head|per\s+guest|each|\bpp\b|a\s+head)/);
     if (!budget) budget = text.match(/(\d+(?:[.,]\d{1,2})?)\s*(?:€|\$|£|eur|euros?)\s*(?:per\s+person|per\s+head|per\s+guest|each|\bpp\b|a\s+head)/);
@@ -148,7 +148,15 @@
       || text.match(/\b(\d{1,2})\s+(?:people|persons?|guests?|pax)\b/);
     if (party) result.partySize = asNumber(party[1], 0) || null;
 
-    if (/\b(drink|drinks|wine|beverage|cocktail)\b/.test(text)) result.wantsDrink = true;
+    if (/\b(red wine|pinot noir|merlot|cabernet|rioja)\b/.test(text)) {
+      result.wantsDrink = true;
+      result.winePreference = "red wine";
+    } else if (/\b(white wine|riesling|sauvignon|chardonnay)\b/.test(text)) {
+      result.wantsDrink = true;
+      result.winePreference = "white wine";
+    } else if (/\b(drink|drinks|wine|beverage|cocktail)\b/.test(text)) {
+      result.wantsDrink = true;
+    }
 
     const intent = text.match(/intent\s+([^.;]+)/);
     if (intent) result.goal = intent[1].trim();
@@ -176,6 +184,7 @@
     let budgetRange = asString(input.budgetRange || input.budget_range);
     if (!budgetRange && budgetPerPerson) budgetRange = budgetPostureFromAmount(budgetPerPerson);
     let winePreference = asString(input.winePreference || input.wine_preference);
+    if (!winePreference && goalFromNotes.winePreference) winePreference = goalFromNotes.winePreference;
     if (!winePreference && goalFromNotes.wantsDrink) winePreference = "open to a drink or wine pairing";
 
     return {
@@ -425,6 +434,7 @@
       confidenceScore: roundPercent(input.confidenceScore),
       occasionScore: roundPercent(input.occasionScore),
       consumerFitScore: roundPercent(input.consumerFitScore),
+      budgetScore: roundPercent(input.budgetScore),
       promotionScore: roundPercent(input.promotionScore),
       totalScore: roundPercent(input.totalScore),
       scoreBreakdown: input.scoreBreakdown || {},
@@ -467,6 +477,8 @@
     const hasSnackStarter = path.starters.some((item) => /snack/.test(lowerText(item.category)));
     const heavyCount = items.filter(isHeavyItem).length;
     const totalPrice = roundMoney(items.reduce((sum, item) => sum + asNumber(item.price, 0), 0));
+    const budgetPerPerson = asNumber(consumer.budgetPerPerson, 0);
+    const wantsDrink = Boolean(consumer.winePreference);
     const reasons = [];
     const risks = [];
 
@@ -496,6 +508,10 @@
     if (includesAny(pathText, ["burrata", "sourdough"]) && consumerWantsLightDinner(consumer)) pairingScore -= 14;
     if (hasStarter && hasMain) pairingScore += 8;
     if (hasDessert && hasWine) pairingScore += 4;
+    if (/red wine/.test(lowerText(consumer.winePreference)) && hasWine && !includesAny(wineText, ["red", "pinot", "merlot", "cabernet", "rioja"])) {
+      pairingScore -= 14;
+      risks.push("The consumer asked for red wine, but this path uses the available listed wine instead.");
+    }
 
     let confidenceScore = 45;
     if (lowerText(consumer.confidenceLevel) === "low") {
@@ -572,9 +588,41 @@
     if (hasAllergyConflict({ ...items[0], category: "", name: pathText, description: "", allergens: [], dietaryTags: [], pairingTags: [] }, consumer.allergies)) {
       consumerFitScore -= 100;
     }
+    if (wantsDrink && !hasWine) {
+      consumerFitScore -= budgetPerPerson && budgetPerPerson <= 25 ? 8 : 14;
+      risks.push("The consumer asked to include a drink, but this path has no drink.");
+    }
     const memoryText = asArray(consumer.memoryNotes).join(" ").toLowerCase();
     if (/lighter seafood/.test(memoryText) && includesAny(pathText, ["sea bass", "seafood", "fish"])) consumerFitScore += 14;
     if (/clear, simple recommendations|clear simple recommendations/.test(memoryText) && hasMain) consumerFitScore += 8;
+
+    let budgetScore = 45;
+    if (budgetPerPerson) {
+      const ratio = totalPrice / budgetPerPerson;
+      if (ratio <= 1) {
+        budgetScore += 22;
+        budgetScore += Math.max(0, 16 - Math.abs(ratio - 0.88) * 28);
+        reasons.push(`Path fits the ${retailer.currency} ${budgetPerPerson} per-person budget.`);
+      } else if (ratio <= 1.08) {
+        budgetScore += 8;
+        risks.push("Path is slightly above budget and needs negotiation.");
+      } else {
+        budgetScore -= Math.min(70, (ratio - 1) * 95);
+        risks.push(`Path is above the ${retailer.currency} ${budgetPerPerson} per-person budget.`);
+      }
+      if (budgetPerPerson >= 30 && hasMain) {
+        budgetScore += 18;
+        coherenceScore += 8;
+      }
+      if (budgetPerPerson >= 30 && !hasMain) {
+        budgetScore -= 30;
+        coherenceScore -= 18;
+        risks.push("Budget allows a main course, so a snack-only offer is too weak.");
+      }
+      if (budgetPerPerson <= 25 && hasWine && totalPrice <= budgetPerPerson) {
+        budgetScore += 14;
+      }
+    }
 
     let promotionScore = 0;
     let appliedPromotion = null;
@@ -601,15 +649,17 @@
       confidenceScore: clampScore(confidenceScore),
       occasionScore: clampScore(occasionScore),
       consumerFitScore: clampScore(consumerFitScore),
+      budgetScore: clampScore(budgetScore),
       promotionScore: clampScore(promotionScore),
     };
     const totalScore = roundPercent(
-      (scoreBreakdown.consumerFitScore * 0.30)
-      + (scoreBreakdown.coherenceScore * 0.20)
-      + (scoreBreakdown.pairingScore * 0.18)
-      + (scoreBreakdown.occasionScore * 0.15)
-      + (scoreBreakdown.confidenceScore * 0.10)
-      + (scoreBreakdown.promotionScore * 0.07),
+      (scoreBreakdown.consumerFitScore * 0.24)
+      + (scoreBreakdown.coherenceScore * 0.18)
+      + (scoreBreakdown.pairingScore * 0.15)
+      + (scoreBreakdown.occasionScore * 0.12)
+      + (scoreBreakdown.confidenceScore * 0.08)
+      + (scoreBreakdown.budgetScore * 0.17)
+      + (scoreBreakdown.promotionScore * 0.06),
     );
 
     return createMealPath({
@@ -649,6 +699,7 @@
     };
 
     mains.forEach((main) => {
+      addPath({ main });
       wines.forEach((wine) => addPath({ main, wine }));
       starters.forEach((starter) => addPath({ starter, main }));
       starters.forEach((starter) => wines.forEach((wine) => addPath({ starter, main, wine })));
@@ -783,6 +834,61 @@
       appliedPromotion: promotion,
       offerType,
     };
+  }
+
+  function rankMealPathForOffer(path, consumer, retailer, rules, tactic) {
+    const items = pathItems(path);
+    const budget = asNumber(consumer.budgetPerPerson, 0);
+    const wantsDrink = Boolean(consumer.winePreference);
+    const hasMain = path.mains.length > 0;
+    const hasWine = path.wines.length > 0;
+    const wineText = path.wines.map(itemSearchText).join(" ");
+    const dryRunConstraints = [];
+    const promotion = choosePromotion(retailer.promotions, consumer, items, rules, tactic);
+    const applied = applyPromotion(promotion, path.totalPrice, rules, dryRunConstraints);
+    let rank = asNumber(path.totalScore, 0);
+
+    if (budget) {
+      const ratio = applied.priceAfter / budget;
+      if (applied.priceAfter <= budget) {
+        rank += 26 + Math.max(0, 14 - Math.abs(ratio - 0.88) * 30);
+      } else if (applied.priceAfter <= budget * 1.08) {
+        rank += 8;
+      } else {
+        rank -= Math.min(85, (ratio - 1) * 110);
+      }
+      if (budget >= 30 && hasMain) rank += 34;
+      if (budget >= 30 && !hasMain) rank -= 44;
+      if (budget <= 25 && hasWine && applied.priceAfter <= budget) rank += 16;
+    }
+
+    if (wantsDrink) {
+      rank += hasWine ? 12 : -8;
+    }
+    if (/red wine/.test(lowerText(consumer.winePreference)) && hasWine && !includesAny(wineText, ["red", "pinot", "merlot", "cabernet", "rioja"])) {
+      rank -= 18;
+    }
+    if (consumer.partySize >= 6 && hasMain) rank += 8;
+
+    return { path, items, promotion, applied, rank };
+  }
+
+  function selectMealPathForOffer(consumer, retailer, rules, tactic) {
+    const shouldUseMealPath = Boolean(
+      consumer.budgetPerPerson
+      || consumer.partySize
+      || consumer.goal
+      || consumer.winePreference
+      || /table|dinner|reservation|people|guest/.test(lowerText(consumer.goal)),
+    );
+    if (!shouldUseMealPath) return null;
+
+    const paths = generateMealPaths({ consumerProfile: consumer, retailerPolicy: retailer, limit: 60 });
+    if (!paths.length) return null;
+
+    return paths
+      .map((path) => rankMealPathForOffer(path, consumer, retailer, rules, tactic))
+      .sort((a, b) => b.rank - a.rank)[0] || null;
   }
 
   function roundMoney(value) {

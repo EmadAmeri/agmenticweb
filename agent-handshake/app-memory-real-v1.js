@@ -14,12 +14,22 @@ const DINING_SESSION_ID_KEY = "dining_session_id";
 const CONSUMER_INBOX_KEY = "agmentic_consumer_agent_inbox_v1";
 
 const sampleMenu = `Snacks | Oyster tartlet | cucumber, finger lime, jalapeno | 9
+Snacks | Truffle arancini | aged parmesan, black garlic aioli | 11
 Starter | Burrata | smoked tomato, basil oil, toasted sourdough | 16
 Starter | Beetroot carpaccio | horseradish cream, hazelnut, dill | 14
+Starter | Hamachi crudo | yuzu kosho, radish, shiso | 18
 Main | Sea bass | saffron beurre blanc, fennel, caviar oil | 34
+Main | Wild mushroom risotto | parmesan foam, chive oil, pickled chanterelle | 29
 Main | Dry-aged duck | cherry jus, endive, potato millefeuille | 38
+Main | Wagyu beef cheek | celeriac puree, bordelaise, crispy shallot | 42
+Side | Charred broccolini | lemon, chili, almond crumb | 9
 Dessert | Chocolate souffle | vanilla ice cream, cacao nib | 13
-Wine | Riesling Kabinett | Mosel, citrus, slate | 12`;
+Dessert | Lemon verbena panna cotta | raspberry, pistachio, olive oil | 12
+Wine | Riesling Kabinett | Mosel, citrus, slate | 12
+Wine | Pinot Noir | Baden, cherry, soft spice | 15
+Cocktail | Garden spritz | elderflower, basil, sparkling wine | 14
+Zero-proof | Yuzu tonic | yuzu, rosemary, tonic water | 10
+Coffee | Espresso | single origin, dark chocolate finish | 4`;
 
 const defaultScenario = {
   retailer_name: "Maison Lumiere",
@@ -110,6 +120,18 @@ const maisonLumiereDemoRetailer = {
       availability: "available",
     },
     {
+      id: "item-truffle-arancini",
+      category: "Snacks",
+      name: "Truffle arancini",
+      description: "aged parmesan, black garlic aioli",
+      price: 11,
+      currency: "EUR",
+      allergens: ["dairy", "gluten"],
+      dietaryTags: ["vegetarian"],
+      pairingTags: ["snack", "rich", "wine-friendly"],
+      availability: "available",
+    },
+    {
       id: "item-burrata",
       category: "Starter",
       name: "Burrata",
@@ -134,6 +156,18 @@ const maisonLumiereDemoRetailer = {
       availability: "available",
     },
     {
+      id: "item-hamachi-crudo",
+      category: "Starter",
+      name: "Hamachi crudo",
+      description: "yuzu kosho, radish, shiso",
+      price: 18,
+      currency: "EUR",
+      allergens: ["fish"],
+      dietaryTags: ["pescatarian"],
+      pairingTags: ["citrus", "light", "starter", "white wine"],
+      availability: "available",
+    },
+    {
       id: "item-sea-bass",
       category: "Main",
       name: "Sea bass",
@@ -143,6 +177,18 @@ const maisonLumiereDemoRetailer = {
       allergens: ["fish", "dairy"],
       dietaryTags: ["pescatarian"],
       pairingTags: ["seafood", "white wine", "light", "anniversary"],
+      availability: "available",
+    },
+    {
+      id: "item-mushroom-risotto",
+      category: "Main",
+      name: "Wild mushroom risotto",
+      description: "parmesan foam, chive oil, pickled chanterelle",
+      price: 29,
+      currency: "EUR",
+      allergens: ["dairy"],
+      dietaryTags: ["vegetarian"],
+      pairingTags: ["earthy", "comfort", "wine-friendly"],
       availability: "available",
     },
     {
@@ -158,6 +204,30 @@ const maisonLumiereDemoRetailer = {
       availability: "available",
     },
     {
+      id: "item-wagyu-beef-cheek",
+      category: "Main",
+      name: "Wagyu beef cheek",
+      description: "celeriac puree, bordelaise, crispy shallot",
+      price: 42,
+      currency: "EUR",
+      allergens: ["dairy"],
+      dietaryTags: [],
+      pairingTags: ["premium", "rich", "red wine"],
+      availability: "available",
+    },
+    {
+      id: "item-broccolini",
+      category: "Side",
+      name: "Charred broccolini",
+      description: "lemon, chili, almond crumb",
+      price: 9,
+      currency: "EUR",
+      allergens: ["nuts"],
+      dietaryTags: ["vegetarian"],
+      pairingTags: ["side", "light", "citrus"],
+      availability: "available",
+    },
+    {
       id: "item-souffle",
       category: "Dessert",
       name: "Chocolate souffle",
@@ -167,6 +237,18 @@ const maisonLumiereDemoRetailer = {
       allergens: ["dairy", "egg", "gluten"],
       dietaryTags: ["vegetarian"],
       pairingTags: ["dessert", "sweet"],
+      availability: "available",
+    },
+    {
+      id: "item-panna-cotta",
+      category: "Dessert",
+      name: "Lemon verbena panna cotta",
+      description: "raspberry, pistachio, olive oil",
+      price: 12,
+      currency: "EUR",
+      allergens: ["dairy", "nuts"],
+      dietaryTags: ["vegetarian"],
+      pairingTags: ["dessert", "fresh", "citrus"],
       availability: "available",
     },
     {
@@ -181,6 +263,54 @@ const maisonLumiereDemoRetailer = {
       pairingTags: ["white wine", "citrus", "seafood pairing"],
       availability: "available",
     },
+    {
+      id: "item-pinot-noir",
+      category: "Wine",
+      name: "Pinot Noir",
+      description: "Baden, cherry, soft spice",
+      price: 15,
+      currency: "EUR",
+      allergens: ["sulfites"],
+      dietaryTags: [],
+      pairingTags: ["red wine", "duck pairing", "rich"],
+      availability: "available",
+    },
+    {
+      id: "item-garden-spritz",
+      category: "Cocktail",
+      name: "Garden spritz",
+      description: "elderflower, basil, sparkling wine",
+      price: 14,
+      currency: "EUR",
+      allergens: ["sulfites"],
+      dietaryTags: [],
+      pairingTags: ["cocktail", "sparkling", "fresh"],
+      availability: "available",
+    },
+    {
+      id: "item-yuzu-tonic",
+      category: "Zero-proof",
+      name: "Yuzu tonic",
+      description: "yuzu, rosemary, tonic water",
+      price: 10,
+      currency: "EUR",
+      allergens: [],
+      dietaryTags: ["non-alcoholic"],
+      pairingTags: ["zero-proof", "citrus", "fresh"],
+      availability: "available",
+    },
+    {
+      id: "item-espresso",
+      category: "Coffee",
+      name: "Espresso",
+      description: "single origin, dark chocolate finish",
+      price: 4,
+      currency: "EUR",
+      allergens: [],
+      dietaryTags: [],
+      pairingTags: ["coffee", "after-dinner"],
+      availability: "available",
+    },
   ],
   promotions: [
     {
@@ -190,8 +320,8 @@ const maisonLumiereDemoRetailer = {
       value: 12,
       maxConcession: 12,
       rule: "Use for parties of 2+ before 19:00 or when consumer asks for wine pairing.",
-      appliesTo: ["item-sea-bass", "item-riesling"],
-      marketingText: "A calm anniversary pairing with sea bass and Riesling.",
+      appliesTo: ["item-sea-bass", "item-riesling", "item-hamachi-crudo", "item-yuzu-tonic"],
+      marketingText: "A calm anniversary pairing with sea bass, Riesling, or a bright zero-proof yuzu tonic.",
       expiresAt: "",
     },
   ],
