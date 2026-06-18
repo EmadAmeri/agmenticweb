@@ -1,4 +1,4 @@
-const CACHE_NAME = "dining-agent-shell-intent-20260618";
+const CACHE_NAME = "dining-agent-shell-clean-consumer-intents-20260618";
 const SHELL_ASSETS = [
   "./",
   "./index.html",

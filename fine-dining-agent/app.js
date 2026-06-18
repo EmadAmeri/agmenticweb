@@ -44,6 +44,16 @@ const LOCAL_MENU_TEXT_KEY = "dining_local_menu_text";
 const LOCAL_MENU_DATA_KEY = "dining_local_menu_data";
 const HANDSHAKE_INBOX_KEY = "agmentic_consumer_agent_inbox_v1";
 const HANDSHAKE_SEEN_KEY = "agmentic_consumer_agent_seen_results_v1";
+const HANDSHAKE_PROFILE_KEY = "agmentic_consumer_agent_profile_v1";
+const HANDSHAKE_SESSION_KEY = "agmentic_negotiation_session_v1";
+const HANDSHAKE_MESSAGES_KEY = "agmentic_agent_messages_v1";
+const STALE_CONSUMER_INTENT_CLEANUP_KEY = "dining_emad_stale_intents_cleaned_20260618";
+const STALE_CONSUMER_INTENTS = [
+  "Dining request: party of 3; budget 23 € per person; intent dinner for 3, budget €23 per person; request \"I want a table for 3 people buget for each is 23 euros including drink\".",
+  "Dining request: party of 8; budget 40 € per person; intent dinner for 8, budget €40 per person; request \"a table for 8 each person budget is 40 euros include drink that my prefer is red wine\".",
+  "budget of 40 euros per person",
+  "table for 8 people",
+];
 const LOCAL_MODEL_ID = "Qwen2.5-1.5B-Instruct-q4f16_1-MLC";
 const LOCAL_FALLBACK_MODEL_ID = "SmolLM2-360M-Instruct-q4f32_1-MLC";
 const WEBLLM_URL = "https://esm.run/@mlc-ai/web-llm";
@@ -72,6 +82,48 @@ let recognitionRestartTimer = null;
 let activeUtterances = [];
 let callRequestInFlight = false;
 let serverMenuHydratedFor = "";
+
+function clearStaleConsumerAgentIntentsOnce() {
+  if (localStorage.getItem(STALE_CONSUMER_INTENT_CLEANUP_KEY)) return;
+
+  try {
+    const rawProfile = localStorage.getItem(HANDSHAKE_PROFILE_KEY);
+    if (!rawProfile) {
+      localStorage.setItem(STALE_CONSUMER_INTENT_CLEANUP_KEY, "1");
+      return;
+    }
+
+    const profile = JSON.parse(rawProfile);
+    const identity = [profile.userId, profile.user_id, profile.sessionId, profile.session_id]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    if (!identity.includes("emad")) {
+      localStorage.setItem(STALE_CONSUMER_INTENT_CLEANUP_KEY, "1");
+      return;
+    }
+
+    const staleSet = new Set(STALE_CONSUMER_INTENTS);
+    const notes = Array.isArray(profile.notes)
+      ? profile.notes
+      : Array.isArray(profile.memoryNotes)
+        ? profile.memoryNotes
+        : [];
+    const cleanedNotes = notes.filter((note) => !staleSet.has(String(note)));
+
+    if (cleanedNotes.length !== notes.length) {
+      profile.notes = cleanedNotes;
+      profile.memoryNotes = cleanedNotes;
+      localStorage.setItem(HANDSHAKE_PROFILE_KEY, JSON.stringify(profile));
+      localStorage.removeItem(HANDSHAKE_SESSION_KEY);
+      localStorage.removeItem(HANDSHAKE_MESSAGES_KEY);
+    }
+  } catch (error) {
+    // Local cleanup should never block the app.
+  }
+
+  localStorage.setItem(STALE_CONSUMER_INTENT_CLEANUP_KEY, "1");
+}
 
 function getSessionId() {
   const userId = getUserId();
@@ -1751,6 +1803,7 @@ document.querySelector("#contactsCall").addEventListener("click", () => {
 
 agentContactNameInput.value = getContactName();
 userIdInput.value = getUserId();
+clearStaleConsumerAgentIntentsOnce();
 callContactName.textContent = getContactName();
 callAvatar.textContent = initials(getContactName());
 menuStatus.textContent = "";
