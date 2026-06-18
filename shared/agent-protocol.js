@@ -951,26 +951,44 @@
       };
     }
 
-    let selectionItems = safeItems;
-    if (consumer.budgetPerPerson) {
-      const withinBudget = safeItems.filter((item) => item.price === null || asNumber(item.price, 0) <= consumer.budgetPerPerson);
-      if (withinBudget.length) {
-        selectionItems = withinBudget;
-        constraintsUsed.push(`Filtered to items within ${retailer.currency} ${consumer.budgetPerPerson} per person.`);
-      } else {
-        constraintsUsed.push(`No menu item fits ${retailer.currency} ${consumer.budgetPerPerson} per person; offering the closest option.`);
-      }
-    }
-    const sortedItems = [...selectionItems].sort((a, b) => scoreMenuItem(b, consumer) - scoreMenuItem(a, consumer));
-    const primaryItem = sortedItems.find((item) => !isWineItem(item)) || sortedItems[0];
-    const proposedItems = [primaryItem];
-    if (consumer.winePreference) {
-      const wineItem = sortedItems.find((item) => item.id !== proposedItems[0].id && isWineItem(item));
-      if (wineItem) proposedItems.push(wineItem);
-    }
     const tactic = chooseMarketingTactic(consumer, rules);
-    const promotion = choosePromotion(retailer.promotions, consumer, proposedItems, rules, tactic);
-    const priceBefore = roundMoney(proposedItems.reduce((sum, item) => sum + asNumber(item.price, 0), 0));
+    const selectedPath = selectMealPathForOffer(consumer, retailer, rules, tactic);
+    let proposedItems = selectedPath ? selectedPath.items : [];
+    let promotion = selectedPath ? selectedPath.promotion : null;
+    let priceBefore = selectedPath ? selectedPath.path.totalPrice : 0;
+
+    if (selectedPath) {
+      constraintsUsed.push("Built a budget-aware meal path from the retailer menu.");
+      if (consumer.budgetPerPerson) {
+        constraintsUsed.push(`Target per-person budget is ${retailer.currency} ${consumer.budgetPerPerson}.`);
+      }
+      if (/red wine/.test(lowerText(consumer.winePreference)) && selectedPath.path.wines.length) {
+        const wineText = selectedPath.path.wines.map(itemSearchText).join(" ");
+        if (!includesAny(wineText, ["red", "pinot", "merlot", "cabernet", "rioja"])) {
+          constraintsUsed.push("No red wine is listed, so the retailer can only offer the available listed wine.");
+        }
+      }
+    } else {
+      let selectionItems = safeItems;
+      if (consumer.budgetPerPerson) {
+        const withinBudget = safeItems.filter((item) => item.price === null || asNumber(item.price, 0) <= consumer.budgetPerPerson);
+        if (withinBudget.length) {
+          selectionItems = withinBudget;
+          constraintsUsed.push(`Filtered to items within ${retailer.currency} ${consumer.budgetPerPerson} per person.`);
+        } else {
+          constraintsUsed.push(`No menu item fits ${retailer.currency} ${consumer.budgetPerPerson} per person; offering the closest option.`);
+        }
+      }
+      const sortedItems = [...selectionItems].sort((a, b) => scoreMenuItem(b, consumer) - scoreMenuItem(a, consumer));
+      const primaryItem = sortedItems.find((item) => !isWineItem(item)) || sortedItems[0];
+      proposedItems = [primaryItem];
+      if (consumer.winePreference) {
+        const wineItem = sortedItems.find((item) => item.id !== proposedItems[0].id && isWineItem(item));
+        if (wineItem) proposedItems.push(wineItem);
+      }
+      promotion = choosePromotion(retailer.promotions, consumer, proposedItems, rules, tactic);
+      priceBefore = roundMoney(proposedItems.reduce((sum, item) => sum + asNumber(item.price, 0), 0));
+    }
     const applied = applyPromotion(promotion, priceBefore, rules, constraintsUsed);
     const occasionText = consumer.occasion ? ` for ${consumer.occasion}` : "";
     const tableText = tactic === "quiet_table" ? " with a quiet-table note" : "";
@@ -998,7 +1016,9 @@
       marketingTactic: tactic,
       retailerReasoning: [
         "Filtered unavailable items and allergy conflicts.",
-        "Scored remaining items against likes, dislikes, light-meal signals, wine preference, and occasion.",
+        selectedPath
+          ? "Scored complete menu paths against budget, party size, drink preference, likes, dislikes, and occasion."
+          : "Scored remaining items against likes, dislikes, light-meal signals, wine preference, and occasion.",
         applied.appliedPromotion ? `Applied promotion ${applied.appliedPromotion.name} within concession limits.` : "No discount promotion applied.",
         negotiationContext.note ? `Context: ${negotiationContext.note}` : "",
       ].filter(Boolean).join(" "),
