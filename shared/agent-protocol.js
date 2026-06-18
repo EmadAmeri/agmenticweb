@@ -751,6 +751,10 @@
   }
 
   function promotionMatchesConsumer(promotion, consumer, items, tactic) {
+    const promotionText = [promotion.name, promotion.rule, promotion.marketingText, promotion.type].join(" ").toLowerCase();
+    if (/\bwine|pairing\b/.test(promotionText) && !items.some(isWineItem)) {
+      return false;
+    }
     const haystack = [
       promotion.name,
       promotion.rule,
@@ -967,6 +971,9 @@
         if (!includesAny(wineText, ["red", "pinot", "merlot", "cabernet", "rioja"])) {
           constraintsUsed.push("No red wine is listed, so the retailer can only offer the available listed wine.");
         }
+      }
+      if (consumer.winePreference && !selectedPath.path.wines.length) {
+        constraintsUsed.push("No matching drink path fit the stated budget, so the retailer prioritized the best food offer within budget.");
       }
     } else {
       let selectionItems = safeItems;
@@ -1192,9 +1199,11 @@
     const matchedDislikes = [];
     let heavyCount = 0;
     let wineMatch = false;
+    let hasMainOffer = false;
 
     items.forEach((item) => {
       const text = itemSearchText(item);
+      if (isMainCategory(item)) hasMainOffer = true;
       asArray(consumer.likes).forEach((like) => {
         if (includesAny(text, [like])) matchedLikes.push(like);
       });
@@ -1268,6 +1277,8 @@
     // a safe offer that meets it should be enough to close the deal.
     if (consumer.budgetPerPerson && normalizedOffer.priceAfter !== null && normalizedOffer.priceAfter <= consumer.budgetPerPerson) {
       score += 12;
+      if (hasMainOffer) score += 18;
+      if (consumer.partySize >= 6) score += 4;
     }
     if (allergyConflicts.length || unavailableItems.length) score = Math.min(score, 15);
     if (availabilityUnclear.length || normalizedOffer.priceAfter === null) score = Math.min(score, 45);
