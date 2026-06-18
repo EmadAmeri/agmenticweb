@@ -47,7 +47,7 @@ const HANDSHAKE_SEEN_KEY = "agmentic_consumer_agent_seen_results_v1";
 const LOCAL_MODEL_ID = "Qwen2.5-1.5B-Instruct-q4f16_1-MLC";
 const LOCAL_FALLBACK_MODEL_ID = "SmolLM2-360M-Instruct-q4f32_1-MLC";
 const WEBLLM_URL = "https://esm.run/@mlc-ai/web-llm";
-const AGENT_PROTOCOL_URL = "../shared/agent-protocol.js?v=1";
+const AGENT_PROTOCOL_URL = "../shared/agent-protocol.js";
 let sessionId = getSessionId();
 let lastErrorMessage = "";
 let providerMode = localStorage.getItem(PROVIDER_MODE_KEY) || "cloud";
@@ -616,10 +616,12 @@ function shortenLocalResponse(response) {
 async function generateAgentResponse(text) {
   const hasMenu = Boolean(getStructuredMenu()?.menu?.items?.length);
 
-  // A dining request without a menu (e.g. "a table for 4, budget 25 euro
-  // per person") must reach the backend so the agent can capture it and set
-  // up the retailer negotiation, instead of being told to load a menu.
-  if (!hasMenu && wantsDiningReservation(text)) {
+  // Dining requests (e.g. "a table for 3, 25 euro each") are negotiation
+  // intents, not menu questions. Capture them even when a menu is already loaded.
+  if (wantsDiningReservation(text)) {
+    if (hasMenu) {
+      await hydrateServerMenuIfNeeded();
+    }
     const data = await request("/chat", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -629,7 +631,7 @@ async function generateAgentResponse(text) {
     // Agent Handshake page negotiates against this request (same origin =>
     // shared localStorage). The consumer agent already stored the goal as a
     // memory note; here we mirror the memory into the shared profile.
-    await syncConsumerGoalToHandshake();
+    await syncConsumerGoalToHandshake(text);
     return data.response;
   }
 
@@ -768,10 +770,9 @@ async function loadAgentProtocol() {
 // Mirror the consumer's backend memory (incl. the dining-request goal note)
 // into the shared consumer-agent profile that the Agent Handshake page reads.
 // The handshake engine parses budget / party size / drink from the notes.
-async function syncConsumerGoalToHandshake() {
+async function syncConsumerGoalToHandshake(rawIntent = "") {
   try {
     const protocol = await loadAgentProtocol();
-    if (!protocol?.saveConsumerProfile) return;
 
     let memory = { liked: [], disliked: [], notes: [] };
     let diningRequest = null;
@@ -787,30 +788,64 @@ async function syncConsumerGoalToHandshake() {
       // The note parser in the shared protocol can still infer older requests.
     }
 
+    const fallbackRequest = diningRequest || parseDiningIntent(rawIntent);
     const budgetPerPerson = diningRequest?.budget_amount != null
       ? (diningRequest.budget_per_person
         ? diningRequest.budget_amount
         : (diningRequest.party_size ? diningRequest.budget_amount / diningRequest.party_size : diningRequest.budget_amount))
-      : null;
+      : fallbackRequest?.budget_amount || null;
 
-    protocol.saveConsumerProfile({
+    const profile = {
       userId: sessionId.replace(/^user_/, "") || sessionId,
       sessionId,
       name: "Consumer Dining Agent",
       likes: (memory.liked || []).map((entry) => entry.item).filter(Boolean),
       dislikes: (memory.disliked || []).map((entry) => entry.item).filter(Boolean),
       allergies: extractAllergiesFromNotes(memory.notes || []),
-      notes: (memory.notes || []).map((entry) => entry.text).filter(Boolean),
-      partySize: diningRequest?.party_size || null,
+      partySize: diningRequest?.party_size || fallbackRequest?.party_size || null,
       budgetPerPerson,
-      goal: diningRequest?.intent || "",
-      winePreference: diningRequest?.raw && /\b(drink|drinks|wine|beverage|cocktail)\b/i.test(diningRequest.raw)
+      goal: diningRequest?.intent || fallbackRequest?.intent || rawIntent,
+      winePreference: (diningRequest?.raw || rawIntent) && /\b(drink|drinks|wine|beverage|cocktail)\b/i.test(diningRequest?.raw || rawIntent)
         ? "open to a drink or wine pairing"
         : "",
-    });
+      notes: [
+        ...(memory.notes || []).map((entry) => entry.text).filter(Boolean),
+        rawIntent ? `Dining request: ${rawIntent}` : "",
+      ].filter(Boolean),
+    };
+
+    if (protocol?.saveConsumerProfile) {
+      protocol.saveConsumerProfile(profile);
+    } else {
+      localStorage.setItem("agmentic_consumer_agent_profile_v1", JSON.stringify(profile));
+    }
   } catch (error) {
     // Non-fatal: the chat reply still works even if the handshake sync fails.
   }
+}
+
+function parseDiningIntent(text) {
+  const lowered = String(text || "").toLowerCase();
+  const partyMatch = lowered.match(/\b(?:table\s+for|for)\s+(\d{1,2})\b/)
+    || lowered.match(/\b(\d{1,2})\s+(?:people|persons?|guests?|pax)\b/);
+  const budgetMatch = lowered.match(/(?:budget(?:\s+for\s+each\s+person\s+is)?|each\s+person\s+is|per\s+person\s+is|per\s+person|each)\s*(?:€|\$|£)?\s*(\d+(?:[,.]\d{1,2})?)/)
+    || lowered.match(/(\d+(?:[,.]\d{1,2})?)\s*(?:€|eur|euros?)\s*(?:per\s+person|each|pp)?/);
+
+  const partySize = partyMatch ? Number(partyMatch[1]) : null;
+  const budgetAmount = budgetMatch ? Number(budgetMatch[1].replace(",", ".")) : null;
+  if (!partySize && !budgetAmount && !text) {
+    return null;
+  }
+
+  return {
+    party_size: partySize,
+    budget_amount: budgetAmount,
+    budget_per_person: budgetAmount !== null,
+    intent: [
+      partySize ? `dinner for ${partySize}` : "dinner",
+      budgetAmount !== null ? `budget €${budgetAmount} per person` : "",
+    ].filter(Boolean).join(", "),
+  };
 }
 
 function extractAllergiesFromNotes(notes = []) {
