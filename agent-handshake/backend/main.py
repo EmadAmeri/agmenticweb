@@ -218,12 +218,14 @@ class RetailerAgent:
             },
         }
 
-    def propose_offer(self, consumer: "ConsumerAgent") -> dict[str, Any]:
-        preferences = consumer.effective_preferences()
-        promotion = choose_promotion(self.promotions, preferences, consumer.intent)
-        item = choose_menu_hook(self.menu, preferences, consumer.intent)
+    def propose_offer(self, negotiation_brief: dict[str, Any]) -> dict[str, Any]:
+        signals = negotiation_brief.get("signals", [])
+        preferences = [signal.get("value", "") for signal in signals]
+        intent = negotiation_brief.get("purchase_context", "dining_request")
+        promotion = choose_promotion(self.promotions, preferences, intent)
+        item = choose_menu_hook(self.menu, preferences, intent)
         proposed_price = calculate_offer_price(item.price, promotion)
-        tactic = choose_marketing_tactic(promotion, preferences, consumer.intent)
+        tactic = choose_marketing_tactic(promotion, preferences, intent)
         return {
             "menu_hook": dump_model(item),
             "promotion": dump_model(promotion),
@@ -294,16 +296,43 @@ class ConsumerAgent:
             if entry.get("item")
         ]
 
+    def negotiation_insights(self) -> dict[str, Any]:
+        private_source = " ".join([
+            self.intent,
+            *self.preferences,
+            *self.effective_preferences(),
+            *self.disliked_terms(),
+        ]).lower()
+        rules = [
+            ("experience", "calm_environment", ["quiet", "calm", "noisy"]),
+            ("dietary", "vegetarian_option", ["vegetarian", "meat-free"]),
+            ("pairing", "wine_pairing_value", ["wine", "pairing"]),
+            ("safety", "avoid_shellfish", ["shellfish", "oyster"]),
+            ("occasion", "celebration", ["anniversary", "birthday", "celebration"]),
+        ]
+        return {
+            "privacy_mode": "derived_insights_only",
+            "purchase_context": "celebration_dining" if "anniversary" in private_source else "dining_request",
+            "signals": [
+                {"category": category, "value": value}
+                for category, value, terms in rules
+                if any(term in private_source for term in terms)
+            ],
+            "private_fields_not_transmitted": [
+                "consumer_memory", "raw_notes", "raw_preferences", "raw_avoidances"
+            ],
+        }
+
     def receive_menu(self, menu: list[MenuItem]) -> dict[str, Any]:
         self.received_menu = menu
         return {
             "consumer_agent_id": self.id,
-            "memory_session_id": self.memory_session_id,
             "received_items": len(menu),
-            "intent": self.intent,
-            "request_preferences": self.preferences,
-            "memory_profile": self.memory_profile,
-            "effective_preferences": self.effective_preferences(),
+            "negotiation_brief": self.negotiation_insights(),
+            "privacy_boundary": {
+                "raw_consumer_data_shared": False,
+                "shared_with_retailer": "derived_insights_only",
+            },
         }
 
     def evaluate_offer(self, offer: dict[str, Any]) -> dict[str, Any]:
@@ -314,13 +343,14 @@ class ConsumerAgent:
             self.disliked_terms(),
         )
         return {
-            "accepted_offer_context": offer,
+            "offer_id": "current_offer",
             "requested_items": [
                 offer.get("menu_hook", {}).get("name", "menu hook"),
                 requested_item.name,
             ],
             "required_conditions": self._required_conditions(),
-            "memory_used": self.memory_profile,
+            "insights_used": [signal["value"] for signal in self.negotiation_insights()["signals"]],
+            "raw_consumer_data_shared": False,
             "message": (
                 f"{self.name} can accept if {requested_item.name} is included "
                 f"and {self._human_condition()} is preserved."
@@ -403,7 +433,7 @@ class ConnectionSession:
             )
         )
 
-        offer = self.retailer.propose_offer(self.consumer)
+        offer = self.retailer.propose_offer(self.consumer.negotiation_insights())
         self.events.append(
             agent_event(
                 "message",
@@ -713,11 +743,8 @@ def serialize_consumer(agent: ConsumerAgent) -> dict[str, Any]:
     return {
         "id": agent.id,
         "name": agent.name,
-        "memory_session_id": agent.memory_session_id,
-        "intent": agent.intent,
-        "request_preferences": agent.preferences,
-        "effective_preferences": agent.effective_preferences(),
-        "memory_profile": agent.memory_profile,
+        "negotiation_insights": agent.negotiation_insights(),
+        "raw_consumer_data_shared": False,
         "received_menu_items": len(agent.received_menu),
         "has_offer": agent.received_offer is not None,
     }

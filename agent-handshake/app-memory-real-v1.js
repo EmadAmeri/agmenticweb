@@ -66,6 +66,8 @@ const els = {
   finalResultCard: document.querySelector("#finalResultCard"),
   generateRetailerOfferDebug: document.querySelector("#generateRetailerOfferDebug"),
   evaluateRetailerOfferDebug: document.querySelector("#evaluateRetailerOfferDebug"),
+  privateSignalCount: document.querySelector("#privateSignalCount"),
+  privacyInsightChips: document.querySelector("#privacyInsightChips"),
 };
 
 let eventSource = null;
@@ -582,6 +584,7 @@ function renderSharedStateSummary() {
   ].filter(Boolean);
   const readiness = !missing.length ? "Ready for real local negotiation" : `Missing ${missing.join(", ")}`;
   const readinessClass = !missing.length ? "ready" : "missing";
+  renderPrivacyLayer(consumer);
 
   els.sharedStateSummary.innerHTML = `
     <div class="readiness-row ${readinessClass}">
@@ -592,11 +595,11 @@ function renderSharedStateSummary() {
       <section>
         <strong>Consumer Agent</strong>
         <dl>
-          <div><dt>Session id</dt><dd>${escapeHtml(hasConsumer ? consumer.sessionId : "missing")}</dd></div>
+          <div><dt>Privacy</dt><dd>Raw profile stays local</dd></div>
           <div><dt>Likes</dt><dd>${consumer.likes.length}</dd></div>
           <div><dt>Allergies</dt><dd>${consumer.allergies.length}</dd></div>
           <div><dt>Party size</dt><dd>${escapeHtml(consumer.partySize || "—")}</dd></div>
-          <div><dt>Goal</dt><dd>${escapeHtml(consumer.goal || consumer.occasion || "none")}</dd></div>
+          <div><dt>Shared form</dt><dd>Derived insights only</dd></div>
           <div><dt>Budget</dt><dd>${escapeHtml(consumer.budgetPerPerson ? `${consumer.budgetPerPerson}/person` : (consumer.budgetRange || "none"))}</dd></div>
           <div><dt>Confidence</dt><dd>${escapeHtml(consumer.confidenceLevel || "unknown")}</dd></div>
           <div><dt>Wine</dt><dd>${escapeHtml(consumer.winePreference || "none")}</dd></div>
@@ -615,6 +618,21 @@ function renderSharedStateSummary() {
       </section>
     </div>
   `;
+}
+
+function renderPrivacyLayer(consumer = protocol?.getConsumerProfile?.()) {
+  if (!els.privateSignalCount || !els.privacyInsightChips || !protocol?.createConsumerNegotiationInsights) return;
+  const insights = protocol.createConsumerNegotiationInsights(consumer || {});
+  const privateCount = (consumer?.likes?.length || 0)
+    + (consumer?.dislikes?.length || 0)
+    + (consumer?.memoryNotes?.length || 0)
+    + (consumer?.diningHistory?.length || 0);
+  els.privateSignalCount.textContent = `${privateCount} private data points stay local`;
+  const shared = [...insights.signals, ...insights.exclusions];
+  els.privacyInsightChips.innerHTML = shared.length
+    ? shared.map((signal) => `<span><i data-lucide="check-circle-2"></i>${escapeHtml(signal.value.replaceAll("_", " "))}</span>`).join("")
+    : `<span><i data-lucide="shield"></i>No raw values shared</span>`;
+  lucide.createIcons();
 }
 
 function compactItems(items) {
@@ -726,7 +744,7 @@ function generateRetailerOfferFromSharedState() {
   }
 
   const offer = protocol.generateRetailerOffer({
-    consumerProfile,
+    consumerProfile: protocol.createConsumerNegotiationInsights(consumerProfile),
     retailerPolicy,
     negotiationContext: { source: "agent_handshake_debug" },
   });
@@ -1117,10 +1135,10 @@ function buildFallbackEvents(scenario) {
   const hook = chooseMenuHook(menu, [...scenario.consumer_preferences, ...scenario.consumer_memory.liked, ...scenario.consumer_memory.notes], scenario.consumer_intent);
   const counter = chooseCounterHook(menu, hook.name);
   const proposedPrice = hook.price === null ? null : Math.round(hook.price * (1 - Math.min(promotion.value, 35) / 100) * 100) / 100;
-  const memoryProfile = {
-    liked: scenario.consumer_memory.liked.map((item) => ({ item, reason: "browser fallback memory" })),
-    disliked: scenario.consumer_memory.disliked.map((item) => ({ item, reason: "browser fallback memory" })),
-    notes: scenario.consumer_memory.notes.map((text) => ({ text })),
+  const negotiationInsights = {
+    privacy_mode: "derived_insights_only",
+    signals: ["calm_environment", "vegetarian_option", "wine_pairing_value", "avoid_shellfish"],
+    raw_consumer_data_shared: false,
   };
 
   return [
@@ -1136,8 +1154,8 @@ function buildFallbackEvents(scenario) {
     agentEvent("message", "consumer", "MENU_RECEIVED", `${scenario.consumer_name} receives ${menu.length} menu items and checks them against memory.`, {
       intent: scenario.consumer_intent,
       request_preferences: scenario.consumer_preferences,
-      memory_profile: memoryProfile,
-      effective_preferences: [...scenario.consumer_preferences, ...scenario.consumer_memory.liked, ...scenario.consumer_memory.notes],
+      negotiation_insights: negotiationInsights,
+      privacy_boundary: { raw_consumer_data_shared: false },
       distance_m: scenario.distance_m,
     }),
     agentEvent("message", "retailer", "OFFER_PROPOSAL", `${scenario.retailer_name} offers ${hook.name} at ${proposedPrice} using ${promotion.name}.`, {
@@ -1148,7 +1166,8 @@ function buildFallbackEvents(scenario) {
     agentEvent("message", "consumer", "COUNTER_REQUEST", `${scenario.consumer_name} can accept if ${counter.name} is included and the quiet table preference is preserved.`, {
       counter_item: counter,
       required_conditions: ["vegetarian_safe_option", "quiet_table", "clear_allergen_notes", "reservation_hold"],
-      memory_used: memoryProfile,
+      insights_used: negotiationInsights.signals,
+      raw_consumer_data_shared: false,
     }),
     agentEvent("message", "retailer", "ACCEPT_WITH_TERMS", `${scenario.retailer_name} accepts the counter request and holds the table for 10 minutes.`, {
       accepted: true,

@@ -324,6 +324,53 @@ svg {
   background: linear-gradient(90deg, var(--lab), var(--brand));
 }
 
+.privacy-link {
+  position: relative;
+  display: grid;
+  align-items: center;
+}
+
+.privacy-gate {
+  position: absolute;
+  left: 50%;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  gap: 1px;
+  min-width: 104px;
+  padding: 6px 9px;
+  border: 1px solid rgba(104, 169, 15, 0.24);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.94);
+  color: var(--brand-strong);
+  box-shadow: var(--soft-shadow);
+  transform: translateX(-50%);
+}
+
+.privacy-gate svg { width: 17px; height: 17px; }
+.privacy-gate span { font-size: 0.7rem; font-weight: 850; }
+.privacy-gate small { color: var(--muted); font-size: 0.58rem; }
+
+.privacy-strip {
+  display: grid;
+  grid-template-columns: minmax(0, 0.8fr) auto minmax(0, 1.2fr);
+  align-items: center;
+  gap: 10px;
+  padding: 9px 12px;
+  border: 1px solid rgba(104, 169, 15, 0.2);
+  border-radius: 16px;
+  background: linear-gradient(90deg, rgba(248, 113, 113, 0.07), rgba(143, 212, 46, 0.1));
+}
+
+.privacy-strip > div { min-width: 0; }
+.privacy-strip-label { display: flex; align-items: center; gap: 5px; color: var(--muted); font-size: 0.65rem; font-weight: 780; }
+.privacy-strip-label svg { width: 14px; height: 14px; }
+.privacy-strip strong { display: block; margin-top: 3px; font-size: 0.76rem; }
+.privacy-arrow { color: var(--brand-strong); }
+.privacy-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 4px; }
+.privacy-chips span { display: inline-flex; align-items: center; gap: 4px; padding: 4px 7px; border-radius: 999px; background: rgba(255,255,255,.75); color: var(--brand-strong); font-size: 0.62rem; font-weight: 780; }
+.privacy-chips svg { width: 11px; height: 11px; }
+
 .link-line span {
   position: absolute;
   top: 50%;
@@ -825,6 +872,15 @@ pre,
 
   .agent-map {
     grid-template-columns: 1fr;
+  }
+
+  .privacy-strip {
+    grid-template-columns: 1fr;
+  }
+
+  .privacy-arrow {
+    transform: rotate(90deg);
+    justify-self: center;
   }
 
   .link-line {

@@ -209,6 +209,73 @@
     };
   }
 
+  function createConsumerNegotiationInsights(profile = {}) {
+    const consumer = createConsumerAgentProfile(profile);
+    const source = [
+      ...consumer.likes,
+      ...consumer.dislikes,
+      consumer.dietaryPreference,
+      consumer.goal,
+      consumer.occasion,
+      consumer.winePreference,
+      consumer.preferredTableStyle,
+      ...consumer.memoryNotes,
+    ].join(" ").toLowerCase();
+    const signalRules = [
+      ["experience", "calm_environment", ["quiet", "calm", "noisy"]],
+      ["meal_style", "lighter_meal", ["light", "lighter", "not heavy"]],
+      ["dietary", "vegetarian_option", ["vegetarian", "meat-free"]],
+      ["pairing", "drink_pairing", ["wine", "drink", "beverage", "cocktail"]],
+      ["occasion", "celebration", ["anniversary", "birthday", "celebration"]],
+    ];
+    const signals = signalRules
+      .filter(([, , terms]) => terms.some((term) => source.includes(term)))
+      .map(([category, value]) => ({ category, value }));
+    const exclusions = [
+      ...consumer.allergies.map((value) => ({ category: "safety", value: `avoid_allergen_${slug(value)}` })),
+      ...consumer.dislikes.slice(0, 8).map((value) => ({ category: "avoidance", value: `avoid_${slug(value)}` })),
+    ];
+    const values = [...signals, ...exclusions].map((signal) => signal.value);
+
+    return {
+      privacyMode: "derived_insights_only",
+      signals,
+      exclusions,
+      constraints: {
+        budgetPerPerson: consumer.budgetPerPerson,
+        partySize: consumer.partySize,
+      },
+      // Profile-shaped fields let the existing scoring engine consume only
+      // normalized insight values without receiving the private profile.
+      likes: values,
+      dislikes: exclusions.map((signal) => signal.value.replace(/^avoid_/, "")),
+      allergies: consumer.allergies.map((value) => slug(value)),
+      dietaryPreference: signals.some((signal) => signal.value === "vegetarian_option") ? "vegetarian" : "",
+      budgetRange: consumer.budgetRange,
+      budgetPerPerson: consumer.budgetPerPerson,
+      partySize: consumer.partySize,
+      goal: signals.map((signal) => signal.value).join(" "),
+      occasion: signals.some((signal) => signal.value === "celebration") ? "celebration" : "",
+      confidenceLevel: "unknown",
+      winePreference: signals.some((signal) => signal.value === "drink_pairing") ? "drink pairing" : "",
+      preferredTableStyle: signals.some((signal) => signal.value === "calm_environment") ? "quiet" : "",
+      memoryNotes: [],
+      diningHistory: [],
+      privateFieldsNotTransmitted: ["identity", "session_id", "raw_notes", "raw_likes", "raw_dislikes", "history"],
+    };
+  }
+
+  function slug(value) {
+    return asString(value).toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "");
+  }
+
+  function retailerInsightProfile(input = {}) {
+    const insights = input?.privacyMode === "derived_insights_only"
+      ? input
+      : createConsumerNegotiationInsights(input);
+    return createConsumerAgentProfile(insights);
+  }
+
   function createRetailerAgentPolicy(input = {}) {
     const currency = asString(input.currency, "EUR");
     return {
@@ -715,7 +782,7 @@
   }
 
   function compareItemAndMealPathEngines({ consumerProfile, retailerPolicy, limit = 5 } = {}) {
-    const consumer = createConsumerAgentProfile(consumerProfile || {});
+    const consumer = retailerInsightProfile(consumerProfile || {});
     const retailer = createRetailerAgentPolicy(retailerPolicy || {});
     const itemScores = retailer.menuItems
       .filter((item) => isAvailable(item))
@@ -904,7 +971,7 @@
   }
 
   function generateRetailerOffer({ consumerProfile, retailerPolicy, negotiationContext = {} } = {}) {
-    const consumer = createConsumerAgentProfile(consumerProfile || {});
+    const consumer = retailerInsightProfile(consumerProfile || {});
     const retailer = createRetailerAgentPolicy(retailerPolicy || {});
     const rules = createNegotiationRules(retailer.negotiationRules);
     const constraintsUsed = [];
@@ -1553,6 +1620,14 @@
   function runLocalNegotiationSession({ consumerProfile, retailerPolicy, maxRounds = 2 } = {}) {
     clearNegotiationSession();
     const consumer = createConsumerAgentProfile(consumerProfile || {});
+    const negotiationInsights = createConsumerNegotiationInsights(consumer);
+    const publicNegotiationBrief = {
+      privacyMode: negotiationInsights.privacyMode,
+      signals: negotiationInsights.signals,
+      exclusions: negotiationInsights.exclusions,
+      constraints: negotiationInsights.constraints,
+      privateFieldsNotTransmitted: negotiationInsights.privateFieldsNotTransmitted,
+    };
     const retailer = createRetailerAgentPolicy(retailerPolicy || {});
     const createdAt = now();
     const sessionId = generateId("negotiation");
@@ -1627,18 +1702,13 @@
       action: "CONSUMER_AGENT_CONNECTED",
       payload: {
         sessionId,
-        consumer: {
-          userId: consumer.userId,
-          sessionId: consumer.sessionId,
-          likesCount: consumer.likes.length,
-          allergiesCount: consumer.allergies.length,
-          budgetRange: consumer.budgetRange,
-          occasion: consumer.occasion,
-          confidenceLevel: consumer.confidenceLevel,
-          winePreference: consumer.winePreference,
+        negotiationInsights: publicNegotiationBrief,
+        privacyBoundary: {
+          rawConsumerDataShared: false,
+          sharedWithRetailer: "derived_insights_only",
         },
       },
-      readableEnglish: `Consumer agent connected with ${consumer.likes.length} likes, ${consumer.allergies.length} allergies, ${consumer.budgetRange || "unknown"} budget posture, and ${consumer.occasion || "no stated occasion"}.`,
+      readableEnglish: `Consumer agent connected through a privacy-safe insight brief. Raw profile data stays with the consumer agent.`,
     }));
     record(sessionMessage({
       speaker: "retailer_agent",
@@ -1669,7 +1739,7 @@
     }));
 
     const firstOffer = generateRetailerOffer({
-      consumerProfile: consumer,
+      consumerProfile: negotiationInsights,
       retailerPolicy: retailer,
       negotiationContext: { sessionId, round: 1 },
     });
@@ -1753,7 +1823,7 @@
         readableEnglish: `Consumer agent counters: ${firstEvaluation.counterRequest}`,
       }));
       const revisedOffer = reviseRetailerOffer({
-        consumerProfile: consumer,
+        consumerProfile: negotiationInsights,
         retailerPolicy: retailer,
         previousOffer: firstOffer,
         evaluation: firstEvaluation,
@@ -1910,6 +1980,7 @@
   window.AgmenticAgentProtocol = {
     STORAGE_KEYS,
     createConsumerAgentProfile,
+    createConsumerNegotiationInsights,
     createRetailerAgentPolicy,
     createNegotiationRules,
     createMenuItem,

@@ -251,10 +251,10 @@ function buildFallbackEvents(scenario) {
   const hook = chooseMenuHook(menu, [...scenario.consumer_preferences, ...scenario.consumer_memory.liked, ...scenario.consumer_memory.notes], scenario.consumer_intent);
   const counter = chooseCounterHook(menu, hook.name);
   const proposedPrice = hook.price === null ? null : Math.round(hook.price * (1 - Math.min(promotion.value, 35) / 100) * 100) / 100;
-  const memoryProfile = {
-    liked: scenario.consumer_memory.liked.map((item) => ({ item, reason: "browser fallback memory" })),
-    disliked: scenario.consumer_memory.disliked.map((item) => ({ item, reason: "browser fallback memory" })),
-    notes: scenario.consumer_memory.notes.map((text) => ({ text })),
+  const negotiationInsights = {
+    privacy_mode: "derived_insights_only",
+    signals: ["calm_environment", "vegetarian_option", "wine_pairing_value", "avoid_shellfish"],
+    raw_consumer_data_shared: false,
   };
 
   return [
@@ -268,10 +268,8 @@ function buildFallbackEvents(scenario) {
       capabilities: ["menu_exchange", "promotion_negotiation", "reservation_hold"],
     }),
     agentEvent("message", "consumer", "MENU_RECEIVED", `${scenario.consumer_name} receives ${menu.length} menu items and checks them against memory.`, {
-      intent: scenario.consumer_intent,
-      request_preferences: scenario.consumer_preferences,
-      memory_profile: memoryProfile,
-      effective_preferences: [...scenario.consumer_preferences, ...scenario.consumer_memory.liked, ...scenario.consumer_memory.notes],
+      negotiation_insights: negotiationInsights,
+      privacy_boundary: { raw_consumer_data_shared: false },
       distance_m: scenario.distance_m,
     }),
     agentEvent("message", "retailer", "OFFER_PROPOSAL", `${scenario.retailer_name} offers ${hook.name} at ${proposedPrice} using ${promotion.name}.`, {
@@ -282,7 +280,8 @@ function buildFallbackEvents(scenario) {
     agentEvent("message", "consumer", "COUNTER_REQUEST", `${scenario.consumer_name} can accept if ${counter.name} is included and the quiet table preference is preserved.`, {
       counter_item: counter,
       required_conditions: ["vegetarian_safe_option", "quiet_table", "clear_allergen_notes", "reservation_hold"],
-      memory_used: memoryProfile,
+      insights_used: negotiationInsights.signals,
+      raw_consumer_data_shared: false,
     }),
     agentEvent("message", "retailer", "ACCEPT_WITH_TERMS", `${scenario.retailer_name} accepts the counter request and holds the table for 10 minutes.`, {
       accepted: true,

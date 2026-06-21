@@ -37,7 +37,14 @@
                 <i data-lucide="user-round"></i>
                 <span>Consumer</span>
               </div>
-              <div class="link-line"><span id="pulseDot"></span></div>
+              <div class="privacy-link">
+                <div class="link-line"><span id="pulseDot"></span></div>
+                <div class="privacy-gate">
+                  <i data-lucide="shield-check"></i>
+                  <span>Insight layer</span>
+                  <small>Raw data blocked</small>
+                </div>
+              </div>
               <div class="agent-node retailer">
                 <i data-lucide="store"></i>
                 <span>Retailer</span>
@@ -45,6 +52,17 @@
             </div>
 
             <div class="connected-agents" id="connectedAgents" hidden></div>
+            <div class="privacy-strip" id="privacyStrip" aria-live="polite">
+              <div>
+                <span class="privacy-strip-label"><i data-lucide="database"></i> Private consumer data</span>
+                <strong id="privateSignalCount">Profile stays local</strong>
+              </div>
+              <i class="privacy-arrow" data-lucide="arrow-right"></i>
+              <div>
+                <span class="privacy-strip-label"><i data-lucide="scan-text"></i> Shared negotiation insights</span>
+                <div class="privacy-chips" id="privacyInsightChips"></div>
+              </div>
+            </div>
             <div class="english-feed hero-chat" id="englishFeed"></div>
           </div>
         </section>
@@ -104,7 +122,7 @@
     </div>
 
     <div class="toast" id="toast" hidden></div>
-    <script src="../shared/agent-protocol.js?v=3"></script>
-    <script src="./app-memory-real-v1.js?v=consumer-inbox-v5"></script>
+    <script src="../shared/agent-protocol.js?v=privacy-insights-v1"></script>
+    <script src="./app-memory-real-v1.js?v=privacy-insights-v1"></script>
   </body>
 </html>
