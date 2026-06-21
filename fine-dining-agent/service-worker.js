@@ -1,4 +1,4 @@
-const CACHE_NAME = "dining-agent-shell-radar-20260621";
+const CACHE_NAME = "dining-agent-shell-autonomous-signals-20260621";
 const SHELL_ASSETS = [
   "./",
   "./index.html",

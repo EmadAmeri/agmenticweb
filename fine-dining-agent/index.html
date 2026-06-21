@@ -6,7 +6,7 @@
     <meta name="theme-color" content="#8FD42E">
     <title>Dining Agent</title>
     <link rel="manifest" href="./manifest.json">
-    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./style.css?v=20260621-autonomous">
     <script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
   </head>
   <body>
@@ -126,24 +126,23 @@
     </div>
 
     <div class="modal-backdrop" id="calendarModal" hidden>
-      <form class="modal signal-modal" id="calendarForm">
-        <span class="modal-kicker">Live signal · Calendar</span><h2>Add a demo event</h2>
-        <label>Event title<input id="calendarTitle" type="text" value="Client dinner with Acme" required></label>
-        <label>Date and time<input id="calendarDate" type="datetime-local" required></label>
-        <label>Location<input id="calendarLocation" type="text" value="Berlin"></label>
-        <label>Attendees<input id="calendarAttendees" type="number" min="1" max="30" value="4"></label>
-        <div class="modal-actions"><button type="button" class="secondary-button" data-close-modal="calendarModal">Cancel</button><button type="submit">Let agent notice</button></div>
+      <form class="calendar-app" id="calendarForm">
+        <header class="calendar-app-header"><div class="calendar-brand"><span>31</span><strong>Calendar</strong></div><button class="calendar-today" type="button">Today</button><button class="calendar-nav" type="button" aria-label="Previous week">‹</button><button class="calendar-nav" type="button" aria-label="Next week">›</button><h2 id="calendarMonthLabel">June 2026</h2><button class="calendar-close" type="button" data-close-modal="calendarModal" aria-label="Close calendar">×</button></header>
+        <div class="calendar-body">
+          <aside class="calendar-sidebar"><button class="calendar-create" type="button"><span>＋</span> Create</button><div class="mini-calendar"><strong id="miniCalendarMonth">June 2026</strong><div class="mini-weekdays"><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span><span>S</span></div><div class="mini-days" id="miniCalendarDays"></div></div><div class="calendar-list"><strong>My calendars</strong><label><i></i> Personal</label><label><i></i> Work</label></div></aside>
+          <main class="calendar-week"><div class="week-header" id="calendarWeekHeader"></div><div class="week-grid"><div class="time-column"><span>17:00</span><span>18:00</span><span>19:00</span><span>20:00</span><span>21:00</span></div><div class="day-columns" id="calendarDayColumns"><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div><div class="calendar-event-preview"><strong>Client dinner with Acme</strong><span>19:00 · Berlin</span></div></div></main>
+          <section class="event-editor"><span class="event-color"></span><input id="calendarTitle" class="event-title" type="text" value="Client dinner with Acme" aria-label="Event title" required><label><span>◷</span><input id="calendarDate" type="datetime-local" aria-label="Date and time" required></label><label><span>⌖</span><input id="calendarLocation" type="text" value="Berlin" aria-label="Location"></label><label><span>♙</span><input id="calendarAttendees" type="number" min="1" max="30" value="4" aria-label="Attendees"></label><p class="calendar-observer-note"><span></span> Agent watches calendar changes automatically</p><div class="event-editor-actions"><button type="button" data-close-modal="calendarModal">Cancel</button><button type="submit">Save</button></div></section>
+        </div>
       </form>
     </div>
 
     <div class="modal-backdrop" id="weatherModal" hidden>
-      <form class="modal signal-modal" id="weatherForm">
-        <span class="modal-kicker">Live signal · Weather</span><h2>Simulate the weather</h2>
-        <label>Location<input id="weatherLocation" type="text" value="Berlin" required></label>
-        <label>Condition<select id="weatherCondition"><option value="Heavy rain">Heavy rain</option><option value="Light drizzle">Light drizzle</option><option value="Clear and sunny">Clear and sunny</option><option value="Cloudy">Cloudy</option></select></label>
-        <label>Temperature °C<input id="weatherTemperature" type="number" min="-20" max="50" value="12"></label>
-        <div class="modal-actions"><button type="button" class="secondary-button" data-close-modal="weatherModal">Cancel</button><button type="submit">Let agent notice</button></div>
-      </form>
+      <section class="weather-app" id="weatherForm">
+        <button class="weather-close" type="button" data-close-modal="weatherModal" aria-label="Close weather">×</button><div class="weather-location"><span>My Location</span><h2 id="weatherLocation">Berlin</h2></div><div class="weather-current"><strong id="weatherTemperature">18°</strong><span id="weatherCondition">Partly Cloudy</span><small>H:21° &nbsp; L:11°</small></div>
+        <div class="weather-card hourly-card"><p>Hourly forecast · choose an hour to edit</p><div class="hourly-forecast" id="hourlyForecast"><button type="button" data-hour="Now" data-condition="Partly Cloudy" data-temp="18"><strong>Now</strong><span>⛅</span><b>18°</b></button><button type="button" data-hour="16:00" data-condition="Cloudy" data-temp="17"><strong>16</strong><span>☁️</span><b>17°</b></button><button type="button" data-hour="17:00" data-condition="Cloudy" data-temp="16"><strong>17</strong><span>☁️</span><b>16°</b></button><button type="button" class="selected" data-hour="18:00" data-condition="Partly Cloudy" data-temp="15"><strong>18</strong><span>⛅</span><b>15°</b></button><button type="button" data-hour="19:00" data-condition="Clear" data-temp="14"><strong>19</strong><span>☀️</span><b>14°</b></button><button type="button" data-hour="20:00" data-condition="Clear" data-temp="13"><strong>20</strong><span>☀️</span><b>13°</b></button></div></div>
+        <div class="weather-editor"><p>Change weather at <strong id="selectedWeatherHour">18:00</strong></p><div class="weather-options"><button type="button" data-weather="Clear" data-icon="☀️">☀️<span>Clear</span></button><button type="button" data-weather="Cloudy" data-icon="☁️">☁️<span>Cloudy</span></button><button type="button" data-weather="Heavy rain" data-icon="🌧️">🌧️<span>Rain</span></button><button type="button" data-weather="Storm" data-icon="⛈️">⛈️<span>Storm</span></button></div><div class="weather-agent-status" id="weatherAgentStatus"><span></span> Agent is monitoring the forecast</div></div>
+        <div class="weather-card weather-detail"><span>Feels Like<strong>17°</strong></span><span>Chance of Rain<strong id="rainChance">10%</strong></span><span>Wind<strong>9 km/h</strong></span></div>
+      </section>
     </div>
 
     <div class="loader" id="loader" hidden>
@@ -183,7 +182,7 @@
       </div>
     </section>
 
-    <script src="./app.js"></script>
+    <script src="./app.js?v=20260621-autonomous"></script>
     <script>
       if ("serviceWorker" in navigator) {
         navigator.serviceWorker.register("./service-worker.js");

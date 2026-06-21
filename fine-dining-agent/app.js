@@ -1724,6 +1724,24 @@ function defaultCalendarDate() {
   return local.toISOString().slice(0, 16);
 }
 
+function renderCalendarShell() {
+  const selected = new Date(defaultCalendarDate());
+  const weekStart = new Date(selected);
+  weekStart.setDate(selected.getDate() - ((selected.getDay() + 6) % 7));
+  const monthLabel = selected.toLocaleDateString("en", { month: "long", year: "numeric" });
+  document.querySelector("#calendarMonthLabel").textContent = monthLabel;
+  document.querySelector("#miniCalendarMonth").textContent = monthLabel;
+  document.querySelector("#calendarWeekHeader").innerHTML = Array.from({ length: 7 }, (_, index) => {
+    const day = new Date(weekStart); day.setDate(weekStart.getDate() + index);
+    const active = day.toDateString() === selected.toDateString() ? "active" : "";
+    return `<span class="${active}">${day.toLocaleDateString("en", { weekday: "short" })}<strong>${day.getDate()}</strong></span>`;
+  }).join("");
+  const first = new Date(selected.getFullYear(), selected.getMonth(), 1);
+  const offset = (first.getDay() + 6) % 7;
+  const days = new Date(selected.getFullYear(), selected.getMonth() + 1, 0).getDate();
+  document.querySelector("#miniCalendarDays").innerHTML = [...Array.from({ length: offset }, () => "<span></span>"), ...Array.from({ length: days }, (_, index) => { const day = index + 1; return `<span class="${day === selected.getDate() ? "today" : ""}">${day}</span>`; })].join("");
+}
+
 async function evaluateRadar(source, signal) {
   setLoading(true);
   try {
@@ -1768,16 +1786,32 @@ chatForm.addEventListener("submit", (event) => {
 
 cameraButton.addEventListener("click", () => menuImage.click());
 locationButton.addEventListener("click", findRestaurantFromLocation);
-calendarButton.addEventListener("click", () => { document.querySelector("#calendarDate").value = defaultCalendarDate(); calendarModal.hidden = false; });
-weatherButton.addEventListener("click", () => { weatherModal.hidden = false; });
+calendarButton.addEventListener("click", () => { document.querySelector("#calendarDate").value = defaultCalendarDate(); renderCalendarShell(); calendarModal.hidden = false; });
+weatherButton.addEventListener("click", () => { document.querySelector("#weatherAgentStatus").classList.remove("noticed"); document.querySelector("#weatherAgentStatus").innerHTML = "<span></span> Agent is monitoring the forecast"; weatherModal.hidden = false; });
 document.querySelectorAll("[data-close-modal]").forEach((button) => { button.addEventListener("click", () => { document.querySelector(`#${button.dataset.closeModal}`).hidden = true; }); });
 calendarForm.addEventListener("submit", (event) => {
   event.preventDefault(); calendarModal.hidden = true;
   evaluateRadar("calendar", { title: document.querySelector("#calendarTitle").value.trim(), starts_at: document.querySelector("#calendarDate").value, location: document.querySelector("#calendarLocation").value.trim(), attendees: Number(document.querySelector("#calendarAttendees").value || 1) });
 });
-weatherForm.addEventListener("submit", (event) => {
-  event.preventDefault(); weatherModal.hidden = true;
-  evaluateRadar("weather", { location: document.querySelector("#weatherLocation").value.trim(), condition: document.querySelector("#weatherCondition").value, temperature: Number(document.querySelector("#weatherTemperature").value) });
+document.querySelectorAll("#hourlyForecast button").forEach((button) => {
+  button.addEventListener("click", () => {
+    document.querySelectorAll("#hourlyForecast button").forEach((item) => item.classList.remove("selected"));
+    button.classList.add("selected"); document.querySelector("#selectedWeatherHour").textContent = button.dataset.hour;
+  });
+});
+document.querySelectorAll(".weather-options button").forEach((option) => {
+  option.addEventListener("click", () => {
+    const selectedHour = document.querySelector("#hourlyForecast button.selected");
+    const condition = option.dataset.weather;
+    document.querySelectorAll(".weather-options button").forEach((item) => item.classList.remove("active")); option.classList.add("active");
+    selectedHour.dataset.condition = condition; selectedHour.querySelector("span").textContent = option.dataset.icon;
+    document.querySelector("#weatherCondition").textContent = condition; document.querySelector("#weatherTemperature").textContent = `${selectedHour.dataset.temp}°`;
+    document.querySelector("#rainChance").textContent = /rain|storm/i.test(condition) ? "90%" : "10%";
+    const status = document.querySelector("#weatherAgentStatus"); status.classList.add("noticed"); status.innerHTML = `<span></span> Forecast updated · Agent noticed ${escapeHtml(selectedHour.dataset.hour)}`;
+    const hourlyForecast = [...document.querySelectorAll("#hourlyForecast button")].map((item) => ({ hour: item.dataset.hour, condition: item.dataset.condition, temperature: Number(item.dataset.temp) }));
+    const signal = { location: document.querySelector("#weatherLocation").textContent.trim(), selected_hour: selectedHour.dataset.hour, condition, temperature: Number(selectedHour.dataset.temp), hourly_forecast: hourlyForecast };
+    window.setTimeout(() => { weatherModal.hidden = true; evaluateRadar("weather", signal); }, 650);
+  });
 });
 confirmRadar.addEventListener("click", confirmRadarGoal);
 document.querySelector("#dismissRadar").addEventListener("click", () => { radarCard.hidden = true; currentRadar = null; });
