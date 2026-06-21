@@ -36,7 +36,8 @@ body {
 }
 
 button,
-input {
+input,
+select {
   font: inherit;
 }
 
@@ -139,6 +140,8 @@ button {
   background: rgba(255, 255, 255, 0.9);
 }
 
+.header-action-button.signal-button { background: rgba(11, 12, 13, 0.92); color: #fff; }
+
 .provider-toggle {
   min-width: 76px;
   height: var(--button-size);
@@ -162,6 +165,19 @@ button {
   box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.72), var(--shadow);
   backdrop-filter: blur(22px);
 }
+
+.radar-card { margin: 14px 14px 0; padding: 18px; border-radius: 18px; background: linear-gradient(135deg, rgba(12, 14, 12, 0.97), rgba(34, 42, 29, 0.96)); color: #fff; box-shadow: 0 18px 45px rgba(11, 12, 13, 0.22); }
+.radar-topline { display: flex; align-items: center; gap: 8px; color: rgba(255,255,255,.7); font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; }
+.radar-topline strong { color: var(--primary); }
+.radar-topline span:last-child { margin-left: auto; }
+.radar-pulse { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); animation: radar-pulse 1.7s infinite; }
+.radar-card h2 { margin: 12px 0 6px; font-size: 1.35rem; }
+.radar-card p { margin: 0; color: rgba(255,255,255,.82); line-height: 1.45; }
+.radar-card details { margin-top: 12px; color: rgba(255,255,255,.68); font-size: .86rem; }
+.radar-card ul { margin: 8px 0 0; padding-left: 20px; }
+.radar-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 16px; }
+.radar-actions button { min-height: 40px; border-radius: 999px; padding: 0 14px; background: rgba(255,255,255,.12); color: #fff; font-weight: 750; }
+.radar-actions button:last-child { background: var(--primary); color: var(--text); }
 
 .camera-card {
   display: none;
@@ -305,7 +321,8 @@ button {
   outline: none;
 }
 
-.modal input {
+.modal input,
+.modal select {
   width: 100%;
   border: 1px solid var(--line);
   border-radius: 14px;
@@ -315,15 +332,22 @@ button {
   outline: none;
 }
 
+.modal select { appearance: none; }
+
 .chat-form input:focus {
   box-shadow: none;
 }
 
 .modal input:focus,
+.modal select:focus,
 .contact-setting input:focus {
   border-color: rgba(143, 212, 46, 0.74);
   box-shadow: 0 0 0 4px rgba(143, 212, 46, 0.16);
 }
+
+.modal-kicker { display: block; margin-bottom: 6px; color: #5b941a; font-size: .75rem; font-weight: 850; letter-spacing: .06em; text-transform: uppercase; }
+.signal-modal { border-radius: 24px; }
+@keyframes radar-pulse { 70% { box-shadow: 0 0 0 9px rgba(143,212,46,0); } 100% { box-shadow: 0 0 0 0 rgba(143,212,46,0); } }
 
 .chat-form button,
 .modal-actions button[type="submit"] {
@@ -778,6 +802,8 @@ button {
   }
 
   .app-header {
+    flex-direction: column;
+    align-items: stretch;
     gap: 10px;
   }
 
@@ -790,6 +816,7 @@ button {
   }
 
   .header-actions {
+    justify-content: flex-start;
     gap: 6px;
     flex-wrap: nowrap;
   }

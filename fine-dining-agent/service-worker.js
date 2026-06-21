@@ -1,4 +1,4 @@
-const CACHE_NAME = "dining-agent-shell-clean-consumer-intents-20260618";
+const CACHE_NAME = "dining-agent-shell-radar-20260621";
 const SHELL_ASSETS = [
   "./",
   "./index.html",
@@ -40,6 +40,9 @@ self.addEventListener("fetch", (event) => {
     || url.pathname.startsWith("/profile")
     || url.pathname.startsWith("/dining-request")
     || url.pathname.startsWith("/location")
+    || url.pathname.startsWith("/radar")
+    || url.pathname.startsWith("/timeline")
+    || url.pathname.startsWith("/goals")
   ) {
     event.respondWith(
       fetch(event.request).catch(() => (

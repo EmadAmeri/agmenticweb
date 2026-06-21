@@ -7,6 +7,18 @@ const chatForm = document.querySelector("#chatForm");
 const chatInput = document.querySelector("#chatInput");
 const cameraButton = document.querySelector("#cameraButton");
 const locationButton = document.querySelector("#locationButton");
+const calendarButton = document.querySelector("#calendarButton");
+const weatherButton = document.querySelector("#weatherButton");
+const calendarModal = document.querySelector("#calendarModal");
+const weatherModal = document.querySelector("#weatherModal");
+const calendarForm = document.querySelector("#calendarForm");
+const weatherForm = document.querySelector("#weatherForm");
+const radarCard = document.querySelector("#radarCard");
+const radarConfidence = document.querySelector("#radarConfidence");
+const radarIntent = document.querySelector("#radarIntent");
+const radarMessage = document.querySelector("#radarMessage");
+const radarEvidence = document.querySelector("#radarEvidence");
+const confirmRadar = document.querySelector("#confirmRadar");
 const menuPanel = document.querySelector(".camera-card");
 const menuImage = document.querySelector("#menuImage");
 const menuPreview = document.querySelector("#menuPreview");
@@ -82,6 +94,7 @@ let recognitionRestartTimer = null;
 let activeUtterances = [];
 let callRequestInFlight = false;
 let serverMenuHydratedFor = "";
+let currentRadar = null;
 
 function clearStaleConsumerAgentIntentsOnce() {
   if (localStorage.getItem(STALE_CONSUMER_INTENT_CLEANUP_KEY)) return;
@@ -1653,10 +1666,24 @@ async function loadProfile() {
 
 function profileHtml(profile) {
   return [
-    profileGroup("Liked", profile.liked, "item"),
-    profileGroup("Disliked", profile.disliked, "item"),
-    profileGroup("Notes", profile.notes, "text"),
+    goalGroup(profile.goals || []),
+    timelineGroup(profile.timeline || []),
+    profileGroup("Liked", profile.liked || [], "item"),
+    profileGroup("Disliked", profile.disliked || [], "item"),
+    profileGroup("Notes", profile.notes || [], "text"),
   ].join("");
+}
+
+function goalGroup(goals) {
+  const recent = [...goals].reverse().slice(0, 4);
+  const content = recent.length ? `<ul>${recent.map((goal) => `<li><strong>${escapeHtml(goal.label || goal.objective)}</strong> · ${escapeHtml(goal.status || "active")}</li>`).join("")}</ul>` : "<p>Nothing confirmed yet.</p>";
+  return `<section class="profile-group"><h3>Active goals</h3>${content}</section>`;
+}
+
+function timelineGroup(timeline) {
+  const recent = [...timeline].reverse().slice(0, 5);
+  const content = recent.length ? `<ul>${recent.map((item) => `<li>${escapeHtml(item.summary)}</li>`).join("")}</ul>` : "<p>No moments yet.</p>";
+  return `<section class="profile-group"><h3>Memory timeline</h3>${content}</section>`;
 }
 
 function profileGroup(title, items, key) {
@@ -1690,6 +1717,43 @@ async function clearMemory() {
   }
 }
 
+function defaultCalendarDate() {
+  const date = new Date(Date.now() + 24 * 60 * 60 * 1000);
+  date.setHours(19, 0, 0, 0);
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  return local.toISOString().slice(0, 16);
+}
+
+async function evaluateRadar(source, signal) {
+  setLoading(true);
+  try {
+    currentRadar = await request("/radar/evaluate", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ session_id: sessionId, source, signal }) });
+    renderRadar(currentRadar);
+  } catch (error) { appendError(friendlyError(error)); } finally { setLoading(false); }
+}
+
+function renderRadar(result) {
+  const primary = result.primary;
+  radarIntent.textContent = primary.label;
+  radarConfidence.textContent = `${Math.round(primary.confidence * 100)}% confidence`;
+  radarMessage.textContent = primary.message;
+  radarEvidence.innerHTML = primary.evidence.map((item) => `<li>${escapeHtml(item)}</li>`).join("");
+  confirmRadar.textContent = primary.recommended_action;
+  radarCard.hidden = false;
+  radarCard.scrollIntoView({ behavior: "smooth", block: "nearest" });
+}
+
+async function confirmRadarGoal() {
+  if (!currentRadar) return;
+  setLoading(true);
+  try {
+    const data = await request("/radar/confirm", { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ session_id: sessionId, hypothesis: currentRadar.primary, signal: currentRadar.signal }) });
+    radarCard.hidden = true;
+    appendMessage("agent", `Goal confirmed: ${data.goal.label}. I’ve turned it into a plan and will rank options for this context.`);
+    currentRadar = null;
+  } catch (error) { appendError(friendlyError(error)); } finally { setLoading(false); }
+}
+
 chatForm.addEventListener("submit", (event) => {
   event.preventDefault();
   const text = chatInput.value.trim();
@@ -1704,6 +1768,19 @@ chatForm.addEventListener("submit", (event) => {
 
 cameraButton.addEventListener("click", () => menuImage.click());
 locationButton.addEventListener("click", findRestaurantFromLocation);
+calendarButton.addEventListener("click", () => { document.querySelector("#calendarDate").value = defaultCalendarDate(); calendarModal.hidden = false; });
+weatherButton.addEventListener("click", () => { weatherModal.hidden = false; });
+document.querySelectorAll("[data-close-modal]").forEach((button) => { button.addEventListener("click", () => { document.querySelector(`#${button.dataset.closeModal}`).hidden = true; }); });
+calendarForm.addEventListener("submit", (event) => {
+  event.preventDefault(); calendarModal.hidden = true;
+  evaluateRadar("calendar", { title: document.querySelector("#calendarTitle").value.trim(), starts_at: document.querySelector("#calendarDate").value, location: document.querySelector("#calendarLocation").value.trim(), attendees: Number(document.querySelector("#calendarAttendees").value || 1) });
+});
+weatherForm.addEventListener("submit", (event) => {
+  event.preventDefault(); weatherModal.hidden = true;
+  evaluateRadar("weather", { location: document.querySelector("#weatherLocation").value.trim(), condition: document.querySelector("#weatherCondition").value, temperature: Number(document.querySelector("#weatherTemperature").value) });
+});
+confirmRadar.addEventListener("click", confirmRadarGoal);
+document.querySelector("#dismissRadar").addEventListener("click", () => { radarCard.hidden = true; currentRadar = null; });
 
 menuImage.addEventListener("change", () => {
   const file = menuImage.files[0];
