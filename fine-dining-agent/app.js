@@ -892,13 +892,15 @@ async function syncConsumerGoalToHandshake(rawIntent = "") {
         : (diningRequest.party_size ? diningRequest.budget_amount / diningRequest.party_size : diningRequest.budget_amount))
       : fallbackRequest?.budget_amount || null;
 
+    const cleanedMemoryNotes = cleanProfileNotes(memory.notes || []);
+    const hasDiningRequestNote = cleanedMemoryNotes.some((entry) => /^dining request:/i.test(String(entry?.text || "")));
     const profile = {
       userId: sessionId.replace(/^user_/, "") || sessionId,
       sessionId,
       name: "Consumer Dining Agent",
       likes: (memory.liked || []).map((entry) => entry.item).filter(Boolean),
       dislikes: (memory.disliked || []).map((entry) => entry.item).filter(Boolean),
-      allergies: extractAllergiesFromNotes(memory.notes || []),
+      allergies: extractAllergiesFromNotes(cleanedMemoryNotes),
       partySize: diningRequest?.party_size || fallbackRequest?.party_size || null,
       budgetPerPerson,
       goal: diningRequest?.intent || fallbackRequest?.intent || rawIntent,
@@ -906,8 +908,8 @@ async function syncConsumerGoalToHandshake(rawIntent = "") {
         ? "open to a drink or wine pairing"
         : "",
       notes: [
-        ...(memory.notes || []).map((entry) => entry.text).filter(Boolean),
-        rawIntent ? `Dining request: ${rawIntent}` : "",
+        ...cleanedMemoryNotes.map((entry) => entry.text).filter(Boolean),
+        rawIntent && !hasDiningRequestNote ? `Dining request: ${rawIntent}` : "",
       ].filter(Boolean),
     };
 
@@ -1697,13 +1699,50 @@ async function loadProfile() {
 }
 
 function profileHtml(profile) {
+  const cleanedNotes = cleanProfileNotes(profile.notes || []);
   return [
     goalGroup(profile.goals || []),
     timelineGroup(profile.timeline || []),
     profileGroup("Liked", profile.liked || [], "item"),
     profileGroup("Disliked", profile.disliked || [], "item"),
-    profileGroup("Notes", profile.notes || [], "text"),
+    profileGroup("Notes", cleanedNotes, "text"),
   ].join("");
+}
+
+function cleanProfileNotes(notes = []) {
+  const regularNotes = [];
+  let latestDiningRequest = null;
+  const seen = new Set();
+
+  notes.forEach((entry) => {
+    const text = String(entry?.text || "").trim();
+    if (!text) return;
+
+    if (isDiningRequestLikeNote(text)) {
+      if (/^dining request:/i.test(text)) {
+        latestDiningRequest = entry;
+      }
+      return;
+    }
+
+    const key = text.toLowerCase().replace(/\s+/g, " ");
+    if (seen.has(key)) return;
+    seen.add(key);
+    regularNotes.push(entry);
+  });
+
+  return latestDiningRequest ? [...regularNotes, latestDiningRequest] : regularNotes;
+}
+
+function isDiningRequestLikeNote(text) {
+  const lowered = String(text || "").toLowerCase();
+  return /^dining request:/.test(lowered)
+    || /^dietary restriction:\s*budget\b/.test(lowered)
+    || /^budget\b/.test(lowered)
+    || /^table for\b/.test(lowered)
+    || (lowered.includes("table for") && lowered.includes("budget"))
+    || (lowered.includes("party of") && lowered.includes("budget"))
+    || (lowered.includes("budget") && lowered.includes("per person"));
 }
 
 function goalGroup(goals) {
