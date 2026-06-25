@@ -211,6 +211,11 @@
 
   function createConsumerNegotiationInsights(profile = {}) {
     const consumer = createConsumerAgentProfile(profile);
+    const goalSummary = [
+      consumer.goal,
+      consumer.occasion,
+      consumer.winePreference,
+    ].filter(Boolean).join(" ");
     const source = [
       ...consumer.likes,
       ...consumer.dislikes,
@@ -254,12 +259,12 @@
       budgetRange: consumer.budgetRange,
       budgetPerPerson: consumer.budgetPerPerson,
       partySize: consumer.partySize,
-      goal: signals.map((signal) => signal.value).join(" "),
+      goal: [goalSummary, ...signals.map((signal) => signal.value)].filter(Boolean).join(" "),
       occasion: signals.some((signal) => signal.value === "celebration") ? "celebration" : "",
       confidenceLevel: "unknown",
-      winePreference: signals.some((signal) => signal.value === "drink_pairing") ? "drink pairing" : "",
+      winePreference: consumer.winePreference || (signals.some((signal) => signal.value === "drink_pairing") ? "drink pairing" : ""),
       preferredTableStyle: signals.some((signal) => signal.value === "calm_environment") ? "quiet" : "",
-      memoryNotes: [],
+      memoryNotes: goalSummary ? [`Normalized dining goal: ${goalSummary}`] : [],
       diningHistory: [],
       privateFieldsNotTransmitted: ["identity", "session_id", "raw_notes", "raw_likes", "raw_dislikes", "history"],
     };
@@ -363,6 +368,10 @@
     return /starter|snack|appetizer|small/.test(lowerText(item.category));
   }
 
+  function isSnackCategory(item) {
+    return /snack|small/.test(lowerText(item.category));
+  }
+
   function isMainCategory(item) {
     return /main|mains|entree|entrée|haupt/.test(lowerText(item.category));
   }
@@ -385,6 +394,17 @@
       ...asArray(consumer.memoryNotes),
       consumer.occasion,
     ].join(" ").toLowerCase());
+  }
+
+  function consumerWantsFood(consumer) {
+    const source = [
+      consumer.goal,
+      consumer.occasion,
+      consumer.winePreference,
+      ...asArray(consumer.likes),
+      ...asArray(consumer.memoryNotes),
+    ].join(" ").toLowerCase();
+    return /food|meal|dinner|lunch|brunch|eat|table|restaurant|reservation/.test(source);
   }
 
   function hasAllergyConflict(item, allergies) {
@@ -542,10 +562,13 @@
     const hasDessert = path.desserts.length > 0;
     const hasWine = path.wines.length > 0;
     const hasSnackStarter = path.starters.some((item) => /snack/.test(lowerText(item.category)));
+    const onlySnackFood = hasSnackStarter && !path.mains.length && !path.desserts.length
+      && !path.starters.some((item) => !isSnackCategory(item));
     const heavyCount = items.filter(isHeavyItem).length;
     const totalPrice = roundMoney(items.reduce((sum, item) => sum + asNumber(item.price, 0), 0));
     const budgetPerPerson = asNumber(consumer.budgetPerPerson, 0);
     const wantsDrink = Boolean(consumer.winePreference);
+    const wantsFood = consumerWantsFood(consumer);
     const reasons = [];
     const risks = [];
 
@@ -563,6 +586,13 @@
     if (!hasMain) {
       coherenceScore -= 32;
       risks.push("No main course, so this is weak as a dinner experience.");
+    }
+    if (wantsFood && !hasMain && !hasStarter) {
+      coherenceScore -= 40;
+      risks.push("The consumer asked for food, but this path has no food item.");
+    } else if (wantsFood && onlySnackFood) {
+      coherenceScore -= 34;
+      risks.push("The consumer asked for food, so a snack-only food path is weaker than a composed starter.");
     }
 
     let pairingScore = 20;
@@ -658,6 +688,15 @@
     if (wantsDrink && !hasWine) {
       consumerFitScore -= budgetPerPerson && budgetPerPerson <= 25 ? 8 : 14;
       risks.push("The consumer asked to include a drink, but this path has no drink.");
+    }
+    if (wantsFood && onlySnackFood) {
+      consumerFitScore -= 22;
+    }
+    if (wantsFood && !hasMain && !hasStarter) {
+      consumerFitScore -= 60;
+    } else if (wantsFood && hasStarter && !hasMain && budgetPerPerson <= 30) {
+      consumerFitScore += 12;
+      reasons.push("For the stated budget, a starter plus drink is the best food-and-drink path.");
     }
     const memoryText = asArray(consumer.memoryNotes).join(" ").toLowerCase();
     if (/lighter seafood/.test(memoryText) && includesAny(pathText, ["sea bass", "seafood", "fish"])) consumerFitScore += 14;
@@ -911,7 +950,11 @@
     const items = pathItems(path);
     const budget = asNumber(consumer.budgetPerPerson, 0);
     const wantsDrink = Boolean(consumer.winePreference);
+    const wantsFood = consumerWantsFood(consumer);
     const hasMain = path.mains.length > 0;
+    const hasStarter = path.starters.length > 0;
+    const hasComposedStarter = path.starters.some((item) => !isSnackCategory(item));
+    const onlySnackFood = hasStarter && !hasMain && !hasComposedStarter;
     const hasWine = path.wines.length > 0;
     const wineText = path.wines.map(itemSearchText).join(" ");
     const dryRunConstraints = [];
@@ -935,6 +978,12 @@
 
     if (wantsDrink) {
       rank += hasWine ? 12 : -8;
+    }
+    if (wantsFood) {
+      if (hasMain) rank += 14;
+      else if (hasComposedStarter && budget && budget <= 30) rank += 34;
+      else if (onlySnackFood) rank -= 28;
+      else rank -= 45;
     }
     if (/red wine/.test(lowerText(consumer.winePreference)) && hasWine && !includesAny(wineText, ["red", "pinot", "merlot", "cabernet", "rioja"])) {
       rank -= 18;
@@ -1267,10 +1316,15 @@
     let heavyCount = 0;
     let wineMatch = false;
     let hasMainOffer = false;
+    let hasComposedStarterOffer = false;
+    let hasDrinkOffer = false;
+    const wantsFood = consumerWantsFood(consumer);
 
     items.forEach((item) => {
       const text = itemSearchText(item);
       if (isMainCategory(item)) hasMainOffer = true;
+      if (isStarterCategory(item) && !isSnackCategory(item)) hasComposedStarterOffer = true;
+      if (isWineCategory(item)) hasDrinkOffer = true;
       asArray(consumer.likes).forEach((like) => {
         if (includesAny(text, [like])) matchedLikes.push(like);
       });
@@ -1279,7 +1333,10 @@
       });
       if (wantsLightDinner && isLightItem(item)) score += 7;
       if (wantsLightDinner && isHeavyItem(item)) heavyCount += 1;
-      if (consumer.winePreference && isWineItem(item) && includesAny(text, [consumer.winePreference])) {
+      if (consumer.winePreference && isWineItem(item) && (
+        includesAny(text, [consumer.winePreference])
+        || /open to a drink|drink pairing|wine pairing|drink|wine/.test(lowerText(consumer.winePreference))
+      )) {
         wineMatch = true;
       }
     });
@@ -1345,6 +1402,8 @@
     if (consumer.budgetPerPerson && normalizedOffer.priceAfter !== null && normalizedOffer.priceAfter <= consumer.budgetPerPerson) {
       score += 12;
       if (hasMainOffer) score += 18;
+      if (hasComposedStarterOffer && consumer.budgetPerPerson <= 30) score += 18;
+      if (consumer.winePreference && hasDrinkOffer) score += 10;
       if (consumer.partySize >= 6) score += 4;
     }
     if (allergyConflicts.length || unavailableItems.length) score = Math.min(score, 15);
@@ -1354,6 +1413,14 @@
     let decision = "accept";
     let counterRequest = "";
     let publicMessageToRetailer = "This offer works for the consumer. Please keep the terms and clear price disclosure.";
+
+    const explicitRequestSatisfied = Boolean(
+      consumer.budgetPerPerson
+      && normalizedOffer.priceAfter !== null
+      && normalizedOffer.priceAfter <= consumer.budgetPerPerson
+      && (!consumer.winePreference || hasDrinkOffer)
+      && (!wantsFood || hasMainOffer || hasComposedStarterOffer)
+    );
 
     if (allergyConflicts.length || unavailableItems.length) {
       decision = "reject";
@@ -1365,6 +1432,9 @@
       publicMessageToRetailer = normalizedOffer.priceAfter === null
         ? "Please confirm the final price after any promotion before the consumer can evaluate this."
         : "Please confirm availability for every proposed item before the consumer can evaluate this.";
+    } else if (explicitRequestSatisfied) {
+      decision = "accept";
+      publicMessageToRetailer = "This offer satisfies the consumer's latest food, drink, and budget request. Please keep the terms and clear price disclosure.";
     } else if (upsellCheck.status === "fail" || consumerScore < 35) {
       decision = "reject";
       publicMessageToRetailer = "This offer does not feel aligned with the consumer's requested meal path. Please propose a simpler option.";

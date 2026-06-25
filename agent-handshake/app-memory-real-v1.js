@@ -913,16 +913,16 @@ async function runPrimaryNegotiation() {
   runRealLocalNegotiation();
 }
 
-// Rebuild a real consumer-agent profile (sessionId "user_*") from the live
-// fine-dining memory: likes/dislikes/notes plus the parsed dining goal
-// (party size, per-person budget, intent). Demo/default profiles are left
-// untouched, and any fetch failure keeps the existing cached profile.
+// Rebuild a real consumer-agent profile from the live fine-dining memory:
+// likes/dislikes/notes plus the parsed dining goal (party size, per-person
+// budget, intent). Demo/default profiles are left untouched, and any fetch
+// failure keeps the existing cached profile.
 async function refreshConsumerProfileFromMemory() {
   if (!protocol?.getConsumerProfile || !protocol?.saveConsumerProfile) return;
 
   const current = protocol.getConsumerProfile();
   const sessionId = resolveDiningSessionId(current);
-  if (!/^user_/.test(sessionId)) return;
+  if (!isRealDiningSessionId(sessionId)) return;
 
   try {
     const [memory, diningResponse] = await Promise.all([
@@ -957,15 +957,23 @@ async function refreshConsumerProfileFromMemory() {
 }
 
 function resolveDiningSessionId(current = {}) {
-  const currentSession = current?.sessionId || "";
-  if (/^user_/.test(currentSession)) return currentSession;
-
   const storedSession = window.localStorage?.getItem(DINING_SESSION_ID_KEY) || "";
-  if (/^user_/.test(storedSession)) return storedSession;
+  if (isRealDiningSessionId(storedSession)) return storedSession;
 
   const storedUser = window.localStorage?.getItem(DINING_USER_ID_KEY) || "";
   const slug = slugifyUserId(storedUser);
-  return slug ? `user_${slug}` : currentSession;
+  if (slug) return `user_${slug}`;
+
+  const currentSession = current?.sessionId || "";
+  return isRealDiningSessionId(currentSession) ? currentSession : "";
+}
+
+function isRealDiningSessionId(value) {
+  const id = String(value || "");
+  return Boolean(id)
+    && id !== "default"
+    && !id.startsWith("demo-")
+    && !id.startsWith("demo_");
 }
 
 function publishConsumerNotification(session) {

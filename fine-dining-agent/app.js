@@ -256,13 +256,44 @@ function consumeHandshakeResults() {
     ))
     .sort((a, b) => String(a.createdAt || "").localeCompare(String(b.createdAt || "")));
 
+  const latestBySession = new Map();
   relevant.forEach((message) => {
-    appendMessage("agent", message.text);
+    const key = message.consumerSessionId || sessionId;
+    latestBySession.set(key, message);
     seenSet.add(message.id);
+  });
+  const latestMessages = [...latestBySession.values()];
+
+  latestMessages.forEach((message) => {
+    appendMessage("agent", message.text);
   });
 
   if (relevant.length) {
     localStorage.setItem(HANDSHAKE_SEEN_KEY, JSON.stringify([...seenSet].slice(-100)));
+  }
+}
+
+function discardHandshakeResultsForCurrentRequest() {
+  try {
+    const inbox = JSON.parse(localStorage.getItem(HANDSHAKE_INBOX_KEY) || "[]");
+    const seen = JSON.parse(localStorage.getItem(HANDSHAKE_SEEN_KEY) || "[]");
+    const removedIds = [];
+    const nextInbox = inbox.filter((message) => {
+      const belongsToCurrentSession = message
+        && (!message.consumerSessionId || message.consumerSessionId === sessionId);
+      if (belongsToCurrentSession && message.id) {
+        removedIds.push(message.id);
+        return false;
+      }
+      return true;
+    });
+
+    localStorage.setItem(HANDSHAKE_INBOX_KEY, JSON.stringify(nextInbox));
+    if (removedIds.length) {
+      localStorage.setItem(HANDSHAKE_SEEN_KEY, JSON.stringify([...new Set([...seen, ...removedIds])].slice(-100)));
+    }
+  } catch (error) {
+    // Stale handshake notifications should never block the user's new request.
   }
 }
 
@@ -684,6 +715,7 @@ async function generateAgentResponse(text) {
   // Dining requests (e.g. "a table for 3, 25 euro each") are negotiation
   // intents, not menu questions. Capture them even when a menu is already loaded.
   if (wantsDiningReservation(text)) {
+    discardHandshakeResultsForCurrentRequest();
     if (hasMenu) {
       await hydrateServerMenuIfNeeded();
     }
