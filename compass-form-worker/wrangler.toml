@@ -1,0 +1,7 @@
+name = "compass-form-worker"
+main = "src/index.js"
+compatibility_date = "2026-07-13"
+
+send_email = [
+  { name = "CONTACT_EMAIL", destination_address = "hello@agmentic.com" }
+]
