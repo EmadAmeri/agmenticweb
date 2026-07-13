@@ -2,7 +2,7 @@ import { EmailMessage } from "cloudflare:email";
 import { Mailbox, createMimeMessage } from "mimetext/browser";
 
 const ALLOWED_ORIGIN = "https://agmentic.com";
-const FROM_EMAIL = "compass@agmentic.com";
+const FROM_EMAIL = "hello@agmentic.com";
 const DESTINATION_EMAIL = "hello@agmentic.com";
 
 function jsonResponse(body, status = 200) {
@@ -129,6 +129,10 @@ export default {
       await env.CONTACT_EMAIL.send(buildEmail(validated.data));
       return jsonResponse({ ok: true });
     } catch (error) {
+      console.error("Compass email send failed", {
+        code: error?.code,
+        message: error?.message
+      });
       return jsonResponse({ ok: false }, 500);
     }
   }
