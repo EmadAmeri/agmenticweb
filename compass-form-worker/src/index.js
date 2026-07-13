@@ -3,7 +3,7 @@ import { Mailbox, createMimeMessage } from "mimetext/browser";
 
 const ALLOWED_ORIGIN = "https://agmentic.com";
 const FROM_EMAIL = "hello@agmentic.com";
-const DESTINATION_EMAIL = "hello@agmentic.com";
+const DESTINATION_EMAIL = "em.ameri94@gmail.com";
 
 function jsonResponse(body, status = 200) {
   return new Response(JSON.stringify(body), {

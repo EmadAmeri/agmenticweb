@@ -3,5 +3,5 @@ main = "src/index.js"
 compatibility_date = "2026-07-13"
 
 send_email = [
-  { name = "CONTACT_EMAIL", destination_address = "hello@agmentic.com" }
+  { name = "CONTACT_EMAIL", destination_address = "em.ameri94@gmail.com" }
 ]
