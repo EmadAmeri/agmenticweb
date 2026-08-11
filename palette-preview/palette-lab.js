@@ -18,7 +18,12 @@ const palettes = [
   { id:'amaranth-signal', name:'Amaranth Signal', meaning:'Cosmopolitan · mysterious · resonant', accent:'#EE4B9B', deep:'#941957', light:'#F7AFD1', rgb:'238,75,155', filter:'hue-rotate(243deg) saturate(1.5) brightness(1.04)' },
   { id:'teaberry-chrome', name:'Teaberry Chrome', meaning:'Theatrical · dramatic · playful', accent:'#FF6C9F', deep:'#A92C58', light:'#FFC0D5', rgb:'255,108,159', filter:'hue-rotate(258deg) saturate(1.4) brightness(1.08)' },
   { id:'optical-coral', name:'Optical Coral', meaning:'Warm · editorial · hyperreal', accent:'#FF6F91', deep:'#A92D4C', light:'#FFC1D0', rgb:'255,111,145', filter:'hue-rotate(265deg) saturate(1.42) brightness(1.08)' },
-  { id:'infra-violet', name:'Infra Violet', meaning:'Dark · technical · subcultural', accent:'#7868FF', deep:'#392DB0', light:'#BDB5FF', rgb:'120,104,255', filter:'hue-rotate(164deg) saturate(1.72) brightness(1.03)' }
+  { id:'infra-violet', name:'Infra Violet', meaning:'Dark · technical · subcultural', accent:'#7868FF', deep:'#392DB0', light:'#BDB5FF', rgb:'120,104,255', filter:'hue-rotate(164deg) saturate(1.72) brightness(1.03)' },
+  { id:'firoozeh-pulse', name:'Firoozeh Pulse', meaning:'Persian · protective · sky-bound', accent:'#2DE2D0', deep:'#087E79', light:'#A8F5EC', rgb:'45,226,208', filter:'hue-rotate(91deg) saturate(1.62) brightness(1.08)', family:'persian' },
+  { id:'lajvard-electric', name:'Lajvard Electric', meaning:'Persian · precious · infinite', accent:'#4B73FF', deep:'#2136A2', light:'#B4C1FF', rgb:'75,115,255', filter:'hue-rotate(144deg) saturate(1.72) brightness(1.07)', family:'persian' },
+  { id:'zaffran-gold', name:'Zaffran Gold', meaning:'Persian · luminous · ceremonial', accent:'#F4C430', deep:'#987100', light:'#FFE99A', rgb:'244,196,48', filter:'hue-rotate(323deg) saturate(1.48) brightness(1.1)', family:'persian' },
+  { id:'gol-e-mohammadi', name:'Gol-e Mohammadi', meaning:'Persian · poetic · sensorial', accent:'#FF4FA3', deep:'#A21C61', light:'#FFB5D6', rgb:'255,79,163', filter:'hue-rotate(253deg) saturate(1.52) brightness(1.07)', family:'persian' },
+  { id:'minai-magenta', name:'Mina’i Magenta', meaning:'Persian · polychrome · intricate', accent:'#E860C5', deep:'#8C2875', light:'#F3B7E3', rgb:'232,96,197', filter:'hue-rotate(230deg) saturate(1.38) brightness(1.06)', family:'persian' }
 ];
 
 const frame = document.querySelector('iframe');
@@ -84,6 +89,8 @@ palettes.forEach((palette) => {
   button.className = 'palette-button';
   button.type = 'button';
   button.dataset.palette = palette.id;
+  if (palette.family) button.dataset.family = palette.family;
+  if (palette.id === 'firoozeh-pulse') button.classList.add('family-start');
   button.style.setProperty('--swatch', palette.accent);
   button.setAttribute('aria-label', `Preview ${palette.name}`);
   button.title = `${palette.name} · ${palette.accent}`;
