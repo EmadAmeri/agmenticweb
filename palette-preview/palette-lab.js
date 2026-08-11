@@ -1,53 +1,53 @@
 const palettes = [
   {
-    id: 'hyper-pink',
-    name: 'Hyper Pink',
-    meaning: 'Imaginative · cultural · expressive',
-    accent: '#FF3EA5',
-    deep: '#B6005B',
-    light: '#FFC0DF',
-    rgb: '255,62,165',
-    filter: 'hue-rotate(240deg) saturate(1.48) brightness(1.08)'
+    id: 'phosphor-pink',
+    name: 'Phosphor Pink',
+    meaning: 'Uncanny · expressive · digital',
+    accent: '#FF29C3',
+    deep: '#A90076',
+    light: '#FFB7E9',
+    rgb: '255,41,195',
+    filter: 'hue-rotate(220deg) saturate(1.65) brightness(1.08)'
   },
   {
-    id: 'signal-red',
-    name: 'Signal Red',
-    meaning: 'Bold · decisive · high-energy',
-    accent: '#FF4A3D',
-    deep: '#B81710',
-    light: '#FFB5AF',
-    rgb: '255,74,61',
-    filter: 'hue-rotate(274deg) saturate(1.65) brightness(1.05)'
+    id: 'acid-citron',
+    name: 'Acid Citron',
+    meaning: 'Spontaneous · disruptive · luminous',
+    accent: '#E8FF00',
+    deep: '#91A800',
+    light: '#F6FFA0',
+    rgb: '232,255,0',
+    filter: 'hue-rotate(334deg) saturate(1.7) brightness(1.12)'
   },
   {
-    id: 'solar-yellow',
-    name: 'Solar Yellow',
-    meaning: 'Inventive · optimistic · visible',
-    accent: '#FFD60A',
-    deep: '#B88700',
-    light: '#FFF0A3',
-    rgb: '255,214,10',
-    filter: 'hue-rotate(320deg) saturate(1.5) brightness(1.08)'
+    id: 'electric-blue-lemonade',
+    name: 'Electric Blue Lemonade',
+    meaning: 'Crisp · kinetic · future-facing',
+    accent: '#26C6FF',
+    deep: '#006FA8',
+    light: '#B4EBFF',
+    rgb: '38,198,255',
+    filter: 'hue-rotate(104deg) saturate(1.55) brightness(1.08)'
   },
   {
-    id: 'flare-orange',
-    name: 'Flare Orange',
-    meaning: 'Human · energetic · progressive',
-    accent: '#FF7A00',
-    deep: '#C43D00',
-    light: '#FFC27A',
-    rgb: '255,122,0',
-    filter: 'hue-rotate(299deg) saturate(1.7) brightness(1.04)'
+    id: 'amethyst-orchid',
+    name: 'Amethyst Orchid',
+    meaning: 'Visionary · magnetic · neo-luxe',
+    accent: '#B95CFF',
+    deep: '#6E18B4',
+    light: '#DFC0FF',
+    rgb: '185,92,255',
+    filter: 'hue-rotate(184deg) saturate(1.52) brightness(1.06)'
   },
   {
-    id: 'electric-blue',
-    name: 'Electric Blue',
-    meaning: 'Trusted · intelligent · future-facing',
-    accent: '#4D8DFF',
-    deep: '#1748C9',
-    light: '#B9D1FF',
-    rgb: '77,141,255',
-    filter: 'hue-rotate(127deg) saturate(1.52) brightness(1.08)'
+    id: 'lavender-voltage',
+    name: 'Lavender Voltage',
+    meaning: 'British · surreal · quietly radical',
+    accent: '#A8B0FF',
+    deep: '#555FC4',
+    light: '#D9DCFF',
+    rgb: '168,176,255',
+    filter: 'hue-rotate(144deg) saturate(1.36) brightness(1.12)'
   }
 ];
 
