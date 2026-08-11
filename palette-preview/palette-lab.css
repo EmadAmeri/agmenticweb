@@ -56,6 +56,10 @@ button { font:inherit; }
 .preview-loading { position:absolute; inset:0; display:grid; place-items:center; color:rgba(243,241,233,.35); font:400 .6rem/1 var(--mono); letter-spacing:.14em; text-transform:uppercase; }
 .preview-shell.is-ready .preview-loading { display:none; }
 .local-only { position:fixed; z-index:3; right:1rem; bottom:.75rem; margin:0; padding:.35rem .5rem; background:rgba(9,10,8,.72); color:rgba(243,241,233,.34); font:400 .45rem/1 var(--mono); letter-spacing:.1em; pointer-events:none; }
+.render-mode { height:100%; overflow:hidden; }
+.render-mode .lab-header,.render-mode .local-only { display:none; }
+.render-mode .preview-shell { height:100vh; }
+.render-mode .preview-shell iframe { position:absolute; inset:0; height:100%; }
 
 @media (max-width:760px) {
   .lab-header { min-height:8.25rem; grid-template-columns:1fr auto; gap:.7rem 1rem; }

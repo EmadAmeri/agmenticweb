@@ -32,8 +32,11 @@ const switcher = document.querySelector('.palette-switcher');
 const nameOutput = document.querySelector('[data-palette-name]');
 const meaningOutput = document.querySelector('[data-palette-meaning]');
 const hexOutput = document.querySelector('[data-palette-hex]');
+const renderMode = new URL(location.href).searchParams.get('render') === '1';
 let activePalette = palettes[0];
 let sourceCss = '';
+
+if (renderMode) document.body.classList.add('render-mode');
 
 function replaceAll(source, search, replacement) {
   return source.split(search).join(replacement);
