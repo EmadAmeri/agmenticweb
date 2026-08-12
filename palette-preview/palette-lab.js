@@ -26,9 +26,21 @@ const palettes = [
   { id:'minai-magenta', name:'Mina’i Magenta', meaning:'Persian · polychrome · intricate', accent:'#E860C5', deep:'#8C2875', light:'#F3B7E3', rgb:'232,96,197', filter:'hue-rotate(230deg) saturate(1.38) brightness(1.06)', family:'persian' }
 ];
 
+const colourRoute = [
+  { id:'pink', label:'Pink / Rose', paletteIds:['phosphor-pink','amaranth-signal','teaberry-chrome','optical-coral','gol-e-mohammadi','minai-magenta'] },
+  { id:'purple', label:'Purple / Lilac', paletteIds:['amethyst-orchid','lavender-voltage','fig-electric','crocus-static','burnished-lilac','infra-violet'] },
+  { id:'blue', label:'Blue / Cobalt', paletteIds:['electric-blue-lemonade','crown-cobalt','ether-cyan','dutch-canal-neon','lajvard-electric'] },
+  { id:'green', label:'Turquoise / Green', paletteIds:['radio-mint','petrol-fanfare','shale-laser','firoozeh-pulse'] },
+  { id:'yellow', label:'Yellow / Gold', paletteIds:['acid-citron','sulfur-bloom','banana-pulse','zaffran-gold'] }
+];
+
+const paletteById = new Map(palettes.map((palette) => [palette.id, palette]));
+const routedPalettes = colourRoute.flatMap((route) => route.paletteIds.map((id) => ({ ...paletteById.get(id), route })));
+
 const frame = document.querySelector('iframe');
 const shell = document.querySelector('.preview-shell');
 const switcher = document.querySelector('.palette-switcher');
+const routeOutput = document.querySelector('.palette-route');
 const nameOutput = document.querySelector('[data-palette-name]');
 const meaningOutput = document.querySelector('[data-palette-meaning]');
 const hexOutput = document.querySelector('[data-palette-hex]');
@@ -37,6 +49,13 @@ let activePalette = palettes[0];
 let sourceCss = '';
 
 if (renderMode) document.body.classList.add('render-mode');
+
+colourRoute.forEach((route, index) => {
+  const label = document.createElement('span');
+  label.dataset.route = route.id;
+  label.textContent = `${String(index + 1).padStart(2, '0')} ${route.label}`;
+  routeOutput.appendChild(label);
+});
 
 function replaceAll(source, search, replacement) {
   return source.split(search).join(replacement);
@@ -60,6 +79,9 @@ function updateControls(palette) {
   hexOutput.textContent = palette.accent;
   switcher.querySelectorAll('button').forEach((button) => {
     button.setAttribute('aria-current', String(button.dataset.palette === palette.id));
+  });
+  routeOutput.querySelectorAll('span').forEach((label) => {
+    label.classList.toggle('is-active', label.dataset.route === palette.route.id);
   });
 }
 
@@ -87,13 +109,17 @@ function selectPalette(palette, shouldReload = true) {
   }
 }
 
-palettes.forEach((palette) => {
+routedPalettes.forEach((palette, index) => {
   const button = document.createElement('button');
   button.className = 'palette-button';
   button.type = 'button';
   button.dataset.palette = palette.id;
+  button.dataset.route = palette.route.id;
   if (palette.family) button.dataset.family = palette.family;
-  if (palette.id === 'firoozeh-pulse') button.classList.add('family-start');
+  if (index === 0 || routedPalettes[index - 1].route.id !== palette.route.id) {
+    button.classList.add('route-start');
+    button.dataset.routeLabel = palette.route.label;
+  }
   button.style.setProperty('--swatch', palette.accent);
   button.setAttribute('aria-label', `Preview ${palette.name}`);
   button.title = `${palette.name} · ${palette.accent}`;
@@ -111,7 +137,7 @@ fetch('../styles.css')
   .then((css) => {
     sourceCss = css;
     const requested = new URL(location.href).searchParams.get('palette');
-    selectPalette(palettes.find((palette) => palette.id === requested) || palettes[0], false);
+    selectPalette(routedPalettes.find((palette) => palette.id === requested) || routedPalettes[0], false);
     applyPalette();
   })
   .catch(() => {
