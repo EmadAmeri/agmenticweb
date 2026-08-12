@@ -5,11 +5,17 @@ const palettes = [
   { id:'optical-coral', name:'Optical Coral', meaning:'Warm · editorial · hyperreal', accent:'#FF6F91', deep:'#A92D4C', light:'#FFC1D0', rgb:'255,111,145', filter:'hue-rotate(265deg) saturate(1.42) brightness(1.08)' },
   { id:'firoozeh-pulse', name:'Firoozeh Pulse', meaning:'Persian · protective · sky-bound', accent:'#2DE2D0', deep:'#087E79', light:'#A8F5EC', rgb:'45,226,208', filter:'hue-rotate(91deg) saturate(1.62) brightness(1.08)', family:'persian' },
   { id:'gol-e-mohammadi', name:'Gol-e Mohammadi', meaning:'Persian · poetic · sensorial', accent:'#FF4FA3', deep:'#A21C61', light:'#FFB5D6', rgb:'255,79,163', filter:'hue-rotate(253deg) saturate(1.52) brightness(1.07)', family:'persian' },
-  { id:'minai-magenta', name:'Mina’i Magenta', meaning:'Persian · polychrome · intricate', accent:'#E860C5', deep:'#8C2875', light:'#F3B7E3', rgb:'232,96,197', filter:'hue-rotate(230deg) saturate(1.38) brightness(1.06)', family:'persian' }
+  { id:'minai-magenta', name:'Mina’i Magenta', meaning:'Persian · polychrome · intricate', accent:'#E860C5', deep:'#8C2875', light:'#F3B7E3', rgb:'232,96,197', filter:'hue-rotate(230deg) saturate(1.38) brightness(1.06)', family:'persian' },
+  { id:'acid-chartreuse', name:'Acid Chartreuse', meaning:'Possibility · activation · experimentation', accent:'#C7FF00', deep:'#769900', light:'#EBFF9E', rgb:'199,255,0', filter:'hue-rotate(350deg) saturate(1.9) brightness(1.12)', family:'strategic' },
+  { id:'electric-cobalt', name:'Electric Cobalt', meaning:'Intellectual · authoritative · future-facing', accent:'#5B63FF', deep:'#2930A8', light:'#B9BCFF', rgb:'91,99,255', filter:'hue-rotate(157deg) saturate(1.75) brightness(1.06)', family:'strategic' },
+  { id:'signal-fuchsia', name:'Signal Fuchsia', meaning:'Cultural · creative · experimental', accent:'#FF3F8E', deep:'#A81957', light:'#FFB3D1', rgb:'255,63,142', filter:'hue-rotate(250deg) saturate(1.62) brightness(1.06)', family:'strategic' },
+  { id:'signal-vermilion', name:'Signal Vermilion', meaning:'Action · humanity · confidence', accent:'#FF4D2E', deep:'#A52614', light:'#FFB6A9', rgb:'255,77,46', filter:'hue-rotate(292deg) saturate(1.72) brightness(1.05)', family:'strategic' },
+  { id:'electric-turquoise', name:'Electric Turquoise', meaning:'Technology · openness · momentum', accent:'#00D9C7', deep:'#007E75', light:'#98F5ED', rgb:'0,217,199', filter:'hue-rotate(91deg) saturate(1.7) brightness(1.04)', family:'strategic' }
 ];
 
 const colourRoute = [
-  { id:'selected', label:'Selected Palette', paletteIds:['lavender-voltage','burnished-lilac','teaberry-chrome','optical-coral','firoozeh-pulse','minai-magenta','gol-e-mohammadi'] }
+  { id:'selected', label:'Selected Palette', paletteIds:['lavender-voltage','burnished-lilac','teaberry-chrome','optical-coral','firoozeh-pulse','minai-magenta','gol-e-mohammadi'] },
+  { id:'strategy', label:'Strategic Shortlist', paletteIds:['acid-chartreuse','electric-cobalt','signal-fuchsia','signal-vermilion','electric-turquoise'] }
 ];
 
 const paletteById = new Map(palettes.map((palette) => [palette.id, palette]));
