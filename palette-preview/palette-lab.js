@@ -6,16 +6,13 @@ const palettes = [
   { id:'optical-coral', name:'Optical Coral', meaning:'Warm · editorial · hyperreal', accent:'#FF6F91', deep:'#A92D4C', light:'#FFC1D0', rgb:'255,111,145', filter:'hue-rotate(265deg) saturate(1.42) brightness(1.08)' },
   { id:'lavender-voltage', name:'Lavender Voltage', meaning:'British · surreal · quietly radical', accent:'#A8B0FF', deep:'#555FC4', light:'#D9DCFF', rgb:'168,176,255', filter:'hue-rotate(152deg) saturate(1.36) brightness(1.12)' },
   { id:'burnished-lilac', name:'Burnished Lilac', meaning:'Vintage · perfumed · reimagined', accent:'#D3A4FF', deep:'#8554B4', light:'#EAD5FF', rgb:'211,164,255', filter:'hue-rotate(186deg) saturate(1.22) brightness(1.13)' },
-  { id:'mini-racing-green', name:'MINI Racing Green', meaning:'Heritage · authority · crafted performance', accent:'#075B3A', deep:'#033622', light:'#86BDA5', rgb:'7,91,58', filter:'hue-rotate(48deg) saturate(1.45) brightness(.78)', family:'mini' },
   { id:'mini-blazing-blue', name:'MINI Blazing Blue', meaning:'Electric · assured · urban', accent:'#2763D8', deep:'#12337C', light:'#9AB9F4', rgb:'39,99,216', filter:'hue-rotate(139deg) saturate(1.62) brightness(.98)', family:'mini' },
-  { id:'mini-indigo-sunset', name:'MINI Indigo Sunset', meaning:'Nocturnal · cultured · composed', accent:'#39458A', deep:'#1D244D', light:'#A0A7D0', rgb:'57,69,138', filter:'hue-rotate(151deg) saturate(1.22) brightness(.78)', family:'mini' },
-  { id:'mini-chili-red', name:'MINI Chili Red', meaning:'Performance · confidence · human energy', accent:'#D91F32', deep:'#7D0B18', light:'#F29AA5', rgb:'217,31,50', filter:'hue-rotate(277deg) saturate(1.76) brightness(.96)', family:'mini' },
   { id:'mini-smokey-green', name:'MINI Smokey Green', meaning:'Tactile · grounded · quietly progressive', accent:'#66735A', deep:'#384032', light:'#BAC3B2', rgb:'102,115,90', filter:'hue-rotate(28deg) saturate(.72) brightness(.78)', family:'mini' }
 ];
 
 const colourRoute = [
   { id:'selected', label:'Final Shortlist', paletteIds:['acid-chartreuse','electric-cobalt','gol-e-mohammadi','firoozeh-pulse','optical-coral','lavender-voltage','burnished-lilac'] },
-  { id:'mini', label:'MINI Black Pairings', paletteIds:['mini-racing-green','mini-blazing-blue','mini-indigo-sunset','mini-chili-red','mini-smokey-green'] }
+  { id:'mini', label:'MINI Black Pairings', paletteIds:['mini-blazing-blue','mini-smokey-green'] }
 ];
 
 const paletteById = new Map(palettes.map((palette) => [palette.id, palette]));
