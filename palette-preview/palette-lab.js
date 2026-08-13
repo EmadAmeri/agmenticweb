@@ -1,5 +1,4 @@
 const palettes = [
-  { id:'acid-chartreuse', name:'Acid Chartreuse', meaning:'Possibility · activation · experimentation', accent:'#C7FF00', deep:'#769900', light:'#EBFF9E', rgb:'199,255,0', filter:'hue-rotate(350deg) saturate(1.9) brightness(1.12)', family:'strategic' },
   { id:'electric-cobalt', name:'Electric Cobalt', meaning:'Intellectual · authoritative · future-facing', accent:'#5B63FF', deep:'#2930A8', light:'#B9BCFF', rgb:'91,99,255', filter:'hue-rotate(157deg) saturate(1.75) brightness(1.06)', family:'strategic' },
   { id:'firoozeh-pulse', name:'Firoozeh Pulse', meaning:'Persian · protective · sky-bound', accent:'#2DE2D0', deep:'#087E79', light:'#A8F5EC', rgb:'45,226,208', filter:'hue-rotate(91deg) saturate(1.62) brightness(1.08)', family:'persian' },
   { id:'optical-coral', name:'Optical Coral', meaning:'Warm · editorial · hyperreal', accent:'#FF6F91', deep:'#A92D4C', light:'#FFC1D0', rgb:'255,111,145', filter:'hue-rotate(265deg) saturate(1.42) brightness(1.08)' },
@@ -10,7 +9,7 @@ const palettes = [
 ];
 
 const colourRoute = [
-  { id:'selected', label:'Final Shortlist', paletteIds:['acid-chartreuse','electric-cobalt','firoozeh-pulse','optical-coral','lavender-voltage','burnished-lilac'] },
+  { id:'selected', label:'Final Shortlist', paletteIds:['electric-cobalt','firoozeh-pulse','optical-coral','lavender-voltage','burnished-lilac'] },
   { id:'mini', label:'MINI Black Pairings', paletteIds:['mini-blazing-blue','mini-smokey-green'] }
 ];
 
