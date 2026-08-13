@@ -4,7 +4,6 @@ const palettes = [
   { id:'gol-e-mohammadi', name:'Gol-e Mohammadi', meaning:'Persian · poetic · sensorial', accent:'#FF4FA3', deep:'#A21C61', light:'#FFB5D6', rgb:'255,79,163', filter:'hue-rotate(253deg) saturate(1.52) brightness(1.07)', family:'persian' },
   { id:'firoozeh-pulse', name:'Firoozeh Pulse', meaning:'Persian · protective · sky-bound', accent:'#2DE2D0', deep:'#087E79', light:'#A8F5EC', rgb:'45,226,208', filter:'hue-rotate(91deg) saturate(1.62) brightness(1.08)', family:'persian' },
   { id:'optical-coral', name:'Optical Coral', meaning:'Warm · editorial · hyperreal', accent:'#FF6F91', deep:'#A92D4C', light:'#FFC1D0', rgb:'255,111,145', filter:'hue-rotate(265deg) saturate(1.42) brightness(1.08)' },
-  { id:'teaberry-chrome', name:'Teaberry Chrome', meaning:'Theatrical · dramatic · playful', accent:'#FF6C9F', deep:'#A92C58', light:'#FFC0D5', rgb:'255,108,159', filter:'hue-rotate(258deg) saturate(1.4) brightness(1.08)' },
   { id:'lavender-voltage', name:'Lavender Voltage', meaning:'British · surreal · quietly radical', accent:'#A8B0FF', deep:'#555FC4', light:'#D9DCFF', rgb:'168,176,255', filter:'hue-rotate(152deg) saturate(1.36) brightness(1.12)' },
   { id:'burnished-lilac', name:'Burnished Lilac', meaning:'Vintage · perfumed · reimagined', accent:'#D3A4FF', deep:'#8554B4', light:'#EAD5FF', rgb:'211,164,255', filter:'hue-rotate(186deg) saturate(1.22) brightness(1.13)' },
   { id:'mini-racing-green', name:'MINI Racing Green', meaning:'Heritage · authority · crafted performance', accent:'#075B3A', deep:'#033622', light:'#86BDA5', rgb:'7,91,58', filter:'hue-rotate(48deg) saturate(1.45) brightness(.78)', family:'mini' },
@@ -15,7 +14,7 @@ const palettes = [
 ];
 
 const colourRoute = [
-  { id:'selected', label:'Final Shortlist', paletteIds:['acid-chartreuse','electric-cobalt','gol-e-mohammadi','firoozeh-pulse','optical-coral','teaberry-chrome','lavender-voltage','burnished-lilac'] },
+  { id:'selected', label:'Final Shortlist', paletteIds:['acid-chartreuse','electric-cobalt','gol-e-mohammadi','firoozeh-pulse','optical-coral','lavender-voltage','burnished-lilac'] },
   { id:'mini', label:'MINI Black Pairings', paletteIds:['mini-racing-green','mini-blazing-blue','mini-indigo-sunset','mini-chili-red','mini-smokey-green'] }
 ];
 
