@@ -17,7 +17,8 @@
     "CAMPAIGN_ID": "homepage-evergreen",
     "NOTIFY_FROM": "leads@agmentic.com",
     "NOTIFY_TO": "em.ameri94@gmail.com",
-    "SHEET_ID": "1Z_Gu3gexPGW7B1bLp1X1ME-qHu_bBGngy1dnqGfP8Ig"
+    "SHEET_ID": "1Z_Gu3gexPGW7B1bLp1X1ME-qHu_bBGngy1dnqGfP8Ig",
+    "SHOWCASE_SHEETS_URL": "https://api-dining.agmentic.com/internal/showcase-lead"
   },
   "d1_databases": [
     {

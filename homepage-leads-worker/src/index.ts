@@ -24,6 +24,8 @@ interface Env {
   SHEETS_WEBHOOK_TOKEN?: string;
   OTP_SECRET: string;
   OTP_EMAIL_SERVICE: Fetcher;
+  SHOWCASE_SHEETS_URL: string;
+  SHOWCASE_SHEETS_SECRET: string;
 }
 
 interface LeadRow {
@@ -39,6 +41,7 @@ interface LeadRow {
   email_status: string;
   sheet_status: string;
   last_error: string;
+  country: string;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -343,6 +346,31 @@ function buildNotification(lead: LeadRow, env: Env) {
 }
 
 async function syncSheet(lead: LeadRow, env: Env) {
+  if (lead.source === SHOWCASE_SOURCE) {
+    const response = await fetch(env.SHOWCASE_SHEETS_URL, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-Agmentic-Internal": env.SHOWCASE_SHEETS_SECRET,
+      },
+      body: JSON.stringify({
+        lead_id: lead.id,
+        email: lead.email,
+        verified_at: lead.created_at,
+        source: lead.source,
+        category: lead.category,
+        campaign_id: lead.campaign_id,
+        country: lead.country,
+        duplicate_count: lead.duplicate_count,
+        sheet_status: "synced",
+        last_error: lead.last_error,
+      }),
+    });
+    if (!response.ok) {
+      throw new Error(`showcase_sheet_sync_failed_${response.status}_${(await response.text()).slice(0, 80)}`);
+    }
+    return;
+  }
   if (!env.SHEETS_WEBHOOK_URL || !env.SHEETS_WEBHOOK_TOKEN) {
     throw new Error("sheets_webhook_not_configured");
   }
