@@ -9,6 +9,29 @@
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
+  <section class="access-gate" id="accessGate" aria-labelledby="accessTitle">
+    <div class="access-card">
+      <div class="access-brand"><img src="./assets/agmentic-mark.png" alt=""><span>AGMENTIC</span><i>SHOWCASE ACCESS</i></div>
+      <p class="eyebrow">A private interactive preview</p>
+      <h1 id="accessTitle">See what happens<br><em>when agents negotiate.</em></h1>
+      <p class="access-copy">Enter your email to receive a six-digit access code. After verification, the live showcase unlocks for 12 hours.</p>
+      <form class="access-form" id="emailAccessForm">
+        <label for="accessEmail">Work email</label>
+        <div><input id="accessEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required><button type="submit">Send code <span>→</span></button></div>
+        <input class="honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
+      </form>
+      <form class="access-form code-form" id="codeAccessForm" hidden>
+        <div class="code-context"><span>Code sent to</span><strong id="codeEmail"></strong><button id="changeEmail" type="button">Change</button></div>
+        <label for="accessCode">Six-digit code</label>
+        <div><input id="accessCode" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="000000" required><button type="submit">Unlock demo <span>→</span></button></div>
+        <button class="resend-code" id="resendCode" type="button" disabled>Resend in 60s</button>
+      </form>
+      <p class="access-status" id="accessStatus" role="status" aria-live="polite"></p>
+      <div class="access-points"><span>2 LLM questions</span><span>2 agent handshakes</span><span>1 location lookup</span></div>
+      <p class="privacy-note">By continuing, your email is added to Agmentic's showcase interest list and stored with the same event-lead system used on agmentic.com.</p>
+    </div>
+    <aside class="access-story" aria-hidden="true"><div><small>CONSUMER AGENT</small><strong>“Find the best fit under €32.”</strong></div><b>↔</b><div><small>RETAILER AGENT</small><strong>“I can offer 12% within policy.”</strong></div></aside>
+  </section>
   <a class="skip-link" href="#sandbox">Skip to agent</a>
   <header class="topbar">
     <a class="brand" href="#top"><img src="./assets/agmentic-mark.png" alt=""><b>AGMENTIC</b><span>SHOWCASE</span></a>

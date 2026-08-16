@@ -1,7 +1,20 @@
 const API_BASE = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:8000" : "https://api-dining.agmentic.com";
+const ACCESS_API = ["localhost", "127.0.0.1"].includes(location.hostname) ? "https://agmentic-homepage-leads.em-ameri94.workers.dev/api/showcase-access" : "/api/showcase-access";
+const ACCESS_STORAGE_KEY = "agmentic_showcase_access_v1";
 const state = { token:null, menu:null, quota:{remaining_questions:2,remaining_handshakes:2,location_available:true}, signals:new Map([["Menu","loaded"]]), busy:false };
 const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
 const modal=$("#toolModal"), modalBody=$("#modalBody"), conversation=$("#conversation");
+
+let accessChallenge = null;
+let accessEmail = "";
+let resendTimer = null;
+function setAccessStatus(message,isError=false){const status=$("#accessStatus");status.textContent=message;status.classList.toggle("error",isError)}
+function setAccessBusy(form,busy){form.querySelectorAll("input,button").forEach(el=>el.disabled=busy)}
+function unlockShowcase(){document.body.classList.add("access-granted");$("#accessGate").hidden=true}
+async function accessRequest(path,body,token){const response=await fetch(`${ACCESS_API}/${path}`,{method:"POST",headers:{"Content-Type":"application/json",...(token?{Authorization:`Bearer ${token}`}:{})},body:JSON.stringify(body||{})});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||"We couldn't complete that request.");return data}
+function beginResendCountdown(){clearInterval(resendTimer);let remaining=60;const button=$("#resendCode");button.disabled=true;button.textContent=`Resend in ${remaining}s`;resendTimer=setInterval(()=>{remaining-=1;if(remaining<=0){clearInterval(resendTimer);button.disabled=false;button.textContent="Send a new code"}else button.textContent=`Resend in ${remaining}s`},1000)}
+async function sendAccessCode(email,website=""){const form=$("#emailAccessForm");setAccessBusy(form,true);setAccessStatus("Sending your secure code…");try{const data=await accessRequest("request-code",{email,website});accessChallenge=data.challenge_id;accessEmail=email.trim().toLowerCase();$("#codeEmail").textContent=accessEmail;form.hidden=true;$("#codeAccessForm").hidden=false;$("#accessCode").focus();setAccessStatus("Check your inbox. The code expires in 10 minutes.");beginResendCountdown()}catch(error){setAccessStatus(error.message,true)}finally{setAccessBusy(form,false)}}
+async function restoreAccess(){const token=localStorage.getItem(ACCESS_STORAGE_KEY);if(!token)return;try{await accessRequest("status",{},token);unlockShowcase()}catch{localStorage.removeItem(ACCESS_STORAGE_KEY)}}
 
 async function api(path,body){const response=await fetch(`${API_BASE}${path}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body||{})});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.detail||"The demo service could not complete that action.");return data}
 function toast(message){const el=$("#toast");el.textContent=message;el.hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.hidden=true,3200)}
@@ -29,3 +42,8 @@ function price(value){const match=String(value).match(/[\d,.]+/);return match?Nu
 
 $("[data-start]").addEventListener("click",startSession);$("#showLimits").addEventListener("click",showLimits);$("#closeModal").addEventListener("click",closeModal);modal.addEventListener("click",event=>{if(event.target===modal)closeModal()});document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!modal.hidden)closeModal()});
 $$('[data-tool]').forEach(button=>button.addEventListener("click",()=>({menu:showMenu,location:useLocation,calendar:showCalendar,weather:showWeather,call:showCall}[button.dataset.tool]())));$$('[data-choice] button').forEach(button=>button.addEventListener("click",()=>button.classList.toggle("selected")));$$('.suggested-questions button').forEach(button=>button.addEventListener("click",()=>askAgent(button.textContent)));$("#chatForm").addEventListener("submit",event=>{event.preventDefault();const input=$("#chatInput");const text=input.value;input.value="";askAgent(text)});$("#connectAgents").addEventListener("click",runHandshake);$("#restartDemo").addEventListener("click",()=>location.reload());renderSignals();
+$("#emailAccessForm").addEventListener("submit",event=>{event.preventDefault();const form=new FormData(event.currentTarget);sendAccessCode(String(form.get("email")||""),String(form.get("website")||""))});
+$("#codeAccessForm").addEventListener("submit",async event=>{event.preventDefault();const form=event.currentTarget;setAccessBusy(form,true);setAccessStatus("Verifying your code…");try{const data=await accessRequest("verify-code",{email:accessEmail,code:$("#accessCode").value.trim(),challenge_id:accessChallenge});localStorage.setItem(ACCESS_STORAGE_KEY,data.access_token);setAccessStatus("Access verified. Opening the showcase…");setTimeout(unlockShowcase,350)}catch(error){setAccessStatus(error.message,true);$("#accessCode").select()}finally{setAccessBusy(form,false)}});
+$("#changeEmail").addEventListener("click",()=>{$("#codeAccessForm").hidden=true;$("#emailAccessForm").hidden=false;setAccessStatus("");$("#accessEmail").focus()});
+$("#resendCode").addEventListener("click",()=>sendAccessCode(accessEmail));
+restoreAccess();

@@ -1,0 +1,56 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "agmentic-homepage-leads",
+  "main": "src/index.ts",
+  "compatibility_date": "2026-08-10",
+  "workers_dev": true,
+  "routes": [
+    { "pattern": "agmentic.com/api/event-invite", "zone_name": "agmentic.com" },
+    { "pattern": "www.agmentic.com/api/event-invite", "zone_name": "agmentic.com" },
+    { "pattern": "agmentic.com/api/showcase-access/*", "zone_name": "agmentic.com" },
+    { "pattern": "www.agmentic.com/api/showcase-access/*", "zone_name": "agmentic.com" }
+  ],
+  "vars": {
+    "ALLOWED_ORIGINS": "https://agmentic.com,https://www.agmentic.com",
+    "LEAD_SOURCE": "agmentic_homepage",
+    "LEAD_CATEGORY": "next_agmentic_event",
+    "CAMPAIGN_ID": "homepage-evergreen",
+    "NOTIFY_FROM": "leads@agmentic.com",
+    "NOTIFY_TO": "em.ameri94@gmail.com",
+    "SHEET_ID": "1Z_Gu3gexPGW7B1bLp1X1ME-qHu_bBGngy1dnqGfP8Ig"
+  },
+  "d1_databases": [
+    {
+      "binding": "LEADS_DB",
+      "database_name": "agmentic-homepage-leads",
+      "database_id": "ff7d91a3-d90f-49aa-905c-7272962badc3",
+      "migrations_dir": "migrations"
+    }
+  ],
+  "queues": {
+    "producers": [
+      { "binding": "LEAD_QUEUE", "queue": "agmentic-homepage-leads" }
+    ],
+    "consumers": [
+      {
+        "queue": "agmentic-homepage-leads",
+        "max_batch_size": 20,
+        "max_batch_timeout": 5,
+        "max_retries": 10,
+        "dead_letter_queue": "agmentic-homepage-leads-dlq"
+      }
+    ]
+  },
+  "send_email": [
+    { "name": "LEAD_EMAIL", "destination_address": "em.ameri94@gmail.com" }
+  ],
+  "services": [
+    { "binding": "OTP_EMAIL_SERVICE", "service": "sentra-demo-access" }
+  ],
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  },
+  "observability": {
+    "enabled": true
+  }
+}
