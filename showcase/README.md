@@ -1,6 +1,6 @@
 # Agmentic Guided Showcase
 
-A self-contained, single-page concept demo for sharing by link. It uses curated scenarios and deterministic browser-side negotiation logic, so it does not require an AI provider, database, calendar account, restaurant integration, or backend to run.
+A single-page, sandboxed product showcase for sharing by link. It keeps the Fine Dining Agent experience interactive while enforcing limited use through the live Fine Dining API.
 
 ## Preview locally
 
@@ -24,9 +24,12 @@ The directory is self-contained. Deploy it as-is. The public entry point is `ind
 - `assets/hero-left.jpg`
 - `assets/mascot.png`
 
-## Showcase boundaries
+## Live capabilities and boundaries
 
-- Calendar, weather, location, call, availability, and reservation are explicitly simulated.
-- Menu/policy matching, derived signal handling, budget checks, event generation, and outcome selection are working deterministic logic.
-- No personal data leaves the browser.
+- Two chat questions are answered by the configured Cloudflare LLM.
+- One browser-permissioned location lookup returns up to three nearby restaurants.
+- The preset menu prices, budget, party size, likes, and dislikes are editable within validated ranges.
+- Two deterministic retailer handshakes use the current live state and can produce different offers.
+- Calendar, weather, call, availability, and reservation are explicitly simulated.
+- Session quotas and menu boundaries are enforced by `api-dining.agmentic.com`, not only by the browser.
 - No payment or real booking is attempted.

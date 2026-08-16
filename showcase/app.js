@@ -1,275 +1,31 @@
-const scenarios = {
-  business: {
-    label: "Business dinner",
-    occasion: "Client dinner",
-    party: 4,
-    budget: 32,
-    preference: "Quiet room",
-    calendar: "Client dinner with Acme · 19:00",
-    sentence: "Find a quiet business dinner for four near Berlin Mitte, under €32 per person.",
-    item: "Sea bass",
-    itemDetail: "Saffron beurre blanc · fennel",
-    basePrice: 34,
-    finalPrice: 29.92,
-    promotion: "Chef welcome · 12% concession",
-    condition: "Quiet table held for 10 minutes",
-    shared: ["business_dining", "quiet_seating", "budget_32", "party_4"],
-  },
-  anniversary: {
-    label: "Anniversary",
-    occasion: "Anniversary dinner",
-    party: 2,
-    budget: 48,
-    preference: "Wine pairing",
-    calendar: "Anniversary dinner · 20:00",
-    sentence: "Find a celebratory anniversary dinner for two, with a wine pairing under €48 per person.",
-    item: "Wagyu beef cheek",
-    itemDetail: "Celeriac purée · bordelaise",
-    basePrice: 42,
-    finalPrice: 42,
-    promotion: "Dessert moment · included",
-    condition: "Celebration table preference noted",
-    shared: ["celebration", "pairing_value", "budget_48", "party_2"],
-  },
-  budget: {
-    label: "Smart budget dinner",
-    occasion: "Casual dinner",
-    party: 3,
-    budget: 28,
-    preference: "Vegetarian option",
-    calendar: "Dinner with friends · 18:30",
-    sentence: "Find a vegetarian-friendly dinner for three, with the best value under €28 per person.",
-    item: "Wild mushroom risotto",
-    itemDetail: "Parmesan foam · chanterelle",
-    basePrice: 29,
-    finalPrice: 25.52,
-    promotion: "Chef welcome · 12% concession",
-    condition: "Vegetarian suitability checked",
-    shared: ["group_dining", "vegetarian_option", "budget_28", "party_3"],
-  },
-};
+const API_BASE = ["localhost", "127.0.0.1"].includes(location.hostname) ? "http://localhost:8000" : "https://api-dining.agmentic.com";
+const state = { token:null, menu:null, quota:{remaining_questions:2,remaining_handshakes:2,location_available:true}, signals:new Map([["Menu","loaded"]]), busy:false };
+const $=(s,r=document)=>r.querySelector(s), $$=(s,r=document)=>[...r.querySelectorAll(s)];
+const modal=$("#toolModal"), modalBody=$("#modalBody"), conversation=$("#conversation");
 
-const state = {
-  scenario: "business",
-  signals: new Set(["calendar", "location"]),
-  callPriority: "",
-  protocolVisible: false,
-  running: false,
-};
+async function api(path,body){const response=await fetch(`${API_BASE}${path}`,{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify(body||{})});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.detail||"The demo service could not complete that action.");return data}
+function toast(message){const el=$("#toast");el.textContent=message;el.hidden=false;clearTimeout(toast.timer);toast.timer=setTimeout(()=>el.hidden=true,3200)}
+function updateQuota(quota){if(!quota)return;state.quota=quota;$("#questionQuota").textContent=quota.remaining_questions;$("#handshakeQuota").textContent=quota.remaining_handshakes;$("#chatLimitNote").textContent=quota.remaining_questions?`You can ask ${quota.remaining_questions} more LLM-powered question${quota.remaining_questions===1?"":"s"}.`:"Your two LLM questions are complete. You can still edit intent and run the handshake.";$("#chatInput").disabled=!quota.remaining_questions;$("#sendButton").disabled=!quota.remaining_questions;$("#connectAgents").disabled=!quota.remaining_handshakes;$("#locationToolState").textContent=quota.location_available?"Live":"Used"}
+async function startSession(){if(state.token)return;const button=$("[data-start]");button.disabled=true;button.textContent="Starting secure session…";try{const data=await api("/demo/session",{});state.token=data.token;state.menu=structuredClone(data.menu);updateQuota(data.quota);button.textContent="Session ready ✓";$("#sandbox").scrollIntoView({behavior:"smooth"})}catch(error){button.disabled=false;button.textContent="Try again";toast(error.message)}}
+function selectedValues(kind){return $$(`[data-choice="${kind}"] button.selected`).map(button=>button.textContent.trim())}
+function config(){return{token:state.token,party_size:Number($("#partySize").value),budget_per_person:Number($("#budget").value),likes:selectedValues("likes"),dislikes:selectedValues("dislikes"),occasion:$("#occasion").value,menu:state.menu}}
+async function syncConfig(){if(!state.token)await startSession();const data=await api("/demo/configure",config());updateQuota(data.quota)}
+function appendMessage(role,text,loading=false){const article=document.createElement("article");article.className=`message ${role}-message${loading?" loading":""}`;article.innerHTML=`<span>${role==="agent"?"A":"Y"}</span><p></p>`;article.querySelector("p").textContent=text;conversation.append(article);conversation.scrollTop=conversation.scrollHeight;return article}
+async function askAgent(text){if(state.busy||!text.trim()||!state.quota.remaining_questions)return;state.busy=true;appendMessage("user",text.trim());const loading=appendMessage("agent","Thinking from the current menu…",true);try{await syncConfig();const data=await api("/demo/chat",{token:state.token,message:text.trim()});loading.remove();appendMessage("agent",data.response);updateQuota(data.quota)}catch(error){loading.remove();appendMessage("agent",error.message);toast(error.message)}finally{state.busy=false}}
 
-const $ = (selector, root = document) => root.querySelector(selector);
-const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
-const wait = (ms) => new Promise((resolve) => window.setTimeout(resolve, ms));
+function openModal(kicker,title,html){$("#modalKicker").textContent=kicker;$("#modalTitle").textContent=title;modalBody.innerHTML=html;modal.hidden=false;document.body.style.overflow="hidden";$("#closeModal").focus()}
+function closeModal(){modal.hidden=true;document.body.style.overflow=""}
+function renderSignals(){$("#activeSignals").innerHTML=[...state.signals].map(([name,value])=>`<span>${escapeHtml(name)} · ${escapeHtml(value)}</span>`).join("")}
 
-function goToStep(name) {
-  const visibleStep = name === "handshake" ? "intent" : name;
-  $$("[data-step]").forEach((step) => step.classList.toggle("active", step.dataset.step === visibleStep));
-  $$("[data-guide]").forEach((item) => item.classList.toggle("active", item.dataset.guide === name));
-  const order = ["scenario", "signals", "intent", "handshake"];
-  const current = order.indexOf(name);
-  $$("[data-progress]").forEach((item) => {
-    const index = order.indexOf(item.dataset.progress);
-    item.classList.toggle("active", index === current);
-    item.classList.toggle("complete", index < current);
-  });
-  if (name === "intent") renderIntent();
-}
+function showLimits(){openModal("YOUR SHOWCASE SESSION","Real capability, deliberate limits",`<div class="limit-list"><div><b>${state.quota.remaining_questions}</b> LLM questions remaining</div><div><b>${state.quota.remaining_handshakes}</b> agent handshakes remaining</div><div><b>${state.quota.location_available?1:0}</b> live location lookup remaining</div><div>Preset menu only · prices editable between €4 and €60</div><div>Calendar, weather, call and reservation are simulations</div></div>`)}
+function showMenu(){const rows=state.menu.items.map((item,index)=>`<label class="menu-row"><span><strong>${escapeHtml(item.name)}</strong><small>${escapeHtml(item.section)} · ${escapeHtml(item.description)}</small></span><input data-price="${index}" type="number" min="4" max="60" step="1" value="${price(item.price)}" aria-label="Price for ${escapeHtml(item.name)}"></label>`).join("");openModal("PRESET MENU · EDITABLE PRICES","Maison Lumière menu",`<div class="menu-editor">${rows}</div><div class="modal-actions"><button id="saveMenu" type="button">Save menu prices</button></div>`);$("#saveMenu").onclick=()=>{$$("[data-price]",modalBody).forEach(input=>state.menu.items[Number(input.dataset.price)].price=`€${Math.max(4,Math.min(60,Number(input.value)||4))}`);state.signals.set("Menu","prices edited");renderSignals();closeModal();toast("Menu prices saved. Your next answer and handshake will use them.")}}
+function showCalendar(){openModal("SIMULATED CONNECTOR","Calendar signal",`<div class="limit-list"><div><strong>Client dinner with Acme</strong><br>Tonight · 19:00 · 4 attendees · Berlin Mitte</div><div>This is a demo calendar event. Confirming it adds business dinner context to the agent.</div></div><div class="modal-actions"><button id="useCalendar">Use this signal</button></div>`);$("#useCalendar").onclick=()=>{$("#occasion").value="Business dinner";$("#partySize").value=4;state.signals.set("Calendar","client dinner");renderSignals();closeModal();appendMessage("agent","I noticed a client dinner tonight. I’ll prioritize a business-appropriate choice.")}}
+function showWeather(){openModal("SIMULATED CONNECTOR","Weather signal",`<div class="limit-list"><div><strong>Light rain around 19:00</strong><br>14°C · 80% chance of rain</div><div>The agent can turn this into an indoor-seating preference without sharing the full forecast.</div></div><div class="modal-actions"><button id="useWeather">Prefer indoor seating</button></div>`);$("#useWeather").onclick=()=>{state.signals.set("Weather","indoor preferred");renderSignals();closeModal();appendMessage("agent","Rain is likely, so I’ll keep indoor seating in the brief.")}}
+function showCall(){openModal("FAKE CALL · NO LLM CREDIT USED","Fine Dining Agent is calling",`<div class="call-ui"><img src="./assets/mascot.png" alt=""><h3>What should I prioritize?</h3><p>This simulated call changes your live intent.</p><div class="call-options"><button data-call="quiet">Quiet room</button><button data-call="value">Lowest price</button></div></div>`);$$('[data-call]',modalBody).forEach(button=>button.onclick=()=>{if(button.dataset.call==="quiet"){state.signals.set("Call","quiet room priority");$("#occasion").value="Business dinner"}else{$("#budget").value=24;state.signals.set("Call","value priority")}renderSignals();closeModal();appendMessage("agent",button.dataset.call==="quiet"?"Understood—I’ll prioritize a quiet room.":"Understood—I’ll prioritize the strongest value under €24.")})}
+async function useLocation(){if(!state.quota.location_available){toast("The one live location lookup has already been used.");return}if(!navigator.geolocation){toast("Location is not supported in this browser.");return}openModal("LIVE CONNECTOR","Finding restaurants nearby",`<div class="limit-list"><div>Waiting for browser location permission…</div><div>Your coordinates are used for this lookup and are not included in the retailer handshake.</div></div>`);navigator.geolocation.getCurrentPosition(async position=>{try{if(!state.token)await startSession();const data=await api("/demo/location",{token:state.token,latitude:position.coords.latitude,longitude:position.coords.longitude,accuracy:position.coords.accuracy});updateQuota(data.quota);const restaurants=data.restaurants||[];modalBody.innerHTML=restaurants.length?`<div class="restaurant-list">${restaurants.map((restaurant,index)=>`<article class="restaurant-item"><div><strong>${escapeHtml(restaurant.name||"Nearby restaurant")}</strong><span>${escapeHtml(restaurant.address||restaurant.cuisine||"")} · ${Math.round(restaurant.distance_m||0)}m</span></div><button data-restaurant="${index}">Use context</button></article>`).join("")}</div>`:`<div class="limit-list"><div>No restaurant results were available for this location. The preset restaurant remains active.</div></div>`;$$('[data-restaurant]',modalBody).forEach(button=>button.onclick=()=>{const item=restaurants[Number(button.dataset.restaurant)];state.signals.set("Location",item.name||"nearby restaurant");renderSignals();closeModal();appendMessage("agent",`I found ${item.name}. For this limited demo I’ll keep Maison Lumière’s preset menu, but use the nearby-location context.`)})}catch(error){modalBody.innerHTML=`<div class="limit-list"><div>${escapeHtml(error.message)}</div></div>`}},error=>{modalBody.innerHTML=`<div class="limit-list"><div>Location was not shared: ${escapeHtml(error.message)}</div></div>`},{enableHighAccuracy:false,timeout:12000,maximumAge:60000})}
 
-function selectScenario(name) {
-  state.scenario = name;
-  state.callPriority = "";
-  $$("[data-scenario]").forEach((button) => {
-    const selected = button.dataset.scenario === name;
-    button.classList.toggle("selected", selected);
-    button.setAttribute("aria-checked", String(selected));
-  });
-  $("#calendarSignal").textContent = scenarios[name].calendar;
-}
+async function runHandshake(){if(state.busy||!state.quota.remaining_handshakes)return;state.busy=true;const button=$("#connectAgents");button.disabled=true;button.textContent="Connecting…";try{await syncConfig();const data=await api("/demo/handshake",{token:state.token});updateQuota(data.quota);$("#handshakeEmpty").hidden=true;$("#eventStream").innerHTML="";$("#offerCard").hidden=true;for(const event of data.events){const item=document.createElement("li");item.innerHTML=`<small>${escapeHtml(event.speaker)} · ${escapeHtml(event.action)}</small><strong>${escapeHtml(event.message)}</strong>`;$("#eventStream").append(item);await wait(430)}const offer=data.offer;$("#offerTitle").textContent=offer.item.name;$("#offerDetails").textContent=`${offer.item.description} · ${offer.party_size} guests · ${offer.promotion}`;$("#listPrice").textContent=`€${offer.list_price.toFixed(2)}`;$("#offerPrice").textContent=`€${offer.offer_price.toFixed(2)}`;$("#budgetCheck").textContent=`Within €${offer.budget_per_person.toFixed(2)} budget`;$("#offerCard").hidden=false;$("#offerCard").focus()}catch(error){toast(error.message)}finally{state.busy=false;button.textContent="Connect agents →";button.disabled=!state.quota.remaining_handshakes}}
+function price(value){const match=String(value).match(/[\d,.]+/);return match?Number(match[0].replace(",",".")):0}function wait(ms){return new Promise(resolve=>setTimeout(resolve,ms))}function escapeHtml(value){return String(value??"").replace(/[&<>'"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[c]))}
 
-function toggleSignal(button) {
-  const signal = button.dataset.signal;
-  if (state.signals.has(signal)) state.signals.delete(signal);
-  else state.signals.add(signal);
-  const enabled = state.signals.has(signal);
-  button.classList.toggle("enabled", enabled);
-  button.setAttribute("aria-pressed", String(enabled));
-  if (signal === "call") $("#fakeCall").hidden = !enabled;
-}
-
-function effectivePreference(scenario) {
-  if (state.callPriority === "quiet") return "Quiet room";
-  if (state.callPriority === "price") return "Lowest price";
-  if (state.signals.has("weather")) return `${scenario.preference} · indoor seating`;
-  return scenario.preference;
-}
-
-function renderIntent() {
-  const scenario = scenarios[state.scenario];
-  const preference = effectivePreference(scenario);
-  $("#intentSentence").textContent = scenario.sentence;
-  $("#intentOccasion").textContent = scenario.occasion;
-  $("#intentParty").textContent = `${scenario.party} guests`;
-  $("#intentBudget").textContent = `€${scenario.budget} / person`;
-  $("#intentPreference").textContent = preference;
-  $("#privateCount").textContent = `${Math.max(3, state.signals.size + 2)} context points`;
-  const signals = [...scenario.shared];
-  if (state.signals.has("weather")) signals.push("indoor_preferred");
-  if (state.callPriority) signals.push(`${state.callPriority}_priority`);
-  $("#sharedSignals").textContent = `${signals.length} derived signals`;
-}
-
-function buildEvents(scenario) {
-  const preference = effectivePreference(scenario);
-  const shared = [...scenario.shared];
-  if (state.signals.has("weather")) shared.push("indoor_preferred");
-  if (state.callPriority) shared.push(`${state.callPriority}_priority`);
-  return [
-    {
-      actor: "System",
-      action: "SECURE_CHANNEL",
-      title: "Agents establish a scoped channel",
-      copy: "This exchange is limited to one dining request and expires after the showcase.",
-      data: { protocol: "agmentic-guided.v1", scope: "single_dining_request", retention: "ephemeral" },
-    },
-    {
-      actor: "Consumer",
-      action: "INTENT_BRIEF",
-      title: `Consumer shares ${shared.length} derived signals`,
-      copy: `${scenario.party} guests · €${scenario.budget} per person · ${preference}. Raw notes remain blocked.`,
-      data: { purchase_context: scenario.occasion, constraints: { party_size: scenario.party, budget_per_person: scenario.budget }, signals: shared, raw_profile_shared: false },
-    },
-    {
-      actor: "Retailer",
-      action: "MENU_POLICY",
-      title: "Maison Lumière returns menu and policy",
-      copy: "17 menu items, a maximum 12% price concession, and value-added table benefits are available.",
-      data: { menu_items: 17, max_concession_percent: 12, capabilities: ["menu_exchange", "budget_respect", "table_hold"] },
-    },
-    {
-      actor: "Retailer",
-      action: "OFFER_PROPOSAL",
-      title: `${scenario.item} proposed at €${scenario.finalPrice.toFixed(2)}`,
-      copy: `${scenario.promotion}. The item matches the occasion and remains below the declared budget.`,
-      data: { item: scenario.item, list_price: scenario.basePrice, proposed_price: scenario.finalPrice, promotion: scenario.promotion, within_budget: true },
-    },
-    {
-      actor: "Consumer",
-      action: "VERIFY_CONSTRAINTS",
-      title: "Consumer agent checks the offer",
-      copy: `Budget passes. ${preference} is preserved. Availability remains explicitly simulated.`,
-      data: { budget: "pass", preference: "pass", availability: "simulated", payment: "not_requested" },
-    },
-    {
-      actor: "Retailer",
-      action: "ACCEPT_WITH_TERMS",
-      title: "Offer is ready for the user",
-      copy: `${scenario.condition}. No booking or payment has been made.`,
-      data: { status: "ready_for_user_confirmation", condition: scenario.condition, booking: "simulated" },
-    },
-  ];
-}
-
-function eventMarkup(event, index) {
-  return `<li class="protocol-event">
-    <span class="event-number">0${index + 1}</span>
-    <div>
-      <div class="event-meta"><span>${escapeHtml(event.actor)}</span><span>${escapeHtml(event.action)}</span></div>
-      <strong>${escapeHtml(event.title)}</strong>
-      <p>${escapeHtml(event.copy)}</p>
-      <pre class="event-json">${escapeHtml(JSON.stringify(event.data, null, 2))}</pre>
-    </div>
-  </li>`;
-}
-
-async function runHandshake() {
-  if (state.running || !$("#consent").checked) return;
-  state.running = true;
-  $("#runHandshake").disabled = true;
-  goToStep("handshake");
-  $("#handshake").scrollIntoView({ behavior: "smooth", block: "start" });
-  $("#emptyProtocol").hidden = true;
-  $("#eventStream").innerHTML = "";
-  $("#outcome").hidden = true;
-  const status = $("#handshakeStatus");
-  status.className = "handshake-status running";
-  status.querySelector("span").textContent = "Negotiating live";
-
-  const scenario = scenarios[state.scenario];
-  for (const [index, event] of buildEvents(scenario).entries()) {
-    $("#eventStream").insertAdjacentHTML("beforeend", eventMarkup(event, index));
-    await wait(520);
-  }
-
-  status.className = "handshake-status complete";
-  status.querySelector("span").textContent = "Offer verified";
-  renderOutcome(scenario);
-  state.running = false;
-  $("#runHandshake").disabled = false;
-}
-
-function renderOutcome(scenario) {
-  $("#outcomeTitle").textContent = `${scenario.label} at Maison Lumière`;
-  $("#outcomeMeta").textContent = `${scenario.party} guests · ${scenario.condition}`;
-  $("#outcomeItems").innerHTML = `<span><strong>${escapeHtml(scenario.item)}</strong></span><span>${escapeHtml(scenario.itemDetail)}</span><span>${escapeHtml(scenario.promotion)}</span>`;
-  $("#outcomePrice").textContent = `€${scenario.finalPrice.toFixed(2)}`;
-  $("#outcomeBudget").textContent = `€${(scenario.budget - scenario.finalPrice).toFixed(2)} below budget`;
-  $("#outcomeExplanation").textContent = `The retailer policy allowed ${scenario.promotion.toLowerCase()}. The consumer agent verified that €${scenario.finalPrice.toFixed(2)} is below the €${scenario.budget} per-person cap and that “${effectivePreference(scenario)}” remains represented. Venue availability and reservation are simulated in this showcase.`;
-  $("#outcomeExplanation").hidden = true;
-  $("#outcome").hidden = false;
-  $("#outcome").focus({ preventScroll: true });
-}
-
-function resetDemo() {
-  state.scenario = "business";
-  state.signals = new Set(["calendar", "location"]);
-  state.callPriority = "";
-  state.running = false;
-  selectScenario("business");
-  $$("[data-signal]").forEach((button) => {
-    const enabled = state.signals.has(button.dataset.signal);
-    button.classList.toggle("enabled", enabled);
-    button.setAttribute("aria-pressed", String(enabled));
-  });
-  $("#fakeCall").hidden = true;
-  $("#consent").checked = true;
-  $("#runHandshake").disabled = false;
-  $("#eventStream").innerHTML = "";
-  $("#emptyProtocol").hidden = false;
-  $("#outcome").hidden = true;
-  $("#handshakeStatus").className = "handshake-status";
-  $("#handshakeStatus span").textContent = "Waiting for a brief";
-  goToStep("scenario");
-  $("#demo").scrollIntoView({ behavior: "smooth", block: "start" });
-}
-
-function escapeHtml(value) {
-  return String(value).replace(/[&<>'"]/g, (character) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", "'": "&#39;", '"': "&quot;" }[character]));
-}
-
-$$('[data-scroll-demo]').forEach((button) => button.addEventListener("click", () => $("#demo").scrollIntoView({ behavior: "smooth" })));
-$$('[data-scenario]').forEach((button) => button.addEventListener("click", () => selectScenario(button.dataset.scenario)));
-$$('[data-signal]').forEach((button) => button.addEventListener("click", () => toggleSignal(button)));
-$$('[data-next]').forEach((button) => button.addEventListener("click", () => goToStep(button.dataset.next)));
-$$('[data-back]').forEach((button) => button.addEventListener("click", () => goToStep(button.dataset.back)));
-$$('[data-call-answer]').forEach((button) => button.addEventListener("click", () => {
-  state.callPriority = button.dataset.callAnswer;
-  $$("[data-call-answer]").forEach((item) => item.setAttribute("aria-pressed", String(item === button)));
-  $("#fakeCall strong").textContent = button.dataset.callAnswer === "quiet" ? "Priority saved: quiet room." : "Priority saved: lowest price.";
-}));
-$("#consent").addEventListener("change", (event) => { $("#runHandshake").disabled = !event.target.checked; });
-$("#runHandshake").addEventListener("click", runHandshake);
-$("#protocolToggle").addEventListener("click", (event) => {
-  state.protocolVisible = !state.protocolVisible;
-  event.currentTarget.setAttribute("aria-pressed", String(state.protocolVisible));
-  event.currentTarget.textContent = state.protocolVisible ? "Hide protocol data" : "Show protocol data";
-  $("#eventStream").classList.toggle("show-protocol", state.protocolVisible);
-});
-$("#replayDemo").addEventListener("click", resetDemo);
-$("#explainOutcome").addEventListener("click", () => {
-  const panel = $("#outcomeExplanation");
-  panel.hidden = !panel.hidden;
-  $("#explainOutcome").textContent = panel.hidden ? "Why this offer?" : "Hide explanation";
-});
-
-selectScenario("business");
-goToStep("scenario");
+$("[data-start]").addEventListener("click",startSession);$("#showLimits").addEventListener("click",showLimits);$("#closeModal").addEventListener("click",closeModal);modal.addEventListener("click",event=>{if(event.target===modal)closeModal()});document.addEventListener("keydown",event=>{if(event.key==="Escape"&&!modal.hidden)closeModal()});
+$$('[data-tool]').forEach(button=>button.addEventListener("click",()=>({menu:showMenu,location:useLocation,calendar:showCalendar,weather:showWeather,call:showCall}[button.dataset.tool]())));$$('[data-choice] button').forEach(button=>button.addEventListener("click",()=>button.classList.toggle("selected")));$$('.suggested-questions button').forEach(button=>button.addEventListener("click",()=>askAgent(button.textContent)));$("#chatForm").addEventListener("submit",event=>{event.preventDefault();const input=$("#chatInput");const text=input.value;input.value="";askAgent(text)});$("#connectAgents").addEventListener("click",runHandshake);$("#restartDemo").addEventListener("click",()=>location.reload());renderSignals();

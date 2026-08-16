@@ -4,225 +4,107 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#173a2b">
-  <meta name="description" content="A guided Agmentic showcase: express intent once and watch consumer and retailer agents negotiate the outcome.">
-  <title>Agmentic — Intent becomes outcome</title>
+  <meta name="description" content="Use a live, limited consumer agent and watch it negotiate with a retailer agent.">
+  <title>Agmentic Agent Sandbox</title>
   <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-  <a class="skip-link" href="#demo">Skip to the guided demo</a>
-
-  <header class="site-header" aria-label="Primary navigation">
-    <a class="brand" href="#top" aria-label="Agmentic home">
-      <img src="./assets/agmentic-mark.png" alt="">
-      <span>AGMENTIC</span>
-      <small>GUIDED LAB</small>
-    </a>
-    <nav aria-label="Page sections">
-      <a href="#how">How it works</a>
-      <a href="#demo">Try the showcase</a>
-      <a href="#handshake">Handshake</a>
-    </nav>
-    <button class="header-cta" type="button" data-scroll-demo>Start the 3-minute demo</button>
+  <a class="skip-link" href="#sandbox">Skip to agent</a>
+  <header class="topbar">
+    <a class="brand" href="#top"><img src="./assets/agmentic-mark.png" alt=""><b>AGMENTIC</b><span>SHOWCASE</span></a>
+    <div class="top-note"><i></i> Live LLM · limited session</div>
+    <button class="outline-button" id="restartDemo" type="button">Restart demo</button>
   </header>
 
   <main id="top">
-    <section class="hero" aria-labelledby="hero-title">
-      <div class="hero-copy">
-        <p class="eyebrow"><span></span> A working concept, carefully bounded</p>
-        <h1 id="hero-title">Say what you need.<br><em>Let agents handle the interface.</em></h1>
-        <p class="hero-lede">A guided look at how calendar, weather, location and personal preferences can become a private brief—then a negotiated restaurant outcome.</p>
-        <div class="hero-actions">
-          <button class="primary-button" type="button" data-scroll-demo>Experience it</button>
-          <a class="text-link" href="#how">See the system <span aria-hidden="true">↓</span></a>
-        </div>
-        <div class="truth-strip" aria-label="Demo capability labels">
-          <span><i class="dot real"></i> Working logic</span>
-          <span><i class="dot simulated"></i> Simulated connectors</span>
-          <span><i class="dot private"></i> Consent boundary</span>
-        </div>
-      </div>
-      <div class="hero-visual" aria-label="Intent moving between consumer and retailer agents">
-        <img src="./assets/hero-left.jpg" alt="People considering a restaurant menu together">
-        <div class="hero-shade"></div>
-        <article class="intent-card">
-          <span class="intent-label">One human request</span>
-          <blockquote>“A quiet business dinner for four, under €32 each.”</blockquote>
-          <div class="intent-tags"><span>4 guests</span><span>€32 / person</span><span>Quiet table</span></div>
-        </article>
-        <div class="agent-orbit consumer-orbit"><span>C</span><small>Consumer agent</small></div>
-        <div class="agent-orbit retailer-orbit"><span>R</span><small>Retailer agent</small></div>
-      </div>
+    <section class="intro">
+      <p class="eyebrow">A sandboxed product experience</p>
+      <h1>Use the agent.<br><em>Then watch agents negotiate.</em></h1>
+      <p>Change a real menu, ask the LLM, share a location signal and run the same intent through a retailer handshake. Your session is deliberately limited, so it stays a showcase—not a product account.</p>
+      <button class="primary-button" data-start type="button">Start limited session <span>→</span></button>
+      <div class="limits-preview"><span>2 LLM questions</span><span>1 location lookup</span><span>2 handshakes</span><span>No real booking</span></div>
     </section>
 
-    <section class="system-story" id="how" aria-labelledby="how-title">
-      <div class="section-intro">
-        <p class="section-index">01 — The idea</p>
-        <h2 id="how-title">The interface becomes context.</h2>
-        <p>Instead of opening five apps and comparing twenty options, the user gives intent once. The consumer agent turns it into constraints; the retailer agent responds within its own capabilities.</p>
-      </div>
-      <ol class="story-steps">
-        <li><span>01</span><strong>Notice</strong><p>Calendar, weather and location can suggest that a need is forming.</p></li>
-        <li><span>02</span><strong>Clarify</strong><p>The user confirms purpose, budget, party size and preferences.</p></li>
-        <li><span>03</span><strong>Negotiate</strong><p>Only a small approved brief crosses to the retailer agent.</p></li>
-        <li><span>04</span><strong>Resolve</strong><p>The user gets one explainable outcome—not another search result page.</p></li>
-      </ol>
-    </section>
-
-    <section class="demo" id="demo" aria-labelledby="demo-title">
-      <div class="demo-heading">
-        <div>
-          <p class="section-index">02 — Guided showcase</p>
-          <h2 id="demo-title">Build one dining intent.</h2>
-        </div>
-        <div class="demo-progress" aria-label="Demo progress">
-          <span class="active" data-progress="scenario">1</span><i></i>
-          <span data-progress="signals">2</span><i></i>
-          <span data-progress="intent">3</span><i></i>
-          <span data-progress="handshake">4</span>
+    <section class="sandbox" id="sandbox" aria-labelledby="sandboxTitle">
+      <div class="section-heading">
+        <div><p class="eyebrow">Consumer side</p><h2 id="sandboxTitle">Fine Dining Agent</h2></div>
+        <div class="quota-bar" id="quotaBar" aria-live="polite">
+          <span><b id="questionQuota">2</b> questions left</span>
+          <span><b id="handshakeQuota">2</b> handshakes left</span>
         </div>
       </div>
 
-      <div class="demo-shell">
-        <aside class="guide-rail" aria-label="Demo guide">
-          <div class="guide-agent">
-            <img src="./assets/mascot.png" alt="Agmentic consumer agent mascot">
-            <div><small>Your guide</small><strong>Consumer Agent</strong></div>
+      <div class="agent-shell">
+        <aside class="tool-rail" aria-label="Agent inputs">
+          <button type="button" data-tool="menu"><i>▤</i><span>Menu</span><small>Preset</small></button>
+          <button type="button" data-tool="location"><i>⌖</i><span>Location</span><small id="locationToolState">Live</small></button>
+          <button type="button" data-tool="calendar"><i>31</i><span>Calendar</span><small>Demo</small></button>
+          <button type="button" data-tool="weather"><i>☂</i><span>Weather</span><small>Demo</small></button>
+          <button type="button" data-tool="call"><i>⌕</i><span>Agent call</span><small>Fake</small></button>
+        </aside>
+
+        <section class="chat-panel" aria-label="Fine Dining Agent conversation">
+          <header class="chat-head">
+            <div class="agent-avatar"><img src="./assets/mascot.png" alt=""></div>
+            <div><strong>Fine Dining Agent</strong><span><i></i> Ready with Maison Lumière's menu</span></div>
+            <button id="showLimits" type="button">Session limits</button>
+          </header>
+          <div class="conversation" id="conversation" aria-live="polite">
+            <article class="message agent-message"><span>A</span><p>I'm ready. Open the menu, change your preferences or ask me up to two questions about what you should order.</p></article>
           </div>
-          <ol>
-            <li class="active" data-guide="scenario"><span></span>Choose the moment</li>
-            <li data-guide="signals"><span></span>Add context signals</li>
-            <li data-guide="intent"><span></span>Review the brief</li>
-            <li data-guide="handshake"><span></span>Watch agents negotiate</li>
-          </ol>
-          <div class="demo-boundary"><strong>Showcase boundary</strong><p>Three curated scenarios. No open-ended actions, payments or real bookings.</p></div>
+          <div class="suggested-questions" aria-label="Suggested questions">
+            <button type="button">What is the best main under my budget?</button>
+            <button type="button">Which dish fits my preferences?</button>
+            <button type="button">Build a dinner choice for me.</button>
+          </div>
+          <form class="chat-form" id="chatForm">
+            <label class="sr-only" for="chatInput">Ask the agent</label>
+            <input id="chatInput" maxlength="280" placeholder="Ask about this menu…" autocomplete="off">
+            <button class="send-button" id="sendButton" type="submit" aria-label="Send question">↑</button>
+          </form>
+          <p class="chat-limit-note" id="chatLimitNote">You can ask 2 LLM-powered questions in this showcase.</p>
+        </section>
+
+        <aside class="intent-panel" aria-label="Editable consumer intent">
+          <div class="panel-label"><span>Your live intent</span><i>Editable</i></div>
+          <label>Occasion<select id="occasion"><option>Business dinner</option><option>Anniversary</option><option>Casual dinner</option></select></label>
+          <div class="field-row">
+            <label>Guests<input id="partySize" type="number" min="1" max="6" value="4"></label>
+            <label>€/person<input id="budget" type="number" min="10" max="80" value="32"></label>
+          </div>
+          <fieldset><legend>I like</legend><div class="choice-chips" data-choice="likes"><button type="button" class="selected">fish</button><button type="button">mushroom</button><button type="button">vegetarian</button><button type="button">wine</button></div></fieldset>
+          <fieldset><legend>I avoid</legend><div class="choice-chips avoid" data-choice="dislikes"><button type="button">shellfish</button><button type="button">alcohol</button><button type="button">beef</button><button type="button">dairy</button></div></fieldset>
+          <div class="signal-summary"><small>ACTIVE CONTEXT</small><div id="activeSignals"><span>Menu loaded</span></div></div>
+          <p>These values shape both the LLM context and the retailer handshake.</p>
         </aside>
-
-        <div class="demo-workspace">
-          <section class="demo-step active" data-step="scenario" aria-labelledby="scenario-title">
-            <p class="step-kicker">Step 1 of 4</p>
-            <h3 id="scenario-title">What kind of moment is forming?</h3>
-            <p class="step-copy">Choose one. This sets a safe, predictable path through the demo.</p>
-            <div class="scenario-grid" role="radiogroup" aria-label="Dining scenario">
-              <button class="scenario-card selected" type="button" role="radio" aria-checked="true" data-scenario="business">
-                <span class="scenario-icon">⌁</span><small>Tonight · 19:00</small><strong>Business dinner</strong><p>Four guests, quiet room, clear budget.</p>
-              </button>
-              <button class="scenario-card" type="button" role="radio" aria-checked="false" data-scenario="anniversary">
-                <span class="scenario-icon">♡</span><small>Saturday · 20:00</small><strong>Anniversary</strong><p>Two guests, celebratory, wine pairing.</p>
-              </button>
-              <button class="scenario-card" type="button" role="radio" aria-checked="false" data-scenario="budget">
-                <span class="scenario-icon">€</span><small>Tomorrow · 18:30</small><strong>Smart budget dinner</strong><p>Three guests, vegetarian-friendly value.</p>
-              </button>
-            </div>
-            <div class="step-actions"><span></span><button class="primary-button" type="button" data-next="signals">Add context <b aria-hidden="true">→</b></button></div>
-          </section>
-
-          <section class="demo-step" data-step="signals" aria-labelledby="signals-title">
-            <p class="step-kicker">Step 2 of 4</p>
-            <h3 id="signals-title">What can the agent notice?</h3>
-            <p class="step-copy">Toggle demo signals. They imitate permissioned connectors; no external account is accessed.</p>
-            <div class="signal-list">
-              <button class="signal-row enabled" type="button" aria-pressed="true" data-signal="calendar">
-                <span class="signal-source calendar">31</span><span><small>SIMULATED CALENDAR</small><strong id="calendarSignal">Client dinner with Acme · 19:00</strong></span><i></i>
-              </button>
-              <button class="signal-row enabled" type="button" aria-pressed="true" data-signal="location">
-                <span class="signal-source location">⌖</span><span><small>SIMULATED LOCATION</small><strong>Berlin Mitte · 3 matching venues nearby</strong></span><i></i>
-              </button>
-              <button class="signal-row" type="button" aria-pressed="false" data-signal="weather">
-                <span class="signal-source weather">☂</span><span><small>SIMULATED WEATHER</small><strong>Light rain at dinner time · indoor preferred</strong></span><i></i>
-              </button>
-              <button class="signal-row" type="button" aria-pressed="false" data-signal="call">
-                <span class="signal-source call">⌕</span><span><small>FAKE AGENT CALL</small><strong>Agent can clarify one missing constraint</strong></span><i></i>
-              </button>
-            </div>
-            <div class="fake-call" id="fakeCall" hidden aria-live="polite">
-              <div class="call-avatar">A</div><div><small>Incoming agent call · simulation</small><strong>“Should I prioritize a quiet room or the lowest price?”</strong></div>
-              <button type="button" data-call-answer="quiet">Quiet room</button><button type="button" data-call-answer="price">Lowest price</button>
-            </div>
-            <div class="step-actions"><button class="secondary-button" type="button" data-back="scenario">Back</button><button class="primary-button" type="button" data-next="intent">Create the brief <b aria-hidden="true">→</b></button></div>
-          </section>
-
-          <section class="demo-step" data-step="intent" aria-labelledby="intent-title">
-            <p class="step-kicker">Step 3 of 4</p>
-            <h3 id="intent-title">The agent understood this.</h3>
-            <p class="step-copy">These are canonical constraints—not the user's full personal history.</p>
-            <div class="intent-receipt">
-              <div class="receipt-head"><span>CONSUMER INTENT / 001</span><span class="verified">✓ USER-CONTROLLED</span></div>
-              <blockquote id="intentSentence"></blockquote>
-              <dl>
-                <div><dt>Occasion</dt><dd id="intentOccasion"></dd></div>
-                <div><dt>Party</dt><dd id="intentParty"></dd></div>
-                <div><dt>Budget</dt><dd id="intentBudget"></dd></div>
-                <div><dt>Preference</dt><dd id="intentPreference"></dd></div>
-              </dl>
-            </div>
-            <div class="privacy-transform">
-              <div><small>PRIVATE CONTEXT</small><strong id="privateCount">4 context points</strong><p>Raw notes stay with the consumer agent.</p></div>
-              <span class="privacy-arrow"><i>✓</i> derive</span>
-              <div><small>SHARED BRIEF</small><strong id="sharedSignals"></strong><p>No raw calendar title or profile is sent.</p></div>
-            </div>
-            <label class="consent-check"><input id="consent" type="checkbox" checked><span>Share only the derived brief with the retailer simulator.</span></label>
-            <div class="step-actions"><button class="secondary-button" type="button" data-back="signals">Back</button><button class="primary-button" type="button" id="runHandshake">Start handshake <b aria-hidden="true">→</b></button></div>
-          </section>
-        </div>
       </div>
     </section>
 
-    <section class="handshake" id="handshake" aria-labelledby="handshake-title">
-      <div class="handshake-heading">
-        <div><p class="section-index">03 — Agent-to-agent interface</p><h2 id="handshake-title">Watch the work humans never see.</h2></div>
-        <div class="handshake-status" id="handshakeStatus"><i></i><span>Waiting for a brief</span></div>
+    <section class="retailer" id="retailer" aria-labelledby="retailerTitle">
+      <div class="section-heading light">
+        <div><p class="eyebrow">Retailer side</p><h2 id="retailerTitle">The same intent crosses the boundary.</h2></div>
+        <p>Only derived preferences, party size and budget are shared. Raw chat and connector details stay with the consumer agent.</p>
       </div>
-
-      <div class="agent-table">
-        <aside class="agent-profile consumer-profile">
-          <span class="agent-monogram">C</span><small>WORKS FOR THE USER</small><h3>Consumer Agent</h3>
-          <p>Protects intent, budget and preferences.</p>
-          <ul><li>Intent parsing</li><li>Preference memory</li><li>Budget guardrail</li><li>Counter-request</li></ul>
-        </aside>
-
-        <div class="protocol-stage">
-          <div class="protocol-head"><span>AGMENTIC A2A / GUIDED V1</span><button type="button" id="protocolToggle" aria-pressed="false">Show protocol data</button></div>
-          <div class="empty-protocol" id="emptyProtocol"><span>↔</span><strong>No negotiation yet</strong><p>Complete the guided brief above to start the exchange.</p></div>
+      <div class="retailer-grid">
+        <article class="retailer-card">
+          <header><span class="retailer-mark">M</span><div><small>RETAILER AGENT</small><h3>Maison Lumière</h3></div><i>Online</i></header>
+          <h4>Capabilities</h4><ul><li>Menu exchange</li><li>Intent matching</li><li>Budget guardrail</li><li>12% showcase concession</li><li>Quiet-table preference</li></ul>
+          <h4>Editable menu policy</h4><div class="policy"><span>Maximum concession</span><b>12%</b></div><div class="policy"><span>Reservation</span><b>Simulated</b></div>
+        </article>
+        <article class="handshake-stage">
+          <header><div><small>AGMENTIC A2A · LIVE STATE</small><strong>Consumer ↔ Retailer</strong></div><button class="primary-button" id="connectAgents" type="button">Connect agents <span>→</span></button></header>
+          <div class="handshake-empty" id="handshakeEmpty"><b>↔</b><strong>Ready for one negotiation</strong><p>Change the menu or your intent above, then connect. You can run this twice and compare the result.</p></div>
           <ol class="event-stream" id="eventStream" aria-live="polite"></ol>
-        </div>
-
-        <aside class="agent-profile retailer-profile">
-          <span class="agent-monogram">R</span><small>WORKS FOR THE VENUE</small><h3>Maison Lumière</h3>
-          <p>A retailer simulator with a fixed menu and policy.</p>
-          <ul><li>Live menu exchange</li><li>Up to 12% concession</li><li>Quiet-table hold</li><li>Vegetarian options</li></ul>
-          <div class="retailer-policy"><small>AVAILABLE PROMOTIONS</small><span>Welcome pairing · 12%</span><span>Quiet table · 10 min hold</span><span>Dessert moment · included</span></div>
-        </aside>
+          <article class="offer-card" id="offerCard" hidden tabindex="-1"><div><small>OFFER READY · NO BOOKING MADE</small><h3 id="offerTitle"></h3><p id="offerDetails"></p></div><div class="offer-price"><del id="listPrice"></del><strong id="offerPrice"></strong><span id="budgetCheck"></span></div></article>
+        </article>
       </div>
-
-      <article class="outcome" id="outcome" hidden tabindex="-1">
-        <div class="outcome-mark">✓</div>
-        <div class="outcome-main"><small>OFFER READY · SIMULATED RESERVATION</small><h3 id="outcomeTitle"></h3><p id="outcomeMeta"></p></div>
-        <div class="outcome-items" id="outcomeItems"></div>
-        <div class="outcome-price"><small>PER PERSON</small><strong id="outcomePrice"></strong><span id="outcomeBudget"></span></div>
-        <div class="outcome-checks"><span>✓ Budget checked</span><span>✓ Preference checked</span><span>◌ Availability simulated</span></div>
-        <div class="outcome-actions"><button class="secondary-button" id="replayDemo" type="button">Replay demo</button><button class="primary-button" id="explainOutcome" type="button">Why this offer?</button></div>
-        <div class="outcome-explanation" id="outcomeExplanation" hidden></div>
-      </article>
-    </section>
-
-    <section class="closing" aria-labelledby="closing-title">
-      <p class="section-index">04 — The invisible interface</p>
-      <h2 id="closing-title">Less interface.<br><em>More verified outcome.</em></h2>
-      <div class="old-new">
-        <div><small>TODAY</small><p>Search → Browse → Compare → Filter → Call → Book</p></div>
-        <span>becomes</span>
-        <div><small>AGENTIC</small><p>Intent <b>→</b> Outcome</p></div>
-      </div>
-      <p class="closing-note">This showcase uses curated scenarios and a retailer simulator. It does not make a real booking, access a real calendar, or charge a payment method.</p>
     </section>
   </main>
 
-  <footer>
-    <a class="brand footer-brand" href="#top"><img src="./assets/agmentic-mark.png" alt=""><span>AGMENTIC</span></a>
-    <p>Consumer intent, represented with care.</p>
-    <button type="button" data-scroll-demo>Run the showcase again ↑</button>
-  </footer>
-
+  <div class="modal" id="toolModal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <div class="modal-card"><header><div><small id="modalKicker"></small><h2 id="modalTitle"></h2></div><button id="closeModal" type="button" aria-label="Close">×</button></header><div id="modalBody"></div></div>
+  </div>
+  <div class="toast" id="toast" hidden role="status"></div>
   <script src="./app.js"></script>
 </body>
 </html>
