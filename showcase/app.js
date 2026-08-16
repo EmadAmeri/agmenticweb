@@ -9,7 +9,7 @@ let accessChallenge = null;
 let accessEmail = "";
 let resendTimer = null;
 function setAccessStatus(message,isError=false){const status=$("#accessStatus");status.textContent=message;status.classList.toggle("error",isError)}
-function setAccessBusy(form,busy){form.querySelectorAll("input,button").forEach(el=>el.disabled=busy)}
+function setAccessBusy(form,busy){form.querySelectorAll("input,button[type=submit]").forEach(el=>el.disabled=busy)}
 function unlockShowcase(){document.body.classList.add("access-granted");$("#accessGate").hidden=true}
 async function accessRequest(path,body,token){const response=await fetch(`${ACCESS_API}/${path}`,{method:"POST",headers:{"Content-Type":"application/json",...(token?{Authorization:`Bearer ${token}`}:{})},body:JSON.stringify(body||{})});const data=await response.json().catch(()=>({}));if(!response.ok)throw new Error(data.error||"We couldn't complete that request.");return data}
 function beginResendCountdown(){clearInterval(resendTimer);let remaining=60;const button=$("#resendCode");button.disabled=true;button.textContent=`Resend in ${remaining}s`;resendTimer=setInterval(()=>{remaining-=1;if(remaining<=0){clearInterval(resendTimer);button.disabled=false;button.textContent="Send a new code"}else button.textContent=`Resend in ${remaining}s`},1000)}
