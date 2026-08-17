@@ -1,133 +1,16 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#173a2b">
-  <meta name="description" content="Use a live, limited consumer agent and watch it negotiate with a retailer agent.">
-  <title>Agmentic Agent Sandbox</title>
-  <link rel="stylesheet" href="./style.css">
-</head>
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#173a2b"><meta name="description" content="A simple guided demo of a consumer agent negotiating with a retailer agent."><title>Agmentic Agent Showcase</title><link rel="stylesheet" href="./style.css"></head>
 <body>
-  <section class="access-gate" id="accessGate" aria-labelledby="accessTitle">
-    <div class="access-card">
-      <div class="access-brand"><img src="./assets/agmentic-mark.png" alt=""><span>AGMENTIC</span><i>SHOWCASE ACCESS</i></div>
-      <p class="eyebrow">A private interactive preview</p>
-      <h1 id="accessTitle">See what happens<br><em>when agents negotiate.</em></h1>
-      <p class="access-copy">Enter your email to receive a six-digit access code. After verification, the live showcase unlocks for 12 hours.</p>
-      <form class="access-form" id="emailAccessForm">
-        <label for="accessEmail">Work email</label>
-        <div><input id="accessEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required><button type="submit">Send code <span>→</span></button></div>
-        <input class="honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true">
-      </form>
-      <form class="access-form code-form" id="codeAccessForm" hidden>
-        <div class="code-context"><span>Code sent to</span><strong id="codeEmail"></strong><button id="changeEmail" type="button">Change</button></div>
-        <label for="accessCode">Six-digit code</label>
-        <div><input id="accessCode" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="000000" required><button type="submit">Unlock demo <span>→</span></button></div>
-        <button class="resend-code" id="resendCode" type="button" disabled>Resend in 60s</button>
-      </form>
-      <p class="access-status" id="accessStatus" role="status" aria-live="polite"></p>
-      <div class="access-points"><span>2 LLM questions</span><span>2 agent handshakes</span><span>1 location lookup</span></div>
-      <p class="privacy-note">By continuing, your email is added to Agmentic's showcase interest list and stored with the same event-lead system used on agmentic.com.</p>
-    </div>
-    <aside class="access-story" aria-hidden="true"><div><small>CONSUMER AGENT</small><strong>“Find the best fit under €32.”</strong></div><b>↔</b><div><small>RETAILER AGENT</small><strong>“I can offer 12% within policy.”</strong></div></aside>
-  </section>
-  <a class="skip-link" href="#sandbox">Skip to agent</a>
-  <header class="topbar">
-    <a class="brand" href="#top"><img src="./assets/agmentic-mark.png" alt=""><b>AGMENTIC</b><span>SHOWCASE</span></a>
-    <div class="top-note"><i></i> Live LLM · limited session</div>
-    <button class="outline-button" id="restartDemo" type="button">Restart demo</button>
-  </header>
-
-  <main id="top">
-    <section class="intro">
-      <p class="eyebrow">A sandboxed product experience</p>
-      <h1>Use the agent.<br><em>Then watch agents negotiate.</em></h1>
-      <p>Change a real menu, ask the LLM, share a location signal and run the same intent through a retailer handshake. Your session is deliberately limited, so it stays a showcase—not a product account.</p>
-      <button class="primary-button" data-start type="button">Start limited session <span>→</span></button>
-      <div class="limits-preview"><span>2 LLM questions</span><span>1 location lookup</span><span>2 handshakes</span><span>No real booking</span></div>
-    </section>
-
-    <section class="sandbox" id="sandbox" aria-labelledby="sandboxTitle">
-      <div class="section-heading">
-        <div><p class="eyebrow">Consumer side</p><h2 id="sandboxTitle">Fine Dining Agent</h2></div>
-        <div class="quota-bar" id="quotaBar" aria-live="polite">
-          <span><b id="questionQuota">2</b> questions left</span>
-          <span><b id="handshakeQuota">2</b> handshakes left</span>
-        </div>
-      </div>
-
-      <div class="agent-shell">
-        <aside class="tool-rail" aria-label="Agent inputs">
-          <button type="button" data-tool="menu"><i>▤</i><span>Menu</span><small>Preset</small></button>
-          <button type="button" data-tool="location"><i>⌖</i><span>Location</span><small id="locationToolState">Live</small></button>
-          <button type="button" data-tool="calendar"><i>31</i><span>Calendar</span><small>Demo</small></button>
-          <button type="button" data-tool="weather"><i>☂</i><span>Weather</span><small>Demo</small></button>
-          <button type="button" data-tool="call"><i>⌕</i><span>Agent call</span><small>Fake</small></button>
-        </aside>
-
-        <section class="chat-panel" aria-label="Fine Dining Agent conversation">
-          <header class="chat-head">
-            <div class="agent-avatar"><img src="./assets/mascot.png" alt=""></div>
-            <div><strong>Fine Dining Agent</strong><span><i></i> Ready with Maison Lumière's menu</span></div>
-            <button id="showLimits" type="button">Session limits</button>
-          </header>
-          <div class="conversation" id="conversation" aria-live="polite">
-            <article class="message agent-message"><span>A</span><p>I'm ready. Open the menu, change your preferences or ask me up to two questions about what you should order.</p></article>
-          </div>
-          <div class="suggested-questions" aria-label="Suggested questions">
-            <button type="button">What is the best main under my budget?</button>
-            <button type="button">Which dish fits my preferences?</button>
-            <button type="button">Build a dinner choice for me.</button>
-          </div>
-          <form class="chat-form" id="chatForm">
-            <label class="sr-only" for="chatInput">Ask the agent</label>
-            <input id="chatInput" maxlength="280" placeholder="Ask about this menu…" autocomplete="off">
-            <button class="send-button" id="sendButton" type="submit" aria-label="Send question">↑</button>
-          </form>
-          <p class="chat-limit-note" id="chatLimitNote">You can ask 2 LLM-powered questions in this showcase.</p>
-        </section>
-
-        <aside class="intent-panel" aria-label="Editable consumer intent">
-          <div class="panel-label"><span>Your live intent</span><i>Editable</i></div>
-          <label>Occasion<select id="occasion"><option>Business dinner</option><option>Anniversary</option><option>Casual dinner</option></select></label>
-          <div class="field-row">
-            <label>Guests<input id="partySize" type="number" min="1" max="6" value="4"></label>
-            <label>€/person<input id="budget" type="number" min="10" max="80" value="32"></label>
-          </div>
-          <fieldset><legend>I like</legend><div class="choice-chips" data-choice="likes"><button type="button" class="selected">fish</button><button type="button">mushroom</button><button type="button">vegetarian</button><button type="button">wine</button></div></fieldset>
-          <fieldset><legend>I avoid</legend><div class="choice-chips avoid" data-choice="dislikes"><button type="button">shellfish</button><button type="button">alcohol</button><button type="button">beef</button><button type="button">dairy</button></div></fieldset>
-          <div class="signal-summary"><small>ACTIVE CONTEXT</small><div id="activeSignals"><span>Menu loaded</span></div></div>
-          <p>These values shape both the LLM context and the retailer handshake.</p>
-        </aside>
-      </div>
-    </section>
-
-    <section class="retailer" id="retailer" aria-labelledby="retailerTitle">
-      <div class="section-heading light">
-        <div><p class="eyebrow">Retailer side</p><h2 id="retailerTitle">The same intent crosses the boundary.</h2></div>
-        <p>Only derived preferences, party size and budget are shared. Raw chat and connector details stay with the consumer agent.</p>
-      </div>
-      <div class="retailer-grid">
-        <article class="retailer-card">
-          <header><span class="retailer-mark">M</span><div><small>RETAILER AGENT</small><h3>Maison Lumière</h3></div><i>Online</i></header>
-          <h4>Capabilities</h4><ul><li>Menu exchange</li><li>Intent matching</li><li>Budget guardrail</li><li>12% showcase concession</li><li>Quiet-table preference</li></ul>
-          <h4>Editable menu policy</h4><div class="policy"><span>Maximum concession</span><b>12%</b></div><div class="policy"><span>Reservation</span><b>Simulated</b></div>
-        </article>
-        <article class="handshake-stage">
-          <header><div><small>AGMENTIC A2A · LIVE STATE</small><strong>Consumer ↔ Retailer</strong></div><button class="primary-button" id="connectAgents" type="button">Connect agents <span>→</span></button></header>
-          <div class="handshake-empty" id="handshakeEmpty"><b>↔</b><strong>Ready for one negotiation</strong><p>Change the menu or your intent above, then connect. You can run this twice and compare the result.</p></div>
-          <ol class="event-stream" id="eventStream" aria-live="polite"></ol>
-          <article class="offer-card" id="offerCard" hidden tabindex="-1"><div><small>OFFER READY · NO BOOKING MADE</small><h3 id="offerTitle"></h3><p id="offerDetails"></p></div><div class="offer-price"><del id="listPrice"></del><strong id="offerPrice"></strong><span id="budgetCheck"></span></div></article>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <div class="modal" id="toolModal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle">
-    <div class="modal-card"><header><div><small id="modalKicker"></small><h2 id="modalTitle"></h2></div><button id="closeModal" type="button" aria-label="Close">×</button></header><div id="modalBody"></div></div>
-  </div>
-  <div class="toast" id="toast" hidden role="status"></div>
-  <script src="./app.js"></script>
-</body>
-</html>
+<section class="access-gate" id="accessGate" aria-labelledby="accessTitle"><div class="access-card"><a class="access-brand" href="https://agmentic.com"><img src="./assets/agmentic-mark.png" alt=""><b>AGMENTIC</b><span>SHOWCASE</span></a><p class="eyebrow">Private interactive preview</p><h1 id="accessTitle">One email.<br><em>One guided experience.</em></h1><p class="access-copy">We’ll email you a six-digit code. No account or password needed.</p><form class="access-form" id="emailAccessForm"><label for="accessEmail">Email</label><div><input id="accessEmail" name="email" type="email" inputmode="email" autocomplete="email" placeholder="you@company.com" required><button type="submit">Send code →</button></div><input class="honeypot" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"></form><form class="access-form code-form" id="codeAccessForm" hidden><div class="code-context"><span>Sent to</span><strong id="codeEmail"></strong><button id="changeEmail" type="button">Change</button></div><label for="accessCode">Access code</label><div><input id="accessCode" name="code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{6}" maxlength="6" placeholder="000000" required><button type="submit">Open demo →</button></div><button class="resend-code" id="resendCode" type="button" disabled>Resend in 60s</button></form><p class="access-status" id="accessStatus" role="status" aria-live="polite"></p><p class="privacy-note">Your verified email is saved to Agmentic’s separate showcase-interest list.</p></div></section>
+<header class="topbar"><a class="brand" href="#top"><img src="./assets/agmentic-mark.png" alt=""><b>AGMENTIC</b><span>SHOWCASE</span></a><div class="session-counts" aria-live="polite"><span><b id="questionQuota">2</b> questions</span><span><b id="handshakeQuota">2</b> connects</span></div><button class="text-button" id="restartDemo" type="button">Restart</button></header>
+<main id="top">
+<section class="intro"><p class="eyebrow">A 3-minute guided demo</p><h1>Your agent understands.<br><em>Then it negotiates.</em></h1><p>Give it a little context, ask one question, then watch it talk to the restaurant’s agent.</p><button class="primary-button" data-start type="button">Start the demo →</button><ol class="journey" aria-label="Demo steps"><li><b>1</b><span>Add context</span></li><li><b>2</b><span>Ask the agent</span></li><li><b>3</b><span>Connect agents</span></li></ol></section>
+<section class="experience" id="sandbox" aria-labelledby="sandboxTitle"><header class="experience-head"><div><p class="step-label">STEP 1</p><h2 id="sandboxTitle">Give your agent context.</h2><p>Choose only what matters. Tap any tool to see what it does.</p></div><button id="showLimits" class="help-button" type="button">What’s limited?</button></header>
+<div class="context-tools" aria-label="Agent context tools"><button type="button" data-tool="menu" data-guide-title="Menu" data-guide-copy="A preset restaurant menu. You can change prices before asking or negotiating."><i>▤</i><span>Menu</span><small>Preset</small></button><button type="button" data-tool="location" data-guide-title="Nearby" data-guide-copy="Uses your location once to find nearby restaurants. Coordinates are not shared with the retailer."><i>⌖</i><span>Nearby</span><small id="locationToolState">1 use</small></button><button type="button" data-tool="calendar" data-guide-title="Calendar" data-guide-copy="Adds a simulated dinner event so the agent knows occasion, time and party size."><i>31</i><span>Calendar</span><small>Demo</small></button><button type="button" data-tool="weather" data-guide-title="Weather" data-guide-copy="Adds simulated rain. The agent turns it into an indoor-seating preference."><i>☂</i><span>Weather</span><small>Demo</small></button><button type="button" data-tool="call" data-guide-title="Agent call" data-guide-copy="Starts a simulated voice call. Answer it, hear the agent and set one priority."><i>☎</i><span>Call</span><small>Voice</small></button></div>
+<div class="quick-intent"><label>Occasion<select id="occasion"><option>Business dinner</option><option>Anniversary</option><option>Casual dinner</option></select></label><label>Guests<select id="partySize"><option value="2">2 people</option><option value="4" selected>4 people</option><option value="6">6 people</option></select></label><label>Budget<select id="budget"><option value="24">€24 / person</option><option value="32" selected>€32 / person</option><option value="48">€48 / person</option></select></label><fieldset><legend>Preference</legend><div class="choice-chips" data-choice="likes"><button type="button" class="selected">fish</button><button type="button">mushroom</button><button type="button">vegetarian</button></div></fieldset><div class="hidden-dislikes" data-choice="dislikes" aria-hidden="true"><button type="button">shellfish</button><button type="button">alcohol</button><button type="button">beef</button><button type="button">dairy</button></div></div><div class="active-context"><small>Agent now knows</small><div id="activeSignals"><span>Menu loaded</span></div></div>
+<section class="chat-panel" aria-label="Fine Dining Agent conversation"><header class="chat-head"><div class="agent-avatar"><img src="./assets/mascot.png" alt=""></div><div><strong>Fine Dining Agent</strong><span><i></i> Ready</span></div><p class="step-label">STEP 2 · ASK</p></header><div class="conversation" id="conversation" aria-live="polite"><article class="message agent-message"><span>A</span><p>Tell me what matters, or choose one question below.</p></article></div><div class="suggested-questions" aria-label="Suggested questions"><button type="button">What should I order?</button><button type="button">Find the best option under my budget.</button></div><form class="chat-form" id="chatForm"><label class="sr-only" for="chatInput">Ask the agent</label><input id="chatInput" maxlength="180" placeholder="Ask one simple question…" autocomplete="off"><button class="send-button" id="sendButton" type="submit" aria-label="Send question">↑</button></form><p class="chat-limit-note" id="chatLimitNote">2 live AI questions available.</p></section></section>
+<section class="retailer" id="retailer" aria-labelledby="retailerTitle"><div class="retailer-copy"><p class="step-label">STEP 3</p><h2 id="retailerTitle">Now connect the agents.</h2><p>Your agent shares only the useful brief—not your raw chat or location.</p><div class="share-preview"><span>Budget</span><span>Party size</span><span>Preference</span></div><button class="primary-button" id="connectAgents" type="button">Connect agents →</button></div><div class="handshake-stage"><header><div><small>CONSUMER AGENT</small><b>↔</b><small>MAISON LUMIÈRE</small></div><span>Simulated negotiation</span></header><div class="handshake-empty" id="handshakeEmpty"><b>↔</b><strong>Ready when you are</strong><p>Change one preference, connect again and compare the offer.</p></div><ol class="event-stream" id="eventStream" aria-live="polite"></ol><article class="offer-card" id="offerCard" hidden tabindex="-1"><div><small>OFFER READY · NO BOOKING MADE</small><h3 id="offerTitle"></h3><p id="offerDetails"></p></div><div class="offer-price"><del id="listPrice"></del><strong id="offerPrice"></strong><span id="budgetCheck"></span></div></article></div></section>
+</main>
+<div class="guide-popover" id="guidePopover" hidden role="dialog" aria-modal="false" aria-labelledby="guideTitle"><button id="closeGuide" type="button" aria-label="Close guide">×</button><small>WHAT THIS DOES</small><h3 id="guideTitle"></h3><p id="guideCopy"></p><button class="guide-action" id="guideAction" type="button">Try it →</button></div>
+<div class="modal" id="toolModal" hidden role="dialog" aria-modal="true" aria-labelledby="modalTitle"><div class="modal-card"><header><div><small id="modalKicker"></small><h2 id="modalTitle"></h2></div><button id="closeModal" type="button" aria-label="Close">×</button></header><div id="modalBody"></div></div></div>
+<section class="call-screen" id="callScreen" hidden role="dialog" aria-modal="true" aria-labelledby="callTitle"><div class="call-phone"><small>SIMULATED AGENT CALL</small><div class="call-avatar"><img src="./assets/mascot.png" alt=""></div><h2 id="callTitle">Fine Dining Agent</h2><p id="callStatus">Incoming call…</p><time id="callTimer" hidden>00:00</time><div class="call-transcript" id="callTranscript" hidden>“Hi. Before I negotiate, what should I prioritize?”</div><div class="call-priorities" id="callPriorities" hidden><button type="button" data-call-priority="quiet">A quiet table</button><button type="button" data-call-priority="value">The best price</button></div><div class="call-controls"><button class="decline-call" id="declineCall" type="button"><i>×</i><span>Decline</span></button><button class="answer-call" id="answerCall" type="button"><i>☎</i><span>Answer</span></button><button class="end-call" id="endCall" type="button" hidden><i>×</i><span>End</span></button></div></div></section>
+<div class="toast" id="toast" hidden role="status"></div><script src="./app.js"></script></body></html>
