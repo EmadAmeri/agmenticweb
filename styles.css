@@ -119,8 +119,8 @@ button, input { font: inherit; }
 .masthead { height: 6.25rem; display:flex; align-items:center; justify-content:space-between; padding:1.25rem var(--gutter); }
 .brand { opacity:0; transform:translateY(-.65rem); transition:opacity .55s .12s var(--ease),transform .7s .12s var(--ease); }
 .is-ready .brand { opacity:1; transform:none; }
-.brand { display:inline-flex; align-items:center; min-height:3rem; text-decoration:none; }
-.brand img { display:block; width:10rem; height:auto; filter:drop-shadow(0 0 .6rem rgba(209,240,82,.14)); }
+.brand { display:inline-flex; align-items:center; gap:.95rem; min-height:3rem; text-decoration:none; font-size:.82rem; font-weight:650; letter-spacing:.28em; }
+.brand img { width:2.15rem; height:2.15rem; filter:drop-shadow(0 0 .6rem rgba(209,240,82,.18)); }
 .contact-links { position:absolute; left:var(--gutter); bottom:1.35rem; z-index:8; display:flex; align-items:center; gap:.4rem; opacity:0; transform:translateY(.65rem); transition:opacity .55s .8s var(--ease),transform .7s .8s var(--ease); }
 .is-ready .contact-links { opacity:1; transform:none; }
 .contact-links a { position:relative; width:2.75rem; height:2.75rem; display:grid; place-items:center; color:var(--signal); text-decoration:none; touch-action:manipulation; transition:color 180ms,transform 220ms var(--ease); }
@@ -261,7 +261,8 @@ button[aria-busy="true"] .submit-mark { animation:button-wait .8s linear infinit
   :root { --gutter:clamp(2rem,4.5vw,3.5rem); }
   .atmosphere { --signal-x:55%; --signal-y:47%; --signal-height:174%; transform:none; }
   .masthead { height:5.5rem; }
-  .brand img { width:9.4rem; }
+  .brand { font-size:.73rem; letter-spacing:.24em; }
+  .brand img { width:1.9rem; height:1.9rem; }
   .hero { min-height:calc(100dvh - 5.5rem); }
   h1 { left:var(--gutter); top:42%; font-size:clamp(4.25rem,7.25vw,5.4rem); line-height:.73; }
   .line-two { margin-left:clamp(.75rem,2vw,1.5rem); }
@@ -277,7 +278,8 @@ button[aria-busy="true"] .submit-mark { animation:button-wait .8s linear infinit
   :root { --gutter:clamp(2rem,5vw,2.75rem); }
   .atmosphere { --signal-x:55%; --signal-y:45%; --signal-height:165%; transform:none; }
   .masthead { height:5.25rem; padding-block:1rem; }
-  .brand img { width:9.4rem; }
+  .brand { font-size:.73rem; letter-spacing:.24em; }
+  .brand img { width:1.9rem; height:1.9rem; }
   .hero { min-height:calc(100dvh - 5.25rem); }
   h1 { left:var(--gutter); top:21%; transform:none; font-size:clamp(4rem,8.7vw,4.6rem); line-height:.73; }
   .line-two { margin-left:clamp(1rem,3vw,1.8rem); }
@@ -297,8 +299,8 @@ button[aria-busy="true"] .submit-mark { animation:button-wait .8s linear infinit
   body { position:relative; min-height:max(46rem,100dvh); }
   .atmosphere { --signal-x:55%; --signal-y:43%; --signal-angle:-12deg; --signal-height:147%; transform:none; }
   .masthead { height:4.75rem; padding:1rem var(--gutter); }
-  .brand { min-height:2.75rem; }
-  .brand img { width:8.65rem; }
+  .brand { gap:.72rem; min-height:2.75rem; font-size:.68rem; letter-spacing:.23em; }
+  .brand img { width:1.72rem; height:1.72rem; }
   .hero { min-height:max(41.25rem,calc(100dvh - 4.75rem)); }
   h1 { left:var(--gutter); top:clamp(5rem,11.5vh,6.75rem); transform:none; font-size:clamp(3rem,14.2vw,3.8rem); line-height:.735; letter-spacing:-.072em; }
   .line-two { margin-left:0; }
