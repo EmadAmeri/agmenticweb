@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
+  <title>Agmentic A! mark — lime</title>
+  <g transform="translate(-32 -24) scale(1.638)" fill="#D1F052">
+    <g fill="none" stroke="#D1F052" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M70 270 L136 92 L204 270" stroke-width="42"/>
+      <path d="M98 216 H178" stroke-width="30"/>
+    </g>
+    <path d="M236 75 Q236 65 247 65 H271 Q282 65 282 76 L276 203 Q275 216 263 216 H254 Q242 216 241 203 Z"/>
+    <circle cx="259" cy="258" r="24"/>
+  </g>
+</svg>

@@ -12,6 +12,7 @@ interface Env {
   ALLOWED_ORIGIN?: string;
   GOOGLE_SHEETS_WEBHOOK_URL?: string;
   GOOGLE_SHEETS_WEBHOOK_TOKEN?: string;
+  SHOWCASE_INTERNAL_SECRET?: string;
 }
 
 type CompanyMetric = (typeof DEMO_DATA.companyMetrics)[number];
@@ -30,6 +31,39 @@ const USAGE_LIMIT_MESSAGE =
   "The AI demo has currently reached its usage limit or is temporarily unavailable. Please try again shortly.";
 const DEFAULT_REPLY_TO = "hello@agmentic.com";
 const ABSTRACT_ENDPOINT = "https://emailreputation.abstractapi.com/v1/";
+
+function showcaseOtpTemplate(code: string, expiresMinutes: number) {
+  const digits = code.split("").map((digit) => `<span style="display:inline-grid;place-items:center;width:42px;height:52px;margin:0 3px;border:1px solid #d9d9cf;border-radius:10px;background:#f7f6f0;font-size:24px;font-weight:700;color:#173a2b;">${digit}</span>`).join("");
+  return `<div style="font-family:Inter,Segoe UI,Arial,sans-serif;max-width:520px;margin:0 auto;padding:36px 28px;background:#fffefa;color:#10130f;border:1px solid #d9d9cf;border-radius:18px;">
+    <p style="margin:0 0 12px;color:#5f8f25;font-size:11px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;">Agmentic Showcase</p>
+    <h1 style="margin:0 0 14px;font-family:Georgia,serif;font-size:30px;font-weight:500;">Your access code</h1>
+    <p style="margin:0 0 26px;color:#687066;font-size:14px;line-height:1.65;">Enter this code to unlock the interactive agent demo.</p>
+    <div style="margin:0 0 25px;white-space:nowrap;">${digits}</div>
+    <p style="margin:0;color:#687066;font-size:12px;line-height:1.6;">The code expires in ${expiresMinutes} minutes. If you did not request it, you can ignore this email.</p>
+  </div>`;
+}
+
+async function handleShowcaseOtpEmail(request: Request, env: Env) {
+  const suppliedSecret = request.headers.get("X-Agmentic-Internal") || "";
+  if (!env.SHOWCASE_INTERNAL_SECRET || suppliedSecret !== env.SHOWCASE_INTERNAL_SECRET) return new Response("Forbidden", { status: 403 });
+  const body = (await request.json().catch(() => null)) as { email?: string; code?: string; expiresMinutes?: number } | null;
+  const email = normalizeEmail(body?.email || "");
+  const code = body?.code?.trim() || "";
+  const expiresMinutes = Math.max(1, Math.min(30, Number(body?.expiresMinutes) || 10));
+  if (!isValidEmail(email) || !/^\d{6}$/.test(code)) return new Response("Invalid request", { status: 400 });
+  if (!env.RESEND_API_KEY) return new Response("Email service unavailable", { status: 503 });
+  const fromAddress = env.SENTRA_FROM_EMAIL?.trim() || DEFAULT_FROM;
+  const from = fromAddress.includes("<") ? fromAddress : `Agmentic <${fromAddress}>`;
+  await sendEmail(env.RESEND_API_KEY, {
+    from,
+    to: [email],
+    reply_to: DEFAULT_REPLY_TO,
+    subject: `${code} is your Agmentic Showcase code`,
+    html: showcaseOtpTemplate(code, expiresMinutes),
+    text: `Your Agmentic Showcase access code is ${code}. It expires in ${expiresMinutes} minutes.`,
+  });
+  return new Response(JSON.stringify({ ok: true }), { status: 200, headers: { "Content-Type": "application/json" } });
+}
 
 function corsHeaders(origin: string) {
   return {
@@ -929,6 +963,10 @@ export default {
     }
 
     try {
+      if (url.pathname === "/internal/showcase-otp") {
+        return await handleShowcaseOtpEmail(request, env);
+      }
+
       if (url.pathname.endsWith("/api/sentra-demo-access")) {
         return await handleDemoAccess(request, env, origin);
       }
