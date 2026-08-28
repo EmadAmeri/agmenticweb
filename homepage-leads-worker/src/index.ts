@@ -1,7 +1,8 @@
 import { EmailMessage } from "cloudflare:email";
 import { createMimeMessage } from "mimetext/browser";
+import { welcomeEmail } from "./email-templates";
 
-type Channel = "email" | "sheet";
+type Channel = "email" | "sheet" | "welcome";
 
 interface QueuePayload {
   outboxId: string;
@@ -13,12 +14,15 @@ interface Env {
   LEADS_DB: D1Database;
   LEAD_QUEUE: Queue<QueuePayload>;
   LEAD_EMAIL: SendEmail;
+  CUSTOMER_EMAIL: SendEmail;
   ALLOWED_ORIGINS: string;
   LEAD_SOURCE: string;
   LEAD_CATEGORY: string;
   CAMPAIGN_ID: string;
   NOTIFY_FROM: string;
   NOTIFY_TO: string;
+  WELCOME_FROM: string;
+  CUSTOMER_EMAILS_ENABLED: string;
   SHEET_ID: string;
   SHEETS_WEBHOOK_URL?: string;
   SHEETS_WEBHOOK_TOKEN?: string;
@@ -42,6 +46,7 @@ interface LeadRow {
   sheet_status: string;
   last_error: string;
   country: string;
+  welcome_status: string;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -167,6 +172,8 @@ async function acceptLead(request: Request, env: Env, origin: string) {
 
   const emailOutboxId = crypto.randomUUID();
   const sheetOutboxId = crypto.randomUUID();
+  const welcomeOutboxId = crypto.randomUUID();
+  const welcomeEnabled = env.CUSTOMER_EMAILS_ENABLED === "true";
   await env.LEADS_DB.batch([
     env.LEADS_DB.prepare(
       `INSERT INTO leads
@@ -187,12 +194,20 @@ async function acceptLead(request: Request, env: Env, origin: string) {
        (id, lead_id, channel, status, available_at, created_at, updated_at)
        VALUES (?, ?, 'sheet', 'pending', ?, ?, ?)`,
     ).bind(sheetOutboxId, leadId, now, now, now),
+    ...(welcomeEnabled ? [env.LEADS_DB.prepare(
+      `INSERT INTO outbox
+       (id, lead_id, channel, status, available_at, created_at, updated_at)
+       VALUES (?, ?, 'welcome', 'pending', ?, ?, ?)`,
+    ).bind(welcomeOutboxId, leadId, now, now, now), env.LEADS_DB.prepare(
+      "UPDATE leads SET welcome_status = 'pending' WHERE id = ?",
+    ).bind(leadId)] : []),
   ]);
 
   const jobs: QueuePayload[] = [
     { outboxId: emailOutboxId, leadId, channel: "email" },
     { outboxId: sheetOutboxId, leadId, channel: "sheet" },
   ];
+  if (welcomeEnabled) jobs.push({ outboxId: welcomeOutboxId, leadId, channel: "welcome" });
   try {
     await enqueueOutbox(env, jobs);
   } catch (error) {
@@ -345,6 +360,19 @@ function buildNotification(lead: LeadRow, env: Env) {
   return new EmailMessage(env.NOTIFY_FROM, env.NOTIFY_TO, message.asRaw());
 }
 
+async function sendWelcome(lead: LeadRow, env: Env) {
+  if (env.CUSTOMER_EMAILS_ENABLED !== "true") throw new Error("customer_email_delivery_disabled");
+  const template = welcomeEmail();
+  return env.CUSTOMER_EMAIL.send({
+    to: lead.email,
+    from: { email: env.WELCOME_FROM, name: "Agmentic" },
+    replyTo: { email: env.WELCOME_FROM, name: "Agmentic" },
+    subject: template.subject,
+    html: template.html,
+    text: template.text,
+  });
+}
+
 async function syncSheet(lead: LeadRow, env: Env) {
   if (lead.source === SHOWCASE_SOURCE) {
     const response = await fetch(env.SHOWCASE_SHEETS_URL, {
@@ -425,6 +453,10 @@ async function processMessage(message: Message<QueuePayload>, env: Env) {
       await env.LEAD_EMAIL.send(buildNotification(lead, env));
       await env.LEADS_DB.prepare("UPDATE leads SET email_status = 'sent', last_error = '' WHERE id = ?")
         .bind(lead.id).run();
+    } else if (payload.channel === "welcome") {
+      await sendWelcome(lead, env);
+      await env.LEADS_DB.prepare("UPDATE leads SET welcome_status = 'sent', welcome_sent_at = ?, last_error = '' WHERE id = ?")
+        .bind(now, lead.id).run();
     } else {
       await syncSheet(lead, env);
       await env.LEADS_DB.prepare("UPDATE leads SET sheet_status = 'synced', last_error = '' WHERE id = ?")
@@ -441,7 +473,7 @@ async function processMessage(message: Message<QueuePayload>, env: Env) {
         "UPDATE outbox SET status = 'queued', updated_at = ?, last_error = ? WHERE id = ?",
       ).bind(now, detail, payload.outboxId),
       env.LEADS_DB.prepare(
-        `UPDATE leads SET ${payload.channel === "email" ? "email_status" : "sheet_status"} = 'failed', last_error = ? WHERE id = ?`,
+        `UPDATE leads SET ${payload.channel === "email" ? "email_status" : payload.channel === "welcome" ? "welcome_status" : "sheet_status"} = 'failed', last_error = ? WHERE id = ?`,
       ).bind(detail, lead.id),
     ]);
     message.retry({ delaySeconds: 60 });

@@ -15,7 +15,15 @@ Independent lead capture service for the Agmentic homepage.
 - `SHEETS_WEBHOOK_URL`: dedicated Apps Script web-app URL.
 - `SHEETS_WEBHOOK_TOKEN`: random token stored in both Worker secrets and Apps Script properties.
 
-Cloudflare Email Service requires direct verified destination addresses. `hello@agmentic.com` remains the public contact address, while notification delivery must list the two verified personal destinations in the email binding.
+Cloudflare Email Service handles customer email directly from the Worker. The sending domain must be onboarded before `CUSTOMER_EMAILS_ENABLED` can be changed to `true`.
+
+## Customer email safety
+
+- `CUSTOMER_EMAILS_ENABLED` is `false` by default. No welcome email is queued or sent in this state.
+- Enabling it affects only brand-new homepage registrations. Existing leads are never backfilled automatically.
+- Welcome messages use `hello@agmentic.com`; event invitations use `event@agmentic.com`.
+- `event@agmentic.com` also routes incoming replies to the verified Agmentic operations inbox.
+- Keep the event invitation template manual until consent, unsubscribe handling, and the selected event registration URL are confirmed.
 
 ## Lead identity
 
