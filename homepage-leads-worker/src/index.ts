@@ -14,7 +14,8 @@ interface Env {
   LEADS_DB: D1Database;
   LEAD_QUEUE: Queue<QueuePayload>;
   LEAD_EMAIL: SendEmail;
-  CUSTOMER_EMAIL: SendEmail;
+  BREVO_API_KEY: string;
+  BREVO_API_URL: string;
   ALLOWED_ORIGINS: string;
   LEAD_SOURCE: string;
   LEAD_CATEGORY: string;
@@ -363,14 +364,26 @@ function buildNotification(lead: LeadRow, env: Env) {
 async function sendWelcome(lead: LeadRow, env: Env) {
   if (env.CUSTOMER_EMAILS_ENABLED !== "true") throw new Error("customer_email_delivery_disabled");
   const template = welcomeEmail();
-  return env.CUSTOMER_EMAIL.send({
-    to: lead.email,
-    from: { email: env.WELCOME_FROM, name: "Agmentic" },
-    replyTo: { email: env.WELCOME_FROM, name: "Agmentic" },
-    subject: template.subject,
-    html: template.html,
-    text: template.text,
+  const response = await fetch(env.BREVO_API_URL, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "api-key": env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { email: env.WELCOME_FROM, name: "Agmentic" },
+      to: [{ email: lead.email }],
+      replyTo: { email: env.WELCOME_FROM, name: "Agmentic" },
+      subject: template.subject,
+      htmlContent: template.html,
+      textContent: template.text,
+    }),
   });
+  if (!response.ok) {
+    const detail = (await response.text()).slice(0, 160).replaceAll(env.BREVO_API_KEY, "[redacted]");
+    throw new Error(`brevo_welcome_failed_${response.status}_${detail}`);
+  }
 }
 
 async function syncSheet(lead: LeadRow, env: Env) {

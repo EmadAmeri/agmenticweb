@@ -14,8 +14,9 @@ Independent lead capture service for the Agmentic homepage.
 
 - `SHEETS_WEBHOOK_URL`: dedicated Apps Script web-app URL.
 - `SHEETS_WEBHOOK_TOKEN`: random token stored in both Worker secrets and Apps Script properties.
+- `BREVO_API_KEY`: Brevo API key stored only as a Cloudflare Worker secret.
 
-Cloudflare Email Service handles customer email directly from the Worker. The sending domain must be onboarded before `CUSTOMER_EMAILS_ENABLED` can be changed to `true`.
+Brevo's free transactional email API handles customer email from the Worker, so Cloudflare Workers Paid Email Sending is not required. The sending domain must be authenticated in Brevo before `CUSTOMER_EMAILS_ENABLED` can be changed to `true`.
 
 ## Customer email safety
 
