@@ -206,8 +206,10 @@ async function acceptLead(request: Request, env: Env, origin: string) {
 
   const jobs: QueuePayload[] = [
     { outboxId: emailOutboxId, leadId, channel: "email" },
-    { outboxId: sheetOutboxId, leadId, channel: "sheet" },
   ];
+  if (env.SHEETS_WEBHOOK_URL && env.SHEETS_WEBHOOK_TOKEN) {
+    jobs.push({ outboxId: sheetOutboxId, leadId, channel: "sheet" });
+  }
   if (welcomeEnabled) jobs.push({ outboxId: welcomeOutboxId, leadId, channel: "welcome" });
   try {
     await enqueueOutbox(env, jobs);
@@ -481,14 +483,19 @@ async function processMessage(message: Message<QueuePayload>, env: Env) {
     message.ack();
   } catch (error) {
     const detail = error instanceof Error ? error.message.slice(0, 500) : "unknown_delivery_error";
+    const isConfigurationError = detail === "sheets_webhook_not_configured" || detail === "customer_email_delivery_disabled";
     await env.LEADS_DB.batch([
       env.LEADS_DB.prepare(
-        "UPDATE outbox SET status = 'queued', updated_at = ?, last_error = ? WHERE id = ?",
-      ).bind(now, detail, payload.outboxId),
+        `UPDATE outbox SET status = ?, updated_at = ?, last_error = ? WHERE id = ?`,
+      ).bind(isConfigurationError ? "pending" : "queued", now, detail, payload.outboxId),
       env.LEADS_DB.prepare(
         `UPDATE leads SET ${payload.channel === "email" ? "email_status" : payload.channel === "welcome" ? "welcome_status" : "sheet_status"} = 'failed', last_error = ? WHERE id = ?`,
       ).bind(detail, lead.id),
     ]);
+    if (isConfigurationError) {
+      message.ack();
+      return;
+    }
     message.retry({ delaySeconds: 60 });
   }
 }
@@ -498,11 +505,16 @@ async function reconcile(env: Env) {
   const now = new Date().toISOString();
   const rows = await env.LEADS_DB.prepare(
     `SELECT id, lead_id, channel FROM outbox
-     WHERE available_at <= ? AND status != 'done'
-       AND (status = 'pending' OR queued_at IS NULL OR queued_at < ?)
+     WHERE available_at <= ? AND attempts < 10
+       AND (status = 'pending' OR (status = 'processing' AND updated_at < ?))
      ORDER BY created_at ASC LIMIT 100`,
   ).bind(now, stale).all<{ id: string; lead_id: string; channel: Channel }>();
-  await enqueueOutbox(env, rows.results.map((row) => ({
+  const deliverable = rows.results.filter((row) => {
+    if (row.channel === "sheet") return Boolean(env.SHEETS_WEBHOOK_URL && env.SHEETS_WEBHOOK_TOKEN);
+    if (row.channel === "welcome") return env.CUSTOMER_EMAILS_ENABLED === "true";
+    return true;
+  });
+  await enqueueOutbox(env, deliverable.map((row) => ({
     outboxId: row.id,
     leadId: row.lead_id,
     channel: row.channel,
