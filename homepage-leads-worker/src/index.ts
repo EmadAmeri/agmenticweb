@@ -623,6 +623,26 @@ async function processMessage(message: Message<QueuePayload>, env: Env) {
     return;
   }
 
+  if (payload.channel === "confirmation" || payload.channel === "welcome" || payload.channel === "event") {
+    const suppression = await env.LEADS_DB.prepare(
+      "SELECT normalized_email FROM email_suppressions WHERE normalized_email = ? LIMIT 1",
+    ).bind(normalizeEmail(lead.email)).first<{ normalized_email: string }>();
+    if (suppression) {
+      const now = new Date().toISOString();
+      const statusColumn = payload.channel === "confirmation" ? "confirmation_status" : payload.channel === "welcome" ? "welcome_status" : "event_status";
+      await env.LEADS_DB.batch([
+        env.LEADS_DB.prepare(
+          "UPDATE outbox SET status = 'suppressed', processed_at = ?, updated_at = ?, last_error = 'manual_email_hold' WHERE id = ?",
+        ).bind(now, now, payload.outboxId),
+        env.LEADS_DB.prepare(
+          `UPDATE leads SET ${statusColumn} = 'held' WHERE id = ?`,
+        ).bind(lead.id),
+      ]);
+      message.ack();
+      return;
+    }
+  }
+
   const now = new Date().toISOString();
   await env.LEADS_DB.prepare(
     "UPDATE outbox SET status = 'processing', attempts = attempts + 1, updated_at = ? WHERE id = ?",
