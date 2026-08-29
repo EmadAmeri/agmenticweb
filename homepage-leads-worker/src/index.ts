@@ -29,6 +29,7 @@ interface Env {
   WELCOME_FROM: string;
   EVENT_FROM: string;
   CUSTOMER_EMAILS_ENABLED: string;
+  EVENT_EMAILS_ENABLED: string;
   SHEET_ID: string;
   SHEETS_WEBHOOK_URL?: string;
   SHEETS_WEBHOOK_TOKEN?: string;
@@ -227,6 +228,7 @@ async function acceptLead(request: Request, env: Env, origin: string) {
   const sheetOutboxId = crypto.randomUUID();
   const confirmationOutboxId = crypto.randomUUID();
   const customerEmailsEnabled = env.CUSTOMER_EMAILS_ENABLED === "true";
+  const eventEmailsEnabled = customerEmailsEnabled && env.EVENT_EMAILS_ENABLED === "true";
   await env.LEADS_DB.batch([
     env.LEADS_DB.prepare(
       `INSERT INTO leads
@@ -238,7 +240,7 @@ async function acceptLead(request: Request, env: Env, origin: string) {
       leadId, email, email, env.LEAD_SOURCE, env.LEAD_CATEGORY, env.CAMPAIGN_ID,
       pageUrl, now, now, userAgent, country,
       customerEmailsEnabled ? "pending" : "disabled",
-      customerEmailsEnabled ? "awaiting_confirmation" : "disabled",
+      eventEmailsEnabled ? "awaiting_confirmation" : "paused",
       customerEmailsEnabled ? "awaiting_confirmation" : "disabled",
     ),
     env.LEADS_DB.prepare(
@@ -470,6 +472,7 @@ async function sendConfirmation(lead: LeadRow, env: Env) {
 
 async function sendEventInvitation(lead: LeadRow, env: Env) {
   if (env.CUSTOMER_EMAILS_ENABLED !== "true") throw new Error("customer_email_delivery_disabled");
+  if (env.EVENT_EMAILS_ENABLED !== "true") throw new Error("event_email_delivery_disabled");
   const template = aDayInvitationEmail();
   const response = await fetch(env.BREVO_API_URL, {
     method: "POST",
@@ -571,26 +574,27 @@ async function confirmSubscription(request: Request, env: Env) {
   if (lead.confirmation_status === "confirmed") return confirmationPage("already-confirmed");
 
   const now = new Date().toISOString();
-  const eventAvailableAt = new Date(Date.now() + EVENT_DELAY_MS).toISOString();
   const welcomeOutboxId = crypto.randomUUID();
+  const eventEmailsEnabled = env.EVENT_EMAILS_ENABLED === "true";
+  const eventAvailableAt = new Date(Date.now() + EVENT_DELAY_MS).toISOString();
   const eventOutboxId = crypto.randomUUID();
   await env.LEADS_DB.batch([
     env.LEADS_DB.prepare(
       `UPDATE leads SET confirmation_status = 'confirmed', confirmed_at = ?, confirmed_ip = ?,
        confirmed_user_agent = ?, consent_version = 'homepage-double-opt-in-v1',
-       welcome_status = 'pending', event_status = 'pending', last_error = ''
+       welcome_status = 'pending', event_status = ?, last_error = ''
        WHERE id = ? AND confirmation_status IN ('pending', 'sent')`,
-    ).bind(now, requestIp(request), clean(request.headers.get("User-Agent"), 500), lead.id),
+    ).bind(now, requestIp(request), clean(request.headers.get("User-Agent"), 500), eventEmailsEnabled ? "pending" : "paused", lead.id),
     env.LEADS_DB.prepare(
       `INSERT OR IGNORE INTO outbox
        (id, lead_id, channel, status, available_at, created_at, updated_at)
        VALUES (?, ?, 'welcome', 'pending', ?, ?, ?)`,
     ).bind(welcomeOutboxId, lead.id, now, now, now),
-    env.LEADS_DB.prepare(
+    ...(eventEmailsEnabled ? [env.LEADS_DB.prepare(
       `INSERT OR IGNORE INTO outbox
        (id, lead_id, channel, status, available_at, created_at, updated_at)
        VALUES (?, ?, 'event', 'pending', ?, ?, ?)`,
-    ).bind(eventOutboxId, lead.id, eventAvailableAt, now, now),
+    ).bind(eventOutboxId, lead.id, eventAvailableAt, now, now)] : []),
   ]);
 
   const welcomeOutbox = await env.LEADS_DB.prepare(
@@ -619,6 +623,18 @@ async function processMessage(message: Message<QueuePayload>, env: Env) {
   const lead = await env.LEADS_DB.prepare("SELECT * FROM leads WHERE id = ?")
     .bind(payload.leadId).first<LeadRow>();
   if (!lead) {
+    message.ack();
+    return;
+  }
+
+  if (payload.channel === "event" && env.EVENT_EMAILS_ENABLED !== "true") {
+    const now = new Date().toISOString();
+    await env.LEADS_DB.batch([
+      env.LEADS_DB.prepare(
+        "UPDATE outbox SET status = 'pending', updated_at = ?, last_error = 'event_email_delivery_paused' WHERE id = ?",
+      ).bind(now, payload.outboxId),
+      env.LEADS_DB.prepare("UPDATE leads SET event_status = 'paused' WHERE id = ?").bind(lead.id),
+    ]);
     message.ack();
     return;
   }
@@ -704,7 +720,8 @@ async function reconcile(env: Env) {
   ).bind(now, stale).all<{ id: string; lead_id: string; channel: Channel }>();
   const deliverable = rows.results.filter((row) => {
     if (row.channel === "sheet") return Boolean(env.SHEETS_WEBHOOK_URL && env.SHEETS_WEBHOOK_TOKEN);
-    if (row.channel === "confirmation" || row.channel === "welcome" || row.channel === "event") return env.CUSTOMER_EMAILS_ENABLED === "true";
+    if (row.channel === "event") return env.CUSTOMER_EMAILS_ENABLED === "true" && env.EVENT_EMAILS_ENABLED === "true";
+    if (row.channel === "confirmation" || row.channel === "welcome") return env.CUSTOMER_EMAILS_ENABLED === "true";
     return true;
   });
   await enqueueOutbox(env, deliverable.map((row) => ({

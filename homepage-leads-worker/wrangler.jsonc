@@ -25,6 +25,7 @@
     "EVENT_FROM": "event@agmentic.com",
     "BREVO_API_URL": "https://api.brevo.com/v3/smtp/email",
     "CUSTOMER_EMAILS_ENABLED": "true",
+    "EVENT_EMAILS_ENABLED": "false",
     "SHEET_ID": "1Z_Gu3gexPGW7B1bLp1X1ME-qHu_bBGngy1dnqGfP8Ig",
     "SHOWCASE_SHEETS_URL": "https://api-dining.agmentic.com/internal/showcase-lead"
   },
