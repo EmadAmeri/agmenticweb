@@ -49,6 +49,24 @@ export function welcomeEmail(firstName?: string) {
   };
 }
 
+export function confirmationEmail(confirmUrl: string) {
+  const safeUrl = escapeHtml(confirmUrl);
+  return {
+    subject: "Confirm your email — Agmentic",
+    text: `Hi there,\n\nOne quick step to join Agmentic.\n\nConfirm your email to receive what’s next — upcoming events, think tanks, ideas and experiments.\n\nConfirm my email: ${confirmUrl}\n\nIf you didn’t sign up at agmentic.com, you can ignore this email.\n\nAgmentic\nMunich`,
+    html: shell(`
+      <div style="width:42px;height:2px;background:${SIGNAL};margin-bottom:28px"></div>
+      <p style="margin:0 0 14px;color:${SIGNAL};font-size:12px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase">One quick step</p>
+      <h1 style="margin:0 0 22px;color:${PAPER};font-size:44px;line-height:1.04;letter-spacing:-2px;font-weight:700">Confirm your email.</h1>
+      <p style="margin:0 0 28px;max-width:510px;color:#c8cbc2;font-size:17px;line-height:1.65">Confirm your email to receive what’s next — upcoming events, think tanks, ideas and experiments.</p>
+      <table role="presentation" cellspacing="0" cellpadding="0" border="0"><tr><td bgcolor="${SIGNAL}" style="border-radius:999px">
+        <a href="${safeUrl}" style="display:inline-block;padding:14px 24px;color:${INK};font-size:13px;font-weight:800;letter-spacing:1px;text-decoration:none;text-transform:uppercase">Confirm my email&nbsp;&nbsp;→</a>
+      </td></tr></table>
+      <p style="margin:28px 0 0;max-width:510px;color:${MUTED};font-size:13px;line-height:1.65">If you didn’t sign up at agmentic.com, you can ignore this email.</p>
+    `, "Confirm your email to receive what’s next from Agmentic."),
+  };
+}
+
 export interface EventEmailInput {
   name: string;
   date: string;

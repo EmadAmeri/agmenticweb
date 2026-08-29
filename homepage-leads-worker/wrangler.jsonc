@@ -7,6 +7,8 @@
   "routes": [
     { "pattern": "agmentic.com/api/event-invite", "zone_name": "agmentic.com" },
     { "pattern": "www.agmentic.com/api/event-invite", "zone_name": "agmentic.com" },
+    { "pattern": "agmentic.com/api/confirm-subscription*", "zone_name": "agmentic.com" },
+    { "pattern": "www.agmentic.com/api/confirm-subscription*", "zone_name": "agmentic.com" },
     { "pattern": "agmentic.com/api/showcase-access/*", "zone_name": "agmentic.com" },
     { "pattern": "www.agmentic.com/api/showcase-access/*", "zone_name": "agmentic.com" },
     { "pattern": "agmentic.com/A!-D*", "zone_name": "agmentic.com" },

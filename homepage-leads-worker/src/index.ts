@@ -1,8 +1,8 @@
 import { EmailMessage } from "cloudflare:email";
 import { createMimeMessage } from "mimetext/browser";
-import { aDayInvitationEmail, welcomeEmail } from "./email-templates";
+import { aDayInvitationEmail, confirmationEmail, welcomeEmail } from "./email-templates";
 
-type Channel = "email" | "sheet" | "welcome" | "event";
+type Channel = "email" | "sheet" | "confirmation" | "welcome" | "event";
 
 interface QueuePayload {
   outboxId: string;
@@ -54,6 +54,9 @@ interface LeadRow {
   country: string;
   welcome_status: string;
   event_status: string;
+  confirmation_status: string;
+  confirmation_sent_at: string | null;
+  confirmed_at: string | null;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,6 +65,8 @@ const SHOWCASE_CATEGORY = "interactive_agent_demo";
 const SHOWCASE_CAMPAIGN = "showcase-access-v1";
 const OTP_TTL_MS = 10 * 60 * 1000;
 const ACCESS_TTL_MS = 12 * 60 * 60 * 1000;
+const CONFIRMATION_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+const EVENT_DELAY_MS = 24 * 60 * 60 * 1000;
 
 function cors(origin: string) {
   return {
@@ -103,6 +108,33 @@ async function verifyAccessToken(token: string, env: Env) {
     const padded = payload.replaceAll("-", "+").replaceAll("_", "/") + "===".slice((payload.length + 3) % 4);
     const data = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(padded), (char) => char.charCodeAt(0)))) as { email?: string; exp?: number };
     return data.email && data.exp && data.exp > Date.now() ? data : null;
+  } catch {
+    return null;
+  }
+}
+
+async function issueConfirmationToken(lead: Pick<LeadRow, "id" | "email">, env: Env) {
+  const payload = base64url(new TextEncoder().encode(JSON.stringify({
+    leadId: lead.id,
+    email: normalizeEmail(lead.email),
+    purpose: "newsletter-confirmation",
+    exp: Date.now() + CONFIRMATION_TTL_MS,
+  })));
+  return `${payload}.${await sign(payload, env.OTP_SECRET)}`;
+}
+
+async function verifyConfirmationToken(token: string, env: Env) {
+  const [payload, signature] = token.split(".");
+  if (!payload || !signature || !safeEqual(signature, await sign(payload, env.OTP_SECRET))) return null;
+  try {
+    const padded = payload.replaceAll("-", "+").replaceAll("_", "/") + "===".slice((payload.length + 3) % 4);
+    const data = JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(padded), (char) => char.charCodeAt(0)))) as {
+      leadId?: string;
+      email?: string;
+      purpose?: string;
+      exp?: number;
+    };
+    return data.leadId && data.email && data.purpose === "newsletter-confirmation" && data.exp && data.exp > Date.now() ? data : null;
   } catch {
     return null;
   }
@@ -193,19 +225,21 @@ async function acceptLead(request: Request, env: Env, origin: string) {
 
   const emailOutboxId = crypto.randomUUID();
   const sheetOutboxId = crypto.randomUUID();
-  const welcomeOutboxId = crypto.randomUUID();
-  const eventOutboxId = crypto.randomUUID();
-  const welcomeEnabled = env.CUSTOMER_EMAILS_ENABLED === "true";
-  const eventAvailableAt = new Date(Date.now() + 2 * 60 * 1000).toISOString();
+  const confirmationOutboxId = crypto.randomUUID();
+  const customerEmailsEnabled = env.CUSTOMER_EMAILS_ENABLED === "true";
   await env.LEADS_DB.batch([
     env.LEADS_DB.prepare(
       `INSERT INTO leads
        (id, email, normalized_email, source, category, campaign_id, page_url,
-        created_at, last_submitted_at, user_agent, country)
-       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+        created_at, last_submitted_at, user_agent, country, confirmation_status,
+        welcome_status, event_status)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`,
     ).bind(
       leadId, email, email, env.LEAD_SOURCE, env.LEAD_CATEGORY, env.CAMPAIGN_ID,
       pageUrl, now, now, userAgent, country,
+      customerEmailsEnabled ? "pending" : "disabled",
+      customerEmailsEnabled ? "awaiting_confirmation" : "disabled",
+      customerEmailsEnabled ? "awaiting_confirmation" : "disabled",
     ),
     env.LEADS_DB.prepare(
       `INSERT INTO outbox
@@ -217,20 +251,11 @@ async function acceptLead(request: Request, env: Env, origin: string) {
        (id, lead_id, channel, status, available_at, created_at, updated_at)
        VALUES (?, ?, 'sheet', 'pending', ?, ?, ?)`,
     ).bind(sheetOutboxId, leadId, now, now, now),
-    ...(welcomeEnabled ? [env.LEADS_DB.prepare(
+    ...(customerEmailsEnabled ? [env.LEADS_DB.prepare(
       `INSERT INTO outbox
        (id, lead_id, channel, status, available_at, created_at, updated_at)
-       VALUES (?, ?, 'welcome', 'pending', ?, ?, ?)`,
-    ).bind(welcomeOutboxId, leadId, now, now, now), env.LEADS_DB.prepare(
-      "UPDATE leads SET welcome_status = 'pending' WHERE id = ?",
-    ).bind(leadId)] : []),
-    ...(welcomeEnabled ? [env.LEADS_DB.prepare(
-      `INSERT INTO outbox
-       (id, lead_id, channel, status, available_at, created_at, updated_at)
-       VALUES (?, ?, 'event', 'pending', ?, ?, ?)`,
-    ).bind(eventOutboxId, leadId, eventAvailableAt, now, now), env.LEADS_DB.prepare(
-      "UPDATE leads SET event_status = 'pending' WHERE id = ?",
-    ).bind(leadId)] : []),
+       VALUES (?, ?, 'confirmation', 'pending', ?, ?, ?)`,
+    ).bind(confirmationOutboxId, leadId, now, now, now)] : []),
   ]);
 
   const jobs: QueueJob[] = [
@@ -239,8 +264,7 @@ async function acceptLead(request: Request, env: Env, origin: string) {
   if (env.SHEETS_WEBHOOK_URL && env.SHEETS_WEBHOOK_TOKEN) {
     jobs.push({ outboxId: sheetOutboxId, leadId, channel: "sheet" });
   }
-  if (welcomeEnabled) jobs.push({ outboxId: welcomeOutboxId, leadId, channel: "welcome" });
-  if (welcomeEnabled) jobs.push({ outboxId: eventOutboxId, leadId, channel: "event", delaySeconds: 120 });
+  if (customerEmailsEnabled) jobs.push({ outboxId: confirmationOutboxId, leadId, channel: "confirmation" });
   try {
     await enqueueOutbox(env, jobs);
   } catch (error) {
@@ -418,6 +442,32 @@ async function sendWelcome(lead: LeadRow, env: Env) {
   }
 }
 
+async function sendConfirmation(lead: LeadRow, env: Env) {
+  if (env.CUSTOMER_EMAILS_ENABLED !== "true") throw new Error("customer_email_delivery_disabled");
+  const token = await issueConfirmationToken(lead, env);
+  const template = confirmationEmail(`https://agmentic.com/api/confirm-subscription?token=${encodeURIComponent(token)}`);
+  const response = await fetch(env.BREVO_API_URL, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "api-key": env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { email: env.WELCOME_FROM, name: "Agmentic" },
+      to: [{ email: lead.email }],
+      replyTo: { email: env.WELCOME_FROM, name: "Agmentic" },
+      subject: template.subject,
+      htmlContent: template.html,
+      textContent: template.text,
+    }),
+  });
+  if (!response.ok) {
+    const detail = (await response.text()).slice(0, 160).replaceAll(env.BREVO_API_KEY, "[redacted]");
+    throw new Error(`brevo_confirmation_failed_${response.status}_${detail}`);
+  }
+}
+
 async function sendEventInvitation(lead: LeadRow, env: Env) {
   if (env.CUSTOMER_EMAILS_ENABLED !== "true") throw new Error("customer_email_delivery_disabled");
   const template = aDayInvitationEmail();
@@ -496,6 +546,66 @@ async function syncSheet(lead: LeadRow, env: Env) {
   }
 }
 
+function confirmationPage(state: "confirmed" | "already-confirmed" | "invalid") {
+  const title = state === "confirmed" ? "Email confirmed." : state === "already-confirmed" ? "You’re already confirmed." : "This link is no longer valid.";
+  const detail = state === "confirmed"
+    ? "Welcome to Agmentic. Keep an eye on your inbox for what’s next."
+    : state === "already-confirmed"
+      ? "Nothing else to do — you’re already on the list."
+      : "The confirmation link may have expired. Return to Agmentic and submit your email again.";
+  return new Response(`<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>${title} — Agmentic</title><style>html{color-scheme:dark}*{box-sizing:border-box}body{margin:0;min-height:100svh;display:grid;place-items:center;background:#080a07;color:#f4f3ed;font-family:Arial,Helvetica,sans-serif;padding:24px}.card{width:min(620px,100%);border:1px solid #26311d;background:#0b0e09;padding:clamp(32px,7vw,64px)}.brand{font-size:12px;font-weight:700;letter-spacing:3px}.mark,.eyebrow{color:#c7ff00}.mark{font-size:24px;letter-spacing:-1px;margin-right:12px}.line{width:42px;height:2px;background:#c7ff00;margin:48px 0 26px}h1{font-size:clamp(42px,8vw,68px);line-height:.98;letter-spacing:-3px;margin:0 0 24px}p{color:#c8cbc2;font-size:17px;line-height:1.65;margin:0 0 32px}a{display:inline-block;border-radius:999px;background:#c7ff00;color:#080a07;padding:14px 24px;text-decoration:none;text-transform:uppercase;font-size:12px;font-weight:800;letter-spacing:1px}</style></head><body><main class="card"><div class="brand"><span class="mark">A!</span>AGMENTIC</div><div class="line"></div><div class="eyebrow">WHAT’S NEXT</div><h1>${title}</h1><p>${detail}</p><a href="https://agmentic.com">Back to Agmentic&nbsp; →</a></main></body></html>`, {
+    status: state === "invalid" ? 400 : 200,
+    headers: { "Content-Type": "text/html; charset=utf-8", "Cache-Control": "no-store", "Referrer-Policy": "no-referrer" },
+  });
+}
+
+async function confirmSubscription(request: Request, env: Env) {
+  const token = new URL(request.url).searchParams.get("token") || "";
+  const verified = await verifyConfirmationToken(token, env);
+  if (!verified) return confirmationPage("invalid");
+
+  const lead = await env.LEADS_DB.prepare(
+    "SELECT * FROM leads WHERE id = ? AND normalized_email = ? AND source = ? AND campaign_id = ? LIMIT 1",
+  ).bind(verified.leadId, normalizeEmail(verified.email), env.LEAD_SOURCE, env.CAMPAIGN_ID).first<LeadRow>();
+  if (!lead || lead.confirmation_status === "legacy") return confirmationPage("invalid");
+  if (lead.confirmation_status === "confirmed") return confirmationPage("already-confirmed");
+
+  const now = new Date().toISOString();
+  const eventAvailableAt = new Date(Date.now() + EVENT_DELAY_MS).toISOString();
+  const welcomeOutboxId = crypto.randomUUID();
+  const eventOutboxId = crypto.randomUUID();
+  await env.LEADS_DB.batch([
+    env.LEADS_DB.prepare(
+      `UPDATE leads SET confirmation_status = 'confirmed', confirmed_at = ?, confirmed_ip = ?,
+       confirmed_user_agent = ?, consent_version = 'homepage-double-opt-in-v1',
+       welcome_status = 'pending', event_status = 'pending', last_error = ''
+       WHERE id = ? AND confirmation_status IN ('pending', 'sent')`,
+    ).bind(now, requestIp(request), clean(request.headers.get("User-Agent"), 500), lead.id),
+    env.LEADS_DB.prepare(
+      `INSERT OR IGNORE INTO outbox
+       (id, lead_id, channel, status, available_at, created_at, updated_at)
+       VALUES (?, ?, 'welcome', 'pending', ?, ?, ?)`,
+    ).bind(welcomeOutboxId, lead.id, now, now, now),
+    env.LEADS_DB.prepare(
+      `INSERT OR IGNORE INTO outbox
+       (id, lead_id, channel, status, available_at, created_at, updated_at)
+       VALUES (?, ?, 'event', 'pending', ?, ?, ?)`,
+    ).bind(eventOutboxId, lead.id, eventAvailableAt, now, now),
+  ]);
+
+  const welcomeOutbox = await env.LEADS_DB.prepare(
+    "SELECT id FROM outbox WHERE lead_id = ? AND channel = 'welcome' LIMIT 1",
+  ).bind(lead.id).first<{ id: string }>();
+  if (welcomeOutbox) {
+    try {
+      await enqueueOutbox(env, [{ outboxId: welcomeOutbox.id, leadId: lead.id, channel: "welcome" }]);
+    } catch (error) {
+      console.error("welcome enqueue after confirmation failed; cron will recover", { leadId: lead.id, error });
+    }
+  }
+  return confirmationPage("confirmed");
+}
+
 async function processMessage(message: Message<QueuePayload>, env: Env) {
   const payload = message.body;
   const outbox = await env.LEADS_DB.prepare(
@@ -523,6 +633,10 @@ async function processMessage(message: Message<QueuePayload>, env: Env) {
       await env.LEAD_EMAIL.send(buildNotification(lead, env));
       await env.LEADS_DB.prepare("UPDATE leads SET email_status = 'sent', last_error = '' WHERE id = ?")
         .bind(lead.id).run();
+    } else if (payload.channel === "confirmation") {
+      await sendConfirmation(lead, env);
+      await env.LEADS_DB.prepare("UPDATE leads SET confirmation_status = 'sent', confirmation_sent_at = ?, last_error = '' WHERE id = ?")
+        .bind(now, lead.id).run();
     } else if (payload.channel === "welcome") {
       await sendWelcome(lead, env);
       await env.LEADS_DB.prepare("UPDATE leads SET welcome_status = 'sent', welcome_sent_at = ?, last_error = '' WHERE id = ?")
@@ -548,7 +662,7 @@ async function processMessage(message: Message<QueuePayload>, env: Env) {
         `UPDATE outbox SET status = ?, updated_at = ?, last_error = ? WHERE id = ?`,
       ).bind(isConfigurationError ? "pending" : "queued", now, detail, payload.outboxId),
       env.LEADS_DB.prepare(
-        `UPDATE leads SET ${payload.channel === "email" ? "email_status" : payload.channel === "welcome" ? "welcome_status" : payload.channel === "event" ? "event_status" : "sheet_status"} = 'failed', last_error = ? WHERE id = ?`,
+        `UPDATE leads SET ${payload.channel === "email" ? "email_status" : payload.channel === "confirmation" ? "confirmation_status" : payload.channel === "welcome" ? "welcome_status" : payload.channel === "event" ? "event_status" : "sheet_status"} = 'failed', last_error = ? WHERE id = ?`,
       ).bind(detail, lead.id),
     ]);
     if (isConfigurationError) {
@@ -570,7 +684,7 @@ async function reconcile(env: Env) {
   ).bind(now, stale).all<{ id: string; lead_id: string; channel: Channel }>();
   const deliverable = rows.results.filter((row) => {
     if (row.channel === "sheet") return Boolean(env.SHEETS_WEBHOOK_URL && env.SHEETS_WEBHOOK_TOKEN);
-    if (row.channel === "welcome" || row.channel === "event") return env.CUSTOMER_EMAILS_ENABLED === "true";
+    if (row.channel === "confirmation" || row.channel === "welcome" || row.channel === "event") return env.CUSTOMER_EMAILS_ENABLED === "true";
     return true;
   });
   await enqueueOutbox(env, deliverable.map((row) => ({
@@ -592,6 +706,9 @@ export default {
           "Cache-Control": "public, max-age=300",
         },
       });
+    }
+    if (request.method === "GET" && url.pathname === "/api/confirm-subscription") {
+      return confirmSubscription(request, env);
     }
     const origin = allowedOrigin(request, env);
     if (!origin) return new Response("Forbidden", { status: 403 });

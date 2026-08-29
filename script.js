@@ -67,7 +67,7 @@ form?.addEventListener('submit', async (event) => {
     const payload = await response.json().catch(() => ({}));
     if (!response.ok) throw new Error(payload.error || 'Request failed');
     form.classList.add('is-success');
-    setStatus('Request received. We’ll send the next invitation here.', 'success');
+    setStatus('Check your inbox to confirm your email.', 'success');
   } catch {
     setStatus('That didn’t go through. Please try again.', 'error');
   } finally {
