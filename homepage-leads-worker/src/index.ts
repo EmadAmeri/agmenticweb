@@ -537,6 +537,17 @@ async function reconcile(env: Env) {
 
 export default {
   async fetch(request: Request, env: Env) {
+    const url = new URL(request.url);
+    if ((request.method === "GET" || request.method === "HEAD") &&
+        (url.pathname === "/A!-D" || url.pathname === "/A!-D/")) {
+      return new Response(null, {
+        status: 302,
+        headers: {
+          Location: "https://lu.ma/o9g57q0b",
+          "Cache-Control": "public, max-age=300",
+        },
+      });
+    }
     const origin = allowedOrigin(request, env);
     if (!origin) return new Response("Forbidden", { status: 403 });
     if (request.method === "OPTIONS") return new Response(null, { status: 204, headers: cors(origin) });

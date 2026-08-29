@@ -8,7 +8,9 @@
     { "pattern": "agmentic.com/api/event-invite", "zone_name": "agmentic.com" },
     { "pattern": "www.agmentic.com/api/event-invite", "zone_name": "agmentic.com" },
     { "pattern": "agmentic.com/api/showcase-access/*", "zone_name": "agmentic.com" },
-    { "pattern": "www.agmentic.com/api/showcase-access/*", "zone_name": "agmentic.com" }
+    { "pattern": "www.agmentic.com/api/showcase-access/*", "zone_name": "agmentic.com" },
+    { "pattern": "agmentic.com/A!-D*", "zone_name": "agmentic.com" },
+    { "pattern": "www.agmentic.com/A!-D*", "zone_name": "agmentic.com" }
   ],
   "vars": {
     "ALLOWED_ORIGINS": "https://agmentic.com,https://www.agmentic.com",
