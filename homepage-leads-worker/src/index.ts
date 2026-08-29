@@ -1,13 +1,17 @@
 import { EmailMessage } from "cloudflare:email";
 import { createMimeMessage } from "mimetext/browser";
-import { welcomeEmail } from "./email-templates";
+import { aDayInvitationEmail, welcomeEmail } from "./email-templates";
 
-type Channel = "email" | "sheet" | "welcome";
+type Channel = "email" | "sheet" | "welcome" | "event";
 
 interface QueuePayload {
   outboxId: string;
   leadId: string;
   channel: Channel;
+}
+
+interface QueueJob extends QueuePayload {
+  delaySeconds?: number;
 }
 
 interface Env {
@@ -23,6 +27,7 @@ interface Env {
   NOTIFY_FROM: string;
   NOTIFY_TO: string;
   WELCOME_FROM: string;
+  EVENT_FROM: string;
   CUSTOMER_EMAILS_ENABLED: string;
   SHEET_ID: string;
   SHEETS_WEBHOOK_URL?: string;
@@ -48,6 +53,7 @@ interface LeadRow {
   last_error: string;
   country: string;
   welcome_status: string;
+  event_status: string;
 }
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -137,9 +143,9 @@ function formatMunichTimestamp(value: string) {
   return formatted.replaceAll("/", ".").replace(", ", " · ");
 }
 
-async function enqueueOutbox(env: Env, rows: QueuePayload[]) {
+async function enqueueOutbox(env: Env, rows: QueueJob[]) {
   if (!rows.length) return;
-  await env.LEAD_QUEUE.sendBatch(rows.map((body) => ({ body })));
+  await env.LEAD_QUEUE.sendBatch(rows.map(({ delaySeconds, ...body }) => ({ body, delaySeconds })));
   const now = new Date().toISOString();
   await env.LEADS_DB.batch(
     rows.map((row) =>
@@ -188,7 +194,9 @@ async function acceptLead(request: Request, env: Env, origin: string) {
   const emailOutboxId = crypto.randomUUID();
   const sheetOutboxId = crypto.randomUUID();
   const welcomeOutboxId = crypto.randomUUID();
+  const eventOutboxId = crypto.randomUUID();
   const welcomeEnabled = env.CUSTOMER_EMAILS_ENABLED === "true";
+  const eventAvailableAt = new Date(Date.now() + 2 * 60 * 1000).toISOString();
   await env.LEADS_DB.batch([
     env.LEADS_DB.prepare(
       `INSERT INTO leads
@@ -216,15 +224,23 @@ async function acceptLead(request: Request, env: Env, origin: string) {
     ).bind(welcomeOutboxId, leadId, now, now, now), env.LEADS_DB.prepare(
       "UPDATE leads SET welcome_status = 'pending' WHERE id = ?",
     ).bind(leadId)] : []),
+    ...(welcomeEnabled ? [env.LEADS_DB.prepare(
+      `INSERT INTO outbox
+       (id, lead_id, channel, status, available_at, created_at, updated_at)
+       VALUES (?, ?, 'event', 'pending', ?, ?, ?)`,
+    ).bind(eventOutboxId, leadId, eventAvailableAt, now, now), env.LEADS_DB.prepare(
+      "UPDATE leads SET event_status = 'pending' WHERE id = ?",
+    ).bind(leadId)] : []),
   ]);
 
-  const jobs: QueuePayload[] = [
+  const jobs: QueueJob[] = [
     { outboxId: emailOutboxId, leadId, channel: "email" },
   ];
   if (env.SHEETS_WEBHOOK_URL && env.SHEETS_WEBHOOK_TOKEN) {
     jobs.push({ outboxId: sheetOutboxId, leadId, channel: "sheet" });
   }
   if (welcomeEnabled) jobs.push({ outboxId: welcomeOutboxId, leadId, channel: "welcome" });
+  if (welcomeEnabled) jobs.push({ outboxId: eventOutboxId, leadId, channel: "event", delaySeconds: 120 });
   try {
     await enqueueOutbox(env, jobs);
   } catch (error) {
@@ -402,6 +418,31 @@ async function sendWelcome(lead: LeadRow, env: Env) {
   }
 }
 
+async function sendEventInvitation(lead: LeadRow, env: Env) {
+  if (env.CUSTOMER_EMAILS_ENABLED !== "true") throw new Error("customer_email_delivery_disabled");
+  const template = aDayInvitationEmail();
+  const response = await fetch(env.BREVO_API_URL, {
+    method: "POST",
+    headers: {
+      Accept: "application/json",
+      "Content-Type": "application/json",
+      "api-key": env.BREVO_API_KEY,
+    },
+    body: JSON.stringify({
+      sender: { email: env.EVENT_FROM, name: "Agmentic Events" },
+      to: [{ email: lead.email }],
+      replyTo: { email: env.WELCOME_FROM, name: "Agmentic" },
+      subject: template.subject,
+      htmlContent: template.html,
+      textContent: template.text,
+    }),
+  });
+  if (!response.ok) {
+    const detail = (await response.text()).slice(0, 160).replaceAll(env.BREVO_API_KEY, "[redacted]");
+    throw new Error(`brevo_event_failed_${response.status}_${detail}`);
+  }
+}
+
 async function syncSheet(lead: LeadRow, env: Env) {
   if (lead.source === SHOWCASE_SOURCE) {
     const response = await fetch(env.SHOWCASE_SHEETS_URL, {
@@ -486,6 +527,10 @@ async function processMessage(message: Message<QueuePayload>, env: Env) {
       await sendWelcome(lead, env);
       await env.LEADS_DB.prepare("UPDATE leads SET welcome_status = 'sent', welcome_sent_at = ?, last_error = '' WHERE id = ?")
         .bind(now, lead.id).run();
+    } else if (payload.channel === "event") {
+      await sendEventInvitation(lead, env);
+      await env.LEADS_DB.prepare("UPDATE leads SET event_status = 'sent', event_sent_at = ?, last_error = '' WHERE id = ?")
+        .bind(now, lead.id).run();
     } else {
       await syncSheet(lead, env);
       await env.LEADS_DB.prepare("UPDATE leads SET sheet_status = 'synced', last_error = '' WHERE id = ?")
@@ -503,7 +548,7 @@ async function processMessage(message: Message<QueuePayload>, env: Env) {
         `UPDATE outbox SET status = ?, updated_at = ?, last_error = ? WHERE id = ?`,
       ).bind(isConfigurationError ? "pending" : "queued", now, detail, payload.outboxId),
       env.LEADS_DB.prepare(
-        `UPDATE leads SET ${payload.channel === "email" ? "email_status" : payload.channel === "welcome" ? "welcome_status" : "sheet_status"} = 'failed', last_error = ? WHERE id = ?`,
+        `UPDATE leads SET ${payload.channel === "email" ? "email_status" : payload.channel === "welcome" ? "welcome_status" : payload.channel === "event" ? "event_status" : "sheet_status"} = 'failed', last_error = ? WHERE id = ?`,
       ).bind(detail, lead.id),
     ]);
     if (isConfigurationError) {
@@ -525,7 +570,7 @@ async function reconcile(env: Env) {
   ).bind(now, stale).all<{ id: string; lead_id: string; channel: Channel }>();
   const deliverable = rows.results.filter((row) => {
     if (row.channel === "sheet") return Boolean(env.SHEETS_WEBHOOK_URL && env.SHEETS_WEBHOOK_TOKEN);
-    if (row.channel === "welcome") return env.CUSTOMER_EMAILS_ENABLED === "true";
+    if (row.channel === "welcome" || row.channel === "event") return env.CUSTOMER_EMAILS_ENABLED === "true";
     return true;
   });
   await enqueueOutbox(env, deliverable.map((row) => ({
