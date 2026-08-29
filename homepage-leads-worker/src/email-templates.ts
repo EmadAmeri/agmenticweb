@@ -84,7 +84,7 @@ export function aDayInvitationEmail(firstName?: string) {
   const url = "https://agmentic.com/A!-D";
   return {
     subject: "You’re invited: A!‑Day for Agentic Commerce — 8 October",
-    text: `Hi ${firstName?.trim() || "there"},\n\nOur next Agmentic gathering is coming up.\n\nA!‑Day for Agentic Commerce brings together founders, builders and curious minds to explore the next generation of consumer agents.\n\nWhat are the billion-dollar ideas and strongest business models for consumer agents?\n\n8 October 2026\n10:00–18:00 CEST\nMunich, Germany\n\nReserve your place: ${url}\n\nWe’d love to see you there.\n\nAgmentic\nMunich`,
+    text: `Hi ${firstName?.trim() || "there"},\n\nOur next Agmentic gathering is coming up.\n\nA!‑Day for Agentic Commerce brings together founders, builders and curious minds to explore the next generation of consumer agents.\n\nWhat are the billion-dollar ideas and strongest business models for consumer agents?\n\n8 October 2026\n10:00–18:00 CEST\nMunich, Germany\n\nPut me on the guest list: ${url}\n\nWe’d love to see you there.\n\nAgmentic\nMunich`,
     html: shell(`
       <div style="width:42px;height:2px;background:${SIGNAL};margin-bottom:28px"></div>
       <p style="margin:0 0 14px;color:${SIGNAL};font-size:12px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase">Our next Agmentic gathering</p>
@@ -97,7 +97,7 @@ export function aDayInvitationEmail(firstName?: string) {
         <td width="34%" style="padding:18px 0 18px 8px"><span style="display:block;color:${MUTED};font-size:10px;letter-spacing:1.6px">PLACE</span><span style="display:block;margin-top:7px;color:${PAPER};font-size:14px">Munich, Germany</span></td>
       </tr></table>
       <table role="presentation" cellspacing="0" cellpadding="0" border="0" style="margin-top:30px"><tr><td bgcolor="${SIGNAL}" style="border-radius:999px">
-        <a href="${url}" style="display:inline-block;padding:14px 24px;color:${INK};font-size:13px;font-weight:800;letter-spacing:1px;text-decoration:none;text-transform:uppercase">Reserve your place&nbsp;&nbsp;→</a>
+        <a href="${url}" style="display:inline-block;padding:14px 24px;color:${INK};font-size:13px;font-weight:800;letter-spacing:1px;text-decoration:none;text-transform:uppercase">Put me on the guest list&nbsp;&nbsp;→</a>
       </td></tr></table>
       <p style="margin:26px 0 0;color:#c8cbc2;font-size:15px;line-height:1.6">We’d love to see you there.</p>
     `, "You’re invited to A!‑Day for Agentic Commerce on 8 October in Munich."),
