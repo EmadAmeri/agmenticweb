@@ -123,6 +123,20 @@ function clean(value: unknown, max = 500) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
 }
 
+function formatMunichTimestamp(value: string) {
+  const formatted = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Europe/Berlin",
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+    timeZoneName: "short",
+  }).format(new Date(value));
+  return formatted.replaceAll("/", ".").replace(", ", " · ");
+}
+
 async function enqueueOutbox(env: Env, rows: QueuePayload[]) {
   if (!rows.length) return;
   await env.LEAD_QUEUE.sendBatch(rows.map((body) => ({ body })));
@@ -428,7 +442,7 @@ async function syncSheet(lead: LeadRow, env: Env) {
       source: lead.source,
       category: lead.category,
       campaign_id: lead.campaign_id,
-      submitted_at: lead.created_at,
+      submitted_at: formatMunichTimestamp(lead.created_at),
       email_status: lead.email_status,
       sheet_status: "synced",
       duplicate_count: lead.duplicate_count,
