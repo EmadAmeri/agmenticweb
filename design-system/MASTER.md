@@ -45,9 +45,8 @@
 
 ## Masthead and contact utilities
 
-- The brand lockup, email, and LinkedIn controls remain in a sticky masthead at the top of every viewport while the page scrolls beneath them.
-- The masthead uses a controlled near-opaque ink layer and a quiet signal divider—never blur or `backdrop-filter`—so it stays legible without becoming a glass panel.
-- Email and LinkedIn appear as small brand-green line icons inside 38px visual circles; each icon retains a 44×44px target, visible focus, descriptive accessible name, hover and press feedback.
+- The masthead participates in the normal page flow and scrolls away with the hero; it has no sticky layer, background panel or divider.
+- Email and LinkedIn remain at the upper-right as small brand-green line icons inside restrained visual circles, with visible focus, descriptive accessible names, hover and press feedback.
 - A quiet site signature sits centered beneath the event ledger: `© 2026 AGMENTIC · MUNICH`, set in tiny muted mono type.
 
 ## Assemblies ledger
@@ -56,7 +55,7 @@
 - The hero hands directly into the ledger through one divider and a short transition, never two rules separated by an empty band.
 - Desktop event summaries use a compact, centered ledger no wider than 76rem, so roughly three summaries can remain visible in a typical viewport without sacrificing legibility.
 - A!-Day and both Think Tank series use the same native accordion interaction; revealed panels hold event detail while registration remains pinned to the A!-Day summary.
-- Expandability is signaled by a custom signal dial: a fine circular orbit, luminous locator dot, and downward chevron that rotates 180° when opened. It replaces generic plus/minus controls and the less explicit travelling-line cue.
+- Expandability is signaled by a borderless cascade of three luminous downward chevrons at the end of each row. Their staggered glow suggests downward motion and the stack rotates 180° when opened.
 - A!-Day keeps its guest-list link pinned in the summary in both open and closed states; the expanded panel contains explanation only.
 - A!-Day’s explanation is a centered, wide editorial text block spanning the lower panel rather than a narrow left-side column.
 - Upcoming gatherings carry the strongest type hierarchy. Status replaces registration controls: `Invitation only` for the online Series 02 gathering and `Details soon` where information is not yet public.
