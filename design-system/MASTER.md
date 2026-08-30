@@ -56,8 +56,9 @@
 - The hero hands directly into the ledger through one divider and a short transition, never two rules separated by an empty band.
 - Desktop event summaries use a compact, centered ledger no wider than 76rem, so roughly three summaries can remain visible in a typical viewport without sacrificing legibility.
 - A!-Day and both Think Tank series use the same native accordion interaction; revealed panels hold event detail while registration remains pinned to the A!-Day summary.
-- Expandability is signaled by a small moving light travelling along each summary rule, adapted from moving-dot and progressive-underline interaction patterns; no arrows, plus/minus controls or instructional labels are shown.
+- Expandability is signaled by a custom signal dial: a fine circular orbit, luminous locator dot, and downward chevron that rotates 180° when opened. It replaces generic plus/minus controls and the less explicit travelling-line cue.
 - A!-Day keeps its guest-list link pinned in the summary in both open and closed states; the expanded panel contains explanation only.
+- A!-Day’s explanation is a centered, wide editorial text block spanning the lower panel rather than a narrow left-side column.
 - Upcoming gatherings carry the strongest type hierarchy. Status replaces registration controls: `Invitation only` for the online Series 02 gathering and `Details soon` where information is not yet public.
 - AI Think Tanks Series 01 is recorded as a compact five-row archive: Zürich, München, Hamburg, Berlin and Stuttgart.
 - Brand green marks sequence, status and dates; off-white typography and fine rules carry the remaining hierarchy.
