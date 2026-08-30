@@ -53,6 +53,9 @@
 ## Assemblies ledger
 
 - Event content continues the poster as a dark editorial ledger, never as a generic light card list or filter dashboard.
+- The hero hands directly into the ledger through one divider and a short transition, never two rules separated by an empty band.
+- Desktop event summaries use a compact, single-row rhythm so roughly three summaries can remain visible in a typical viewport without sacrificing legibility.
+- A! Day and both Think Tank series use the same native accordion interaction; event detail and registration live inside the revealed panel.
 - Upcoming gatherings carry the strongest type hierarchy. Status replaces registration controls: `Invitation only` for the online Series 02 gathering and `Details soon` where information is not yet public.
 - AI Think Tanks Series 01 is recorded as a compact five-row archive: Zürich, München, Hamburg, Berlin and Stuttgart.
 - Brand green marks sequence, status and dates; off-white typography and fine rules carry the remaining hierarchy.
