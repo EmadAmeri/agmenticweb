@@ -12,7 +12,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=Instrument+Sans:wdth,wght@75..100,400..700&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="styles.css?v=20260830-event-ledger-2" />
+    <link rel="stylesheet" href="styles.css?v=20260830-event-ledger-7" />
     <script src="script.js?v=20260810-responsive" defer></script>
   </head>
   <body>
@@ -86,8 +86,9 @@
 
     <section class="events" aria-label="Agmentic events">
       <div class="upcoming-events" aria-label="Upcoming events">
-        <details class="event-accordion event-accordion-primary" name="think-tank-series">
-          <summary class="event-feature">
+        <div class="event-accordion-primary">
+          <details class="event-accordion" name="think-tank-series">
+            <summary class="event-feature">
             <div class="event-date" aria-hidden="true"><span>OCT</span><strong>08</strong><small>2026</small></div>
             <div class="event-copy">
               <p class="event-series">A!-DAY <span>— AGENTIC COMMERCE DAY</span></p>
@@ -98,19 +99,19 @@
                 <div><dt>Place</dt><dd>Munich, Germany</dd></div>
               </dl>
             </div>
-            <p class="event-state event-state-toggle"><i aria-hidden="true"></i><span class="toggle-open">Put me on the guest list</span><span class="toggle-close">Close A!-Day</span></p>
-          </summary>
-          <div class="event-accordion-panel event-accordion-panel-copy">
-            <p>A!-Day brings together the people shaping agentic commerce. Founders, builders and curious minds will explore the consumer agents, trusted experiences and billion-dollar ideas that could define this emerging market. It is a focused day to imagine, challenge and build what comes next.</p>
-            <a
-              class="event-state event-register"
-              href="https://lu.ma/o9g57q0b"
-              target="_blank"
-              rel="noreferrer"
-              aria-label="Put me on the guest list for A!-Day"
-            ><i aria-hidden="true"></i><span>Put me on the guest list</span></a>
-          </div>
-        </details>
+            </summary>
+            <div class="event-accordion-panel event-accordion-panel-copy">
+              <p>A!-Day brings together the people shaping agentic commerce. Founders, builders and curious minds will explore the consumer agents, trusted experiences and billion-dollar ideas that could define this emerging market. It is a focused day to imagine, challenge and build what comes next.</p>
+            </div>
+          </details>
+          <a
+            class="event-state event-register event-register-pinned"
+            href="https://lu.ma/o9g57q0b"
+            target="_blank"
+            rel="noreferrer"
+            aria-label="Put me on the guest list for A!-Day"
+          ><i aria-hidden="true"></i><span>Put me on the guest list</span></a>
+        </div>
 
         <details class="event-accordion" name="think-tank-series">
           <summary class="event-feature">
@@ -123,7 +124,6 @@
                 <div><dt>Time</dt><dd>16:00–18:00 CEST</dd></div>
               </dl>
             </div>
-            <p class="event-state event-state-toggle event-state-icon"><i aria-hidden="true"></i><span class="toggle-open visually-hidden">Open Series 02 details</span><span class="toggle-close visually-hidden">Close Series 02 details</span></p>
           </summary>
           <div class="event-accordion-panel">
             <ol class="archive-list">
@@ -148,7 +148,6 @@
                 <div><dt>Status</dt><dd>Concluded</dd></div>
               </dl>
             </div>
-            <p class="event-state event-state-toggle event-state-muted event-state-icon"><i aria-hidden="true"></i><span class="toggle-open visually-hidden">Open Series 01 details</span><span class="toggle-close visually-hidden">Close Series 01 details</span></p>
           </summary>
           <div class="event-accordion-panel">
             <ol class="archive-list">
