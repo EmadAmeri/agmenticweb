@@ -43,12 +43,12 @@
 - Validation, loading, error, success, and live-region feedback are preserved.
 - Production endpoint is configured through the form’s `data-endpoint` attribute.
 
-## Contact utilities
+## Masthead and contact utilities
 
-- Email and the unboxed LinkedIn mark appear as small brand-green line icons inside 38px visual circles at the lower-left edge; their interactive targets remain 44px.
-- Each icon retains a 44×44px target, visible focus, descriptive accessible name, hover and press feedback.
-- A quiet site signature balances them at the lower-right: `© 2026 AGMENTIC · MUNICH`, set in tiny muted mono type beneath a short signal-green rule.
-- On mobile, contact utilities and the site signature belong to the poster footer rather than the masthead, preventing overlap and keeping the conversion field clear.
+- The brand lockup, email, and LinkedIn controls remain in a sticky masthead at the top of every viewport while the page scrolls beneath them.
+- The masthead uses a controlled near-opaque ink layer and a quiet signal divider—never blur or `backdrop-filter`—so it stays legible without becoming a glass panel.
+- Email and LinkedIn appear as small brand-green line icons inside 38px visual circles; each icon retains a 44×44px target, visible focus, descriptive accessible name, hover and press feedback.
+- A quiet site signature sits centered beneath the event ledger: `© 2026 AGMENTIC · MUNICH`, set in tiny muted mono type.
 
 ## Assemblies ledger
 
