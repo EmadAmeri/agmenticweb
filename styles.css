@@ -250,7 +250,7 @@ input:focus { outline:0; }
 .event-accordion-primary { position:relative; display:grid; grid-template-columns:minmax(0,1fr); }
 .event-accordion-primary > .event-accordion { grid-area:1/1; min-width:0; }
 .event-accordion-primary summary { padding-right:clamp(13rem,18vw,15rem); }
-.event-register-pinned { position:relative; z-index:2; grid-area:1/1; align-self:start; justify-self:end; margin-top:clamp(1rem,1.7vw,1.45rem); }
+.event-register-pinned { position:relative; z-index:2; grid-area:1/1; align-self:start; justify-self:end; margin-top:0; }
 .event-accordion > summary { list-style:none; cursor:pointer; touch-action:manipulation; padding-right:4.25rem; }
 .event-accordion > summary::-webkit-details-marker { display:none; }
 .event-accordion > summary:focus-visible { outline:2px solid var(--signal); outline-offset:4px; }
@@ -260,9 +260,6 @@ input:focus { outline:0; }
 .accordion-cue i { width:.62rem; height:.62rem; border-right:1.5px solid currentColor; border-bottom:1.5px solid currentColor; transform:translateY(-.16rem) rotate(45deg); }
 .event-accordion > summary:hover .accordion-cue,.event-accordion > summary:focus-visible .accordion-cue { border-color:rgba(184,235,82,.78); box-shadow:0 0 0 .32rem rgba(184,235,82,.055),0 0 1.1rem rgba(184,235,82,.12),inset 0 0 1rem rgba(184,235,82,.06); transform:translateY(-50%) scale(1.06); }
 .event-accordion[open] > summary .accordion-cue { border-color:rgba(184,235,82,.68); transform:translateY(-50%) rotate(180deg); }
-.event-accordion-primary .accordion-cue { top:auto; right:.7rem; bottom:1rem; transform:none; }
-.event-accordion-primary summary:hover .accordion-cue,.event-accordion-primary summary:focus-visible .accordion-cue { transform:scale(1.06); }
-.event-accordion-primary .event-accordion[open] > summary .accordion-cue { transform:rotate(180deg); }
 .event-accordion-panel { padding:0 0 clamp(2rem,3vw,3rem) calc(clamp(4.5rem,5.5vw,5.5rem) + clamp(1.25rem,2.4vw,2.5rem)); animation:accordion-enter 280ms var(--ease) both; }
 .event-accordion-panel-copy { padding:clamp(1.6rem,2.8vw,2.5rem) clamp(2rem,7vw,7rem) clamp(2.4rem,3.6vw,3.4rem); }
 .event-accordion-panel-copy > p { width:100%; max-width:86ch; margin:0 auto; color:rgba(243,241,233,.68); font-size:clamp(.98rem,1.18vw,1.1rem); line-height:1.72; }
@@ -383,7 +380,6 @@ input:focus { outline:0; }
   .event-date { width:5.25rem; }
   .event-state { grid-column:2; justify-self:start; margin-top:-.75rem; }
   .event-accordion-primary summary { padding-right:4.25rem; padding-bottom:4.75rem; }
-  .event-accordion-primary .accordion-cue { top:2.25rem; right:.35rem; bottom:auto; }
   .event-register-pinned { grid-column:1; grid-row:1; align-self:start; justify-self:end; margin:8rem 0 0; }
   .event-accordion-panel { padding-left:calc(5.75rem + 1.5rem); }
   .event-archive { grid-template-columns:1fr; gap:3rem; margin-top:6rem; }

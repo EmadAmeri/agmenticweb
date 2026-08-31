@@ -55,7 +55,7 @@
 - The hero hands directly into the ledger through one divider and a short transition, never two rules separated by an empty band.
 - Desktop event summaries use a compact, centered ledger no wider than 76rem, so roughly three summaries can remain visible in a typical viewport without sacrificing legibility.
 - A!-Day and both Think Tank series use the same native accordion interaction; revealed panels hold event detail while registration remains pinned to the A!-Day summary.
-- Expandability is signaled by a compact signal dial: a fine circular orbit, luminous locator dot and downward chevron that rotates 180° when opened. On A!-Day it occupies a dedicated lower position in the right-hand action column so it never intersects the guest-list link.
+- Expandability is signaled by a compact signal dial: a fine circular orbit, luminous locator dot and downward chevron that rotates 180° when opened. All three dials share the same right-edge position and vertical center; the A!-Day guest-list link sits independently above it.
 - A!-Day keeps its guest-list link pinned in the summary in both open and closed states; the expanded panel contains explanation only.
 - A!-Day’s explanation is a centered, wide editorial text block spanning the lower panel rather than a narrow left-side column.
 - Upcoming gatherings carry the strongest type hierarchy. Status replaces registration controls: `Invitation only` for the online Series 02 gathering and `Details soon` where information is not yet public.
