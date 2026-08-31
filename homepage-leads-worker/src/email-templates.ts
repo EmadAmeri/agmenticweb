@@ -38,11 +38,11 @@ export function welcomeEmail(firstName?: string) {
   const url = "https://agmentic.com/A!-D";
   return {
     subject: "Welcome to Agmentic — you’re invited to A!‑Day",
-    text: `Hi ${firstName?.trim() || "there"},\n\nThanks for joining Agmentic.\n\nYou’re now part of a community exploring what becomes possible when AI moves from tools to agents — from imagination and experimentation to things we can actually build.\n\nOur next Agmentic gathering is A!‑Day for Agentic Commerce, bringing together founders, builders and curious minds to explore the next generation of consumer agents.\n\nWhat are the billion-dollar ideas and strongest business models for consumer agents?\n\n8 October 2026\n10:00–18:00 CEST\nMunich, Germany\n\nPut me on the guest list: ${url}\n\nWe’d love to see you there.\n\nAgmentic\nMunich`,
+    text: `Hi ${firstName?.trim() || "there"},\n\nThanks for signing up — and welcome to Agmentic.\n\nYou’re now part of a community exploring what becomes possible when AI moves from tools to agents — from imagination and experimentation to things we can actually build.\n\nOur next Agmentic gathering is A!‑Day for Agentic Commerce, bringing together founders, builders and curious minds to explore the next generation of consumer agents.\n\nWhat are the billion-dollar ideas and strongest business models for consumer agents?\n\n8 October 2026\n10:00–18:00 CEST\nMunich, Germany\n\nPut me on the guest list: ${url}\n\nWe’d love to see you there.\n\nAgmentic\nMunich`,
     html: shell(`
       <div style="width:42px;height:2px;background:${SIGNAL};margin-bottom:28px"></div>
       <p style="margin:0 0 14px;color:${SIGNAL};font-size:12px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase">Welcome to Agmentic</p>
-      <h1 style="margin:0 0 24px;color:${PAPER};font-size:46px;line-height:1.02;letter-spacing:-2.2px;font-weight:700">Hi ${greeting},<br>thanks for joining us.</h1>
+      <h1 style="margin:0 0 24px;color:${PAPER};font-size:46px;line-height:1.02;letter-spacing:-2.2px;font-weight:700">Hi ${greeting},<br>thanks for signing up.</h1>
       <p style="margin:0 0 20px;max-width:500px;color:#c8cbc2;font-size:17px;line-height:1.65">You’re now part of a community exploring what becomes possible when AI moves from tools to agents — from imagination and experimentation to things we can actually build.</p>
       <div style="margin:34px 0 28px;border-top:1px solid #26311d"></div>
       <p style="margin:0 0 14px;color:${SIGNAL};font-size:12px;font-weight:700;letter-spacing:2.2px;text-transform:uppercase">Our next Agmentic gathering</p>
