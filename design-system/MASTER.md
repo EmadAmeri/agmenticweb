@@ -60,6 +60,7 @@
 - A!-Day’s explanation is a centered, wide editorial text block spanning the lower panel rather than a narrow left-side column.
 - Upcoming gatherings carry the strongest type hierarchy. Status replaces registration controls: `Invitation only` for the online Series 02 gathering and `Details soon` where information is not yet public.
 - AI Think Tanks Series 01 is recorded as a compact five-row archive: Zürich, München, Hamburg, Berlin and Stuttgart.
+- Titles inside expanded Series 01 and 02 rows use a restrained editorial scale so city and session names remain subordinate to the series headline.
 - Brand green marks sequence, status and dates; off-white typography and fine rules carry the remaining hierarchy.
 - Desktop uses a two-column editorial rhythm. At ≤820px the introduction and archive recompose into single columns; at ≤640px event metadata stacks and nonessential archive status labels disappear.
 
