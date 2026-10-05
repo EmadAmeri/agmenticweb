@@ -423,3 +423,13 @@ input:focus { outline:0; }
   .invitation::before { transform:scaleX(1); }
   .signal-core { clip-path:inset(0); }
 }
+
+/* Header wordmark: compact lowercase lettering from the brand reference. */
+.brand .brand-wordmark {
+  font-family: Arial, "Helvetica Neue", sans-serif;
+  font-size: clamp(1.65rem, 2.2vw, 2rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -.065em;
+  text-transform: none;
+}
