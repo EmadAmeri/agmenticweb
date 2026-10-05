@@ -424,10 +424,12 @@ input:focus { outline:0; }
   .signal-core { clip-path:inset(0); }
 }
 
-/* Header wordmark: compact lowercase lettering from the brand reference. */
+/* Compact header lockup based on the brand reference. */
+.brand { gap: .5rem; }
+.brand img { width: clamp(1.5rem, 2.1vw, 1.85rem); height: clamp(1.5rem, 2.1vw, 1.85rem); }
 .brand .brand-wordmark {
   font-family: Arial, "Helvetica Neue", sans-serif;
-  font-size: clamp(1.65rem, 2.2vw, 2rem);
+  font-size: clamp(1.4rem, 1.85vw, 1.7rem);
   font-weight: 700;
   line-height: 1;
   letter-spacing: -.065em;
